@@ -7,6 +7,7 @@ $ npm install reactstrap bootstrap
 $ npm install react-router-dom
 $ npm install echarts // 차트 
 $ npm install echarts-for-react // 리액트용 echarts
+$ npm install http-proxy-middleware // 개발용 cors 해결
 ```
 
 
