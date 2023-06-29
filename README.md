@@ -15,4 +15,10 @@ $ npm install echarts-for-react // 리액트용 echarts
 - bootstrap / templates 의 html 을 참고해서 페이지 구성
 
 ## API KEY
-- config / host-config.js에 본인의 API KEY 작성
+- config / apikey.js에 본인의 API KEY 작성
+```
+//한국투자증권 APP_KEY
+export const KI_APP_KEY = 'YOUR APP KEY';
+//한국투자증권 APP_SECRET_KEY
+export const KI_SECRET_KEY = 'YOUR SECRET KEY';
+```
