@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { KI_APP_KEY, KI_BASE_DOMAIN, KI_DOMESTIC_STOCK_URL,
- KI_SECRET_KEY, KI_TOKEN_URL } from '../../config/host-config';
+import { KI_BASE_DOMAIN, KI_DOMESTIC_STOCK_URL, KI_TOKEN_URL } from '../../config/host-config';
+import { KI_APP_KEY,KI_SECRET_KEY } from '../../config/apikey';
 import ECharts, { EChartsReactProps } from 'echarts-for-react';
 
 

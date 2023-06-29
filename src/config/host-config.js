@@ -1,8 +1,8 @@
 
 //한국투자증권 APP_KEY
-export const KI_APP_KEY = 'YOUR APP KEY';
+export const KI_APP_KEY = 'test';
 //한국투자증권 APP_SECRET_KEY
-export const KI_SECRET_KEY = 'YOUR SECRET KEY';
+export const KI_SECRET_KEY = 'test';
 //한국투자증권 실전 Domain
 export const KI_BASE_DOMAIN = 'https://openapi.koreainvestment.com:9443';
 //한국투자증권 토큰발급 URL
