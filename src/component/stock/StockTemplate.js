@@ -4,6 +4,7 @@ import { KI_APP_KEY,KI_SECRET_KEY } from '../../config/apikey';
 import ECharts, { EChartsReactProps } from 'echarts-for-react';
 
 
+
 const StockTemplate = () => {
 
 
@@ -45,24 +46,24 @@ const StockTemplate = () => {
             console.log(data.access_token);
         }
     }
+    
+    useEffect(()=>{
+        getKIAccessToken();
+    },[]);
 
-    const currentPrice = async() =>{
-        const params = '?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=000660';
-        const res = await fetch(KI_BASE_DOMAIN+KI_DOMESTIC_STOCK_URL+'price'+params,{
-            headers : {
-                ...requestHeader,
-                'tr_id':'FHKST01010100'
-            }
-        });
+    const currentPrice = async () => {
+        const res = await fetch('/uapi/domestic-stock/v1/quotations/inquire-investor?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=000660',
+        { headers : {
+            ...requestHeader,
+            'tr_id' : 'FHKST01010900'
+        }});
         if(res.status === 200){
-            const data = res.json();
+            const data = await res.json();
             console.log(data);
         }
     }
 
-    useEffect(()=>{
-        getKIAccessToken();
-    },[]);
+
   return (
     <div>
         <div onClick={currentPrice}>

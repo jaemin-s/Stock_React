@@ -7,6 +7,7 @@ import Login from './component/user/Login';
 import Footer from './component/layout/Footer';
 
 function App() {
+
   return (
     <>
       <div className='wrapper'>
@@ -14,7 +15,7 @@ function App() {
       
         <div className="content-wrapper">
           <Routes>
-            <Route path='/' element={ <StockTemplate/> }/>
+            <Route path='/' element={ <StockTemplate /> }/>
             <Route path='/login' element={ <Login />}/>
             <Route path='/join' element={ <Join />}/>
           </Routes>
