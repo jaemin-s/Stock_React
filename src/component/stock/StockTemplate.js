@@ -7,7 +7,7 @@ import ECharts, { EChartsReactProps } from 'echarts-for-react';
 
 const StockTemplate = () => {
 
-
+    //그래프
     const [options, setOptions] = useState({
         xAxis: {
             type: 'category', // 고정
@@ -24,6 +24,7 @@ const StockTemplate = () => {
         }]
     });
 
+    //호출용 고정 헤더
     const requestHeader = {
         'content-type':'application/json; charset=utf-8',
         'authorization' : localStorage.getItem('ACCESS_TOKEN'),
@@ -31,8 +32,9 @@ const StockTemplate = () => {
         'appsecret' : KI_SECRET_KEY
     };
 
+    //토큰 발급
     const getKIAccessToken = async() =>{
-        const res = await fetch(KI_BASE_DOMAIN+KI_TOKEN_URL,{
+        const res = await fetch(KI_TOKEN_URL,{
             method: 'POST',
             body: JSON.stringify({
                 'grant_type':'client_credentials',
@@ -47,29 +49,70 @@ const StockTemplate = () => {
         }
     }
     
+    //처음 렌더링시 실행
     useEffect(()=>{
-        getKIAccessToken();
+        getKIAccessToken(); //토큰 발급
     },[]);
 
-    const currentPrice = async () => {
-        const res = await fetch('/uapi/domestic-stock/v1/quotations/inquire-investor?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=000660',
+    // 8자리 날짜를 yyyy-MM-dd로 변환
+    const dateFormat = date => {
+        return date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8);
+    };
+
+    //일자별 시세
+    const currentPrice = async e => {
+        const params = e.target.dataset.stockId;
+        const res = await fetch('/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD='+params+'&FID_PERIOD_DIV_CODE=D&FID_ORG_ADJ_PRC=1',
         { headers : {
             ...requestHeader,
-            'tr_id' : 'FHKST01010900'
+            'tr_id' : 'FHKST01010400'
         }});
+
         if(res.status === 200){
             const data = await res.json();
-            console.log(data);
+            console.log( data );
+            console.log( data.output[0] );
+            //필요한 값만 추출
+            let values = [];
+            let dates = [];
+            data.output.forEach( x => {
+                const { stck_bsop_date : date,
+                        stck_oprc : openPrice,
+                        stck_clpr : closePrice,
+                        stck_hgpr : highPrice,
+                        stck_lwpr : lowPrice,
+                         } = x;
+                dates.push(dateFormat(date));
+                values.push([
+                    parseInt(openPrice),
+                    parseInt(closePrice),
+                    parseInt(highPrice),
+                    parseInt(lowPrice)
+                ]);
+            });
+            console.log(dates);
+            console.log(values);
+            setOptions({
+                xAxis: {
+                    type: 'category', // 고정
+                    data: dates
+                },
+                yAxis: {},
+                series: [{
+                    type: 'candlestick', //고정
+                    data: values
+                }]
+            });
         }
     }
 
 
   return (
     <div>
-        <div onClick={currentPrice}>
+        <div data-stock-id='000660' onClick={currentPrice}>
             click
         </div>
-        <ECharts option={options} opts={{ renderer: 'svg', width: 'auto', height: '100%' }}/>
+        <ECharts option={options} opts={{ renderer: 'svg', width: '720px', height: '500px' }}/>
     </div>
   )
 }
