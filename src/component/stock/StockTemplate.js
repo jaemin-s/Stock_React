@@ -112,7 +112,7 @@ const StockTemplate = () => {
         <div data-stock-id='000660' onClick={currentPrice}>
             click
         </div>
-        <ECharts option={options} opts={{ renderer: 'svg', width: '720px', height: '500px' }}/>
+        <ECharts option={options}/>
     </div>
   )
 }
