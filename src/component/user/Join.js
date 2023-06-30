@@ -1,29 +1,30 @@
 import React, { useRef, useState } from 'react'
 import '../bootstrap/css/sb-admin-2.min.css';
+import './Join.scss';
 
 
 
 
 const Join = () => {
 
-//   const $fileTag = useRef();
+  const $fileTag = useRef();
 
-//  // 이미지 파일 상태변수
-//  const [imgFile, setImgFile] = useState(null);
+ // 이미지 파일 상태변수
+ const [imgFile, setImgFile] = useState(null);
 
-//  // 이미지파일을 선택했을 때 썸네일 뿌리기
-//  const showThumbnailHandler = e => {
-//      //첨부된 파일 정보
-//      const file = $fileTag.current.files[0];
+ // 이미지파일을 선택했을 때 썸네일 뿌리기
+ const showThumbnailHandler = e => {
+     //첨부된 파일 정보
+     const file = $fileTag.current.files[0];
 
-//      const reader = new FileReader();
-//      reader.readAsDataURL(file);
+     const reader = new FileReader();
+     reader.readAsDataURL(file);
 
-//      reader.onloadend = () => {
-//          setImgFile(reader.result);
-//      }
+     reader.onloadend = () => {
+         setImgFile(reader.result);
+     }
 
-//  };
+ };
 
 
   return (
@@ -35,7 +36,6 @@ const Join = () => {
             <div class="card-body p-0">
                 {/* <!-- Nested Row within Card Body --> */}
                 <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
@@ -43,9 +43,8 @@ const Join = () => {
                             </div>
                             <form class="user">
 
-                           
-                            {/* <div className="col-lg-5 d-none d-lg-block bg-register-image" onClick={() => $fileTag.current.click()}>
-                                <img src={imgFile || require("../../assets/img/image-add.png")} alt="profile" />
+                           <div className="profile" onClick={() => $fileTag.current.click()}>
+                                <img src= {imgFile || require("../../assets/img/image-add.png")} alt="profile" />
                             </div>
                             <label className='signup-img-label' htmlFor='profile-img'>프로필 이미지 추가</label>
                             <input
@@ -55,9 +54,8 @@ const Join = () => {
                                 accept='image/*'
                                 ref={$fileTag}
                                 onChange={showThumbnailHandler}
-                            /> */}
+                            />
                         
-
                             <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="exampleInputEmail"
                                         placeholder="이름" />
@@ -126,6 +124,7 @@ const Join = () => {
         </div>
 
     </div>
+    
 
   
 
