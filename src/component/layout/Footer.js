@@ -11,7 +11,7 @@ const Footer = () => {
       fontSize: '15px',
       background: '#224abe',
       color: '#fff',
-      marginTop: '150px'
+      marginTop: '200px',
   }}>@copyright. Beginner Big Winner! All rights reserved.
   </footer>
   );
