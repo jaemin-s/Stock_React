@@ -1,17 +1,15 @@
 import React from "react";
-import { useEffect, useRef } from "react";
 // import Header from './component/layout/Header';
 // import StockTemplate from './component/stock/StockTemplate';
 // import Footer from './component/layout/Footer';
 import './guide.scss'
 import '../../bootstrap/css/sb-admin-2.min.css';
-import { click } from "@testing-library/user-event/dist/click";
-
 const Guide = ({}) => {
     
     return (
     <>
-    <body id="page-top">
+    <a href="/">!!!!!HOME!!!!!</a>
+    <body id="page-top" style={{width:'80%'}}>
         <div id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <div class="sidebar-brand d-flex align-items-center justify-content-center">
@@ -27,9 +25,13 @@ const Guide = ({}) => {
                 <div class="sidebar-heading " >
                 기초 용어 설명
                 </div>
+                <a class="nav-link" href="#0" >
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>주식차트</span>
+                </a>
                 <a class="nav-link" href="#1" >
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span onClick={click}>KOSPI / KOSDAQ</span>
+                    <span>KOSPI / KOSDAQ</span>
                 </a>
                 <a class="nav-link" href="#2">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -90,9 +92,15 @@ const Guide = ({}) => {
         <div class="container-fluid">
         {/* <!-- Page Heading --> */}
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h4 mb-0 text-gray-800">기초 용어 설명</h1>
+                        <h1 class="h4 mb-0 text-gray-800" style={{ fontWeight: 700, fontSize: 30 }}>기초 용어 설명</h1>
                         
                     </div>                    
+                    <h4 id="0">주식 차트</h4>
+                    <p>주식 시장에서 주식 가격의 변동을 시각적으로 나타내는 도구이다. 
+                       주식 시장 동향을 파악하고 예측하는 데 도움을 주는 중요한 도구이다.
+                       차트의 가로축은 시간을, 세로축은 주식의 가격을 나타내며 선/막대 그래프, 캔들스틱 차트 등의 형태로 표현된다.<br/>
+                        <img src={require('./image/기영이.png')} alt="@" style={{width:400, height:300}}></img>
+                    </p><br/>
                     <h4 id="1">KOSPI / KOSDAQ</h4>
                     <p>주식변동 기준시점의 주가기준과 비교하여 비교시점의 전체적인 주가의 흐름이다.
                     일반적으로 코스피(KOSPI)는 대기업, 코스닥(KOSDAQ)은 중견 중소기업의 수치를 나타낸다.
@@ -125,6 +133,10 @@ const Guide = ({}) => {
                         <img src={require('./image/양봉음봉.png')} alt="@" style={{width:400, height:300}}></img>
                     </p><br/>
                     
+                    <p>봉의 길이는 가격 변동폭에 비례해서 길어진다. 해당 기간동안의 주가의 상승/하락폭을 나타낸다.<br/>
+                        {/* <img src={require('./image/기영이.png')} alt="@" style={{width:400, height:300}}></img> */}
+                    </p><br/>
+                    
                     <h4 id="7">예수금</h4>
                     <p>계좌에 넣어둔 현금으로 매매 가능 금액을 나타낸다.<br/>
                         {/* <img src={require('./image/kospi_kosdaq.png')} alt="@"></img> */}
@@ -139,7 +151,7 @@ const Guide = ({}) => {
                     <br></br><br></br><br></br><br></br>
                     <div className="tutorial">
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                        <h1 class="h4 mb-0 text-gray-800" >튜토리얼</h1>
+                                        <h1 class="h4 mb-0 text-gray-800" style={{ fontWeight: 700, fontSize: 30 }}>튜토리얼</h1>
                         </div>
                             <p id="9">매수나 매도를 원하는 종목 검색한다.(검색창 사진)</p>
                             <p id="10">호가, 뉴스, 종목정보를 기반으로 차트를 참조하여 호가 파트에서 매수 혹은 매도를 진행한다.(매수/매도 사진)</p>
