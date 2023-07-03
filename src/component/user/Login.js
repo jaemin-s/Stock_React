@@ -1,9 +1,50 @@
 import React from 'react'
 import '../bootstrap/css/sb-admin-2.min.css';
 import '../user/Login.scss';
+import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
+
+    const redirection = useNavigate();
+
+
+    // const REQUEST_URL = BASE + USER + '/signin';
+
+    const fetchLogin = async() => {
+
+     //사용자가 입력한 이메일, 비밀번호 입력 태그 얻어오기
+     const $email = document.getElementById('email');
+     const $password = document.getElementById('password');
+
+
+     const res = await fetch(REQUEST_URL, {
+        method: 'POST',
+        headers: { 'content-type' : 'application/json' },
+        body: JSON.stringify({
+            email: $email.value,
+            password: $password.value
+         })
+    });
+
+    if (res.status === 400) {
+        const text = await res.text();
+        alert(text);
+        return;
+    }
+
+    const { token, userName, email, role } = await res.json();
+
+    // Context API를 사용하여 로그인 상태를 업데이트합니다.
+    // onLogin(token, userName, role);
+    
+
+     //홈으로 리다이렉트
+     redirection('/');
+
+}
+
+
   return (
     <body class="bg-gradient-primary">
 
