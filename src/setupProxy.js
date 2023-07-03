@@ -8,4 +8,12 @@ module.exports = (app) => {
       changeOrigin: true
     })
   );
+
+  app.use(
+    createProxyMiddleware('/search',{
+      target: 'https://openapi.naver.com/v1',
+      changeOrigin: true
+    })
+  );
+  
 };

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { KI_BASE_DOMAIN, KI_DOMESTIC_STOCK_URL, KI_TOKEN_URL } from '../../config/host-config';
 import { KI_APP_KEY,KI_SECRET_KEY } from '../../config/apikey';
 import ECharts, { EChartsReactProps } from 'echarts-for-react';
+import NewsTest from '../news/NewsTest';
 
 
 
@@ -112,7 +113,12 @@ const StockTemplate = () => {
         <div data-stock-id='000660' onClick={currentPrice}>
             click
         </div>
-        <ECharts option={options} opts={{ renderer: 'svg', width: '720px', height: '500px' }}/>
+<<<<<<< HEAD
+        <ECharts option={options}/>
+=======
+        <ECharts option={options} opts={{ renderer: 'svg'}}/>
+        <NewsTest />
+>>>>>>> 555e2b3f5a86afe17b6d174732a8708601cf63b0
     </div>
   )
 }
