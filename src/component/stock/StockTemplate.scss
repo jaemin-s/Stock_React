@@ -1,0 +1,45 @@
+.flex {
+    display: flex;
+}
+
+.margin-wrapper {
+    width: 80%;
+    margin: 0 10%;
+
+    .card {
+        margin-bottom: 40px;
+    }
+
+    .card-body {
+        height: 315px;
+    }
+
+    .middle-content{
+        justify-content: space-between;
+    
+        .popular-trade {
+            width: 60%;
+        }
+
+        .sub-info {
+            width: 35%;
+        }
+    }
+
+    .bottom-content{
+        justify-content: space-between;
+
+        .simulated-rank {
+            width: 30%;
+        }
+
+        .youtube-iframe {
+            width: 560px;
+            overflow: hidden;
+        }
+
+        .bookmark {
+            width: 20%;
+        }
+    }
+}

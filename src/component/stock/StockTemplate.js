@@ -3,6 +3,8 @@ import { KI_BASE_DOMAIN, KI_DOMESTIC_STOCK_URL, KI_TOKEN_URL } from '../../confi
 import { KI_APP_KEY,KI_SECRET_KEY } from '../../config/apikey';
 import ECharts, { EChartsReactProps } from 'echarts-for-react';
 import NewsTest from '../news/NewsTest';
+import Detail from '../detail/Detail';
+import './StockTemplate.scss';
 
 
 
@@ -113,12 +115,44 @@ const StockTemplate = () => {
         <div data-stock-id='000660' onClick={currentPrice}>
             click
         </div>
-<<<<<<< HEAD
         <ECharts option={options}/>
-=======
-        <ECharts option={options} opts={{ renderer: 'svg'}}/>
         <NewsTest />
->>>>>>> 555e2b3f5a86afe17b6d174732a8708601cf63b0
+        <div id="side-bar">주식정보 슬라이드</div>
+        <div className="margin-wrapper">
+            <div className="chart-area">코스닥</div>
+            <div className="middle-content flex">
+                <div className="popular-trade card shadow mb-4">
+                    <div className="card-header">
+                        <h6 className="m-0 font-weight-bold text-primary">인기 거래</h6>
+                    </div>
+                    <div className="card-body">인기거래 내용</div>
+                </div>
+                <div className="sub-info card shadow mb-4">
+                <div className="card-header ">
+                <h6 className="m-0 font-weight-bold text-primary">뉴스</h6>
+                </div>
+                    <div className="card-body">뉴스 내용</div>
+                </div>
+            </div>
+            <div className='flex bottom-content'>
+                <div className="simulated-rank card shadow mb-4">
+                    <div className='card-header'>
+                        <h6 className="m-0 font-weight-bold text-primary">모의 투자 랭킹</h6>
+                    </div>
+                </div>
+                <div className='youtube-iframe card shadow mb-4'>
+                    <div className='card-header'>
+                        <h6 className="m-0 font-weight-bold text-primary">관련 영상</h6>
+                    </div>
+                    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/7S5ZdmnXQyU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen/>
+                </div>
+                <div className='bookmark card shadow mb-4'>
+                    <div className='card-header'>
+                        <h6 className="m-0 font-weight-bold text-primary">즐겨찾기</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
   )
 }
