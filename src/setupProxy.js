@@ -8,4 +8,13 @@ module.exports = (app) => {
       changeOrigin: true
     })
   );
+
+  app.use(
+    createProxyMiddleware('/getCorpOutline_V2',{
+      target: 'https://apis.data.go.kr/1160100/service/GetCorpBasicInfoService_V2',
+      changeOrigin: true
+    })
+  );
+
 };
+
