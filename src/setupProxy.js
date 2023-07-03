@@ -8,5 +8,24 @@ module.exports = (app) => {
       changeOrigin: true
     })
   );
-};
 
+
+  // 공공데이터api 기업정보
+  app.use(
+    createProxyMiddleware('/getCorpOutline_V2',{
+      target: 'https://apis.data.go.kr/1160100/service/GetCorpBasicInfoService_V2',
+      changeOrigin: true
+    })
+  );
+
+
+
+  app.use(
+    createProxyMiddleware('/search',{
+      target: 'https://openapi.naver.com/v1',
+      changeOrigin: true
+    })
+  );
+ 
+  
+};
