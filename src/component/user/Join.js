@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import '../bootstrap/css/sb-admin-2.min.css';
+import { MdFace } from 'react-icons/md'
 import './Join.scss';
 
 
@@ -44,7 +45,7 @@ const Join = () => {
                             <form class="user">
 
                            <div className="profile" onClick={() => $fileTag.current.click()}>
-                                <img src= {imgFile || require("../../assets/img/image-add.png")} alt="profile" />
+                                <img src= {imgFile || require('../../assets/img/image-add.png')} alt="profile" />
                             </div>
                             <label className='signup-img-label' htmlFor='profile-img'>프로필 이미지 추가</label>
                             <input

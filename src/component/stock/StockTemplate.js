@@ -113,12 +113,8 @@ const StockTemplate = () => {
         <div data-stock-id='000660' onClick={currentPrice}>
             click
         </div>
-<<<<<<< HEAD
-        <ECharts option={options}/>
-=======
         <ECharts option={options} opts={{ renderer: 'svg'}}/>
         <NewsTest />
->>>>>>> 555e2b3f5a86afe17b6d174732a8708601cf63b0
     </div>
   )
 }
