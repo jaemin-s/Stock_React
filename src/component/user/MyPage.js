@@ -27,7 +27,7 @@ function MyPage(){
     }
     return (
         <>
-            <body id="page-top" >
+            <body id="page-top" style={{width: '80%'}}>
             
             <div id="wrapper">
                 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style={{position: "fixed"}}>

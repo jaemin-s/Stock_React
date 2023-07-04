@@ -62,3 +62,36 @@
 
 
 }
+
+.modal-body {
+    // margin: 0 auto;
+    height: 200px;
+}
+
+.modal-content {
+    width: 600px;
+}
+
+#modal-detail {
+    justify-content: space-between;
+    color: red;
+
+    .flex {
+        width: 45%;
+        justify-content: space-between;
+        border-right: 1px solid #4e73df;
+        padding-right: 25px;
+    }
+
+    .box1 {
+
+    }
+
+    .box3 {
+        // color: #4e73df;
+        // border-left: 1px solid #4e73df;
+    }
+
+}
+
+

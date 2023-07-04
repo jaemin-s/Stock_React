@@ -1,8 +1,16 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import './Detail.scss';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const Detail = () => {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+    
   return (
     <>
     <body id="page-top" style={{width:'80%'}}>
@@ -36,7 +44,7 @@ const Detail = () => {
                         </div>
                         <div className="card-body">뉴스 내용</div>
                         <div className='flex'>
-                            <button className='btn btn-sm btn-user btn-primary'>매수</button>
+                            <button className='btn btn-sm btn-user btn-primary' onClick={toggleModal}>매수</button>
                             <button className='btn btn-sm btn-user btn-google'>매도</button>
                         </div>
                     </div>
@@ -60,6 +68,33 @@ const Detail = () => {
             </div>
         </div>
     </body>
+    
+    <Modal isOpen={isModalOpen} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>매수 모달창</ModalHeader>
+        <ModalBody>
+          {/* 여기에 모달 컨텐츠를 추가하세요 */}
+          <div id='modal-detail' className='flex'>
+            <div className='flex'>
+                <div className='box1'>
+                    <div>주문단가</div>
+                    <div>총 주문금액</div>
+                </div>
+                <div className='box2'>
+                    <div>12,120원</div>
+                    <div>원</div>
+                </div>
+            </div>
+            <div className='box3'>
+                <h5>주문수량</h5>
+                <input type="number"/ >주
+            </div>
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={toggleModal}>매수</Button>
+          <Button color="secondary" onClick={toggleModal}>취소</Button>
+        </ModalFooter>
+      </Modal>
     </>
   )
 }
