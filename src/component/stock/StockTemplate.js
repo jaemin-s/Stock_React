@@ -3,6 +3,12 @@ import { KI_BASE_DOMAIN, KI_DOMESTIC_STOCK_URL, KI_TOKEN_URL } from '../../confi
 import { KI_APP_KEY,KI_SECRET_KEY } from '../../config/apikey';
 import ECharts, { EChartsReactProps } from 'echarts-for-react';
 import NewsTest from '../news/NewsTest';
+import Detail from '../detail/Detail';
+import './StockTemplate.scss';
+import '../bootstrap/css/sb-admin-2.min.css';
+import './StockTemplate.scss';
+import MoveStockInfo from './MoveStockInfo';
+import InfoTest from './InfoTest';
 
 
 
@@ -60,6 +66,11 @@ const StockTemplate = () => {
         return date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8);
     };
 
+    const format = () => {
+
+        return 
+    }
+
     //일자별 시세
     const currentPrice = async e => {
         const params = e.target.dataset.stockId;
@@ -108,15 +119,57 @@ const StockTemplate = () => {
     }
 
 
-  return (
-    <div>
-        <div data-stock-id='000660' onClick={currentPrice}>
-            click
-        </div>
-        <ECharts option={options} opts={{ renderer: 'svg'}}/>
-        <NewsTest />
-    </div>
-  )
-}
+    return (
+        <>
+            <MoveStockInfo/>
+            <div className="margin-wrapper">
+                <div className="main-chart card shadow">
+                    <div className="card-header">
+                        <h6 className="m-0 font-weight-bold text-primary">코스닥</h6>
+                    </div>
+                    <div className="card-body">코스닥 내용</div>
+                </div>
+                <div className="middle-content flex">
+                    <div className="popular-trade card shadow">
+                        <div className="card-header">
+                            <h6 className="m-0 font-weight-bold text-primary">인기 거래</h6>
+                        </div>
+                        <div className="card-body">인기거래 내용</div>
+                    </div>
+                    <div className="sub-info card shadow">
+                    <div className="card-header ">
+                    <h6 className="m-0 font-weight-bold text-primary">뉴스</h6>
+                    </div>
+                        <div className="card-body">뉴스 내용</div>
+                    </div>
+                </div>
+                <div className='flex bottom-content'>
+                    <div className="simulated-rank card shadow">
+                        <div className='card-header'>
+                            <h6 className="m-0 font-weight-bold text-primary">모의 투자 랭킹</h6>
+                        </div>
+                        <div className="card-body">모의 투자 내용</div>
+                    </div>
+                    <div className='youtube-iframe card shadow'>
+                        <div className='card-header'>
+                            <h6 className="m-0 font-weight-bold text-primary">관련 영상</h6>
+                        </div>
+                        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/7S5ZdmnXQyU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen/>
+                    </div>
+                    <div className='bookmark card shadow'>
+                        <div className='card-header'>
+                            <h6 className="m-0 font-weight-bold text-primary">즐겨찾기</h6>
+                        </div>
+                        <div className="card-body">즐겨찾기 내용</div>
+                    </div>
+                </div>
+            </div>
+    
+            <ECharts option={options}/>
+            <NewsTest />
+            <InfoTest />
+        </>
+      )
+    }
 
 export default StockTemplate;
