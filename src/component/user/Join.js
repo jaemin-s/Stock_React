@@ -104,7 +104,7 @@ const Join = () => {
                                 </select>
                                 </div>
 		
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
+                                <a href="/" class="btn btn-primary btn-user btn-block">
                                     회원가입
                                 </a>
                                
@@ -115,7 +115,7 @@ const Join = () => {
                                 <a class="small" href="forgot-password.html">비밀번호 변경</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="login.html">로그인</a>
+                                <a class="small" href="/login">로그인</a>
                             </div>
                         </div>
                     </div>

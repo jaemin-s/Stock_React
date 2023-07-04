@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { N_NEWS_ID, N_NEWS_KEY } from '../../config/apikey';
+import { KI_APP_KEY, KI_SECRET_KEY } from '../../config/apikey';
 
 const NewsTest = () => {
 
     const [ news, setNews ] = useState([]);
 
     const requestHeader = {
-        'X-Naver-Client-Id' : N_NEWS_ID,
-        'X-Naver-Client-Secret' : N_NEWS_KEY 
+        'X-Naver-Client-Id' : KI_APP_KEY,
+        'X-Naver-Client-Secret' : KI_SECRET_KEY 
     };
 
     const getNews = async() =>{
