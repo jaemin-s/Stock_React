@@ -121,7 +121,6 @@ const StockTemplate = () => {
 
     return (
         <>
-           
             <MoveStockInfo/>
             <div className="margin-wrapper">
                 <div className="main-chart card shadow">
@@ -165,18 +164,11 @@ const StockTemplate = () => {
                     </div>
                 </div>
             </div>
- 
     
             <ECharts option={options}/>
-    
-            <ECharts option={options} opts={{ renderer: 'svg'}}/>
             <NewsTest />
-    
-            
             <InfoTest />
-        
         </>
-
       )
     }
 
