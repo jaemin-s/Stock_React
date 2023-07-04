@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import '../bootstrap/css/sb-admin-2.min.css';
 import '../user/Login.scss';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../util/AuthContext';
+
 
 
 const Login = () => {
 
     const redirection = useNavigate();
 
+    const { onLogin, isLoggedIn } = useContext(AuthContext);
 
-    // const REQUEST_URL = BASE + USER + '/signin';
+
+    const REQUEST_URL = '/login';
 
     const fetchLogin = async() => {
 
@@ -33,16 +37,28 @@ const Login = () => {
         return;
     }
 
-    const { token, userName, email, role } = await res.json();
+    const { token, userName, email } = await res.json();
 
     // Context API를 사용하여 로그인 상태를 업데이트합니다.
-    // onLogin(token, userName, role);
+    onLogin(token, userName);
     
 
      //홈으로 리다이렉트
      redirection('/');
 
 }
+
+     //로그인 요청 핸들러
+     const loginHandler = e => {
+        e.preventDefault();
+
+        
+
+        // 서버에 로그인 요청 전송
+        fetchLogin();
+
+    }
+
 
 
   return (
