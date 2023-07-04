@@ -27,7 +27,7 @@ function MyPage(){
     }
     return (
         <>
-            <body id="page-top" style={{width:'80%'}}>
+            <body id="page-top" >
             
             <div id="wrapper">
                 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style={{position: "fixed"}}>
@@ -45,7 +45,7 @@ function MyPage(){
                         내 정보
                         </div>
                         <div className='list-info'>
-                            <a class="nav-link" href="#1" style={{padding: "0px 16px"}}>
+                            <a className="nav-link" href="#1" style={{padding: "0px 16px"}}>
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
                                 <span>정보</span>
                             </a>
@@ -60,7 +60,7 @@ function MyPage(){
                         </div>
                         <hr class="sidebar-divider my-0"></hr>
                         <div class="sidebar-heading">
-                        자산관리
+                        자산 관리
                         </div>
                         <div className='list-assets'>
                             <a class="nav-link" href="#2" style={{padding: "0px 16px"}}>
@@ -75,12 +75,15 @@ function MyPage(){
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
                                 <span>총 자산</span>
                             </a>
-                            <a class="nav-link" href="#3"  style={{padding: "0px 16px"}}>
-                                <i class="fas fa-fw fa-tachometer-alt"></i>
-                                <span>거래 내역</span>
-                            </a>
                         </div>
                         <hr class="sidebar-divider my-0"></hr>
+                        <div class="sidebar-heading">
+                        거래 내역
+                        </div>
+                        <a class="nav-link" href="#3-1"  style={{padding: "0px 16px"}}>
+                                <i class="fas fa-fw fa-tachometer-alt"></i>
+                                <span>상세 내역</span>
+                            </a>
                     </li>
                 </ul>
 
@@ -111,7 +114,7 @@ function MyPage(){
                     <br/><br/>
 
                     {/* 회원정보 */}
-                    <div className='info' style={{padding: "70px 250px", display: "flex", justifyContent: "space-between"}}>
+                    <div className='info' style={{padding: "70px 300px", display: "flex", justifyContent: "space-between"}}>
                         <div style={{padding: "80px 0", width: "500px"}} >
                             <h5 style={{marginLeft: "1.25rem"}}>이름<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 홍길동</h5>
                             <h5>닉네임<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 주식왕</h5>
@@ -123,7 +126,7 @@ function MyPage(){
                         
                         {/* 프로필사진 */}
                         <div className='profile'>
-                            <img src={require('./image/profile.png')} alt="@" style={{marginBottom: "50px"}} className="center-image"></img>
+                            <img src={require('./image/profile.png')} alt="@" style={{margin: "0 200px 50px 0"}} className="center-image"></img>
                         </div>
                     </div>
                     
@@ -131,7 +134,7 @@ function MyPage(){
 
                     <h4 id="2" style={{flex: 1, textAlign: "center", fontSize: "40px"}}>자산 정보</h4><br/>
                     <div className='assets' style={{ width: "600px", display: "flex", justifyContent: "space-between"}}>
-                        <div className='assetsDetail' style={{padding: "100px 100px 100px 200px"}}>
+                        <div className='assetsDetail' style={{padding: "100px 300px"}}>
                             <h5 style={{marginLeft: "2.8rem",  width: "400px"}}>자산평가<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 10,028,843 원</h5>
                             <h5 style={{width: "700px", marginLeft: "0.9rem"}}>보유 주식 수<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 삼성전자 8주, SK하이닉스 4주, 대한항공 25주 외</h5>
                             <h5 style={{marginLeft: "2.5rem"}}>보유 현금<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 28,520 원</h5>
@@ -147,7 +150,7 @@ function MyPage(){
                     <br/><br/><br/><br/><br/>
                     
                     {/* 거래내역 테이블 */}
-                    <h4 id="3" style={{flex: 1, textAlign: "center", fontSize: "40px"}}>거래 내역</h4><br/><br/>
+                    <h4 id="3-1" style={{flex: 1, textAlign: "center", fontSize: "40px"}}>거래 내역</h4><br/><br/>
                     <table class="table" style={{}}>
                         <thead>
                             <tr class='high'>

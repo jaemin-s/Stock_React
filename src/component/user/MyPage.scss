@@ -1,6 +1,3 @@
-td, th {
-    border: 1px solid black;
-}
 
 thead {
     background-color: blue;
@@ -9,10 +6,14 @@ thead {
 }
 
 table {
-    margin-left: 200px;
+    
+    width: 100px;
 }
 
 button {
     color: blue;
     font-weight: 700;
+}
+.page-top {
+    width: 80%;
 }
