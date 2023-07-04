@@ -26,10 +26,4 @@ module.exports = (app) => {
       changeOrigin: true
     })
   );
-<<<<<<< HEAD
 };
-=======
- 
-  
-};
->>>>>>> f6768d708773c963775f22dc5c73d6eaebd630b3
