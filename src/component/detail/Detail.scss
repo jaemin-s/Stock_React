@@ -1,0 +1,64 @@
+#wrapper {
+    width: 125%;
+
+    h1{
+        text-align: center;
+        margin: 20px;
+        color: #4e73df;
+    }
+}
+
+#container {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.margin-wrapper {
+
+
+    .middle-content{
+
+        #first-box {
+            width: 15%;
+        }
+        #second-box {
+            width: 50%;
+        }
+        #third-box {
+            width: 35%;
+
+            h6 {
+                text-align: center;
+
+                span {
+                    margin: 0 5%;
+                }
+            }
+            button {
+                width: 30%;
+                margin: 0 auto 10px;
+            }
+        }
+
+    }
+
+    .bottom-content{
+
+        #last-box {
+            width: 100%;
+            height: 150px;
+            margin-top: 20px;
+
+            button {
+                width: 20%;
+                margin-left: 4%;
+                background-color: #4e73df;
+                color: white;
+            }
+
+        }
+
+    }
+
+
+}
