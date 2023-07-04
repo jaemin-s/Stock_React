@@ -7,6 +7,7 @@ import Login from './component/user/Login';
 import Footer from './component/layout/Footer';
 import Guide from './component/layout/guideline/guide'
 import MyPage from './component/user/MyPage';
+import Detail from './component/detail/Detail';
 function App() {
 
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path='/join' element={ <Join />}/>
             <Route path='/guide' element={ <Guide />}/>
             <Route path='/mypage' element={ <MyPage />}/>
+            <Route path='/detail' element={ < Detail /> } />
           </Routes>
         </div>
         <Footer />
