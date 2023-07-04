@@ -3,14 +3,11 @@ import { KI_BASE_DOMAIN, KI_DOMESTIC_STOCK_URL, KI_TOKEN_URL } from '../../confi
 import { KI_APP_KEY,KI_SECRET_KEY } from '../../config/apikey';
 import ECharts, { EChartsReactProps } from 'echarts-for-react';
 import NewsTest from '../news/NewsTest';
-<<<<<<< HEAD
 import '../bootstrap/css/sb-admin-2.min.css';
 import './StockTemplate.scss';
 import MoveStockInfo from './MoveStockInfo';
-=======
 import InfoTest from './InfoTest';
 
->>>>>>> f6768d708773c963775f22dc5c73d6eaebd630b3
 
 
 const StockTemplate = () => {
@@ -122,11 +119,6 @@ const StockTemplate = () => {
 
   return (
     <>
-        {/* <div data-stock-id='000660' onClick={currentPrice}>
-            click
-        </div>
-<<<<<<< HEAD
-        <ECharts option={options}/> */}
         <MoveStockInfo/>
         <div className="margin-wrapper">
             <div className="main-chart card shadow">
@@ -171,17 +163,6 @@ const StockTemplate = () => {
             </div>
         </div>
     </>
-=======
-
-        <ECharts option={options}/>
-
-        <ECharts option={options} opts={{ renderer: 'svg'}}/>
-        <NewsTest />
-
-        
-        <InfoTest />
-    </div>
->>>>>>> f6768d708773c963775f22dc5c73d6eaebd630b3
   )
 }
 
