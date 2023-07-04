@@ -28,5 +28,3 @@ export const N_NEWS_ID = 'YOUR APP ID';
 //네이버 API KEY
 export const N_NEWS_KEY = 'YOUR APP KEY';
 ```
-
-ㅇㅇ

@@ -19,7 +19,7 @@ module.exports = (app) => {
   );
 
 
-
+  //네이버 뉴스
   app.use(
     createProxyMiddleware('/search',{
       target: 'https://openapi.naver.com/v1',
