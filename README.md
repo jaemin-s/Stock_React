@@ -8,6 +8,7 @@ $ npm install react-router-dom
 $ npm install echarts // 차트 
 $ npm install echarts-for-react // 리액트용 echarts
 $ npm install http-proxy-middleware // 개발용 cors 해결
+$ npm install react-ticker --save --legacy-peer-deps // 슬라이드 텍스트
 ```
 
 
@@ -27,3 +28,5 @@ export const N_NEWS_ID = 'YOUR APP ID';
 //네이버 API KEY
 export const N_NEWS_KEY = 'YOUR APP KEY';
 ```
+
+ㅇㅇ
