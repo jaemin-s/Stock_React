@@ -22,4 +22,8 @@ $ npm install http-proxy-middleware // 개발용 cors 해결
 export const KI_APP_KEY = 'YOUR APP KEY';
 //한국투자증권 APP_SECRET_KEY
 export const KI_SECRET_KEY = 'YOUR SECRET KEY';
+//네이버 API ID
+export const N_NEWS_ID = 'YOUR APP ID';
+//네이버 API KEY
+export const N_NEWS_KEY = 'YOUR APP KEY';
 ```

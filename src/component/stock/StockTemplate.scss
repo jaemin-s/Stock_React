@@ -2,9 +2,13 @@
     display: flex;
 }
 
+.side-stock {
+    margin-bottom: 20px;
+}
+
 .margin-wrapper {
     width: 80%;
-    margin: 0 10%;
+    margin: 0 auto;
 
     .card {
         margin-bottom: 40px;
