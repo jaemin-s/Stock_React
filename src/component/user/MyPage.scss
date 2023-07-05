@@ -5,15 +5,32 @@ thead {
     font-weight: 700;
 }
 
-table {
-    
-    width: 100px;
-}
-
 button {
     color: blue;
-    font-weight: 700;
+    font-weight: 600;
+    font-size: 17px;
+    border: 2px groove black;
+    border-radius:10px; 
+}
+table {
+    font-size: 18px;
+    width: 100%;
 }
 .page-top {
     width: 80%;
+}
+
+.container-fluid {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.userInfo {
+    justify-content: space-between;
+}
+.assetInfo {
+    justify-content: space-between;
+}
+.assetsDetail {
+    padding: 100px 200px;
 }
