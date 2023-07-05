@@ -8,11 +8,13 @@ import './StockTemplate.scss';
 import '../bootstrap/css/sb-admin-2.min.css';
 import './StockTemplate.scss';
 import MoveStockInfo from './MoveStockInfo';
+import InfoTest from './InfoTest';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Carousel  from 'react-bootstrap/Carousel';
 import InfoTest from '../info/InfoTest';
 
 
-
-const StockTemplate = () => {
+function StockTemplate (){
 
     //그래프
     const [options, setOptions] = useState({
@@ -136,11 +138,38 @@ const StockTemplate = () => {
                         </div>
                         <div className="card-body">인기거래 내용</div>
                     </div>
-                    <div className="sub-info card shadow">
-                    <div className="card-header ">
-                    <h6 className="m-0 font-weight-bold text-primary">뉴스</h6>
-                    </div>
-                        <div className="card-body">뉴스 내용</div>
+                    <div className="sub-info card shadow" >
+                        <div className="card-header ">
+                        <h6 className="m-0 font-weight-bold text-primary">뉴스</h6>
+                        </div>
+                            {/* <div className="card-body">뉴스 내용</div> */}
+                            <Carousel>
+                                <Carousel.Item style={{width: "100%"}}>
+                                <img src={require('./image/light-gray.png')} alt="@" className="center-image" ></img>
+                                    <Carousel.Caption>
+                                    <h3>뉴스</h3>
+                                    <p>'코스피 지수 3000 돌파!'는 사라진 꿈이었나.. 잃어버린 우리의 코스피를 찾아서</p>
+                                    </Carousel.Caption>
+                                </Carousel.Item >
+                                <Carousel.Item style={{width: "100%"}}>
+                                    <img src={require('./image/light-gray.png')} alt="@" className="center-image"></img>
+
+                                    <Carousel.Caption>
+                                    <h3>사진사진</h3>
+                                    <p>여의도 증권가는 오늘도 정신없다.</p>
+                                    </Carousel.Caption>
+                                </Carousel.Item>
+                                <Carousel.Item style={{width: "100%"}}>
+                                <img src={require('./image/light-gray.png')} alt="@" className="center-image"></img>
+                                    <Carousel.Caption>
+                                    <h3>인기 거래표</h3>
+                                    <p>
+                                        (23.07.04 기준) <br/>
+                                        에코프로 (086520), 에코프로비엠(247540), 삼성전자(005930)
+                                    </p>
+                                    </Carousel.Caption>
+                                </Carousel.Item>
+                                </Carousel>
                     </div>
                 </div>
                 <div className='flex bottom-content'>
@@ -165,9 +194,6 @@ const StockTemplate = () => {
                 </div>
             </div>
     
-            <ECharts option={options}/>
-            <NewsTest />
-            <InfoTest />
         </>
       )
     }
