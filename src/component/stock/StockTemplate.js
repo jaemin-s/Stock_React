@@ -193,9 +193,6 @@ function StockTemplate (){
                 </div>
             </div>
     
-            <ECharts option={options}/>
-            <NewsTest />
-            <InfoTest />
         </>
       )
     }
