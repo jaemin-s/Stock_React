@@ -8,7 +8,7 @@ import './StockTemplate.scss';
 import '../bootstrap/css/sb-admin-2.min.css';
 import './StockTemplate.scss';
 import MoveStockInfo from './MoveStockInfo';
-import InfoTest from './InfoTest';
+import InfoTest from '../info/InfoTest';
 
 
 
