@@ -195,7 +195,7 @@ function MyPage(){
                             <td>8</td>
                             <td>1,000,000</td>
                         </tr>
-                        {expanded && (
+                        {expanded && (      //더보기 누르면 추가로 나올 내용
                             <>
                         <tr>
                             <th scope="row">23/04/09</th>

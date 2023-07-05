@@ -109,13 +109,13 @@ const Guide = ({}) => {
 
                     <h4 id="2">매수 / 매도</h4>
                     <p>매수는 주식을 구매하는 것이고, 매도는 주식을 판매하는 것이다.(호가 창에서의 빨간 버튼의 매수, 파란 버튼의 매도)<br/>
-                        
+                    <img src={require('./image/매수매도.png')} alt="@" style={{width:350, height:50}} className="center-image"></img>
                     </p><br/>
                     
                     <h4 id="3">시가총액</h4>
                     <p>모든 상장주식을 '시가'로 평가한 총액이다.<br/>
                     -시가(하루 주식거래 최초 결정된 가격)<br/>
-                        <img src={require('./image/시가총액.png')} alt="@" className="center-image"></img>
+                        <img src={require('./image/시가총액.png')} alt="@" className="center-image" style={{width: '800px'}}></img>
                     </p><br/>
 
                     <h4 id="4">호가</h4>
@@ -154,7 +154,7 @@ const Guide = ({}) => {
                                         <h1 class="h4 mb-0 text-gray-800" style={{ fontWeight: 700, fontSize: 30 }}>튜토리얼</h1>
                         </div>
                             <p id="9">매수나 매도를 원하는 종목 검색한다.</p>
-                            <img src={require('./image/검색창.png')} alt="@" style={{marginBottom: "50px"}} className="center-image"></img>
+                            <img src={require('./image/검색창.png')} alt="@" style={{marginBottom: "50px", width: '500px'}} className="center-image"></img>
                             <p id="10">호가, 뉴스, 종목정보를 기반으로 차트를 참조하여 호가 파트에서 매수 혹은 매도를 진행한다.(매수/매도 사진)</p>
                             <p id="11">투자 창에서 즐겨찾기에 추가할 수 있으며 목록은 왼쪽 사이드바에서 확인할 수 있다.(즐겨찾기 목록 몇개 추가한 사진)</p>
                             <p id="12">매수나 매도가 고민될 때, 관련주나 타 종목을 보고싶을 때 아래의 관련 종목 추천을 참고할 수 있다.(화면 하단 '관련 종목 추천' 사진)</p>
