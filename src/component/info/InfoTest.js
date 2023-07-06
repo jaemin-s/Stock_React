@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 
 
 const InfoTest = () => {
-
+  // 기업정보 관리
   const [info, setInfo] = useState([]);
+  // 재무 관리
   const [resInfo, setResInfo] = useState([]);
   
   const corpInfo = async () => {
@@ -14,6 +15,7 @@ const InfoTest = () => {
     let infoList = [];
     let resList = [];
     console.log(data);
+    // 기업 정보 
     data.response.body.items.item.forEach(list => {
       const {
         crno: crno,
@@ -27,16 +29,19 @@ const InfoTest = () => {
       setInfo(infoList);
       console.log("법인번호: " + infoList[0].crno);
 
+      // 기업정보 crno 값
       const cno = infoList[0].crno;
+
       console.log(resData);
+      // 재무정보
       resData.response.body.items.item.forEach(secList => {
-        console.log("1번");
         const {
           enpSaleAmt : enpSaleAmt,
           enpBzopPft : enpBzopPft,
           enpTcptAmt : enpTcptAmt,
           fnclDebtRto : fnclDebtRto
         } = secList;
+        // 값 소수점 단위 만들기
         const enpS = secList.enpSaleAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         const enpB = secList.enpBzopPft.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         const enpT = secList.enpTcptAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
