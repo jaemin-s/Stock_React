@@ -34,4 +34,11 @@ module.exports = (app) => {
     })
   );
 
+  app.use(
+    createProxyMiddleware('/siseJson.naver',{
+      target: 'https://api.finance.naver.com',
+      changeOrigin: true
+    })
+  );
+
 };

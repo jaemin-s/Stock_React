@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react'
 import { KI_BASE_DOMAIN, KI_DOMESTIC_STOCK_URL, KI_TOKEN_URL } from '../../config/host-config';
 import { KI_APP_KEY,KI_SECRET_KEY } from '../../config/apikey';
 import * as echarts from 'echarts';
@@ -10,19 +10,9 @@ import './StockTemplate.scss';
 import MoveStockInfo from './MoveStockInfo';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Carousel  from 'react-bootstrap/Carousel';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCrown } from '@fortawesome/free-solid-svg-icons';
 
 
 function StockTemplate (){
-
-    //네이버 코스피 요청
-    const getKospiPrice = async () => {
-        const res = await fetch('/finance/chart/%5EKS11?symbol=%5EKS11&period1=1672066800&period2=1688555030&useYfid=true&interval=1d&includePrePost=true&events=div%7Csplit%7Cearn&lang=en-US&region=US&crumb=D%2FJfM5MOHw2&corsDomain=finance.yahoo.com');
-        const data = await res.json();
-        console.log(data);
-    }
-    
 
     //호출용 고정 헤더
     const requestHeader = {
@@ -51,7 +41,7 @@ function StockTemplate (){
     //처음 렌더링시 실행
     useEffect(()=>{
         getKIAccessToken(); //토큰 발급
-        getKospiPrice();//코스피 시세 
+        getKospi();//코스피 시세 
     },[]);
 
     // 8자리 날짜를 yyyy-MM-dd로 변환
@@ -63,6 +53,16 @@ function StockTemplate (){
     
         return 
     }
+
+    const getKospi = async () => {
+        console.log('네이버 API 호출');
+        const res = await fetch('/siseJson.naver?symbol=KOSPI&requestType=1&startTime=20221116&endTime=20230706&timeframe=day',
+        {
+          method:'POST'
+        });
+        const data = await res.text();
+        console.log(data);
+      };
 
     //일자별 시세
     const currentPrice = async e => {
@@ -114,164 +114,48 @@ function StockTemplate (){
                         <div className="card-header">
                             <h6 className="m-0 font-weight-bold text-primary">인기 거래</h6>
                         </div>
-
-                        {/* 반응형 구현 예정 */}
-                        <table className="collapsed" id="table">
-                        <thead>
-                        <tr className="high">
-                            <th scope="col">종목번호</th>
-                            <th scope="col">종목명</th>
-                            <th scope="col">종가</th>
-                            <th scope="col">변동률</th>
-                            <th scope="col">거래량</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                        {/* <span className={value >= 0 ? "positive" : "negative"}>
-                            {value >= 0 && "+"}{value}%
-                        </span> 
-                        변동률 음수는 파란색, 양수는 빨간색 표시*/}
-
-                            <th scope="row">086520</th>
-                            <td><a href="/detail">에코프로</a></td>
-                            <td>944,000</td>
-                            <td>
-                            <span className={+6.55 >= 0 ? "positive" : "negative"}>
-                                {+6.55 >= 0 && "+"}{+6.55}%
-                            </span>
-                            </td>
-                            <td>1.48M</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">001570</th>
-                            <td><a href="/detail">금양</a></td>
-                            <td>70,500</td>
-                            <td>
-                                <span className={+20.07 >= 0 ? "positive" : "negative"}>
-                                    {+20.07 >= 0 && "+"}{+20.07}%
-                                </span>
-                            </td>
-                            <td>8.96M</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">005930</th>
-                            <td>삼성전자</td>
-                            <td>72,000</td>
-                            <td>
-                                <span className={-1.73 >= 0 ? "positive" : "negative"}>
-                                    {-1.73 >= 0 && "+"}{-1.73}%
-                                </span> 
-                            </td>
-                            <td>9.41M</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">247540</th>
-                            <td>에코프로비엠</td>
-                            <td>281,500</td>
-                            <td>
-                                <span className={-2.55 >= 0 ? "positive" : "negative"}>
-                                    {-2.55 >= 0 && "+"}{-2.55}%
-                                </span>
-                            </td>
-                            <td>1.58M</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">001570</th>
-                            <td>루닛</td>
-                            <td>70,500</td>
-                            <td>
-                                <span className={+20.07 >= 0 ? "positive" : "negative"}>
-                                    {+20.07 >= 0 && "+"}{+20.07}%
-                                </span>
-                            </td>
-                            <td>8.96M</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">005930</th>
-                            <td>포스코인터내셔널</td>
-                            <td>72,000</td>
-                            <td>
-                                <span className={-3.73 >= 0 ? "positive" : "negative"}>
-                                    {-3.73 >= 0 && "+"}{-3.73}%
-                                </span>
-                            </td>
-                            <td>9.41M</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    </div> 
-                    <div className="sub-info card shadow">
-                        <div className="card-header">
-                            <h6 className="m-0 font-weight-bold text-primary">뉴스</h6>
+                        <div className="card-body">인기거래 내용</div>
+                    </div>
+                    <div className="sub-info card shadow" >
+                        <div className="card-header ">
+                        <h6 className="m-0 font-weight-bold text-primary">뉴스</h6>
                         </div>
-                        {/* <div className="card-body">뉴스 내용</div> */}
-                        <Carousel className="Carousel">
-                            <Carousel.Item style={{ width: '100%' }}>
-                            <img src={require('./image/light-gray.png')} alt="@" className="center-image" />
-                            <Carousel.Caption>
-                                <h3>뉴스</h3>
-                                <p>'코스피 지수 3000 돌파!'는 사라진 꿈이었나.. 잃어버린 우리의 코스피를 찾아서</p>
-                            </Carousel.Caption>
-                            </Carousel.Item>
-                            <Carousel.Item style={{ width: '100%' }}>
-                            <img src={require('./image/light-gray.png')} alt="@" className="center-image" />
-                            <Carousel.Caption>
-                                <h3>사진사진</h3>
-                                <p>여의도 증권가는 오늘도 정신없다.</p>
-                            </Carousel.Caption>
-                            </Carousel.Item>
-                            <Carousel.Item style={{ width: '100%' }}>
-                            <img src={require('./image/light-gray.png')} alt="@" className="center-image" />
-                            <Carousel.Caption>
-                                <h3>인기 거래표</h3>
-                                <p>(23.07.04 기준) <br />에코프로 (086520), 에코프로비엠(247540), 삼성전자(005930)</p>
-                            </Carousel.Caption>
-                            </Carousel.Item>
-                        </Carousel>
-                        </div>
+                            {/* <div className="card-body">뉴스 내용</div> */}
+                            <Carousel>
+                                <Carousel.Item style={{width: "100%"}}>
+                                <img src={require('./image/light-gray.png')} alt="@" className="center-image" ></img>
+                                    <Carousel.Caption>
+                                    <h3>뉴스</h3>
+                                    <p>'코스피 지수 3000 돌파!'는 사라진 꿈이었나.. 잃어버린 우리의 코스피를 찾아서</p>
+                                    </Carousel.Caption>
+                                </Carousel.Item >
+                                <Carousel.Item style={{width: "100%"}}>
+                                    <img src={require('./image/light-gray.png')} alt="@" className="center-image"></img>
+
+                                    <Carousel.Caption>
+                                    <h3>사진사진</h3>
+                                    <p>여의도 증권가는 오늘도 정신없다.</p>
+                                    </Carousel.Caption>
+                                </Carousel.Item>
+                                <Carousel.Item style={{width: "100%"}}>
+                                <img src={require('./image/light-gray.png')} alt="@" className="center-image"></img>
+                                    <Carousel.Caption>
+                                    <h3>인기 거래표</h3>
+                                    <p>
+                                        (23.07.04 기준) <br/>
+                                        에코프로 (086520), 에코프로비엠(247540), 삼성전자(005930)
+                                    </p>
+                                    </Carousel.Caption>
+                                </Carousel.Item>
+                                </Carousel>
+                    </div>
                 </div>
                 <div className='flex bottom-content'>
                     <div className="simulated-rank card shadow">
                         <div className='card-header'>
                             <h6 className="m-0 font-weight-bold text-primary">모의 투자 랭킹</h6>
                         </div>
-                        <div className="card-body">
-                        <table className="collapsed" id="table">
-                        <thead>
-                        <tr className="high">
-                            <th scope="col">랭킹</th>
-                            <th scope="col">회원명</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row"><FontAwesomeIcon icon={faCrown}/></th>
-                            <td><a href="/detail">에코프로</a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td><a href="/detail">금양</a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>삼성전자</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>에코프로비엠</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td>루닛</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">6</th>
-                            <td>포스코인터내셔널</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                        </div>
+                        <div className="card-body">모의 투자 내용</div>
                     </div>
                     <div className='youtube-iframe card shadow'>
                         <div className='card-header'>
@@ -287,6 +171,7 @@ function StockTemplate (){
                     </div>
                 </div>
             </div>
+    
         </>
       )
     }
