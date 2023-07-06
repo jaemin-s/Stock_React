@@ -11,7 +11,8 @@ import MoveStockInfo from './MoveStockInfo';
 import InfoTest from './InfoTest';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Carousel  from 'react-bootstrap/Carousel';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCrown } from '@fortawesome/free-solid-svg-icons';
 
 function StockTemplate (){
 
@@ -257,7 +258,42 @@ function StockTemplate (){
                         <div className='card-header'>
                             <h6 className="m-0 font-weight-bold text-primary">모의 투자 랭킹</h6>
                         </div>
-                        <div className="card-body">모의 투자 내용</div>
+                        <div className="card-body">
+                        <table className="collapsed" id="table">
+                        <thead>
+                        <tr className="high">
+                            <th scope="col">랭킹</th>
+                            <th scope="col">회원명</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row"><FontAwesomeIcon icon={faCrown}/></th>
+                            <td><a href="/detail">에코프로</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td><a href="/detail">금양</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>삼성전자</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>에코프로비엠</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>루닛</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6</th>
+                            <td>포스코인터내셔널</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                        </div>
                     </div>
                     <div className='youtube-iframe card shadow'>
                         <div className='card-header'>
