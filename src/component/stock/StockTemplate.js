@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { KI_BASE_DOMAIN, KI_DOMESTIC_STOCK_URL, KI_TOKEN_URL } from '../../config/host-config';
 import { KI_APP_KEY,KI_SECRET_KEY } from '../../config/apikey';
-import ECharts, { EChartsReactProps } from 'echarts-for-react';
+import * as echarts from 'echarts';
 import NewsTest from '../news/NewsTest';
 import Detail from '../detail/Detail';
 import './StockTemplate.scss';
@@ -12,25 +12,15 @@ import InfoTest from './InfoTest';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Carousel  from 'react-bootstrap/Carousel';
 
-
 function StockTemplate (){
 
-    //그래프
-    const [options, setOptions] = useState({
-        xAxis: {
-            type: 'category', // 고정
-            data: ['2017-10-24', '2017-10-25', '2017-10-26', '2017-10-27']
-        },
-        yAxis: {},
-        series: [{
-            type: 'candlestick', //고정
-            data: [
-                [20, 34, 10, 38],
-                [40, 35, 30, 50],
-                [31, 38, 33, 44],
-                [38, 15, 5, 42]]
-        }]
-    });
+    //네이버 코스피 요청
+    const getKospiPrice = async () => {
+        const res = await fetch('/finance/chart/%5EKS11?symbol=%5EKS11&period1=1672066800&period2=1688555030&useYfid=true&interval=1d&includePrePost=true&events=div%7Csplit%7Cearn&lang=en-US&region=US&crumb=D%2FJfM5MOHw2&corsDomain=finance.yahoo.com');
+        const data = await res.json();
+        console.log(data);
+    }
+    
 
     //호출용 고정 헤더
     const requestHeader = {
@@ -53,13 +43,13 @@ function StockTemplate (){
         if(res.status === 200){
             const data = await res.json();
             localStorage.setItem('ACCESS_TOKEN','Bearer '+data.access_token);
-            console.log(data.access_token);
         }
     }
     
     //처음 렌더링시 실행
     useEffect(()=>{
         getKIAccessToken(); //토큰 발급
+        getKospiPrice();//코스피 시세 
     },[]);
 
     // 8자리 날짜를 yyyy-MM-dd로 변환
@@ -68,7 +58,7 @@ function StockTemplate (){
     };
 
     const format = () => {
-
+    
         return 
     }
 
@@ -102,19 +92,6 @@ function StockTemplate (){
                     parseInt(highPrice),
                     parseInt(lowPrice)
                 ]);
-            });
-            console.log(dates);
-            console.log(values);
-            setOptions({
-                xAxis: {
-                    type: 'category', // 고정
-                    data: dates
-                },
-                yAxis: {},
-                series: [{
-                    type: 'candlestick', //고정
-                    data: values
-                }]
             });
         }
     }
@@ -182,7 +159,7 @@ function StockTemplate (){
                         <div className='card-header'>
                             <h6 className="m-0 font-weight-bold text-primary">관련 영상</h6>
                         </div>
-                        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/7S5ZdmnXQyU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen/>
+                        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/7S5ZdmnXQyU" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"/>
                     </div>
                     <div className='bookmark card shadow'>
                         <div className='card-header'>
