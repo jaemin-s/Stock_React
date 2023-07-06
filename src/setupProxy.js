@@ -34,6 +34,7 @@ module.exports = (app) => {
     })
   );
 
+  //네이버 주식
   app.use(
     createProxyMiddleware('/siseJson.naver',{
       target: 'https://api.finance.naver.com',
