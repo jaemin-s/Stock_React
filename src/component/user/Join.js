@@ -1,6 +1,5 @@
 import React, { useContext, useRef, useState } from 'react'
 import '../bootstrap/css/sb-admin-2.min.css';
-import { MdFace } from 'react-icons/md'
 import './Join.scss';
 import AuthContext from '../util/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +27,7 @@ const Join = () => {
         password: '',
         age: '',
         gender: '',
-        career: ''
+        career: '',
         
     });
 
@@ -41,20 +40,18 @@ const Join = () => {
         password: '',
         passwordCheck: '',
         age: '',
-        gender: '',
-        career: ''
+    
     });
 
       //검증 완료 체크에 대한 상태변수 관리
       const [correct, setCorrect] = useState({
         userName: false,
-        // nick: false,
+        nick: false,
         email: false,
         password: false,
         passwordCheck: false,
-        // age: false,
-        // gender: false,
-        // career: false
+        age: false,
+        
         
     });
 
@@ -83,7 +80,7 @@ const Join = () => {
     //이름 입력창 체인지 이벤트 핸들러
     const nameHandler = e => {
 
-        const nameRegex = /^[가-힣]{2,5}$/;
+        const nameRegex = /^[가-힣]{2,5}$/;  
         
         const inputVal = e.target.value;
         //입력값 검증
@@ -107,6 +104,59 @@ const Join = () => {
             flag
         });
         
+    };
+
+
+     // 닉네임 중복체크 서버 통신 함수
+     const fetchNickCheck = nick => {
+
+        let msg = '', flag = false;
+        fetch(`${API_BASE_URL}/checknick?nick=${nick}`)
+            .then(res => {
+                if(res.status === 200) {
+                    return res.json();
+                }
+            })
+            .then(json => {
+                console.log(json);
+                if(json) {
+                    msg = '닉네임이 중복되었습니다!';
+                } else {
+                    msg = '사용 가능한 닉네임입니다.';
+                    flag = true;
+                }
+
+                setUserValue({...userValue, nick: nick});
+                setMessage({...message, nick: msg});
+                setCorrect({...correct, nick: flag});
+            })
+            .catch(err => {
+                console.log('서버 통신이 원활하지 않습니다.');
+            });
+    };
+
+    //닉네임 입력창 체인지 이벤트 핸들러
+    const nickHandler = e => {
+
+        const inputVal = e.target.value;
+
+
+        let msg, flag = false;
+        if(!inputVal) {
+            msg = '닉네임은 필수값입니다.';
+            } else {
+            // 중복 체크
+            fetchNickCheck(inputVal);
+            return;
+        }
+
+        saveInputState({
+            key: 'nick',
+            inputVal,
+            msg,
+            flag
+        });
+
     };
 
     // 이메일 중복체크 서버 통신 함수
@@ -179,6 +229,8 @@ const Join = () => {
 
         const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
 
+
+  
         //검증 시작
         let msg, flag = false;
         if(!inputVal) { //패스워드 안적음.
@@ -219,6 +271,31 @@ const Join = () => {
 
     };
 
+      //나이 입력창 체인지 이벤트 핸들러
+      const ageHandler = e => {
+
+        let inputVal = e.target.value;
+
+        const ageRegex = /[^0-9]/;
+
+        let msg, flag = false;
+        if(!inputVal) {
+            msg = '나이를 입력해주세요.';
+        } else if(ageRegex.test(inputVal)) {
+            msg = '숫자 형식이 아닙니다.';
+        } else {
+            msg = '';
+            flag=true;
+        }
+
+        saveInputState({
+            key: 'age',
+            inputVal,
+            msg,
+            flag
+        });
+    }
+
 
  // 이미지 파일 상태변수
  const [imgFile, setImgFile] = useState(null);
@@ -236,6 +313,10 @@ const Join = () => {
      }
 
  };
+
+
+ 
+
 
  // 4개의 입력칸이 모두 검증에 통과했는지 여부를 검사
  const isValid = () => {
@@ -311,11 +392,10 @@ const joinButtonClickHandler = e => {
                                 <h1 className="h4 text-gray-900 mb-4">회원가입</h1>
                             </div>
                             <form className="user">
-
-                           <div className="profile" onClick={() => $fileTag.current.click()}>
+                            <div className="thumbnail-box" onClick={() => $fileTag.current.click()}>
                                 <img src= {imgFile || require('../../assets/img/image-add.png')} alt="profile" />
-                            </div>
-                            <label className='signup-img-label' htmlFor='profile-img'>프로필 이미지 추가</label>
+                                </div>
+                            <label className='signup-img-label' htmlFor='profile-img'>프로필</label>
                             <input
                                 id='profile-img'
                                 type='file'
@@ -323,10 +403,13 @@ const joinButtonClickHandler = e => {
                                 accept='image/*'
                                 ref={$fileTag}
                                 onChange={showThumbnailHandler}
+                                
+                                
+
                             />
                         
                             <div className="form-group">
-                                    <input type="email" className="form-control form-control-user" id="userName"
+                                    <input type="text" className="form-control form-control-user" id="userName"
                                         placeholder="이름" 
                                         required
                                         autoFocus
@@ -342,12 +425,19 @@ const joinButtonClickHandler = e => {
                                
 
                                 <div className="form-group">
-                                    <input type="email" className="form-control form-control-user" id="nick"
-                                        placeholder="닉네임" />
+                                    <input type="text" className="form-control form-control-user" id="nick"
+                                        placeholder="닉네임"
+                                        required
+                                        onChange={nickHandler} />
 
-                          
+                                    <span className='pass-msg' style={
+                                        correct.nick
+                                        ? {color : 'blue'}
+                                        : {color : 'red'}
+                                    }>{message.nick}</span>
                                 </div>
 
+                          
                                 <div className="form-group">
                                     <input type="email" className="form-control form-control-user" id="email"
                                         placeholder="이메일 주소"
@@ -391,34 +481,43 @@ const joinButtonClickHandler = e => {
                                     </div>
                                
                                 <div className="form-group">
-                                    <input type="email" className="form-control form-control-user" id="age"
-                                        placeholder="나이" />
+                                    <input type="text" className="form-control form-control-user" id="age"
+                                        placeholder="나이"
+                                        required
+                                        onChange={ageHandler} />
+
+                                    <span className='pass-msg' style={
+                                        correct.age
+                                        ? {color : 'blue'}
+                                        : {color : 'red'}
+                                    }>{message.age}</span>
                                 </div>
+                               
                                 <div className="form-group">
                                성별
                                <span style={{ marginRight: 20}}></span> 
-                               <input type="radio" name="gender" value="man" />남
+                               <input type="radio" name="gender" value="man" onClick={(e) => setUserValue({...userValue, gender: e.target.value})} />남
                                <span style={{ marginRight: 20}}></span>
-                               <input type="radio" name="gender" value="woman" />여
+                               <input type="radio" name="gender" value="woman"onClick={(e) => setUserValue({...userValue, gender: e.target.value})} />여
                                </div>
                                <div className="form-group">
                                 주식경력
                                 <span style={{ marginRight: 20}}></span>
-                                <select>
-                                <option defaultValue disabled hidden>주식경력</option>
-                                <option value="0">입문</option>
-			                          <option value="1">1~3년</option>
-                                <option value="4">4~10년</option>
-                                <option value="10">10년 이상</option>
+                                <select onChange={(e) => setUserValue({...userValue, career: e.target.value})}>
+                                <option selected disabled hidden>주식경력</option>
+                                <option value="1">입문</option>
+			                    <option value="2">1~3년</option>
+                                <option value="3">4~10년</option>
+                                <option value="4">10년 이상</option>
                                 </select>
                                 </div>
 		
                                 <a href="#" className="btn btn-primary btn-user btn-block" onClick={joinButtonClickHandler}>
                                     회원가입
                                 </a>
-                               
-                               
+                                                              
                             </form>
+                            
                             <hr />
                             <div className="text-center">
                                 <a className="small" href="forgot-password.html">비밀번호 변경</a>

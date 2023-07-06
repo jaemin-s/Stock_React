@@ -61,10 +61,33 @@ p {
 
 .sub-info {
     position: relative;
+}
 
-    .carousel-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+table {
+    text-align: center;
+}
+
+td span {
+    font-weight: bold;
+}
+
+td span.positive {
+    color: red;
+}
+
+td span.negative {
+    color: blue;
+}
+
+td a {
+    text-decoration: none;
+    color: black;
+}
+
+table th {
+    padding: 8px 0;
+}
+
+.sidebar {
+    position: sticky;
 }
