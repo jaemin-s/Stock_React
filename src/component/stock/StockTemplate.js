@@ -128,7 +128,8 @@ function StockTemplate (){
                         </thead>
                         <tbody>
                         <tr>
-                        {/* <span className={value >= 0 ? "positive" : "negative"}>
+                        {/* value : 변동률
+                        <span className={value >= 0 ? "positive" : "negative"}>
                             {value >= 0 && "+"}{value}%
                         </span> 
                         변동률 음수는 파란색, 양수는 빨간색 표시*/}
@@ -234,44 +235,87 @@ function StockTemplate (){
                 <div className='flex bottom-content'>
                     <div className="simulated-rank card shadow">
                         <div className='card-header'>
-                            <h6 className="m-0 font-weight-bold text-primary">모의 투자 랭킹</h6>
+                            <h6 className="m-0 font-weight-bold text-primary">
+                                모의 투자 랭킹
+                            </h6>
                         </div>
-                        <div className="card-body">
                         <table className="collapsed" id="table">
                         <thead>
-                        <tr className="high">
+                        <tr className="high" >
                             <th scope="col">랭킹</th>
                             <th scope="col">회원명</th>
+                            <th scope="col">수익률</th>
+                            <th scope="col">총 자산</th>
                         </tr>
                         </thead>
+                        {/*  value : 수익률
+                        <span className={value >= 0 ? "positive" : "negative"}>
+                            {value >= 0 && "+"}{value}%
+                        </span> 
+                        변동률 음수는 파란색, 양수는 빨간색 표시*/}
                         <tbody>
                         <tr>
-                            <th scope="row"><FontAwesomeIcon icon={faCrown}/></th>
-                            <td><a href="/detail">에코프로</a></td>
+                            <th scope="row"><FontAwesomeIcon icon={faCrown} style={{color: "#F9BC28", fontSize: "23px"}}/></th>
+                            <td>심재민</td>
+                            <td>
+                                <span className={+97.5 >= 0 ? "positive" : "negative"}>
+                                    {+97.5 >= 0 && "+"}{+97.5}%
+                                </span> 
+                            </td>
+                            <td>10,000,000</td>
                         </tr>
                         <tr>
                             <th scope="row">2</th>
-                            <td><a href="/detail">금양</a></td>
+                            <td>김나영</td>
+                            <td>
+                                <span className={+83.2 >= 0 ? "positive" : "negative"}>
+                                        {+83.2 >= 0 && "+"}{+83.2}%
+                                </span>
+                            </td>
+                            <td>9,000,000</td>
                         </tr>
                         <tr>
                             <th scope="row">3</th>
-                            <td>삼성전자</td>
+                            <td>권진현</td>
+                            <td>
+                                <span className={+44 >= 0 ? "positive" : "negative"}>
+                                        {+44 >= 0 && "+"}{+44}%
+                                </span>
+                            </td>
+                            <td>8,000,000</td>
                         </tr>
                         <tr>
                             <th scope="row">4</th>
-                            <td>에코프로비엠</td>
+                            <td>최지혁</td>
+                            <td>
+                                <span className={+31 >= 0 ? "positive" : "negative"}>
+                                        {+31 >= 0 && "+"}{+31}%
+                                </span>
+                            </td>
+                            <td>7,000,000</td>
                         </tr>
                         <tr>
                             <th scope="row">5</th>
-                            <td>루닛</td>
+                            <td>오정원</td>
+                            <td>
+                                <span className={+5 >= 0 ? "positive" : "negative"}>
+                                        {+5 >= 0 && "+"}{+5}%
+                                </span>
+                            </td>
+                            <td>5,100,000</td>
                         </tr>
                         <tr>
                             <th scope="row">6</th>
-                            <td>포스코인터내셔널</td>
+                            <td>이준호</td>
+                            <td>
+                                <span className={-2 >= 0 ? "positive" : "negative"}>
+                                        {-2 >= 0 && "+"}{-2}%
+                                </span>
+                            </td>
+                            <td>4,800,000</td>
                         </tr>
                         </tbody>
                     </table>
-                        </div>
                     </div>
                     <div className='youtube-iframe card shadow'>
                         <div className='card-header'>

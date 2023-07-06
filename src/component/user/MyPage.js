@@ -38,7 +38,7 @@ function MyPage(){
             <body id="page-top" style={{width: '80%'}}>
             
             <div id="wrapper">
-                <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style={{position: "fixed"}}>
+                <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style={{position: "sticky"}}>
                     <div class="sidebar-brand d-flex align-items-center justify-content-center">
                         <div class="sidebar-brand-icon rotate-n-15">
                             <i class="fas fa-laugh-wink"></i>

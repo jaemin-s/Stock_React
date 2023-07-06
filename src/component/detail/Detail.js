@@ -219,13 +219,7 @@ const Detail = () => {
                                 <span id='myStock' className='border-bottom-primary' onClick={showMyStock}>내주식</span>
                             </h6>
                         </div>
-                        <div className="card-body">
-                            뉴스 내용
-                            <p>컴투스, 경영전략부문장에 남재관 전 카카오 부사장 영입</p>
-                            <p>카카오, 서비스 장애 피해 보상 마무리...지원금 약 275억원</p>
-                            <p>카카오 띠부띠부실 등장...롯데웰푸드, '카카오프렌즈' 캐릭터빵 출시</p>
-                            <p>LGU+·카카오모빌리티, 전기차 충전 합작사 설립</p>
-                        </div>
+                        <div className="card-body">뉴스 내용</div>
                         <div className='flex'>
                             <button className='btn btn-sm btn-user btn-primary'>매수</button>
                             <button className='btn btn-sm btn-user btn-google'>매도</button>

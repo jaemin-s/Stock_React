@@ -51,7 +51,6 @@
 .center-image {
     display: block;
     width: 100%;
-    height: auto;
     margin: 0 auto;    
 }
 
@@ -90,4 +89,6 @@ table th {
 
 .sidebar {
     position: sticky;
+    height: 400px;
+    top: 0;
 }
