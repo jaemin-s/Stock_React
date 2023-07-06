@@ -22,9 +22,11 @@ const Header = () => {
             <nav className="navbar navbar-light bg-light" style={{}}>
               <form className="container-fluid">
                 <div className="input-group">
-                  <span className="input-group-text" id="basic-addon1">
-                    <img className='logo' src={require('../bootstrap/img/search.png')} alt='search' style={{ width: "25px", border: "none" }}></img>
-                  </span>
+                  <a href="/Detail">
+                    <span className="input-group-text" id="basic-addon1">
+                      <img src={require('../bootstrap/img/search.png')} alt='search' style={{ width: "25px", border: "none" }}></img>
+                    </span>
+                  </a>
                   <i className="fa-regular fa-magnifying-glass"></i>
                   <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
                 </div>
