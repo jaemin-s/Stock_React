@@ -53,7 +53,7 @@ const InfoTest = () => {
           fncL
         });
         setResInfo(resList);
-        console.log("resList: " + resList);
+        
         
         
 
