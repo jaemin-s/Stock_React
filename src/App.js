@@ -22,7 +22,7 @@ function App() {
             <Route path='/join' element={ <Join />}/>
             <Route path='/guide' element={ <Guide />}/>
             <Route path='/mypage' element={ <MyPage />}/>
-            <Route path='/detail' element={ < Detail /> } />
+            <Route path='/detail/:value' element={ < Detail /> } />
           </Routes>
         </div>
         <Footer />

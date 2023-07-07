@@ -17,7 +17,7 @@
 
 
     .middle-content{
-
+        height: 450px;
         #first-box {
             width: 15%;
         }
@@ -61,4 +61,74 @@
     }
 
 
+}
+
+.star-icon {
+    font-size: 30px;
+}
+
+.like-content {
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+    a {
+        text-decoration: none;
+    }
+}
+.modal-header {
+
+    h5 {
+        margin-left: 233px;
+        color: black;
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+}
+
+.modal-body {
+    height: 200px;
+}
+
+#modal-detail {
+    padding-top: 50px;
+    justify-content: space-between;
+    // color: red;
+
+    .flex {
+        width: 50%;
+        justify-content: space-between;
+        border-right: 1px solid #4e73df;
+        padding-right: 25px;
+    }
+
+    .box2 {
+
+        .won {
+            text-align: right;
+        }
+
+    }
+
+    .box3 {
+        
+        h5 {
+            text-align: center;
+        }
+
+    }
+
+}
+
+.mine {
+    font-weight: 700;
+    height: 35px;
+}
+
+.nav-link {
+    padding: 0;
+}
+
+.myTable {
+    border: none;
 }

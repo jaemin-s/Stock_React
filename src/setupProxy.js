@@ -18,6 +18,13 @@ module.exports = (app) => {
     })
   );
 
+  // 공공데이터api 재무정보
+  app.use(
+    createProxyMiddleware('/getSummFinaStat_V2',{
+      target: 'http://apis.data.go.kr/1160100/service/GetFinaStatInfoService_V2',
+      changeOrigin: true
+    })
+  );
 
   //네이버 뉴스
   app.use(
@@ -26,4 +33,13 @@ module.exports = (app) => {
       changeOrigin: true
     })
   );
+
+  //네이버 주식
+  app.use(
+    createProxyMiddleware('/siseJson.naver',{
+      target: 'https://api.finance.naver.com',
+      changeOrigin: true
+    })
+  );
+
 };

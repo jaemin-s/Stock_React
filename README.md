@@ -10,6 +10,7 @@ $ npm install echarts-for-react // 리액트용 echarts
 $ npm install http-proxy-middleware // 개발용 cors 해결
 $ npm install react-ticker --save --legacy-peer-deps // 슬라이드 텍스트
 $ npm install chart.js react-chartjs-2 // 리액트용 chart2
+$ npm install react-bootstrap bootstrap --force //메인화면 Carousel
 ```
 
 
