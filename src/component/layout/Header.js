@@ -1,7 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../bootstrap/css/sb-admin-2.min.css';
 import './Header.scss';
+import { useNavigate } from 'react-router-dom';
 const Header = () => {
+
+  const [query,setQuery] = useState('');
+  const redirection = useNavigate();
+
+  const searchHandler = (e) => {
+    e.preventDefault();
+    // console.log(query);
+    if(query.trim() === '') {
+      alert('검색어를 입력하세요!!');
+      return;
+    }
+    redirection(`/Detail/${query}`);
+  };
+
+  const queryHandler = (e) => {
+    setQuery(e.target.value);
+
+  };
+
+
   return (
   <div style={{ display: "flex", justifyContent: "center", lineHeight: "5" }}>
     <nav className="navbar navbar-expand-lg navbar-light bg-light" >
@@ -20,15 +41,16 @@ const Header = () => {
           </li>
           <li className="nav-item" style={{ flex: 1, textAlign: "center",  marginTop: "60px" }}>
             <nav className="navbar navbar-light bg-light" style={{}}>
-              <form className="container-fluid">
+              <form className="container-fluid" onSubmit={searchHandler}>
                 <div className="input-group">
-                  <a href="/Detail">
+                  <button>
                     <span className="input-group-text" id="basic-addon1">
                       <img src={require('../bootstrap/img/search.png')} alt='search' style={{ width: "25px", border: "none" }}></img>
                     </span>
-                  </a>
+                  </button>
                   <i className="fa-regular fa-magnifying-glass"></i>
-                  <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
+                  <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" 
+                    value={query} onChange={queryHandler}/>
                 </div>
               </form>
             </nav>
