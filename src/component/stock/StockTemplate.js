@@ -11,7 +11,8 @@ import MoveStockInfo from './MoveStockInfo';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Carousel  from 'react-bootstrap/Carousel';
 import Kospi from './Kospi';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCrown } from '@fortawesome/free-solid-svg-icons';
 
 function StockTemplate (){
 
