@@ -1,15 +1,20 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Detail.scss';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as emptyStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as filledStar } from '@fortawesome/free-solid-svg-icons';
+import { useParams } from 'react-router-dom';
+import NewsTest from '../news/NewsTest';
 
 
 
 const Detail = () => {
+
+    const {value} = useParams();
+    // console.log(value);
     
     // 즐겨찾기 별표 채우기
     const [filled, setFilled] = useState(false);
@@ -91,7 +96,7 @@ const Detail = () => {
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggleModal}>매수</Button>
+          <Button color="danger" onClick={toggleModal}>매수</Button>
           <Button color="secondary" onClick={toggleModal}>취소</Button>
         </ModalFooter>
         </Modal>
@@ -101,7 +106,7 @@ const Detail = () => {
   const modalSell = (
     <>
     <Modal isOpen={modalType} toggle={sellModal} style={{maxWidth: 2000,width: 600, marginTop: 200}}>
-        <ModalHeader toggle={toggleModal}>매도하기</ModalHeader>
+        <ModalHeader toggle={sellModal}>매도하기</ModalHeader>
         <ModalBody>
           {/* 여기에 모달 컨텐츠를 추가하세요 */}
           <div id='modal-detail' className='flex'>
@@ -132,16 +137,7 @@ const Detail = () => {
 
   const viewNews = (
     <>
-    <div className="card-body">
-    <p>'코스피 지수 3000 돌파!'는 사라진 꿈이었나.. 잃어버린 우리의 코스피를 찾아서</p>
-    <hr/>
-    <p>대기업도 못 버틴 한한령… 현대차 中법인 매출 75% 급감했다</p>
-    <hr/>
-    <p>평택시, 쓰레기 무단투기 예방 순회 사진전 개최</p>
-    <hr/>
-    <p>반도체 한파 삼성전자, 성과급 전년 대비 반의 반토막</p>
-    <hr/>
-    </div>
+        <NewsTest/>
     </>
   );
 
@@ -151,8 +147,8 @@ const Detail = () => {
         <div>호가호가호가호가</div>
     </div>
     <div className='flex'>
-        <button className='btn btn-sm btn-user btn-primary' onClick={toggleModal}>매수</button>
-        <button className='btn btn-sm btn-user btn-danger' onClick={sellModal}>매도</button>
+        <button className='btn btn-sm btn-user btn-danger' onClick={toggleModal}>매수</button>
+        <button className='btn btn-sm btn-user btn-primary' onClick={sellModal}>매도</button>
     </div>
         
     </>
@@ -183,7 +179,7 @@ const Detail = () => {
                 <span className="star-icon" onClick={toggleStar}>
                     <FontAwesomeIcon icon={filled ? filledStar : emptyStar} style={{color: filled ? '#F9BC28' : 'black', marginBottom: '4px'}}/>&nbsp;
                 </span>
-            카카오(035720)
+            {value}(035720)
             </h1>
 
             <div className="margin-wrapper">
@@ -195,7 +191,7 @@ const Detail = () => {
                         </div>
                         {filled && (
                             <div className="card-body">
-                            <div className='like-content'><a href="/detail">카카오</a></div>
+                            <div className='like-content'><a href="/detail">{value}</a></div>
                             </div>
                         )}
                         {/* {filled && (
@@ -246,6 +242,7 @@ const Detail = () => {
     </body>
     {isModalOpen && modalBuy}
     {modalType && modalSell}
+
     </>
   )
 }

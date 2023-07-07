@@ -1,9 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { N_NEWS_ID, N_NEWS_KEY } from '../../config/apikey';
+import { useParams } from 'react-router-dom';
+import './NewsTest.scss';
 
 const NewsTest = () => {
 
+    const {value} = useParams();
+    console.log({value}.value);
+
     const [ news, setNews ] = useState([]);
+
+    useEffect(() => {
+        getNews();
+    },[value])
 
     const requestHeader = {
         'X-Naver-Client-Id' : N_NEWS_ID,
@@ -11,13 +20,13 @@ const NewsTest = () => {
     };
 
     const getNews = async() =>{
-       const query = '삼성전자';
+       const query = {value}.value;
         const res = await fetch('/search/news.json?query=' + query,{
             headers : requestHeader
         });
         if(res.status === 200){
             const data = await res.json();
-            // console.log(data);
+            console.log(data);
             let values = [];
             
             data.items.forEach( x => {
@@ -33,25 +42,54 @@ const NewsTest = () => {
                    newTitle, date, link, newArticle
                 });
             });
-            
+            console.log(values);
             setNews(values);
+            // 호출된 콜백 함수에 데이터 전달
+            // if (onGetNews) {
+            //     onGetNews(values);
+            // }
         }
     }
 
-    const sendNews = e => {
-        window.open(news[0].link)
+    const sendNews = (e) => {
+        window.open(e.target.dataset.link)
     }
 
   return (
+    // <>
+    //     <div onClick={getNews}>
+    //         click
+    //     </div>
+    //     { news.length!==0 && (<>
+    //         <div data-link={news[0].link} onClick={sendNews}>{news[0].newTitle}</div>
+    //         <div>{news[0].newArticle}</div>
+    //     </>
+    //     ) }
+    // </>
     <>
-        <div onClick={getNews}>
-            click
-        </div>
-        { news.length!==0 && (<>
-            <div data-link={news[0].link} onClick={sendNews}>{news[0].newTitle}</div>
-            <div>{news[0].newArticle}</div>
-        </>
-        ) }
+    
+    {news.length!==0 && (<>
+
+    <div className="card-body" style={{paddingBottom: 0}}>
+        <h5 data-link={news[0].link} onClick={sendNews}>{news[0].newTitle}</h5>
+        <p>{news[0].newArticle.substr(0, 90)}...</p>
+        <hr/>
+        <h5 data-link={news[1].link} onClick={sendNews}>{news[1].newTitle}</h5>
+        <p>{news[1].newArticle.substr(0, 90)}...</p>
+        <hr/>
+        <h5 data-link={news[2].link} onClick={sendNews}>{news[2].newTitle}</h5>
+        <p>{news[2].newArticle.substr(0, 90)}...</p>
+        <hr/>
+        <h5 data-link={news[3].link} onClick={sendNews}>{news[3].newTitle}</h5>
+        <p>{news[3].newArticle.substr(0, 90)}...</p>
+        <hr/>
+        <h5 data-link={news[4].link} onClick={sendNews}>{news[4].newTitle}</h5>
+        <p>{news[4].newArticle.substr(0, 90)}...</p>
+        <hr/>
+    </div>
+    </>
+    ) }
+    
     </>
   )
 }
