@@ -10,6 +10,7 @@ import './StockTemplate.scss';
 import MoveStockInfo from './MoveStockInfo';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Carousel  from 'react-bootstrap/Carousel';
+import Kospi from './Kospi';
 
 
 function StockTemplate (){
@@ -41,28 +42,12 @@ function StockTemplate (){
     //처음 렌더링시 실행
     useEffect(()=>{
         getKIAccessToken(); //토큰 발급
-        getKospi();//코스피 시세 
     },[]);
 
     // 8자리 날짜를 yyyy-MM-dd로 변환
     const dateFormat = date => {
         return date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8);
     };
-
-    const format = () => {
-    
-        return 
-    }
-
-    const getKospi = async () => {
-        console.log('네이버 API 호출');
-        const res = await fetch('/siseJson.naver?symbol=KOSPI&requestType=1&startTime=20221116&endTime=20230706&timeframe=day',
-        {
-          method:'POST'
-        });
-        const data = await res.text();
-        console.log(data);
-      };
 
     //일자별 시세
     const currentPrice = async e => {
@@ -107,7 +92,9 @@ function StockTemplate (){
                     <div className="card-header">
                         <h6 className="m-0 font-weight-bold text-primary">코스닥</h6>
                     </div>
-                    <div className="card-body">코스닥 내용</div>
+                    <div className="card-body">
+                        <Kospi/>
+                    </div>
                 </div>
                 <div className="middle-content flex">
                     <div className="popular-trade card shadow">

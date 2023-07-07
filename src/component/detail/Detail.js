@@ -6,6 +6,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as emptyStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as filledStar } from '@fortawesome/free-solid-svg-icons';
+import NewsTest from '../news/NewsTest';
 
 
 
@@ -57,6 +58,8 @@ const Detail = () => {
       setInfo(false);
       setMyStock(false);
   }
+
+  //const [selected, setSelected] = useState('호가');
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -127,21 +130,6 @@ const Detail = () => {
           <Button color="secondary" onClick={sellModal}>취소</Button>
         </ModalFooter>
         </Modal>
-    </>
-  );
-
-  const viewNews = (
-    <>
-    <div className="card-body">
-    <p>'코스피 지수 3000 돌파!'는 사라진 꿈이었나.. 잃어버린 우리의 코스피를 찾아서</p>
-    <hr/>
-    <p>대기업도 못 버틴 한한령… 현대차 中법인 매출 75% 급감했다</p>
-    <hr/>
-    <p>평택시, 쓰레기 무단투기 예방 순회 사진전 개최</p>
-    <hr/>
-    <p>반도체 한파 삼성전자, 성과급 전년 대비 반의 반토막</p>
-    <hr/>
-    </div>
     </>
   );
 
@@ -220,7 +208,7 @@ const Detail = () => {
                             </h6>
                         </div>
                             {stockPrice && viewPrice}
-                            {news && viewNews}
+                            {/* {news && viewNews} */}
                             {info && viewInfo}
                             {myStock && viewMyStock}
                     </div>
