@@ -66,6 +66,24 @@ const Detail = () => {
     setModalType(!modalType);
   };
 
+  const [order, setOrder] = useState("");
+
+  const orderChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+  if (!isNaN(value) && value >= 0) {
+    setOrder(value);
+  }
+  };
+
+  const currentPrice = 12120;   //현재 1주 가격
+
+  const totalOrder = order * currentPrice;
+
+  const afterAsset = 5000000 - totalOrder;    //매매 후 자산
+
+  const currentHavingStock = 3;
+
+  const totalPrice = currentHavingStock * currentPrice; 
   const modalBuy = (
     <>
     <Modal isOpen={isModalOpen} toggle={toggleModal} style={{maxWidth: 2000,width: 600, marginTop: 200}}>
@@ -77,16 +95,18 @@ const Detail = () => {
                 <div className='box1'>
                     <div>주문단가</div>
                     <div>총 주문금액</div>
+                    <div>매수 후 잔액</div>
                 </div>
                 <div className='box2'>
-                    <div>12,120원</div>
-                    <div className='won'>원</div>
+                    <div style={{textAlign: 'right'}}>{currentPrice.toLocaleString()}원</div>
+                    <div className='won'>{totalOrder.toLocaleString()}원</div>
+                    <div className='won'>{afterAsset.toLocaleString()}원</div>
                 </div>
             </div>
             <div className='box3'>
                 <h5>주문수량</h5>
                 <input className='form-control bg-light border-0 small' placeholder='주' 
-                    type="number" min='1' style={{textAlign: 'right'}}/>
+                    type="number" min='1' value={order} onChange={orderChange} style={{textAlign: 'right'}}/>
             </div>
           </div>
         </ModalBody>
@@ -107,18 +127,20 @@ const Detail = () => {
           <div id='modal-detail' className='flex'>
             <div className='flex'>
                 <div className='box1'>
+                    <div>현재 보유 주</div>
                     <div>주문단가</div>
                     <div>총 주문금액</div>
                 </div>
                 <div className='box2'>
-                    <div>12,120원</div>
-                    <div className='won'>원</div>
+                    <div style={{textAlign: 'right'}}>{currentHavingStock.toLocaleString()}</div>
+                    <div>{currentPrice.toLocaleString()}원</div>
+                    <div className='won'>{totalOrder.toLocaleString()}원</div>
                 </div>
             </div>
             <div className='box3'>
                 <h5>주문수량</h5>
                 <input className='form-control bg-light border-0 small' placeholder='주' 
-                    type="number" min='1' style={{textAlign: 'right'}}/>
+                    type="number" min='1' max={currentHavingStock} value={order} onChange={orderChange}  style={{textAlign: 'right'}}/>
             </div>
           </div>
         </ModalBody>
@@ -169,10 +191,38 @@ const Detail = () => {
   const viewMyStock = (
     <>
     <div className="card-body">
-        <div>내 정보 내 정보</div>
+        <div className='info'>
+        <table className="myTable">
+            <tbody>
+                <tr>
+                    <td className='mine'>1주 평균금액</td>
+                    <td>{currentPrice.toLocaleString()}원</td>
+                </tr>
+                <tr>
+                    <td className='mine'>보유 수량</td>
+                    <td>{currentHavingStock.toLocaleString()}</td>
+                </tr>
+                <tr>
+                    <td className='mine'>총 금액</td>
+                    <td class="total-amount">
+                        40,000원
+                        <div style={{fontSize: '15px'}}>
+                            <span>+2,640</span>
+                            <span class="positive">(+8.1%)</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td className='mine'>투자 원금</td>
+                    <td>{totalPrice.toLocaleString()}원</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
     </div>
     </>
   );
+
     
   return (
     <>
@@ -256,7 +306,6 @@ const Detail = () => {
 }
 
 export default Detail;
-
 
 
 
