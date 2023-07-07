@@ -30,7 +30,7 @@ const Detail = () => {
   const [modalType, setModalType] = useState(false); //매도
 
   //호가, 뉴스, 종목정보, 내주식 관리
-  const [stockPrice, setShowPrice] = useState(false);
+  const [stockPrice, setShowPrice] = useState(true);
   const [news, setNews] = useState(false);
   const [info, setInfo] = useState(false);
   const [myStock, setMyStock] = useState(false);

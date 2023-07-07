@@ -61,7 +61,9 @@ const Kospi = () => {
         data: kospi.date
       },
       yAxis: {
-        type: 'value'
+        type: 'value',
+        max: 2641,
+        min: 2510
       },
       series: [{
         data: kospi.price,
@@ -74,7 +76,7 @@ const Kospi = () => {
 
   return ( 
     <>
-      <Echarts option={options}/>
+      <Echarts option={options} style={{width: '50%'}}/>
     </>
   )
 }

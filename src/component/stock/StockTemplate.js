@@ -43,6 +43,7 @@ function StockTemplate (){
     //처음 렌더링시 실행
     useEffect(()=>{
         getKIAccessToken(); //토큰 발급
+        getRank();
     },[]);
 
     // 8자리 날짜를 yyyy-MM-dd로 변환
@@ -84,6 +85,21 @@ function StockTemplate (){
         }
     }
 
+    const getRank = async e => {
+        const res = await fetch("/quotations/volume-rank?FID_COND_MRKT_DIV_CODE=J&FID_COND_SCR_DIV_CODE=20171&FID_INPUT_ISCD=0000&FID_DIV_CLS_CODE=0&FID_BLNG_CLS_CODE=0&FID_TRGT_CLS_CODE=111111111&FID_TRGT_EXLS_CLS_CODE=000000&FID_INPUT_PRICE_1=&FID_INPUT_PRICE_2&FID_VOL_CNT=&FID_INPUT_DATE_1",
+        {
+            headers : {
+                'tr_id' : "FHPST01710000",
+                'custtype' : "P",
+                ...requestHeader
+            }
+        });
+        // console.log(res);
+        if (res.status === 200) {
+            const data = await res.json();
+            console.log(data.output);
+        }
+    }
 
     return (
         <>
@@ -93,7 +109,8 @@ function StockTemplate (){
                     <div className="card-header">
                         <h6 className="m-0 font-weight-bold text-primary">코스닥</h6>
                     </div>
-                    <div className="card-body">
+                    <div className="card-body" style={{display: 'flex'}}>
+                        <Kospi/>
                         <Kospi/>
                     </div>
                 </div>
