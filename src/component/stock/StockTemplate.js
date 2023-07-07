@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react'
 import { KI_BASE_DOMAIN, KI_DOMESTIC_STOCK_URL, KI_TOKEN_URL } from '../../config/host-config';
 import { KI_APP_KEY,KI_SECRET_KEY } from '../../config/apikey';
 import * as echarts from 'echarts';
@@ -8,21 +8,12 @@ import './StockTemplate.scss';
 import '../bootstrap/css/sb-admin-2.min.css';
 import './StockTemplate.scss';
 import MoveStockInfo from './MoveStockInfo';
-import InfoTest from './InfoTest';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Carousel  from 'react-bootstrap/Carousel';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCrown } from '@fortawesome/free-solid-svg-icons';
+import Kospi from './Kospi';
+
 
 function StockTemplate (){
-
-    //네이버 코스피 요청
-    const getKospiPrice = async () => {
-        const res = await fetch('/finance/chart/%5EKS11?symbol=%5EKS11&period1=1672066800&period2=1688555030&useYfid=true&interval=1d&includePrePost=true&events=div%7Csplit%7Cearn&lang=en-US&region=US&crumb=D%2FJfM5MOHw2&corsDomain=finance.yahoo.com');
-        const data = await res.json();
-        console.log(data);
-    }
-    
 
     //호출용 고정 헤더
     const requestHeader = {
@@ -51,18 +42,12 @@ function StockTemplate (){
     //처음 렌더링시 실행
     useEffect(()=>{
         getKIAccessToken(); //토큰 발급
-        getKospiPrice();//코스피 시세 
     },[]);
 
     // 8자리 날짜를 yyyy-MM-dd로 변환
     const dateFormat = date => {
         return date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8);
     };
-
-    const format = () => {
-    
-        return 
-    }
 
     //일자별 시세
     const currentPrice = async e => {
@@ -107,7 +92,9 @@ function StockTemplate (){
                     <div className="card-header">
                         <h6 className="m-0 font-weight-bold text-primary">코스닥</h6>
                     </div>
-                    <div className="card-body">코스닥 내용</div>
+                    <div className="card-body">
+                        <Kospi/>
+                    </div>
                 </div>
                 <div className="middle-content flex">
                     <div className="popular-trade card shadow">
@@ -206,31 +193,35 @@ function StockTemplate (){
                         <div className="card-header">
                             <h6 className="m-0 font-weight-bold text-primary">뉴스</h6>
                         </div>
-                        {/* <div className="card-body">뉴스 내용</div> */}
-                        <Carousel className="Carousel">
-                            <Carousel.Item style={{ width: '100%' }}>
-                            <img src={require('./image/light-gray.png')} alt="@" className="center-image" />
-                            <Carousel.Caption>
-                                <h3>뉴스</h3>
-                                <p>'코스피 지수 3000 돌파!'는 사라진 꿈이었나.. 잃어버린 우리의 코스피를 찾아서</p>
-                            </Carousel.Caption>
-                            </Carousel.Item>
-                            <Carousel.Item style={{ width: '100%' }}>
-                            <img src={require('./image/light-gray.png')} alt="@" className="center-image" />
-                            <Carousel.Caption>
-                                <h3>사진사진</h3>
-                                <p>여의도 증권가는 오늘도 정신없다.</p>
-                            </Carousel.Caption>
-                            </Carousel.Item>
-                            <Carousel.Item style={{ width: '100%' }}>
-                            <img src={require('./image/light-gray.png')} alt="@" className="center-image" />
-                            <Carousel.Caption>
-                                <h3>인기 거래표</h3>
-                                <p>(23.07.04 기준) <br />에코프로 (086520), 에코프로비엠(247540), 삼성전자(005930)</p>
-                            </Carousel.Caption>
-                            </Carousel.Item>
-                        </Carousel>
-                        </div>
+                            {/* <div className="card-body">뉴스 내용</div> */}
+                            <Carousel>
+                                <Carousel.Item style={{width: "100%"}}>
+                                <img src={require('./image/light-gray.png')} alt="@" className="center-image" ></img>
+                                    <Carousel.Caption>
+                                    <h3>뉴스</h3>
+                                    <p>'코스피 지수 3000 돌파!'는 사라진 꿈이었나.. 잃어버린 우리의 코스피를 찾아서</p>
+                                    </Carousel.Caption>
+                                </Carousel.Item >
+                                <Carousel.Item style={{width: "100%"}}>
+                                    <img src={require('./image/light-gray.png')} alt="@" className="center-image"></img>
+
+                                    <Carousel.Caption>
+                                    <h3>사진사진</h3>
+                                    <p>여의도 증권가는 오늘도 정신없다.</p>
+                                    </Carousel.Caption>
+                                </Carousel.Item>
+                                <Carousel.Item style={{width: "100%"}}>
+                                <img src={require('./image/light-gray.png')} alt="@" className="center-image"></img>
+                                    <Carousel.Caption>
+                                    <h3>인기 거래표</h3>
+                                    <p>
+                                        (23.07.04 기준) <br/>
+                                        에코프로 (086520), 에코프로비엠(247540), 삼성전자(005930)
+                                    </p>
+                                    </Carousel.Caption>
+                                </Carousel.Item>
+                                </Carousel>
+                    </div>
                 </div>
                 <div className='flex bottom-content'>
                     <div className="simulated-rank card shadow">
@@ -331,6 +322,7 @@ function StockTemplate (){
                     </div>
                 </div>
             </div>
+    
         </>
       )
     }
