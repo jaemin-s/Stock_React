@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Echarts from 'echarts-for-react';
 
 const Kospi = () => {
-  const [kospi, setKospi] = useState();
+  const [kospi, setKospi] = useState({});
   const [options, setOptions] = useState({
     xAxis: {
       type: 'category',
@@ -18,8 +18,10 @@ const Kospi = () => {
   });
   useEffect(() => {
     getKospi();
-    setOpt();
   },[]);
+  useEffect(()=>{
+    kospi&&setOpt();
+  },[kospi])
 
   //코스피 시세 얻기
   const getKospi = async () => {
@@ -46,15 +48,14 @@ const Kospi = () => {
         //parseFloat(temp[2]) // 고가
         //parseFloat(temp[3]) // 저가
     });
-    const newData = {
+    setKospi({
       date : tempDate,
       price : tempPrice
-    };
-    setKospi(newData);
+    });
   };
 
   const setOpt = () => {
-    kospi && setOptions({
+    setOptions({
       xAxis: {
         type: 'category',
         data: kospi.date
