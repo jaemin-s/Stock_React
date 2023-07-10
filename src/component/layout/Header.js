@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import '../bootstrap/css/sb-admin-2.min.css';
 import './Header.scss';
 import { useNavigate } from 'react-router-dom';
+import { KI_APP_KEY,KI_SECRET_KEY, DATA_GO_KR_KEY } from '../../config/apikey';
 const Header = () => {
 
   const [query,setQuery] = useState('');
@@ -22,6 +23,39 @@ const Header = () => {
 
   };
 
+
+  const [data, setData] = useState(null); // 결과를 저장할 상태
+    let corps;
+  const getCode = async (e) => {
+      try {
+          corps = e.target.dataset.stockId;
+          console.log(corps);
+          const res = await fetch('https://apis.data.go.kr/1160100/service/GetCorpBasicInfoService_V2/getCorpOutline_V2?pageNo=1&resultType=json&serviceKey='+ DATA_GO_KR_KEY +'&numOfRows=20&corpNm='+ corps+'');
+
+          if (res.status === 200) {
+              const data = await res.json();
+              setData(data.response.body.items.item);  // 결과를 상태에 저장
+              console.log(data);
+          }
+      } catch (error) {
+      console.error(error);
+      }
+  };
+
+
+
+  const findStockCode = (stockName) => {
+    const stock = data.find((item) => item.corpNm === stockName); //이름
+    if(stock) {
+        return stock.fssCorpUnqNo;    //코드
+    } else {
+        return null;
+    }
+  };
+
+  const stockName = corps;
+  // const stockCode = findStockCode(stockName);
+  // console.log(stockCode);
 
   return (
   <div style={{ display: "flex", justifyContent: "center", lineHeight: "5" }}>
@@ -51,6 +85,11 @@ const Header = () => {
                   <i className="fa-regular fa-magnifying-glass"></i>
                   <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" 
                     value={query} onChange={queryHandler}/>
+{/* 
+    <ul onClick={getCode}>
+                    <li data-stock-id="삼성전자">asdasd</li>
+                </ul> */}
+
                 </div>
               </form>
             </nav>

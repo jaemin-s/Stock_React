@@ -76,7 +76,7 @@ const Kospi = () => {
 
   return ( 
     <>
-      <Echarts option={options} style={{width: '50%'}}/>
+      <Echarts option={options} style={{width: '50%', height: '283px'}}/>
     </>
   )
 }

@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from 'react'
 import './Detail.scss';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-
+import { KI_APP_KEY,KI_SECRET_KEY, DATA_GO_KR_KEY } from '../../config/apikey';
+import { KI_BASE_DOMAIN, KI_DOMESTIC_STOCK_URL, KI_TOKEN_URL } from '../../config/host-config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as emptyStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as filledStar } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from 'react-router-dom';
+import Test from './Test';
 import NewsTest from '../news/NewsTest';
 
 
@@ -168,7 +170,7 @@ const Detail = () => {
   const viewPrice = (
     <>
     <div className="card-body">
-        <div>호가호가호가호가</div>
+        <div><Test/></div>
     </div>
     <div className='flex'>
         <button className='btn btn-sm btn-user btn-danger' onClick={toggleModal}>매수</button>
@@ -221,7 +223,46 @@ const Detail = () => {
     </>
   );
 
-    
+
+  const [data, setData] = useState(null); // 결과를 저장할 상태
+    let corps = value;
+  const getCode = async (e) => {
+      try {
+        //   corps = e.target.dataSet.stockId;
+          const res = await fetch('https://apis.data.go.kr/1160100/service/GetCorpBasicInfoService_V2/getCorpOutline_V2?pageNo=1&resultType=json&serviceKey='+ DATA_GO_KR_KEY +'&numOfRows=20&corpNm='+ corps+'');
+
+          if (res.status === 200) {
+              const data = await res.json();
+              setData(data.response.body.items.item);  // 결과를 상태에 저장
+          }
+      } catch (error) {
+      console.error(error);
+      }
+  };
+
+  useEffect(() => {
+    if (data === null) {
+      getCode();
+    }
+  }, [data]);
+
+  // data 상태가 null인 경우 로딩 상태 표시
+  if (data === null) {
+      return <div>Loading...</div>;
+  }
+
+  const findStockCode = (stockName) => {
+      const stock = data.find((item) => item.corpNm === stockName); //이름
+      if (stock && stock.fssCorpUnqNo !== "") {
+        return stock.fssCorpUnqNo; // 코드
+      } else {
+        return null;
+      }
+    };
+
+//   const stockName = value;
+  const stockCode = findStockCode(value);
+  console.log(stockCode);
   return (
     <>
     <body id="page-top" style={{width:'80%'}}>
@@ -231,7 +272,13 @@ const Detail = () => {
                 <span className="star-icon" onClick={toggleStar}>
                     <FontAwesomeIcon icon={filled ? filledStar : emptyStar} style={{color: filled ? '#F9BC28' : 'black', marginBottom: '4px'}}/>&nbsp;
                 </span>
-            {value}(035720)
+                {/* <ul onClick={getCode}>
+                    <li data-stock-id="삼성전자">asdasd</li>
+                    <li>asdasd</li>
+                    <li>asdasd</li>
+                </ul> */}
+            {/* {corps}({stockCode}) */}
+                {value}{stockCode}
             </h1>
 
             <div className="margin-wrapper">

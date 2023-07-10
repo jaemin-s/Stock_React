@@ -88,7 +88,12 @@ table th {
 }
 
 .sidebar {
-    position: sticky;
+    position: fixed;
     height: 400px;
     top: 0;
 }
+
+.table-container {
+    max-height: 400px; 
+    overflow-y: auto;
+  }
