@@ -65,8 +65,8 @@ const Header = () => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item active">
-            <a className="nav-link" href="/" style={{marginRight: "100px"}}>
-            <img src={require('./guideline/image/logo.PNG')} alt="@" className="center-image" style={{width: "70%"}}></img>
+            <a className="nav-link" href="/" >
+            <img src={require('./guideline/image/logo.PNG')} alt="@" className="center-image" style={{width: '180px',marginRight: '100px'}}></img>
               <span className="sr-only">(current)</span></a>
           </li>
           <li className="nav-item">

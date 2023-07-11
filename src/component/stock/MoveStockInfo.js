@@ -44,7 +44,12 @@ const MoveStockInfo = ( {getStockRate} ) => {
             <div className='move-stock'>
               {topResult.slice(0, 5).map((result, index) => (
                 <p style={{ display: 'inline' }} key={index}>
-                  {result.name} &ensp;{result.chgrate.trim().substring(0, 5)}% &ensp;{result.price.replace(/^0+/, '').match(/^\d+/)[0]}
+                  {result.name} &ensp;
+                  <span className={parseFloat(result.chgrate) >= 0 ? "positive" : "negative"}>
+                    {parseFloat(result.chgrate) >= 0 && "▲"}
+                    {result.chgrate.trim().substring(0, 5)}%
+                  </span> &ensp;
+                  {result.price.replace(/^0+/, '').match(/^\d+/)[0]}
                 </p>
               ))}
             </div>
@@ -57,7 +62,12 @@ const MoveStockInfo = ( {getStockRate} ) => {
             <div className='move-stock'>
               {lowResult.slice(0, 5).map((result, index) => (
                 <p style={{ display: 'inline' }} key={index}>
-                  {result.name} &ensp;{result.chgrate.trim().substring(0, 5)}% &ensp;{result.price.replace(/^0+/, '').match(/^\d+/)[0]}
+                  {result.name} &ensp;
+                  <span className={parseFloat(result.chgrate) >= 0 ? "positive" : "negative"}>
+                    {parseFloat(result.chgrate) >= 0 ? "" : "▼"}
+                    {result.chgrate.trim().substring(1, 5)}%
+                  </span> &ensp;
+                  {result.price.replace(/^0+/, '').match(/^\d+/)[0]}
                 </p>
               ))}
             </div>
