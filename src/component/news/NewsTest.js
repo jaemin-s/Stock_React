@@ -6,7 +6,7 @@ import './NewsTest.scss';
 const NewsTest = () => {
 
     const {value} = useParams();
-    console.log({value}.value);
+    // console.log({value}.value);
 
     const [ news, setNews ] = useState([]);
 
@@ -20,13 +20,13 @@ const NewsTest = () => {
     };
 
     const getNews = async() =>{
-       const query = {value}.value;
-        const res = await fetch('/search/news.json?query=' + query,{
+       const query = {value}.value || '증시';
+        const res = await fetch('/search/news.json?query=' + query + '&sort=sim',{
             headers : requestHeader
         });
         if(res.status === 200){
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             let values = [];
             
             data.items.forEach( x => {
@@ -42,7 +42,7 @@ const NewsTest = () => {
                    newTitle, date, link, newArticle
                 });
             });
-            console.log(values);
+            // console.log(values);
             setNews(values);
             // 호출된 콜백 함수에 데이터 전달
             // if (onGetNews) {

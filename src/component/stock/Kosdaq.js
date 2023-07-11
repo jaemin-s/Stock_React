@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Echarts from 'echarts-for-react';
 
-const Kospi = () => {
-  const [kospi, setKospi] = useState({
+const Kosdaq = () => {
+  const [kosdaq, setKosdaq] = useState({
     date:[],
     price:[]
   });
@@ -20,21 +20,21 @@ const Kospi = () => {
     }]
   });
   useEffect(() => {
-    getKospi();
+    getKosdaq();
   },[]);
   useEffect(()=>{
     setOpt();
-  },[kospi])
+  },[kosdaq])
 
   //코스피 시세 얻기
-  const getKospi = async () => {
+  const getKosdaq = async () => {
     let today = new Date();
     let curruntDate = today.toISOString().slice(0,10).replaceAll('-','');
     let startDate = new Date(today.setDate(today.getDate()-30)).toISOString().slice(0,10).replaceAll('-','');
     console.log(startDate);
 
     //네이버 증권 요청
-    const res = await fetch('/siseJson.naver?symbol=KOSPI&requestType=1&startTime=' + startDate + '&endTime=' + curruntDate + '&timeframe=day', {
+    const res = await fetch('/siseJson.naver?symbol=KOSDAQ&requestType=1&startTime=' + startDate + '&endTime=' + curruntDate + '&timeframe=day', {
       method: 'POST'
     });
     const data = await res.text();
@@ -59,7 +59,7 @@ const Kospi = () => {
       //parseFloat(temp[2]) // 고가
       //parseFloat(temp[3]) // 저가
     });
-    setKospi({
+    setKosdaq({
       date : tempDate,
       price : tempPrice,
       max : Math.ceil(max/10)*10,
@@ -71,15 +71,15 @@ const Kospi = () => {
     setOptions({
       xAxis: {
         type: 'category',
-        data: kospi.date
+        data: kosdaq.date
       },
       yAxis: {
         type: 'value',
-        max: kospi.max,
-        min: kospi.min
+        max: kosdaq.max,
+        min: kosdaq.min
       },
       series: [{
-        data: kospi.price,
+        data: kosdaq.price,
         showSymbol: false,
         type: 'line'
       }]
@@ -88,9 +88,9 @@ const Kospi = () => {
 
   return ( 
     <>
-      <Echarts option={options} style={{width: '50%', height: '283px'}}/>
+      <Echarts option={options}/>
     </>
   )
 }
 
-export default Kospi;
+export default Kosdaq;
