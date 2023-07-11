@@ -2,12 +2,13 @@
 import React, { useEffect, useState } from 'react'
 import './Detail.scss';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as emptyStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as filledStar } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from 'react-router-dom';
 import NewsTest from '../news/NewsTest';
+import { RequsetHeader } from '../../config/apikey';
+import Candle from './Candle';
 
 
 
@@ -22,6 +23,48 @@ const Detail = () => {
     const toggleStar = () => {
         setFilled(!filled);
     };
+    
+    // 8자리 날짜를 yyyy-MM-dd로 변환
+    const dateFormat = date => {
+        return date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8);
+    };
+
+    //일자별 시세
+    const dailyPrice = async e => {
+        const params = '000660';
+        const res = await fetch('/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD='+params+'&FID_PERIOD_DIV_CODE=D&FID_ORG_ADJ_PRC=1',
+        { headers : {
+            ...RequsetHeader,
+            'tr_id' : 'FHKST01010400'
+        }});
+
+        if(res.status === 200){
+            const data = await res.json();
+            console.log( data );
+            //필요한 값만 추출
+            let values = [];
+            let dates = [];
+            data.output.forEach( x => {
+                const { stck_bsop_date : date,
+                        stck_oprc : open,
+                        stck_clpr : close,
+                        stck_hgpr : highest,
+                        stck_lwpr : lowest,
+                         } = x;
+                dates.unshift(dateFormat(date));
+                values.unshift([
+                    parseInt(open),
+                    parseInt(close),
+                    parseInt(lowest),
+                    parseInt(highest)
+                ]);
+            });
+            console.log({categoryData:dates,values});
+            return {categoryData:dates,values}
+        }else {
+            console.log(res);
+        }
+    }
 
 
 
@@ -256,7 +299,9 @@ const Detail = () => {
                         <div className="card-header">
                             <h6 className="m-0 font-weight-bold text-primary">그래프</h6>
                         </div>
-                        <div className="card-body">그래프 내용</div>
+                        <div className="card-body">
+                            <Candle dailyPrice={dailyPrice}/>
+                        </div>
                     </div>
                     <div id='third-box' className="popular-trade card shadow mb-4">
                         <div className="card-header">

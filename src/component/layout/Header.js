@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import '../bootstrap/css/sb-admin-2.min.css';
 import './Header.scss';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +19,6 @@ const Header = () => {
 
   const queryHandler = (e) => {
     setQuery(e.target.value);
-
   };
 
 
@@ -68,6 +67,7 @@ const Header = () => {
       </div>
     </nav>
   </div>
+
 
 
   )

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { KI_BASE_DOMAIN, KI_DOMESTIC_STOCK_URL, KI_TOKEN_URL } from '../../config/host-config';
-import { KI_APP_KEY,KI_SECRET_KEY } from '../../config/apikey';
+import { KI_APP_KEY,KI_SECRET_KEY, RequsetHeader } from '../../config/apikey';
 import * as echarts from 'echarts';
 import NewsTest from '../news/NewsTest';
 import Detail from '../detail/Detail';
@@ -13,16 +13,9 @@ import Carousel  from 'react-bootstrap/Carousel';
 import Kospi from './Kospi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
+import Kosdaq from './Kosdaq';
 
 function StockTemplate (){
-
-    //호출용 고정 헤더
-    const requestHeader = {
-        'content-type':'application/json; charset=utf-8',
-        'authorization' : localStorage.getItem('ACCESS_TOKEN'),
-        'appkey' : KI_APP_KEY,
-        'appsecret' : KI_SECRET_KEY
-    };
 
     //토큰 발급
     const getKIAccessToken = async() =>{
@@ -45,45 +38,6 @@ function StockTemplate (){
         getKIAccessToken(); //토큰 발급
     },[]);
 
-    // 8자리 날짜를 yyyy-MM-dd로 변환
-    const dateFormat = date => {
-        return date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8);
-    };
-
-    //일자별 시세
-    const currentPrice = async e => {
-        const params = e.target.dataset.stockId;
-        const res = await fetch('/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD='+params+'&FID_PERIOD_DIV_CODE=D&FID_ORG_ADJ_PRC=1',
-        { headers : {
-            ...requestHeader,
-            'tr_id' : 'FHKST01010400'
-        }});
-
-        if(res.status === 200){
-            const data = await res.json();
-            console.log( data );
-            console.log( data.output[0] );
-            //필요한 값만 추출
-            let values = [];
-            let dates = [];
-            data.output.forEach( x => {
-                const { stck_bsop_date : date,
-                        stck_oprc : openPrice,
-                        stck_clpr : closePrice,
-                        stck_hgpr : highPrice,
-                        stck_lwpr : lowPrice,
-                         } = x;
-                dates.push(dateFormat(date));
-                values.push([
-                    parseInt(openPrice),
-                    parseInt(closePrice),
-                    parseInt(highPrice),
-                    parseInt(lowPrice)
-                ]);
-            });
-        }
-    }
-
 
     return (
         <>
@@ -94,7 +48,12 @@ function StockTemplate (){
                         <h6 className="m-0 font-weight-bold text-primary">코스닥</h6>
                     </div>
                     <div className="card-body">
-                        <Kospi/>
+                        <div>
+                            <Kospi/>
+                        </div>
+                        <div>
+                            <Kosdaq/>
+                        </div>
                     </div>
                 </div>
                 <div className="middle-content flex">
