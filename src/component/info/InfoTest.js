@@ -8,7 +8,7 @@ const InfoTest = () => {
   const [resInfo, setResInfo] = useState([]);
   
   const corpInfo = async () => {
-    const res = await fetch('/getCorpOutline_V2?serviceKey=1KP%2F74OKGakEjZuUJc6YTkn5UTLRHtfug6BKkunpBqx3owk%2BrrquqsAG7hl7NqMbb5qqQYWVrkVKn7fnYfvXtQ%3D%3D&pageNo=15&numOfRows=1&resultType=json&corpNm=삼성전');
+    const res = await fetch('/getCorpOutline_V2?serviceKey=1KP%2F74OKGakEjZuUJc6YTkn5UTLRHtfug6BKkunpBqx3owk%2BrrquqsAG7hl7NqMbb5qqQYWVrkVKn7fnYfvXtQ%3D%3D&pageNo=15&numOfRows=1&resultType=json&corpNm=삼성전자');
     const secRes = await fetch('getSummFinaStat_V2?numOfRows=1&pageNo=1&resultType=json&serviceKey=1KP%2F74OKGakEjZuUJc6YTkn5UTLRHtfug6BKkunpBqx3owk%2BrrquqsAG7hl7NqMbb5qqQYWVrkVKn7fnYfvXtQ%3D%3D&crno=1301110001626');
     const data = await res.json();
     const resData = await secRes.json();

@@ -26,6 +26,14 @@ module.exports = (app) => {
     })
   );
 
+   // 공공데이터api 주식시세
+   app.use(
+    createProxyMiddleware('/getStockPriceInfo',{
+      target: 'https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService',
+      changeOrigin: true
+    })
+  );
+
   //네이버 뉴스
   app.use(
     createProxyMiddleware('/search',{
