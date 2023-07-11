@@ -5,7 +5,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as emptyStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as filledStar } from '@fortawesome/free-solid-svg-icons';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import NewsTest from '../news/NewsTest';
 import { RequsetHeader } from '../../config/apikey';
 import Candle from './Candle';
@@ -13,6 +13,8 @@ import Candle from './Candle';
 
 
 const Detail = () => {
+
+    const redirection = useNavigate();
 
     const {value} = useParams();
     // console.log(value);
@@ -108,8 +110,9 @@ const Detail = () => {
 
   //const [selected, setSelected] = useState('호가');
 
-  const toggleModal = () => {
+  const toggleModal = (e) => {
     setIsModalOpen(!isModalOpen);
+    // console.log(e);
   };
 
   const sellModal = () => {
@@ -264,6 +267,13 @@ const Detail = () => {
     </>
   );
 
+  //관련종목 추천 버튼 클릭 시 이벤트 로직
+  const research = (e) => {
+    console.log(e.target.textContent);
+    redirection(`/Detail/${e.target.textContent}`)
+    
+  };
+
     
   return (
     <>
@@ -325,10 +335,10 @@ const Detail = () => {
                             <h6 className="m-0 font-weight-bold text-primary">관련종목 추천</h6>
                         </div>
                         <div className="card-body">
-                            <button>카카오페이</button>
-                            <button>카카오뱅크</button>
-                            <button>카카오화재</button>
-                            <button>카카오게임즈</button>
+                            <button onClick={research}>카카오페이</button>
+                            <button onClick={research}>카카오뱅크</button>
+                            <button onClick={research}>카카오화재</button>
+                            <button onClick={research}>카카오게임즈</button>
                         </div>
                     </div>
                     
