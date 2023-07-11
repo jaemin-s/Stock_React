@@ -79,7 +79,7 @@ function StockTemplate (){
                 'tr_id': "FHPST01710000",
                 'custtype': "P",
                 'authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjQwYmJkMWE4LTdjNGMtNDAwMS1hNmJjLTMwMjU2M2ZhZmM4OCIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg3ODQ0NDIwLCJpYXQiOjE2ODc3NTgwMjAsImp0aSI6IlBTczMwdmQ5SHh2eThtaEpGdzNxZnBBNUZRa2NQNmR1eGpPViJ9.GPq2u7Ewe-Bd8Vd7VYDp3fSyk17h6RgEGZgXVBMO1DmJw4kkGK-VYXJ0oJUcTIumO-PrBobWHaIionVXGqvOYQ",
-                ...requestHeader
+                ...RequsetHeader
                 }
             });
 
