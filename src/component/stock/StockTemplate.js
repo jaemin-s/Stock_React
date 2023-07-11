@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { KI_BASE_DOMAIN, KI_DOMESTIC_STOCK_URL, KI_TOKEN_URL } from '../../config/host-config';
-import { KI_APP_KEY,KI_SECRET_KEY } from '../../config/apikey';
+import { KI_APP_KEY,KI_SECRET_KEY, KI_ID } from '../../config/apikey';
 import * as echarts from 'echarts';
 import NewsTest from '../news/NewsTest';
 import Detail from '../detail/Detail';
 import './StockTemplate.scss';
 import '../bootstrap/css/sb-admin-2.min.css';
-import './StockTemplate.scss';
 import MoveStockInfo from './MoveStockInfo';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Carousel  from 'react-bootstrap/Carousel';
@@ -15,6 +14,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
 
 function StockTemplate (){
+    
+    // useEffect(() => {
+    //     fluctuationRate(1);
+    //     fluctuationRate(0);
+    // },[])
 
     //호출용 고정 헤더
     const requestHeader = {
@@ -84,10 +88,37 @@ function StockTemplate (){
         }
     }
 
+    //등락률 상위(0),하위(1) 종목 
+    const fluctuationRate = async seq => {
+        const userId = KI_ID; //아이디 숨겨야함.
+        const res = await fetch('/quotations/psearch-result?user_id='+userId+'&seq='+seq,{
+            headers: {
+                ...requestHeader,
+                tr_id: 'HHKST03900400',
+                custtype: 'P'
+            }
+        });
+        let values = [];
+        if(res.status === 200){
+            const data = await res.json();
+            // console.log( data.output2 );
+            data.output2.forEach( x => {
+                const {
+                    code,
+                    name,
+                    price,
+                    chgrate
+                } = x;
+                values.push({code,name,price,chgrate});
+            })
+            // console.log(values[0]);
+        }
+        return values;
+    }
 
     return (
         <>
-            <MoveStockInfo/>
+            <MoveStockInfo getStockRate={fluctuationRate}/>
             <div className="margin-wrapper">
                 <div className="main-chart card shadow">
                     <div className="card-header">
@@ -194,8 +225,7 @@ function StockTemplate (){
                         <div className="card-header">
                             <h6 className="m-0 font-weight-bold text-primary">뉴스</h6>
                         </div>
-                            {/* <div className="card-body">뉴스 내용</div> */}
-                            <Carousel>
+                            {/* <Carousel>
                                 <Carousel.Item style={{width: "100%"}}>
                                 <img src={require('./image/light-gray.png')} alt="@" className="center-image" ></img>
                                     <Carousel.Caption>
@@ -221,7 +251,8 @@ function StockTemplate (){
                                     </p>
                                     </Carousel.Caption>
                                 </Carousel.Item>
-                                </Carousel>
+                                </Carousel> */}
+                                <NewsTest/>
                     </div>
                 </div>
                 <div className='flex bottom-content'>
