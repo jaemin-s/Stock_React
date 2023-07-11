@@ -84,11 +84,16 @@ td a {
 }
 
 table th {
-    padding: 8px 0;
+    padding: 4px 0;
 }
 
 .sidebar {
-    position: sticky;
+    position: fixed;
     height: 400px;
     top: 0;
 }
+
+.table-container {
+    max-height: 400px; 
+    overflow-y: auto;
+  }
