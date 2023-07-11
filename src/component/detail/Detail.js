@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as emptyStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as filledStar } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from 'react-router-dom';
-import Test from './Test';
+import AskingPrice from './AskingPrice';
 import NewsTest from '../news/NewsTest';
 
 
@@ -170,7 +170,7 @@ const Detail = () => {
   const viewPrice = (
     <>
     <div className="card-body">
-        <div><Test/></div>
+        <div><AskingPrice/></div>
     </div>
     <div className='flex'>
         <button className='btn btn-sm btn-user btn-danger' onClick={toggleModal}>매수</button>
