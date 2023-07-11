@@ -1,28 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { KI_BASE_DOMAIN, KI_DOMESTIC_STOCK_URL, KI_TOKEN_URL } from '../../config/host-config';
-import { KI_APP_KEY,KI_SECRET_KEY } from '../../config/apikey';
+import { KI_APP_KEY,KI_SECRET_KEY, KI_ID, RequsetHeader } from '../../config/apikey';
 import * as echarts from 'echarts';
 import NewsTest from '../news/NewsTest';
 import Detail from '../detail/Detail';
 import './StockTemplate.scss';
 import '../bootstrap/css/sb-admin-2.min.css';
-import './StockTemplate.scss';
 import MoveStockInfo from './MoveStockInfo';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Carousel  from 'react-bootstrap/Carousel';
 import Kospi from './Kospi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
+import Kosdaq from './Kosdaq';
 
 function StockTemplate (){
-
-    //호출용 고정 헤더
-    const requestHeader = {
-        'content-type':'application/json; charset=utf-8',
-        'authorization' : localStorage.getItem('ACCESS_TOKEN'),
-        'appkey' : KI_APP_KEY,
-        'appsecret' : KI_SECRET_KEY
-    };
+    
+    // useEffect(() => {
+    //     fluctuationRate(1);
+    //     fluctuationRate(0);
+    // },[])
 
     //토큰 발급
     const getKIAccessToken = async() =>{
@@ -45,43 +42,63 @@ function StockTemplate (){
         getKIAccessToken(); //토큰 발급
     },[]);
 
-    // 8자리 날짜를 yyyy-MM-dd로 변환
-    const dateFormat = date => {
-        return date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8);
-    };
-
-    //일자별 시세
-    const currentPrice = async e => {
-        const params = e.target.dataset.stockId;
-        const res = await fetch('/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD='+params+'&FID_PERIOD_DIV_CODE=D&FID_ORG_ADJ_PRC=1',
-        { headers : {
-            ...requestHeader,
-            'tr_id' : 'FHKST01010400'
-        }});
-
+    //등락률 상위(0),하위(1) 종목 
+    const fluctuationRate = async seq => {
+        const userId = KI_ID; //아이디 숨겨야함.
+        const res = await fetch('/quotations/psearch-result?user_id='+userId+'&seq='+seq,{
+            headers: {
+                ...RequsetHeader,
+                tr_id: 'HHKST03900400',
+                custtype: 'P'
+            }
+        });
+        let values = [];
         if(res.status === 200){
             const data = await res.json();
-            console.log( data );
-            console.log( data.output[0] );
-            //필요한 값만 추출
-            let values = [];
-            let dates = [];
-            data.output.forEach( x => {
-                const { stck_bsop_date : date,
-                        stck_oprc : openPrice,
-                        stck_clpr : closePrice,
-                        stck_hgpr : highPrice,
-                        stck_lwpr : lowPrice,
-                         } = x;
-                dates.push(dateFormat(date));
-                values.push([
-                    parseInt(openPrice),
-                    parseInt(closePrice),
-                    parseInt(highPrice),
-                    parseInt(lowPrice)
-                ]);
-            });
+            // console.log( data.output2 );
+            data.output2.forEach( x => {
+                const {
+                    code,
+                    name,
+                    price,
+                    chgrate
+                } = x;
+                values.push({code,name,price,chgrate});
+            })
+            // console.log(values[0]);
         }
+        return values;
+    }
+
+    const [data, setData] = useState(null); // 결과를 저장할 상태
+
+    const getRank = async () => {
+        try {
+            const res = await fetch("/quotations/volume-rank?FID_COND_MRKT_DIV_CODE=J&FID_COND_SCR_DIV_CODE=20171&FID_INPUT_ISCD=0000&FID_DIV_CLS_CODE=0&FID_BLNG_CLS_CODE=0&FID_TRGT_CLS_CODE=111111111&FID_TRGT_EXLS_CLS_CODE=000000&FID_INPUT_PRICE_1=&FID_INPUT_PRICE_2&FID_VOL_CNT=&FID_INPUT_DATE_1", {
+                headers: {
+                'tr_id': "FHPST01710000",
+                'custtype': "P",
+                'authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjQwYmJkMWE4LTdjNGMtNDAwMS1hNmJjLTMwMjU2M2ZhZmM4OCIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg3ODQ0NDIwLCJpYXQiOjE2ODc3NTgwMjAsImp0aSI6IlBTczMwdmQ5SHh2eThtaEpGdzNxZnBBNUZRa2NQNmR1eGpPViJ9.GPq2u7Ewe-Bd8Vd7VYDp3fSyk17h6RgEGZgXVBMO1DmJw4kkGK-VYXJ0oJUcTIumO-PrBobWHaIionVXGqvOYQ",
+                ...RequsetHeader
+                }
+            });
+
+            if (res.status === 200) {
+                const data = await res.json();
+                setData(data.output); // 결과를 상태에 저장
+            }
+        } catch (error) {
+        console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        getRank(); 
+    }, []);
+
+    // data 상태가 null인 경우 로딩 상태 표시
+    if (data === null) {
+        return <div>Loading...</div>;
     }
 
     const [data, setData] = useState(null); // 결과를 저장할 상태
@@ -126,16 +143,31 @@ function StockTemplate (){
         return scaledNumber.toFixed(1) + suffix; // 소수점 첫째 자리까지 표기하고 심볼을 추가하여 반환
     }
 
+    function abbreviateNumber(acml_vol) {
+        const SI_SYMBOLS = ["", "K", "M", "G"]; // 약어 표기에 사용할 심볼 배열
+        const tier = Math.log10(Math.abs(acml_vol)) / 3 | 0; // 숫자의 크기를 기준으로 심볼을 선택하기 위한 계산
+        if (tier === 0) return acml_vol.toLocaleString(); // 1,000 미만의 수는 그대로 표기
+        const suffix = SI_SYMBOLS[tier]; // 선택된 심볼
+        const scale = Math.pow(10, tier * 3); // 해당 심볼에 대한 크기 조정
+        const scaledNumber = acml_vol / scale; // 크기 조정된 숫자
+        return scaledNumber.toFixed(1) + suffix; // 소수점 첫째 자리까지 표기하고 심볼을 추가하여 반환
+    }
+
     return (
         <>
-            <MoveStockInfo/>
+            <MoveStockInfo getStockRate={fluctuationRate}/>
             <div className="margin-wrapper">
                 <div className="main-chart card shadow">
                     <div className="card-header">
                         <h6 className="m-0 font-weight-bold text-primary">코스닥</h6>
                     </div>
                     <div className="card-body">
-                        <Kospi/>
+                        <div>
+                            <Kospi/>
+                        </div>
+                        <div>
+                            <Kosdaq/>
+                        </div>
                     </div>
                 </div>
                 <div className="middle-content flex">
@@ -164,12 +196,12 @@ function StockTemplate (){
                                 </thead>
                                 <tbody>
                                 {data
-                                .filter((x) => !x.hts_kor_isnm.includes("KODEX")) // 특정 단어를 포함하지 않는 항목만 필터링
+                                .filter((x) => !x.hts_kor_isnm.includes("KODEX") && !x.hts_kor_isnm.includes("선물")) // 특정 단어를 포함하지 않는 항목만 필터링
                                 .map((x, index) => (
                                 <tr key={index}>
                                     <th scope="row">{x.mksc_shrn_iscd}</th> {/* 종목코드 */}
                                     <td><a href="/detail">{x.hts_kor_isnm}</a></td> {/* 종목명 */}
-                                    <td>{x.stck_prpr}</td>  {/* 주식 현재가 */}
+                                    <td>{x.stck_prpr}원</td>  {/* 주식 현재가 */}
                                     <td>
                                     <span className={x.prdy_ctrt >= 0 ? "positive" : "negative"}>
                                         {x.prdy_ctrt >= 0 && "+"}{x.prdy_ctrt}% {/* 전일 대비율 */}
@@ -187,8 +219,7 @@ function StockTemplate (){
                         <div className="card-header">
                             <h6 className="m-0 font-weight-bold text-primary">뉴스</h6>
                         </div>
-                            {/* <div className="card-body">뉴스 내용</div> */}
-                            <Carousel>
+                            {/* <Carousel>
                                 <Carousel.Item style={{width: "100%"}}>
                                 <img src={require('./image/light-gray.png')} alt="@" className="center-image" ></img>
                                     <Carousel.Caption>
@@ -214,7 +245,8 @@ function StockTemplate (){
                                     </p>
                                     </Carousel.Caption>
                                 </Carousel.Item>
-                                </Carousel>
+                                </Carousel> */}
+                                <NewsTest/>
                     </div>
                 </div>
                 <div className='flex bottom-content'>
