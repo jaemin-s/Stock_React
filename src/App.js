@@ -8,10 +8,12 @@ import Footer from './component/layout/Footer';
 import Guide from './component/layout/guideline/guide'
 import MyPage from './component/user/MyPage';
 import Detail from './component/detail/Detail';
+import KakaoLoginHandeler from './component/user/KakaoLoginHandeler';
+import { AuthContextProvider } from './component/util/AuthContext';
 function App() {
 
   return (
-    <>
+    <AuthContextProvider>
       <div className='wrapper'>
         <Header/>
       
@@ -23,11 +25,14 @@ function App() {
             <Route path='/guide' element={ <Guide />}/>
             <Route path='/mypage' element={ <MyPage />}/>
             <Route path='/detail/:value' element={ < Detail /> } />
+            <Route path="/login/oauth2/callback/kakao" element={<KakaoLoginHandeler />}
+       />   
+
           </Routes>
         </div>
         <Footer />
       </div>
-    </>
+      </AuthContextProvider>
   );
 }
 
