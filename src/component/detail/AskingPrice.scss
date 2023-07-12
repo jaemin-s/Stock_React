@@ -1,5 +1,7 @@
 .hoga {
     font-weight: 700;
+    vertical-align: middle;
+    padding: 2px 0px;
 }
 
 .hoga-bar {
@@ -29,15 +31,11 @@
         }
     }
 
-    tbody {
-        vertical-align: unset;
-        tr {
-            .hoga {
-                height: 20px;
-            }
-        }
-        td {
-            height: 20px;
-        }
+    .rest {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: middle;
     }
 }

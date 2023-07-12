@@ -216,7 +216,7 @@ const Detail = () => {
 
   const viewPrice = (
     <>
-    <div className="card-body">
+    <div className="card-body" style={{padding: '0'}}>
         <div><AskingPrice/></div>
     </div>
     <div className='flex'>

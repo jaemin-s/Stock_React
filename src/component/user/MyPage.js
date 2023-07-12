@@ -47,24 +47,23 @@ function MyPage(){
 
     const viewInfo = (
                     <>
-
                         {/* <!-- Page Heading --> */}
-                        <div style={{display: "flex",justifyContent: "center", alignItems: "center",height: "10vh"}}>
+                        <div className='basic-info'>
                         <br/><br/><br/><br/>
-                            <div style={{textAlign: "center", fontSize: "30px", fontWeight: 700}} id='1'>
+                            <div id='1'>
                                 '홍길동' 님의 현재 등수 : 45 등
                             </div>
                         </div>
                         <br/><br/>
                         {/* 회원정보 */}
-                        <div className='userInfo' style={{padding: "70px 200px", display: "flex", justifyContent: "space-between"}}>
-                            <div style={{padding: "80px 0", width: "500px"}} >
-                                <h5 style={{marginLeft: "1.25rem"}}>이름<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 홍길동</h5>
-                                <h5>닉네임<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 주식왕</h5>
-                                <h5>이메일<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> abc1234@naver.com</h5>
-                                <h5 style={{marginLeft: "1.25rem"}}>성별<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 여</h5>
-                                <h5 style={{marginLeft: "1.25rem"}}>나이<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 25세</h5>
-                                <h5 style={{marginLeft: "1.25rem"}}>경력<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 1~3년</h5>
+                        <div className='userInfo'>
+                            <div className='info'>
+                                <h5 className='name'>이름<span className='border'>|</span> 홍길동</h5>
+                                <h5 className='nick'>닉네임<span className='border'>|</span> 주식왕</h5>
+                                <h5 className='email'>이메일<span className='border'>|</span> abc1234@naver.com</h5>
+                                <h5 className='gender'>성별<span className='border'>|</span> 여</h5>
+                                <h5 className='age'>나이<span className='border'>|</span> 25세</h5>
+                                <h5 className='career'>경력<span className='border'>|</span> 1~3년</h5>
                             </div>
                         
                             {/* 프로필사진 */}
@@ -80,14 +79,14 @@ function MyPage(){
                     <>
                     <br/><br/>
                     {/* 자산 정보와 그래프 */}
-                    <h4 id="2" className='assetInfo' style={{flex: 1, textAlign: "center", fontSize: "40px"}}>자산 정보</h4><br/>
-                    <div className='assets' style={{ width: "600px", display: "flex", justifyContent: "space-between"}}>
+                    <h4 id="2" className='assetInfo'>자산 정보</h4><br/>
+                    <div className='assets'>
                         <div className='assetsDetail'>
-                            <h5 style={{marginLeft: "2.8rem",  width: "400px"}}>자산평가<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 10,028,843 원</h5>
-                            <h5 style={{width: "700px", marginLeft: "0.9rem"}}>보유 주식 수<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 삼성전자 8주, SK하이닉스 4주, 대한항공 25주 외</h5>
-                            <h5 style={{marginLeft: "2.5rem"}}>보유 현금<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 28,520 원</h5>
-                            <h5 style={{marginLeft: "4.1rem"}}>수익률<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 18.6 %</h5>
-                            <h5>주식 평가금액<span style={{margin: "0px 6rem 0px 3rem", color: "blue", fontWeight: "700"}}>|</span> 943,857 원</h5>
+                            <h5 className='asset'>자산평가<span className='border'>|</span> 10,028,843 원</h5>
+                            <h5 className='having-stock'>보유 주식 수<span className='border'>|</span> 삼성전자 8주, SK하이닉스 4주, 대한항공 25주</h5>
+                            <h5 className='having-cash'>보유 현금<span className='border'>|</span> 28,520 원</h5>
+                            <h5 className='return'>수익률<span className='border'>|</span> 18.6 %</h5>
+                            <h5 className='evaluation'>주식 평가금액<span className='border'>|</span> 943,857 원</h5>
                         </div>
                         <div style={{marginLeft: "50px"}}>
                             <Doughnut data={data} options={options}>
@@ -116,21 +115,21 @@ function MyPage(){
                             <tr>
                                 <th scope="row">23/07/03</th>
                                 <td>매수</td>
-                                <td>대한항공</td>
+                                <td>대한항공(003490)</td>
                                 <td>25</td>
                                 <td>1,000,000</td>
                             </tr>
                             <tr>
                                 <th scope="row">23/06/10</th>
                                 <td>매도</td>
-                                <td>SK하이닉스</td>
+                                <td>SK하이닉스(000660)</td>
                                 <td>4</td>
                                 <td>2,500,000</td>
                             </tr>
                             <tr>
                                 <th scope="row">23/05/11</th>
                                 <td>매수</td>
-                                <td>삼성전자</td>
+                                <td>삼성전자(005930)</td>
                                 <td>8</td>
                                 <td>1,000,000</td>
                             </tr>
@@ -139,21 +138,21 @@ function MyPage(){
                             <tr>
                                 <th scope="row">23/04/09</th>
                                 <td>매도</td>
-                                <td>현대차</td>
+                                <td>현대차(005380)</td>
                                 <td>1</td>
                                 <td>12,3900</td>
                             </tr>
                             <tr>
                                 <th scope="row">23/03/03</th>
                                 <td>매도</td>
-                                <td>기아차</td>
+                                <td>기아(000270)</td>
                                 <td>4</td>
                                 <td>500,000</td>
                             </tr>
                             <tr>
                                 <th scope="row">23/02/18</th>
                                 <td>매도</td>
-                                <td>삼성전자</td>
+                                <td>삼성전자(005930)</td>
                                 <td>6</td>
                                 <td>170,300</td>
                             </tr>
@@ -161,7 +160,7 @@ function MyPage(){
                             )}
                             </tbody>
                         </table>
-                        <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <div className='button'>
                             <button className='button' onClick={toggleExpanded}>
                                 {expanded ? '접기' : '더보기'}
                             </button>
@@ -171,7 +170,7 @@ function MyPage(){
                     );
     return (
         <>
-            <body id="page-top" style={{width: '80%'}}>
+            <body id="page-top" style={{width: '80%', maxWidth: '1920px'}}>
             
             <div id="wrapper">
                 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style={{position: "sticky"}}>
@@ -191,15 +190,15 @@ function MyPage(){
                             내 정보
                             </div>
                             <div className='list-info'>
-                            <a className="nav-link" href="#1" style={{ padding: "0px 16px" }}>
+                            <a class="nav-link" href="#1" className='nav-link' style={{ padding: "0px 16px" }}>
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
                                 <span>정보</span>
                             </a>
-                            <a class="nav-link" href="#0" style={{ padding: "0px 16px" }}>
+                            <a class="nav-link" href="#0" className='nav-link' style={{ padding: "0px 16px" }}>
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
                                 <span>수정</span>
                             </a>
-                            <a class="nav-link" href="#0" style={{ padding: "0px 16px" }}>
+                            <a class="nav-link" href="#0" className='nav-link' style={{ padding: "0px 16px" }}>
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
                                 <span>탈퇴</span>
                             </a>
@@ -215,15 +214,15 @@ function MyPage(){
                             자산 관리
                             </div>
                             <div className='list-assets'>
-                            <a class="nav-link" href="#2" style={{ padding: "0px 16px" }}>
+                            <a class="nav-link" href="#2" className='nav-link' style={{ padding: "0px 16px" }}>
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
                                 <span>내 자산 정보</span>
                             </a>
-                            <a class="nav-link" href="#0" style={{ padding: "0px 16px" }}>
+                            <a class="nav-link" href="#0" className='nav-link' style={{ padding: "0px 16px" }}>
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
                                 <span>자산 변동</span>
                             </a>
-                            <a class="nav-link" href="#0" style={{ padding: "0px 16px" }}>
+                            <a class="nav-link" href="#0" className='nav-link' style={{ padding: "0px 16px" }}>
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
                                 <span>총 자산</span>
                             </a>
@@ -233,7 +232,7 @@ function MyPage(){
                         <div class="sidebar-heading">
                         거래 내역
                         </div>
-                        <a class="nav-link" href="#3-1" style={{ padding: "0px 16px" }}>
+                        <a class="nav-link" href="#3-1" className='nav-link' style={{ padding: "0px 16px", margin: '0 0 0 20px' }}>
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>상세 내역</span>
                         </a>
@@ -243,19 +242,19 @@ function MyPage(){
                     </li>
                 </ul>
 
-                <div className="container-fluid" style={{padding: "20px 0 0 300px"}}>
+                <div className="container-fluid">
                     <div style={{ display: "flex", justifyContent: "center" }}>
                         <nav className="navbar navbar-expand-lg navbar-light bg-light">
                             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul className="navbar-nav mr-auto">
                                     <li className="nav-item">
-                                        <a className="nav-link" href="#" style={{marginRight: "100px"}} onClick={showInfo}>내 정보</a>
+                                        <a className="nav-link" id='my-info' href="#" onClick={showInfo}>내 정보</a>
                                     </li>
-                                    <li className="nav-item" style={{ flex: 1, textAlign: "center", fontSize: "700", color: "blue" }}>
+                                    <li className="nav-item" id='border'>
                                         <p>|</p>
                                     </li>
                                     <li className="nav-item" >
-                                        <a className="nav-link" href="#" style={{marginLeft: "100px"}} onClick={showAsset}>자산관리</a>
+                                        <a className="nav-link" id='asset' href="#" onClick={showAsset}>자산관리</a>
                                     </li>
                                 </ul>
                                 <br/><br/><br/><br/><br/>

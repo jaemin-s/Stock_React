@@ -72,7 +72,7 @@ const Header = () => {
           <li className="nav-item">
             <a className="nav-link" href="/guide" style={{marginRight: "100px"}}>Guide</a>
           </li>
-          <li className="nav-item" style={{ flex: 1, textAlign: "center",  marginTop: "60px" }}>
+          <li className="nav-item" style={{ flex: 1, textAlign: "center",  marginTop: "40px" }}>
             <nav className="navbar navbar-light bg-light" style={{}}>
               <form className="container-fluid" onSubmit={searchHandler}>
                 <div className="input-group">
