@@ -1,0 +1,43 @@
+.hoga {
+    font-weight: 700;
+}
+
+.hoga-bar {
+    width: 100px;
+    height: 25px; /* 막대 그래프의 높이 */
+}
+
+.blue {
+    background-color: rgba($color: #3CB6D8, $alpha: 0.6);
+}
+
+.red {
+    background-color: rgba($color: #ED9CA5, $alpha: 0.7);
+}
+
+.hoga-bar-long {
+    background-color: green; /* 큰 값에 해당하는 막대 그래프의 색상 */
+}
+
+.collapsed {
+    
+    thead {
+        .high {
+            th {
+                padding: 0px 0px;
+            }
+        }
+    }
+
+    tbody {
+        vertical-align: unset;
+        tr {
+            .hoga {
+                height: 20px;
+            }
+        }
+        td {
+            height: 20px;
+        }
+    }
+}

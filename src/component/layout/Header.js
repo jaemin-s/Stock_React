@@ -4,7 +4,61 @@ import './Header.scss';
 import { Button, ModalBody, ModalFooter, ModalHeader, Modal } from 'reactstrap';
 import { Link } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { KI_APP_KEY,KI_SECRET_KEY, DATA_GO_KR_KEY } from '../../config/apikey';
 const Header = () => {
+
+  const [query,setQuery] = useState('');
+  const redirection = useNavigate();
+
+  const searchHandler = (e) => {
+    e.preventDefault();
+    // console.log(query);
+    if(query.trim() === '') {
+      alert('검색어를 입력하세요!!');
+      return;
+    }
+    redirection(`/Detail/${query}`);
+  };
+
+  const queryHandler = (e) => {
+    setQuery(e.target.value);
+  };
+
+
+  const [data, setData] = useState(null); // 결과를 저장할 상태
+    let corps;
+  const getCode = async (e) => {
+      try {
+          corps = e.target.dataset.stockId;
+          console.log(corps);
+          const res = await fetch('https://apis.data.go.kr/1160100/service/GetCorpBasicInfoService_V2/getCorpOutline_V2?pageNo=1&resultType=json&serviceKey='+ DATA_GO_KR_KEY +'&numOfRows=20&corpNm='+ corps+'');
+
+          if (res.status === 200) {
+              const data = await res.json();
+              setData(data.response.body.items.item);  // 결과를 상태에 저장
+              console.log(data);
+          }
+      } catch (error) {
+      console.error(error);
+      }
+  };
+
+
+
+  const findStockCode = (stockName) => {
+    const stock = data.find((item) => item.corpNm === stockName); //이름
+    if(stock) {
+        return stock.fssCorpUnqNo;    //코드
+    } else {
+        return null;
+    }
+  };
+
+  const stockName = corps;
+  // const stockCode = findStockCode(stockName);
+  // console.log(stockCode);
+
 
   const [keyItem, SetKeyItem] = useState([]);
 
@@ -106,12 +160,19 @@ const handleAllInfoModal = () => {
             <nav className="navbar navbar-light bg-light" style={{}}>
               <form className="container-fluid" onSubmit={searchHandler}>
                 <div className="input-group">
-                  <button onClick={nameData}>
-                    <span className="input-group-text" id="basic-addon1" >
+                  <button>
+                    <span className="input-group-text" id="basic-addon1">
                       <img src={require('../bootstrap/img/search.png')} alt='search' style={{ width: "25px", border: "none" }}></img>
                     </span>
                   </button>
                   <i className="fa-regular fa-magnifying-glass"></i>
+                  <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" 
+                    value={query} onChange={queryHandler}/>
+{/* 
+    <ul onClick={getCode}>
+                    <li data-stock-id="삼성전자">asdasd</li>
+                </ul> */}
+
 
                   <input type="text" className="form-control dropdown" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" 
                      ref={inputRef}/>
