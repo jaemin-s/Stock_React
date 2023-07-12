@@ -3,6 +3,24 @@
     width: 100vw;
     display: flex;
     justify-content: space-around;
+
+    p {
+        font-weight: bold;
+
+        .stock-name:hover {
+            cursor: pointer;
+        }
+
+    }
+    
+    #top {
+        color: red;
+    }
+    
+    #low {
+        color: blue;
+    }
+
 }
 
 .positive {

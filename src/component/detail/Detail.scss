@@ -23,6 +23,11 @@
         }
         #second-box {
             width: 50%;
+
+            .graph-box {
+                overflow: hidden;
+            }
+
         }
         #third-box {
             width: 35%;
