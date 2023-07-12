@@ -13,6 +13,8 @@ const requestHeader = {
 
 const [data, setData] = useState(null);
 
+const [time, setTime] = useState(new Date());
+
 const getHoga = async () => {
     const code = '005930';  //일단 삼전
     try {
@@ -33,7 +35,15 @@ const getHoga = async () => {
 };
 
 useEffect(() => {
-    getHoga();
+    // getHoga();
+    const timer = setInterval(() => {
+        getHoga();
+        // console.log('1초지남');
+        setTime(new Date());
+      }, 1000); // 1초마다 렌더링
+    return () => {
+    clearInterval(timer);
+    };
 }, []);
 
 if(data === null) {

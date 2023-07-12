@@ -13,13 +13,18 @@ import Kospi from './Kospi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import Kosdaq from './Kosdaq';
+import { useNavigate } from 'react-router-dom';
 
 function StockTemplate (){
+
+    const redirection = useNavigate();
     
-    // useEffect(() => {
-    //     fluctuationRate(1);
-    //     fluctuationRate(0);
-    // },[])
+    const detailHandler = (e) => {
+        e.preventDefault();
+        console.log(e.target.textContent);
+        const query = e.target.textContent;
+        redirection(`/Detail/${query}`);
+    }
 
     //토큰 발급
     const getKIAccessToken = async() =>{
@@ -118,9 +123,9 @@ function StockTemplate (){
             <div className="margin-wrapper">
                 <div className="main-chart card shadow">
                     <div className="card-header">
-                        <h6 className="m-0 font-weight-bold text-primary">코스닥</h6>
+                        <h6 className="m-0 font-weight-bold text-primary">국내지수</h6>
                     </div>
-                    <div className="card-body">
+                    <div className="card-body flex kospi-kosdaq">
                         <div>
                             <Kospi/>
                         </div>
@@ -159,7 +164,7 @@ function StockTemplate (){
                                 .map((x, index) => (
                                 <tr key={index}>
                                     <th scope="row">{x.mksc_shrn_iscd}</th> {/* 종목코드 */}
-                                    <td><a href="/detail">{x.hts_kor_isnm}</a></td> {/* 종목명 */}
+                                    <td><p className='stock-name' onClick={detailHandler}>{x.hts_kor_isnm}</p></td> {/* 종목명 */}
                                     <td>{x.stck_prpr}원</td>  {/* 주식 현재가 */}
                                     <td>
                                     <span className={x.prdy_ctrt >= 0 ? "positive" : "negative"}>

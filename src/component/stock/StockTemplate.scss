@@ -96,4 +96,15 @@ table th {
 .table-container {
     max-height: 400px; 
     overflow-y: auto;
-  }
+
+    .stock-name:hover {
+        cursor: pointer;
+    }
+
+}
+
+.kospi-kosdaq {
+    div {
+        width: 50%;
+    }
+}
