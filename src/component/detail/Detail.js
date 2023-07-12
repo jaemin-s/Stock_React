@@ -1,9 +1,11 @@
 
 import React, { useEffect, useState } from 'react'
+import InfoTest from '../info/InfoTest';
 import './Detail.scss';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { KI_APP_KEY,KI_SECRET_KEY, DATA_GO_KR_KEY } from '../../config/apikey';
 import { KI_BASE_DOMAIN, KI_DOMESTIC_STOCK_URL, KI_TOKEN_URL } from '../../config/host-config';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Carousel } from 'reactstrap';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as emptyStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as filledStar } from '@fortawesome/free-solid-svg-icons';
@@ -227,11 +229,25 @@ const Detail = () => {
     </>
   );
 
+  // 종목 정보
   const viewInfo = (
+    // <Carousel>
+    // <div className="card-body" id='viewInfoId'>1
+    //     <p> 법인번호: 0287364849484 </p>
+    //     <hr />
+    //     <p> 법인명: 오늘내일 </p>
+    //     <hr />
+    //     <p> 기업매출액 : 34,357,098,222 </p>
+    //     <hr />
+    //     <p> 기업영업이익: 53,363,644 </p>
+    //     <hr />
+    //     <p> 기업총자본금액 : 5,525,645,723 </p>
+    //     <hr />
+    //     <p> 재무제표부채비율: 24</p>
+    // </div>
+    // </Carousel>
     <>
-    <div className="card-body">
-        <div>종목정보종목정보</div>
-    </div>
+    <InfoTest />
     </>
   );
 
