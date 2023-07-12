@@ -7,7 +7,6 @@ const Candle = ({dailyPrice}) => {
    
 
     useEffect(() => {
-      
         (async function(){
             let result = await dailyPrice();
             console.log(result);

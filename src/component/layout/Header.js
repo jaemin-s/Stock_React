@@ -148,15 +148,14 @@ const Header = () => {
         <ul className="navbar-nav mr-auto">
           <li className="nav-item active">
             <a className="nav-link" href="/" >
-            <img src={require('./guideline/image/logo.PNG')} alt="@" className="center-image" style={{width: '180px',marginRight: '100px'}}></img>
+            <img src={require('./guideline/image/logo.PNG')} alt="@" className="center-image" style={{width: '180px'}}></img>
               <span className="sr-only">(current)</span></a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/guide" style={{marginRight: "100px"}}>Guide</a>
+            <a className="nav-link" href="/guide">Guide</a>
           </li>
-          <li className="nav-item" style={{ flex: 1, textAlign: "center",  marginTop: "40px" }}>
-            <nav className="navbar navbar-light bg-light" style={{}}>
-              <form className="container-fluid" onSubmit={searchHandler}>
+          <li className="nav-item" >
+              <form className="search-form-container" onSubmit={searchHandler}>
                 <div className="input-group">
                   <button onClick={nameData}>
                     <span className="input-group-text" id="basic-addon1">
@@ -165,20 +164,19 @@ const Header = () => {
                   </button>
                   <i className="fa-regular fa-magnifying-glass"></i>
                   
-                  <input type="text" className="form-control dropdown" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" 
+                  <input type="text" className="form-control dropdown search-input" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" 
                      ref={inputRef}/>
                 </div>
               </form>
-            </nav>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/login" style={{marginLeft: "100px"}}>Login</a>
+            <a className="nav-link" href="/login" >Login</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/join" style={{marginLeft: "100px"}}>Join</a>
+            <a className="nav-link" href="/join" >Join</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/mypage" style={{marginLeft: "100px"}}>MyPage</a>
+            <a className="nav-link" href="/mypage" >MyPage</a>
           </li>
         </ul>
       </div>

@@ -1,6 +1,28 @@
-.nav-item {
-    font-size: 30px;
-    font-weight: 600;
+
+
+.navbar {
+    width: 80%;
+
+    .navbar-nav{
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+
+    .nav-item {
+        font-size: 30px;
+        font-weight: 600;
+
+        .input-group{
+            width: 100%;   
+            min-width: 180px;
+            max-width: 300px;
+            width: 20vw;
+
+        }
+    
+        }
+    }
+    
 }
 
 img:not(.logo) {
@@ -39,3 +61,4 @@ img:not(.logo) {
     height: 200px;
     margin: 100px auto;
 }
+

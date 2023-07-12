@@ -16,8 +16,9 @@ table {
     font-size: 18px;
     width: 100%;
 }
-.page-top {
+#page-top {
     width: 80%;
+    background-color: #f8f9fc;
 }
 
 .container-fluid {
@@ -44,6 +45,28 @@ table {
     height: 10vh;
     font-size: 30px;
     font-weight: 700;
+}
+.navbar {
+
+    .navbar-nav{
+        align-items: center;
+
+        #my-info {
+            margin-right: 100px;
+        }
+        
+        #asset {
+            margin-left: 100px;
+        }
+    
+        #border {
+            flex: 1;
+            text-align: center;
+            font-size: 700;
+            color: blue;
+        }
+    }
+    
 }
 
 .userInfo {
@@ -111,23 +134,6 @@ table {
     padding: 0px 16px;
 }
 
-.navbar-nav {
-
-    #my-info {
-        margin-right: 100px;
-    }
-    
-    #asset {
-        margin-left: 100px;
-    }
-
-    #border {
-        flex: 1;
-        text-align: center;
-        font-size: 700;
-        color: blue;
-    }
-}
 
 .button {
     display: flex;
