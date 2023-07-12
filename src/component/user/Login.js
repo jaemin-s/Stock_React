@@ -1,8 +1,10 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import '../bootstrap/css/sb-admin-2.min.css';
 import '../user/Login.scss';
-import { useNavigate } from 'react-router-dom';
+import { json, useNavigate } from 'react-router-dom';
 import AuthContext from '../util/AuthContext';
+import { KAKAO_AUTH_URL } from './OAuth';
+import KakaoLoginHandeler from './KakaoLoginHandeler';
 
 
 
@@ -12,6 +14,13 @@ const Login = () => {
 
     const { onLogin, isLoggedIn } = useContext(AuthContext);
 
+    useEffect(() => {
+        if (isLoggedIn) {
+                setTimeout(() => {
+                redirection('/');
+            }, 3000);
+        }
+    }, [isLoggedIn, redirection]);
 
     const REQUEST_URL = 'http://localhost:8181/api/user/login';
 
@@ -62,6 +71,8 @@ const Login = () => {
 
 
   return (
+    <>
+    {!isLoggedIn &&
     <div className="bg-gradient-primary">
 
         <div className="container">
@@ -101,6 +112,11 @@ const Login = () => {
                                                 로그인
                                             </a>
                                             <hr />
+                                            <div>
+                                            <a href={KAKAO_AUTH_URL} className="kakaobtn" onClick={KakaoLoginHandeler}>
+                                                <img src={require('./image/kakao1.png')} alt="카카오로그인" />
+                                            </a>
+                                            </div>
                                                                                 
                                         </form>
                                         <div className="text-center">
@@ -122,9 +138,12 @@ const Login = () => {
         
         </div>
         </div>
-   
+       
     </div>
-  )
+ }
+ </>
+)
 }
+
 
 export default Login;

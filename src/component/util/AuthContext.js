@@ -34,7 +34,7 @@ export const AuthContextProvider = props => {
     //로그인 핸들러
     const loginHandler = (token, userName) => {
         localStorage.setItem('isLoggedIn', '1');
-        localStorage.setItem('ACCESS_TOKEN', token);
+        localStorage.setItem('LOGIN_ACCESS_TOKEN', token);
         localStorage.setItem('LOGIN_USERNAME', userName);
         setIsLoggedIn(true);
         setUserName(userName);
@@ -42,7 +42,7 @@ export const AuthContextProvider = props => {
 
     //토큰 및 로그인 유저 데이터를 브라우저에 저장하는 함수
     const setLoginUserInfo = ({ token, userName }) => {
-        localStorage.setItem('ACCESS_TOKEN', token);
+        localStorage.setItem('LOGIN_ACCESS_TOKEN', token);
         localStorage.setItem('LOGIN_USERNAME', userName);
     }
 

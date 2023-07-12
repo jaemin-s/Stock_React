@@ -1,13 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import '../bootstrap/css/sb-admin-2.min.css';
 import './Header.scss';
+import { useNavigate } from 'react-router-dom';
 import { Button, ModalBody, ModalFooter, ModalHeader, Modal } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import AuthContext from '../util/AuthContext';
+import { isLogin } from '../util/login-utils';
 import { KI_APP_KEY,KI_SECRET_KEY, DATA_GO_KR_KEY } from '../../config/apikey';
 const Header = () => {
 
+  const logoutHandler = e => {
+    onLogout();
+    redirection('/');
+   } 
+
+  
+  const [query,setQuery] = useState('');
   const redirection = useNavigate();
+  const {onLogout} = useContext(AuthContext);
+
   
   const [data, setData] = useState(null); // 결과를 저장할 상태
     let corps;
@@ -133,8 +144,8 @@ const Header = () => {
       </Modal>
     </>
   );
-  
-  
+
+    
 
 
   return (
@@ -170,7 +181,18 @@ const Header = () => {
               </form>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/login" >Login</a>
+          {
+            isLogin()?
+            (  <a className="nav-link" onClick={logoutHandler} href="/" style={{marginLeft: "100px"}} >
+            Logout
+         </a>  )
+                                :
+                                ( <a className="nav-link" href="/login" style={{marginLeft: "100px"}}>
+                                       Login
+                                       </a>                               
+                                                                 
+                                )
+                        }
           </li>
           <li className="nav-item">
             <a className="nav-link" href="/join" >Join</a>
