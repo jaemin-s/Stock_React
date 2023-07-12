@@ -8,7 +8,11 @@ import { KI_APP_KEY,KI_SECRET_KEY, DATA_GO_KR_KEY } from '../../config/apikey';
 const Header = () => {
 
   const redirection = useNavigate();
-  
+  const [showNoResultsMessage, setShowNoResultsMessage] = useState(false);
+  const [keyItem, SetKeyItem] = useState([]); // api 값 관리
+  const [infoIsModal, setInfoIsModal] = useState(false); // 모달 관리
+  const inputRef = useRef();
+
   const [data, setData] = useState(null); // 결과를 저장할 상태
     let corps;
   const getCode = async (e) => {
@@ -43,12 +47,7 @@ const Header = () => {
   // console.log(stockCode);
 
 
-  const [keyItem, SetKeyItem] = useState([]);
-
-  const [infoIsModal, setInfoIsModal] = useState(false);
-
-  // const redirection = useNavigate();
-  const inputRef = useRef();
+  
   
   const searchHandler = (e) => {
     console.log("핸들러 발동");
@@ -57,9 +56,9 @@ const Header = () => {
       alert('검색어를 입력하세요!!');
       return;
     }
-    // redirection(`/Detail/${inputRef.current.value}`);
-    console.log("입력값: "  + inputRef.current.value);
+    
     infoModal();
+    nameData();
   };
 
 
@@ -158,7 +157,7 @@ const Header = () => {
             <nav className="navbar navbar-light bg-light" style={{}}>
               <form className="container-fluid" onSubmit={searchHandler}>
                 <div className="input-group">
-                  <button onClick={nameData}>
+                  <button>
                     <span className="input-group-text" id="basic-addon1">
                       <img src={require('../bootstrap/img/search.png')} alt='search' style={{ width: "25px", border: "none" }}></img>
                     </span>
