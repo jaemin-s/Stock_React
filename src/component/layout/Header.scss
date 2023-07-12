@@ -6,3 +6,36 @@
 img:not(.logo) {
     border: none;
 }
+
+
+#info-modal {
+    max-height: 250px;
+    max-width: 2000px;
+    width: 700px;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+    text-decoration: none;
+    color: black;
+}
+
+#info-modal #info-modal-tag a{
+
+
+        text-decoration: none;
+        color: black;
+        
+    }
+#cancleFooter {
+    background: red;
+}
+
+#info-modal #info-modal-tag a:hover {
+    color: rgb(165, 161, 161)
+}
+
+#spinner-image {
+    width: 200px;
+    height: 200px;
+    margin: 100px auto;
+}
