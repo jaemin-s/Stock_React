@@ -79,7 +79,7 @@ const InfoTest = () => {
           <p> 재무제표부채비율: { item.fncL } </p>
       </div>
         ))}
-      <div onClick = { corpInfo } > test </div>
+      {/* <div onClick = { corpInfo } > test </div> */}
     </div>
 
   )

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Echarts from 'echarts-for-react';
 import { KI_APP_KEY,KI_SECRET_KEY } from '../../config/apikey';
 import './AskingPrice.scss';
-
+import Header from '../layout/Header';
 const AskingPrice = () => {
 
 const requestHeader = {
@@ -14,7 +14,7 @@ const requestHeader = {
 const [data, setData] = useState(null);
 
 const getHoga = async () => {
-    const code = '005930';  //일단 삼전
+    const code = '000880';  //일단 삼전
     try {
         const res = await fetch('/quotations/inquire-asking-price-exp-ccn?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD='+ code +'', {
             headers: {

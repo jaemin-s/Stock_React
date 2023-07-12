@@ -3,29 +3,12 @@ import '../bootstrap/css/sb-admin-2.min.css';
 import './Header.scss';
 import { Button, ModalBody, ModalFooter, ModalHeader, Modal } from 'reactstrap';
 import { Link } from 'react-router-dom';
-// import { useNavigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { KI_APP_KEY,KI_SECRET_KEY, DATA_GO_KR_KEY } from '../../config/apikey';
 const Header = () => {
 
-  const [query,setQuery] = useState('');
   const redirection = useNavigate();
-
-  const searchHandler = (e) => {
-    e.preventDefault();
-    // console.log(query);
-    if(query.trim() === '') {
-      alert('검색어를 입력하세요!!');
-      return;
-    }
-    redirection(`/Detail/${query}`);
-  };
-
-  const queryHandler = (e) => {
-    setQuery(e.target.value);
-  };
-
-
+  
   const [data, setData] = useState(null); // 결과를 저장할 상태
     let corps;
   const getCode = async (e) => {
@@ -80,9 +63,6 @@ const Header = () => {
   };
 
 
-
-  
-
   const nameData = async () => {
     console.log("fetch문 안으로 등장");
     const res = await fetch('/getStockPriceInfo?serviceKey=1KP%2F74OKGakEjZuUJc6YTkn5UTLRHtfug6BKkunpBqx3owk%2BrrquqsAG7hl7NqMbb5qqQYWVrkVKn7fnYfvXtQ%3D%3D&numOfRows=30&pageNo=1&resultType=json&likeItmsNm=' + inputRef.current.value)
@@ -95,47 +75,65 @@ const Header = () => {
         itmsNm : itmsNm,
         srtnCd : srtnCd
       } = nameList;
-      infoNameData.push({
-        itmsNm,
-        srtnCd      
+      const isDuplicate = infoNameData.some(item => item.itmsNm === itmsNm && item.srtnCd === srtnCd); // 중복 체크
+    
+      // 중복된 값이 없을 경우에만 추가
+      if (!isDuplicate) {
+        console.log("중복검사중이야");
+        infoNameData.push({
+          itmsNm,
+          srtnCd   
       });
-      console.log("api값: ",itmsNm);
-      console.log("api2값: ",srtnCd);
-      console.log("api 이름값: ", nameData);
-      console.log("api2 이름값: ", srtnCd);
       SetKeyItem(infoNameData);
-    });
+  }});
+  if (infoNameData.length === 0) {
+    alert("검색 결과가 없습니다.");
+    
+  } else {
+    infoModal();
+  }
   }  
      
   useEffect(() => {
-    console.log("Updated keyItem:", keyItem);
+    console.log("useEffect");
   }, [keyItem]);
 
+
   const infoModal = () => {
+    console.log("모달이야");
     setInfoIsModal(!infoIsModal);
   };
 
   const allInfoModal = (
     <>
-  <Modal isOpen={infoIsModal} style={{maxWidth: 2000,width: 1000, height: 3000, marginTop: 200}}>
-    <ModalBody>
-    <div>
-      {keyItem.map((item, index) => (
-        <p key={index}><Link to={"/detail/" + item.srtnCd}>{item.itmsNm} - {item.srtnCd}</Link></p>
-      ))}
-    </div>
-    </ModalBody>
-    <ModalFooter>
-      <Button onClick={infoModal} className='cancleFooter'>취소</Button>
-    </ModalFooter>
-  </Modal>
-  </>
-);
+      <Modal isOpen={infoIsModal} style={{maxWidth: 2000, width: 800, marginTop: 200}}>
+        <ModalBody style={{height: 300}}>
+          {keyItem.length === 0 ? (  
+            <div id='spinner-image'>       
+            <img src={require('./guideline/image/spiner.gif')} alt="Loading..."></img>
+            </div>
+          ) : (
+            <div id='info-modal'>
+              {keyItem.map((item, index) => (
+                <p key={index} id='info-modal-tag'>
+                  <Link to={`/detail/${item.srtnCd}&${item.itmsNm}`} onClick={() => {
+                    redirection(`/detail/${item.srtnCd}&${item.itmsNm}`);
+                    infoModal();
+                  }}>
+                    {item.itmsNm} - {item.srtnCd} &nbsp; &#124; &nbsp;
+                  </Link>
+                </p>
+              ))}
+            </div>
+          )}
+        </ModalBody>
+        <ModalFooter>
+          <Button onClick={infoModal} id='cancleFooter'>취소</Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
   
-const handleAllInfoModal = () => {
-  setInfoIsModal(true);
-};
-
   
 
 
@@ -160,20 +158,13 @@ const handleAllInfoModal = () => {
             <nav className="navbar navbar-light bg-light" style={{}}>
               <form className="container-fluid" onSubmit={searchHandler}>
                 <div className="input-group">
-                  <button>
+                  <button onClick={nameData}>
                     <span className="input-group-text" id="basic-addon1">
                       <img src={require('../bootstrap/img/search.png')} alt='search' style={{ width: "25px", border: "none" }}></img>
                     </span>
                   </button>
                   <i className="fa-regular fa-magnifying-glass"></i>
-                  <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" 
-                    value={query} onChange={queryHandler}/>
-{/* 
-    <ul onClick={getCode}>
-                    <li data-stock-id="삼성전자">asdasd</li>
-                </ul> */}
-
-
+                  
                   <input type="text" className="form-control dropdown" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" 
                      ref={inputRef}/>
                 </div>
