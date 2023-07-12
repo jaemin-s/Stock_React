@@ -7,6 +7,10 @@ const Kospi = () => {
     price:[]
   });
   const [options, setOptions] = useState({
+    title: {
+      text: '종목이름',
+      left: 0
+    },
     xAxis: {
       type: 'category',
       data: []
@@ -69,6 +73,10 @@ const Kospi = () => {
 
   const setOpt = () => {
     setOptions({
+      title: {
+        text: 'KOSPI',
+        left: 0
+      },
       xAxis: {
         type: 'category',
         data: kospi.date
@@ -88,7 +96,7 @@ const Kospi = () => {
 
   return ( 
     <>
-      <Echarts option={options} style={{width: '50%', height: '283px'}}/>
+      <Echarts option={options} style={{width: '100%', height: '299px'}}/>
     </>
   )
 }
