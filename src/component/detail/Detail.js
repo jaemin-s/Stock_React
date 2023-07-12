@@ -374,7 +374,7 @@ const Detail = () => {
                         <div className="card-header">
                             <h6 className="m-0 font-weight-bold text-primary">그래프</h6>
                         </div>
-                        <div className="card-body">
+                        <div className="card-body graph-box">
                             <Candle dailyPrice={dailyPrice}/>
                         </div>
                     </div>

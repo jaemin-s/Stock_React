@@ -29,4 +29,8 @@ export const KI_SECRET_KEY = 'YOUR SECRET KEY';
 export const N_NEWS_ID = 'YOUR APP ID';
 //네이버 API KEY
 export const N_NEWS_KEY = 'YOUR APP KEY';
+//한국투자증권 ID
+export const KI_ID = 'YOUR ID';
+//공공데이터 API KEY
+export const DATA_GO_KR_KEY = 'YOUR APP KEY';
 ```

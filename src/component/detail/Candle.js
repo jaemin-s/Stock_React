@@ -26,10 +26,10 @@ const Candle = ({dailyPrice}) => {
       const downBorderColor = '#4e73df';
 
       let options = {
-                title: {
-                    text: '종목이름',
-                    left: 0
-                },
+                // title: {
+                //     text: '종목이름',
+                //     left: 0
+                // },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -59,7 +59,7 @@ const Candle = ({dailyPrice}) => {
                 dataZoom: [
                     {
                         type: 'inside',
-                        start: 50,
+                        start: 35,
                         end: 100
                     }
                 ],
@@ -78,7 +78,7 @@ const Candle = ({dailyPrice}) => {
                 ]
             };
       return (
-        <ECharts option={options} />
+        <ECharts option={options} style={{width: '100%', height: '110%', marginTop: '-40px'}}/>
       );
     }
 

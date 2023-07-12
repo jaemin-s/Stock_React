@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Ticker from 'react-ticker'
 import './MoveStockInfo.scss';
+import { useNavigate } from 'react-router-dom';
 
 const MoveStockInfo = ( {getStockRate} ) => {
 
   const [topResult, setTopResult] = useState([]);
   const [lowResult, setLowResult] = useState([]);
+
+  const redirection = useNavigate();
 
   useEffect(() => {
     (async function(){
@@ -36,38 +39,34 @@ const MoveStockInfo = ( {getStockRate} ) => {
   const viewMoveStock = () => {
     console.log(topResult);
 
+    const detailHandler = (e) => {
+      console.log(e.target.textContent);
+      const query = e.target.textContent;
+      redirection(`/Detail/${query}`);
+    }
+
     return (
       topResult.length !== 0 && (<>
-        <Ticker mode='smooth' offset={5} speed={7}>
+        <Ticker mode='smooth' offset={5} speed={5}>
           {() => (
             <>
             <div className='move-stock'>
               {topResult.slice(0, 5).map((result, index) => (
                 <p style={{ display: 'inline' }} key={index}>
-                  {result.name} &ensp;
-                  <span className={parseFloat(result.chgrate) >= 0 ? "positive" : "negative"}>
-                    {parseFloat(result.chgrate) >= 0 && "▲"}
-                    {result.chgrate.trim().substring(0, 5)}%
-                  </span> &ensp;
-                  {result.price.replace(/^0+/, '').match(/^\d+/)[0]}
+                  <span className='stock-name' onClick={detailHandler}>{result.name}</span> &ensp;<span id='top'>{result.price.replace(/^0+/, '').match(/^\d+/)[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")} &ensp;▲{result.chgrate.trim().substring(0, 5)}%</span>
                 </p>
               ))}
             </div>
             </>
           )}
       </Ticker>
-      <Ticker mode='smooth' offset={5} direction='toRight' speed={7}>
+      <Ticker mode='smooth' offset={5} direction='toRight' speed={5}>
           {() => (
             <>
             <div className='move-stock'>
               {lowResult.slice(0, 5).map((result, index) => (
                 <p style={{ display: 'inline' }} key={index}>
-                  {result.name} &ensp;
-                  <span className={parseFloat(result.chgrate) >= 0 ? "positive" : "negative"}>
-                    {parseFloat(result.chgrate) >= 0 ? "" : "▼"}
-                    {result.chgrate.trim().substring(1, 5)}%
-                  </span> &ensp;
-                  {result.price.replace(/^0+/, '').match(/^\d+/)[0]}
+                  <span className='stock-name' onClick={detailHandler}>{result.name}</span> &ensp;<span id='low'>{result.price.replace(/^0+/, '').match(/^\d+/)[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")} &ensp;▼{result.chgrate.trim().substring(1, 5)}%</span>
                 </p>
               ))}
             </div>
