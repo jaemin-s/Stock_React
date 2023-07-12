@@ -88,7 +88,8 @@ const Kosdaq = () => {
 
   return ( 
     <>
-      <Echarts option={options}/>
+      <Echarts option={options} style={{ height: '283px'}}/>
+      <div><h4 style={{textAlign: 'center'}}>{"<KOSDAQ>"}</h4></div>
     </>
   )
 }

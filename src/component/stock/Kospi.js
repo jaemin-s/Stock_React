@@ -88,7 +88,8 @@ const Kospi = () => {
 
   return ( 
     <>
-      <Echarts option={options} style={{width: '50%', height: '283px'}}/>
+      <Echarts option={options} style={{height: '283px'}}/>
+      <div><h4 style={{textAlign: 'center'}}>{"<KOSPI>"}</h4></div>
     </>
   )
 }

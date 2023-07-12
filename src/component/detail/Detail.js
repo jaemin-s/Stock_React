@@ -89,25 +89,25 @@ const Detail = () => {
       setShowPrice(false);
       setNews(false);
       setInfo(false);
-      setMyStock(!myStock);
+      setMyStock(true);
   }
 
   const showInfo = () => {
       setShowPrice(false);
       setNews(false);
-      setInfo(!info);
+      setInfo(true);
       setMyStock(false);
   }
 
   const showNews = () => {
       setShowPrice(false);
-      setNews(!news);
+      setNews(true);
       setInfo(false);
       setMyStock(false);
   }
 
   const showPrice = () => {
-      setShowPrice(!stockPrice);
+      setShowPrice(true);
       setNews(false);
       setInfo(false);
       setMyStock(false);
@@ -218,7 +218,7 @@ const Detail = () => {
 
   const viewPrice = (
     <>
-    <div className="card-body">
+    <div className="card-body" style={{padding: '0'}}>
         <div><AskingPrice/></div>
     </div>
     <div className='flex'>

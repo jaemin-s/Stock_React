@@ -41,7 +41,7 @@ if(data === null) {
 }
 return (
     <>
-    <div className='table-container'>
+    <div className='table-container' style={{verticalAlign: 'middle'}}>
         <table className='collapsed' id='table'>
             <thead style={{top: 0, padding: '0px'}}>
                 <tr className='high'>
@@ -52,7 +52,7 @@ return (
             </thead>
             <tbody>
                 <tr>
-                    <td className='rest' style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>
+                    <td className='rest'>
                         <div className='hoga-bar blue' style={{ width: `${data.output1.askp_rsqn5 / 1300}px` , marginLeft: 'auto', marginRight: '5px', textAlign: 'right' , position: 'relative' }}>
                         <span style={{ display: 'inline-block', textAlign: 'center', position: 'absolute', right: 0 }}>
                             {data.output1.askp_rsqn5}
@@ -64,7 +64,7 @@ return (
                     
                 </tr>
                 <tr>
-                <td className='rest' style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <td className='rest'>
                         <div className='hoga-bar blue' style={{ width: `${data.output1.askp_rsqn4 / 1300}px` , marginLeft: 'auto', marginRight: '5px', textAlign: 'right' , position: 'relative' }}>
                         <span style={{ display: 'inline-block', textAlign: 'center', position: 'absolute', right: 0 }}>
                             {data.output1.askp_rsqn4}
@@ -76,7 +76,7 @@ return (
                     
                 </tr>
                 <tr>
-                <td className='rest' style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <td className='rest'>
                         <div className='hoga-bar blue' style={{ width: `${data.output1.askp_rsqn3 / 1300}px` , marginLeft: 'auto', marginRight: '5px', textAlign: 'right', position: 'relative' }}>
                         <span style={{ display: 'inline-block', textAlign: 'center', position: 'absolute', right: 0 }}>
                             {data.output1.askp_rsqn3}
@@ -89,7 +89,7 @@ return (
                 </tr>
                 
                 <tr>
-                <td className='rest' style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <td className='rest'>
                         <div className='hoga-bar blue' style={{ width: `${data.output1.askp_rsqn2 / 1300}px` , marginLeft: 'auto', marginRight: '5px', textAlign: 'right', position: 'relative' }}>
                         <span style={{ display: 'inline-block', textAlign: 'center', position: 'absolute', right: 0 }}>
                             {data.output1.askp_rsqn2}
@@ -101,7 +101,7 @@ return (
                     
                 </tr>
                 <tr>
-                <td className='rest' style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <td className='rest'>
                         <div className='hoga-bar blue' style={{ width: `${data.output1.askp_rsqn1 / 1300}px` , marginLeft: 'auto', marginRight: '5px', textAlign: 'right', position: 'relative' }}>
                         <span style={{ display: 'inline-block', textAlign: 'center', position: 'absolute', right: 0 }}>
                             {data.output1.askp_rsqn1}
@@ -122,7 +122,7 @@ return (
                 <tr>
                     <td></td>
                     <td className='hoga'>{data.output1.bidp1}</td>
-                    <td className='rest' style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <td className='rest'>
                         <div className='hoga-bar red' style={{ width: `${data.output1.bidp_rsqn1 / 1500}px`, marginRight: 'auto', marginLeft: '5px', textAlign: 'left', position: 'relative' }}>
                             <span style={{ display: 'inline-block', textAlign: 'center', position: 'absolute', left: 0 }}>
                             {data.output1.bidp_rsqn1}
@@ -133,7 +133,7 @@ return (
                 <tr>
                     <td></td>
                     <td className='hoga'>{data.output1.bidp2}</td>
-                    <td className='rest' style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}> 
+                    <td className='rest'> 
                         <div className='hoga-bar red' style={{ width: `${data.output1.bidp_rsqn2 / 1500}px`, marginRight: 'auto', marginLeft: '5px', textAlign: 'left', position: 'relative' }}>
                         <span style={{ display: 'inline-block', textAlign: 'center', position: 'absolute', left: 0 }}>
                             {data.output1.bidp_rsqn2}
@@ -144,7 +144,7 @@ return (
                 <tr>
                     <td></td>     
                     <td className='hoga'>{data.output1.bidp3}</td>
-                    <td className='rest' style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}> 
+                    <td className='rest'> 
                         <div className='hoga-bar red' style={{ width: `${data.output1.bidp_rsqn3 / 1500}px`, marginRight: 'auto', marginLeft: '5px', textAlign: 'left', position: 'relative' }}>
                         <span style={{ display: 'inline-block', textAlign: 'center', position: 'absolute', left: 0 }}>
                             {data.output1.bidp_rsqn3}
@@ -155,7 +155,7 @@ return (
                 <tr>
                     <td></td>
                     <td className='hoga'>{data.output1.bidp4}</td>
-                    <td className='rest' style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}> 
+                    <td className='rest'> 
                         <div className='hoga-bar red' style={{ width: `${data.output1.bidp_rsqn4 / 1500}px`, marginRight: 'auto', marginLeft: '5px', textAlign: 'left', position: 'relative' }}>
                         <span style={{ display: 'inline-block', textAlign: 'center', position: 'absolute', left: 0 }}>
                             {data.output1.bidp_rsqn4}
@@ -166,7 +166,7 @@ return (
                 <tr>
                     <td></td>
                     <td className='hoga'>{data.output1.bidp5}</td>
-                    <td className='rest' style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}> 
+                    <td className='rest'> 
                         <div className='hoga-bar red' style={{ width: `${data.output1.bidp_rsqn5 / 1500}px`, marginRight: 'auto', marginLeft: '5px', textAlign: 'left', position: 'relative' }}>
                         <span style={{ display: 'inline-block', textAlign: 'center', position: 'absolute', left: 0 }}>
                             {data.output1.bidp_rsqn5}
