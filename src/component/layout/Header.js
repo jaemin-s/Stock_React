@@ -71,6 +71,8 @@ const Header = () => {
     // redirection(`/Detail/${inputRef.current.value}`);
     console.log("입력값: " + inputRef.current.value);
     infoModal();
+    setInfoIsModal(true);
+    nameData();
   };
 
   const nameData = async () => {
@@ -101,17 +103,18 @@ const Header = () => {
     });
     if (infoNameData.length === 0) {
       alert("검색 결과가 없습니다.");
+      setInfoIsModal(false);
     } else {
       infoModal();
     }
   };
 
   useEffect(() => {
-    console.log("useEffect");
+    // console.log("useEffect");
   }, [keyItem]);
 
   const infoModal = () => {
-    console.log("모달이야");
+    document.getElementById("searchText").value = "";
     setInfoIsModal(!infoIsModal);
   };
 
@@ -134,9 +137,9 @@ const Header = () => {
               {keyItem.map((item, index) => (
                 <p key={index} id="info-modal-tag">
                   <Link
-                    to={`/detail/${item.srtnCd}&${item.itmsNm}`}
+                    to={`/detail/${item.itmsNm}(${item.srtnCd})`}
                     onClick={() => {
-                      redirection(`/detail/${item.srtnCd}&${item.itmsNm}`);
+                      // redirection(`/detail/${item.srtnCd}&${item.itmsNm}`);
                       infoModal();
                     }}
                   >
@@ -196,21 +199,20 @@ const Header = () => {
                   className="search-form-container"
                   onSubmit={searchHandler}
                 >
-                  <div className="input-group">
-                    <button onClick={nameData}>
-                      <span className="input-group-text" id="basic-addon1">
-                        <img
-                          src={require("../bootstrap/img/search.png")}
-                          alt="search"
-                          style={{ width: "25px", border: "none" }}
-                        ></img>
-                      </span>
+                  <div className="input-group input-group-append">
+                    <button className="btn btn-primary searchBtn">
+                      <i className="fa-solid fa-magnifying-glass"></i>
+                      <img
+                        src={require("../bootstrap/img/search.png")}
+                        alt="search"
+                        style={{ width: "25px", border: "none" }}
+                      ></img>
                     </button>
-                    <i className="fa-regular fa-magnifying-glass"></i>
 
                     <input
+                      id="searchText"
                       type="text"
-                      className="form-control dropdown search-input"
+                      className="form-control border-0 small"
                       placeholder="Search"
                       aria-label="Search"
                       aria-describedby="basic-addon1"

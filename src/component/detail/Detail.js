@@ -29,7 +29,7 @@ const Detail = () => {
   const redirection = useNavigate();
 
   const { value } = useParams();
-  // console.log(value);
+  console.log(value);
 
   // 즐겨찾기 별표 채우기
   const [filled, setFilled] = useState(false);

@@ -124,6 +124,11 @@ function StockTemplate() {
     return scaledNumber.toFixed(2) + suffix; // 소수점 첫째 자리까지 표기하고 심볼을 추가하여 반환
   }
 
+  //로그인하러 가기 로직
+  const loginHandler = () => {
+    redirection(`/login`);
+  };
+
   return (
     <>
       <MoveStockInfo getStockRate={fluctuationRate} />
@@ -347,7 +352,10 @@ function StockTemplate() {
             <div className="card-header">
               <h6 className="m-0 font-weight-bold text-primary">즐겨찾기</h6>
             </div>
-            <div className="card-body">즐겨찾기 내용</div>
+            <div className="card-body">
+              로그인 후 즐겨찾기 기능을 이용해 보세요!
+              <p onClick={loginHandler}>로그인 하러가기!</p>
+            </div>
           </div>
         </div>
       </div>
