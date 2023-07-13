@@ -3,8 +3,17 @@ import Echarts from "echarts-for-react";
 import { KI_APP_KEY, KI_SECRET_KEY } from "../../config/apikey";
 import "./AskingPrice.scss";
 import Header from "../layout/Header";
+import { useParams } from "react-router-dom";
+
 const AskingPrice = () => {
+  const { value } = useParams();
+  const title = value.split("(", 2);
+  // console.log("title[0]" + title[0]); //검색어의 회사명
+  // console.log("title[1].slice(0, -1))" + title[1].slice(0, -1)); // 검색어의 종목 코드
+
   const [selectedRow, setSelectedRow] = useState(null);
+
+  const [searchValue, setSearchValue] = useState(value);
 
   const requestHeader = {
     authorization: localStorage.getItem("ACCESS_TOKEN"),
@@ -17,7 +26,7 @@ const AskingPrice = () => {
   const [time, setTime] = useState(new Date());
 
   const getHoga = async () => {
-    const code = "005930"; //일단 삼전
+    const code = title[1].slice(0, -1); //일단 삼전
     try {
       const res = await fetch(
         "/quotations/inquire-asking-price-exp-ccn?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
@@ -50,7 +59,7 @@ const AskingPrice = () => {
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [searchValue]);
 
   if (data === null) {
     return <div>Loading...</div>;

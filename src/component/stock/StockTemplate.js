@@ -183,6 +183,9 @@ function StockTemplate() {
                         <td>
                           <p className="stock-name" onClick={detailHandler}>
                             {x.hts_kor_isnm}
+                            <span style={{ display: "none" }}>
+                              ({x.mksc_shrn_iscd})
+                            </span>
                           </p>
                         </td>{" "}
                         {/* 종목명 */}

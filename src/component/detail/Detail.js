@@ -29,7 +29,7 @@ const Detail = () => {
   const redirection = useNavigate();
 
   const { value } = useParams();
-  console.log(value);
+  console.log("value: " + value);
 
   // 즐겨찾기 별표 채우기
   const [filled, setFilled] = useState(false);
@@ -385,7 +385,7 @@ const Detail = () => {
 
   //   const stockName = value;
   const stockCode = findStockCode(value);
-  console.log(stockCode);
+  console.log("stockCode: " + stockCode);
   //관련종목 추천 버튼 클릭 시 이벤트 로직
   const research = (e) => {
     console.log(e.target.textContent);
