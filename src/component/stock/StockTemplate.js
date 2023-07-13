@@ -13,13 +13,18 @@ import Kospi from './Kospi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import Kosdaq from './Kosdaq';
+import { useNavigate } from 'react-router-dom';
 
 function StockTemplate (){
+
+    const redirection = useNavigate();
     
-    // useEffect(() => {
-    //     fluctuationRate(1);
-    //     fluctuationRate(0);
-    // },[])
+    const detailHandler = (e) => {
+        e.preventDefault();
+        console.log(e.target.textContent);
+        const query = e.target.textContent;
+        redirection(`/Detail/${query}`);
+    }
 
     //토큰 발급
     const getKIAccessToken = async() =>{
@@ -103,13 +108,13 @@ function StockTemplate (){
 
 
     function abbreviateNumber(acml_vol) {
-        const SI_SYMBOLS = ["", "K", "M", "G"]; // 약어 표기에 사용할 심볼 배열
+        const SI_SYMBOLS = ["", "", "K", "M", "G"]; // 약어 표기에 사용할 심볼 배열
         const tier = Math.log10(Math.abs(acml_vol)) / 3 | 0; // 숫자의 크기를 기준으로 심볼을 선택하기 위한 계산
         if (tier === 0) return acml_vol.toLocaleString(); // 1,000 미만의 수는 그대로 표기
         const suffix = SI_SYMBOLS[tier]; // 선택된 심볼
         const scale = Math.pow(10, tier * 3); // 해당 심볼에 대한 크기 조정
         const scaledNumber = acml_vol / scale; // 크기 조정된 숫자
-        return scaledNumber.toFixed(1) + suffix; // 소수점 첫째 자리까지 표기하고 심볼을 추가하여 반환
+        return scaledNumber.toFixed(2) + suffix; // 소수점 첫째 자리까지 표기하고 심볼을 추가하여 반환
     }
 
     return (
@@ -118,13 +123,13 @@ function StockTemplate (){
             <div className="margin-wrapper">
                 <div className="main-chart card shadow">
                     <div className="card-header">
-                        <h6 className="m-0 font-weight-bold text-primary">코스닥</h6>
+                        <h6 className="m-0 font-weight-bold text-primary">국내지수</h6>
                     </div>
-                    <div className="card-body">
+                    <div className="card-body flex kospi-kosdaq">
                         <div>
                             <Kospi/>
                         </div>
-                        <div>
+                        <div style={{flex: 1}}>
                             <Kosdaq/>
                         </div>
                     </div>
@@ -159,7 +164,7 @@ function StockTemplate (){
                                 .map((x, index) => (
                                 <tr key={index}>
                                     <th scope="row">{x.mksc_shrn_iscd}</th> {/* 종목코드 */}
-                                    <td><a href="/detail">{x.hts_kor_isnm}</a></td> {/* 종목명 */}
+                                    <td><p className='stock-name' onClick={detailHandler}>{x.hts_kor_isnm}</p></td> {/* 종목명 */}
                                     <td>{x.stck_prpr}원</td>  {/* 주식 현재가 */}
                                     <td>
                                     <span className={x.prdy_ctrt >= 0 ? "positive" : "negative"}>

@@ -70,8 +70,6 @@ const Login = () => {
 
 
   return (
-    <>
-    {!isLoggedIn && 
     <div className="bg-gradient-primary">
 
         <div className="container">
@@ -138,11 +136,11 @@ const Login = () => {
         
         </div>
         </div>
-   
+       
     </div>
-    }
-    </>
+
   )
 }
+
 
 export default Login;
