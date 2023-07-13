@@ -1,12 +1,15 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import '../bootstrap/css/sb-admin-2.min.css';
 import './Header.scss';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../util/AuthContext';
+import { isLogin } from '../util/login-utils';
 import { KI_APP_KEY,KI_SECRET_KEY, DATA_GO_KR_KEY } from '../../config/apikey';
 const Header = () => {
 
   const [query,setQuery] = useState('');
   const redirection = useNavigate();
+  const {onLogout} = useContext(AuthContext);
 
   const searchHandler = (e) => {
     e.preventDefault();
@@ -21,6 +24,11 @@ const Header = () => {
   const queryHandler = (e) => {
     setQuery(e.target.value);
   };
+
+  const logoutHandler = e => {
+    onLogout();
+    redirection('/login');
+   } 
 
 
   const [data, setData] = useState(null); // 결과를 저장할 상태
@@ -94,7 +102,19 @@ const Header = () => {
             </nav>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/login" style={{marginLeft: "100px"}}>Login</a>
+            {
+            isLogin()?
+            (  <a className="nav-link" onClick={logoutHandler} href="/" style={{marginLeft: "100px"}} >
+            Logout
+         </a>  )
+                                :
+                                ( <a className="nav-link" href="/login" style={{marginLeft: "100px"}}>
+                                       Login
+                                       </a>                               
+                                                                 
+                                )
+                        }
+          
           </li>
           <li className="nav-item">
             <a className="nav-link" href="/join" style={{marginLeft: "100px"}}>Join</a>
