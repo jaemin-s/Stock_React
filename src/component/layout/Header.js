@@ -5,6 +5,7 @@ import { Button, ModalBody, ModalFooter, ModalHeader, Modal } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { KI_APP_KEY, KI_SECRET_KEY, DATA_GO_KR_KEY } from "../../config/apikey";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Header = () => {
   const redirection = useNavigate();
 
@@ -101,11 +102,11 @@ const Header = () => {
   };
 
   useEffect(() => {
-    console.log("useEffect");
+    // console.log("useEffect");
   }, [keyItem]);
 
   const infoModal = () => {
-    console.log("모달이야");
+    document.getElementById("searchText").value = "";
     setInfoIsModal(!infoIsModal);
   };
 
@@ -190,21 +191,20 @@ const Header = () => {
                   className="search-form-container"
                   onSubmit={searchHandler}
                 >
-                  <div className="input-group">
-                    <button>
-                      <span className="input-group-text" id="basic-addon1">
-                        <img
-                          src={require("../bootstrap/img/search.png")}
-                          alt="search"
-                          style={{ width: "25px", border: "none" }}
-                        ></img>
-                      </span>
+                  <div className="input-group input-group-append">
+                    <button className="btn btn-primary searchBtn">
+                      <i className="fa-solid fa-magnifying-glass"></i>
+                      <img
+                        src={require("../bootstrap/img/search.png")}
+                        alt="search"
+                        style={{ width: "25px", border: "none" }}
+                      ></img>
                     </button>
-                    <i className="fa-regular fa-magnifying-glass"></i>
 
                     <input
+                      id="searchText"
                       type="text"
-                      className="form-control dropdown"
+                      className="form-control border-0 small"
                       placeholder="Search"
                       aria-label="Search"
                       aria-describedby="basic-addon1"
