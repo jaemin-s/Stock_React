@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { KI_APP_KEY, KI_SECRET_KEY, DATA_GO_KR_KEY } from "../../config/apikey";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Header = () => {
+
   const redirection = useNavigate();
 
   const [data, setData] = useState(null); // 결과를 저장할 상태
@@ -150,6 +151,9 @@ const Header = () => {
       </Modal>
     </>
   );
+  
+  
+
 
   return (
     <>

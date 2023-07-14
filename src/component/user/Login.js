@@ -1,13 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "../bootstrap/css/sb-admin-2.min.css";
 import "../user/Login.scss";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import AuthContext from "../util/AuthContext";
+import { KAKAO_AUTH_URL } from "./OAuth";
 
 const Login = () => {
   const redirection = useNavigate();
 
   const { onLogin, isLoggedIn } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setTimeout(() => {
+        redirection("/");
+      }, 3000);
+    }
+  }, [isLoggedIn, redirection]);
 
   const REQUEST_URL = "http://localhost:8181/api/user/login";
 
@@ -31,10 +40,10 @@ const Login = () => {
       return;
     }
 
-    const { token, userName, email } = await res.json();
+    const { token, email } = await res.json();
 
     // Context API를 사용하여 로그인 상태를 업데이트합니다.
-    onLogin(token, userName);
+    onLogin(token, email);
 
     //홈으로 리다이렉트
     redirection("/");
@@ -105,6 +114,14 @@ const Login = () => {
                           로그인
                         </a>
                         <hr />
+                        <div>
+                          <a href={KAKAO_AUTH_URL} className="kakaobtn">
+                            <img
+                              src={require("./image/kakao1.png")}
+                              alt="카카오로그인"
+                            />
+                          </a>
+                        </div>
                       </form>
                       <div className="text-center">
                         <a className="small" href="#">

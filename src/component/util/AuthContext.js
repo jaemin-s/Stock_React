@@ -1,10 +1,9 @@
 
 import React, { useEffect, useState } from "react";
 
-//새로운 전역 Context를 생성
 const AuthContext = React.createContext({
     isLoggedIn: false, 
-    userName: '',
+    userEmail: '',
     onLogout: () => {}, 
     onLogin: (email, password) => {},
     setUserInfo: () => {}
@@ -14,13 +13,13 @@ const AuthContext = React.createContext({
 export const AuthContextProvider = props => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userName, setUserName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
 
    
     useEffect(() => {
         if(localStorage.getItem('isLoggedIn') === '1') {
             setIsLoggedIn(true);
-            setUserName(localStorage.getItem('LOGIN_USERNAME'));
+            setUserEmail(localStorage.getItem('LOGIN_USEREMAIL'));
         } 
     }, []);
 
@@ -32,24 +31,24 @@ export const AuthContextProvider = props => {
     };
 
     //로그인 핸들러
-    const loginHandler = (token, userName) => {
+    const loginHandler = (token, email) => {
         localStorage.setItem('isLoggedIn', '1');
-        localStorage.setItem('ACCESS_TOKEN', token);
-        localStorage.setItem('LOGIN_USERNAME', userName);
+        localStorage.setItem('LOGIN_ACCESS_TOKEN', token);
+        localStorage.setItem('LOGIN_USEREMAIL', email);
         setIsLoggedIn(true);
-        setUserName(userName);
+        setUserEmail(email);
     };
 
     //토큰 및 로그인 유저 데이터를 브라우저에 저장하는 함수
-    const setLoginUserInfo = ({ token, userName }) => {
-        localStorage.setItem('ACCESS_TOKEN', token);
-        localStorage.setItem('LOGIN_USERNAME', userName);
+    const setLoginUserInfo = ({ token, email }) => {
+        localStorage.setItem('LOGIN_ACCESS_TOKEN', token);
+        localStorage.setItem('LOGIN_USEREMAIL', email);
     }
 
     return (
         <AuthContext.Provider value={{
             isLoggedIn,
-            userName,
+            userEmail,
             onLogout: logoutHandler,
             onLogin: loginHandler,
             setUserInfo: setLoginUserInfo

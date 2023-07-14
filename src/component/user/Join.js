@@ -281,6 +281,7 @@ const Join = () => {
   const showThumbnailHandler = (e) => {
     //첨부된 파일 정보
     const file = $fileTag.current.files[0];
+    console.log(file);
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -305,6 +306,7 @@ const Join = () => {
     const userJsonBlob = new Blob([JSON.stringify(userValue)], {
       type: "application/json",
     });
+    console.log("profileImage: " + $fileTag.current.files[0]);
 
     // 이미지파일과 회원정보 JSON을 하나로 묶어야 함
     // FormData 객체를 활용해서.
@@ -343,7 +345,7 @@ const Join = () => {
     <div className="bg-gradient-primary">
       <div className="container">
         <div className="card o-hidden border-0 shadow-lg my-5">
-          <div className="card-body p-0" style={{ overflow: "hidden" }}>
+          <div className="card-body p-0">
             {/* <!-- Nested Row within Card Body --> */}
             <div className="row">
               <div className="col-lg-7">
@@ -357,9 +359,7 @@ const Join = () => {
                       onClick={() => $fileTag.current.click()}
                     >
                       <img
-                        src={
-                          imgFile || require("../../assets/img/image-add.png")
-                        }
+                        src={imgFile || require("./image/image-add.png")}
                         alt="profile"
                       />
                     </div>
