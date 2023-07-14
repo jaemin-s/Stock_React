@@ -97,7 +97,7 @@ const InfoTest = () => {
   };
 
   return (
-    <div>
+    <div style={{ margin: "50px", fontWeight: "600", lineHeight: "2" }}>
       {info.map((item, index) => (
         <div key={index}>
           <p> 법인명: {item.corpNm} </p>

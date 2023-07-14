@@ -183,6 +183,9 @@ function StockTemplate() {
                         <td>
                           <p className="stock-name" onClick={detailHandler}>
                             {x.hts_kor_isnm}
+                            <span style={{ display: "none" }}>
+                              ({x.mksc_shrn_iscd})
+                            </span>
                           </p>
                         </td>{" "}
                         {/* 종목명 */}
@@ -354,7 +357,9 @@ function StockTemplate() {
             </div>
             <div className="card-body">
               로그인 후 즐겨찾기 기능을 이용해 보세요!
-              <p onClick={loginHandler}>로그인 하러가기!</p>
+              <p onClick={loginHandler} style={{ cursor: "pointer" }}>
+                로그인 하러가기!
+              </p>
             </div>
           </div>
         </div>
