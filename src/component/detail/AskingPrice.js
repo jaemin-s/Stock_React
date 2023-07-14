@@ -5,7 +5,7 @@ import "./AskingPrice.scss";
 import Header from "../layout/Header";
 import { useParams } from "react-router-dom";
 
-const AskingPrice = () => {
+const AskingPrice = ({ selectedValueHandler }) => {
   const { value } = useParams();
   const title = value.split("(", 2);
   // console.log("title[0]" + title[0]); //검색어의 회사명
@@ -24,6 +24,8 @@ const AskingPrice = () => {
   const [data, setData] = useState(null);
 
   const [time, setTime] = useState(new Date());
+
+  const [selectedValue, setSelectedValue] = useState(null);
 
   const getHoga = async () => {
     const code = title[1].slice(0, -1); //일단 삼전
@@ -50,12 +52,20 @@ const AskingPrice = () => {
   };
 
   useEffect(() => {
+    setSearchValue(value);
+  }, [value]);
+
+  useEffect(() => {
+    console.log("selectedValue : " + selectedValue);
+  }, [selectedValue]);
+
+  useEffect(() => {
     // getHoga();
     const timer = setInterval(() => {
       getHoga();
       // console.log('1초지남');
       setTime(new Date());
-    }, 1000); // 1초마다 렌더링
+    }, 500); // 1초마다 렌더링
     return () => {
       clearInterval(timer);
     };
@@ -67,6 +77,17 @@ const AskingPrice = () => {
 
   const handleClick = (rowIndex) => {
     setSelectedRow(rowIndex === selectedRow ? null : rowIndex);
+    if (rowIndex < 5) {
+      // askp5부터 askp1까지
+      setSelectedValue(data.output1[`askp${5 - rowIndex}`]);
+    } else {
+      // bidp1부터 bidp5까지
+      setSelectedValue(data.output1[`bidp${rowIndex - 4}`]);
+    }
+    // console.log("setSelectedValue : " + setSelectedValue);
+    // console.log("setSelectedRow : " + setSelectedValue);
+    console.log("selectedValue : " + selectedValue);
+    selectedValueHandler(selectedValue);
   };
   return (
     <>
@@ -145,7 +166,9 @@ const AskingPrice = () => {
               </td>
               <td
                 className={`rest hoga ${selectedRow === 1 ? "clicked" : ""}`}
-                onClick={() => handleClick(1)}
+                onClick={() => {
+                  handleClick(1);
+                }}
               >
                 {data.output1.askp4}
               </td>
