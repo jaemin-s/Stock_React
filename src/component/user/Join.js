@@ -304,6 +304,7 @@ const Join = () => {
  const showThumbnailHandler = e => {
      //첨부된 파일 정보
      const file = $fileTag.current.files[0];
+     console.log(file);
 
      const reader = new FileReader();
      reader.readAsDataURL(file);
@@ -336,6 +337,7 @@ const fetchSignUpPost = () => {
         [JSON.stringify(userValue)],
         { type: 'application/json' }
     );
+    console.log('profileImage: ' + $fileTag.current.files[0]);
 
     // 이미지파일과 회원정보 JSON을 하나로 묶어야 함
     // FormData 객체를 활용해서.
@@ -393,7 +395,7 @@ const joinButtonClickHandler = e => {
                             </div>
                             <form className="user">
                             <div className="thumbnail-box" onClick={() => $fileTag.current.click()}>
-                                <img src= {imgFile || require('../../assets/img/image-add.png')} alt="profile" />
+                                <img src= {imgFile || require('./image/image-add.png')} alt="profile" />
                                 </div>
                             <label className='signup-img-label' htmlFor='profile-img'>프로필</label>
                             <input

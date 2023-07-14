@@ -8,6 +8,7 @@ import { KI_APP_KEY, KI_SECRET_KEY, DATA_GO_KR_KEY } from "../../config/apikey";
 import AuthContext from "../util/AuthContext";
 import { isLogin } from "../util/login-utils";
 const Header = () => {
+
   const redirection = useNavigate();
 
   const { onLogout } = useContext(AuthContext);
@@ -158,6 +159,9 @@ const Header = () => {
       </Modal>
     </>
   );
+  
+  
+
 
   return (
     <>
