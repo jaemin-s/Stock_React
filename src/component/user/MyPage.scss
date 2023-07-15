@@ -16,21 +16,17 @@ table {
     font-size: 18px;
     width: 100%;
 }
-.page-top {
+#page-top {
     width: 80%;
+    background-color: #f8f9fc;
 }
 
 .container-fluid {
     width: 80%;
     margin: 0 auto;
+    padding: 20px 0 0 40px;
 }
 
-.userInfo {
-    justify-content: space-between;
-}
-.assetInfo {
-    justify-content: space-between;
-}
 .assetsDetail {
     padding: 100px 100px;
 }
@@ -40,4 +36,97 @@ table {
     height: 100%;
     width: 200px;
     padding: 40px 20px;
+}
+
+.basic-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+#my-info {
+    margin-right: 100px;
+}
+
+#asset {
+    margin-left: 100px;
+}
+
+#border {
+    flex: 1;
+    text-align: center;
+    font-size: 700;
+    color: blue;
+}
+
+.userInfo {
+    padding: 70px 150px;
+    display: flex;
+    justify-content: space-between;
+    .info {
+        padding: 80px 0;
+        width: 500px;
+        .border {
+            margin: 0px 4rem 0px 3rem;
+            color: blue;
+            font-weight: 700;
+        }
+    }
+    .name, .gender, .age, .career {
+        margin-left: 1.25rem;
+    }
+}
+
+.assetInfo {
+    flex: 1;
+    text-align: center;
+    font-size: 40px;
+}
+
+.assets {
+    width: 600px;
+    display: flex;
+    justify-content: space-between;
+    .assetsDetail {
+        .asset {
+            margin-left: 3rem;
+            width: 400px;
+        }
+
+        .having-stock {
+            width: 700px;
+            margin-left: 0.9rem;
+        }
+
+        .having-cash {
+            margin-left: 2.6rem;
+        }
+
+        .return {
+            margin-left: 4.3rem;
+        }
+
+
+        .border {
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0px 6rem 0px 3rem;
+            color: blue;
+            font-weight: 700;
+        }
+    }
+}
+
+.list-assets {
+    padding: 0px 16px;
+}
+
+
+.button {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
 }

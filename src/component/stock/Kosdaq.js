@@ -7,6 +7,10 @@ const Kosdaq = () => {
     price:[]
   });
   const [options, setOptions] = useState({
+    title: {
+      text: '종목이름',
+      left: 0
+    },
     xAxis: {
       type: 'category',
       data: []
@@ -69,6 +73,10 @@ const Kosdaq = () => {
 
   const setOpt = () => {
     setOptions({
+      title: {
+        text: 'KOSDAQ',
+        left: 0
+      },
       xAxis: {
         type: 'category',
         data: kosdaq.date
@@ -88,7 +96,7 @@ const Kosdaq = () => {
 
   return ( 
     <>
-      <Echarts option={options}/>
+      <Echarts option={options} style={{width: '100%', height: '299px'}}/>
     </>
   )
 }
