@@ -3,7 +3,7 @@ import Echarts from 'echarts-for-react';
 import { KI_APP_KEY,KI_SECRET_KEY } from '../../config/apikey';
 import './AskingPrice.scss';
 import Header from '../layout/Header';
-const AskingPrice = () => {
+const AskingPrice = ( ) => {
 
 const requestHeader = {
     'authorization' : localStorage.getItem('ACCESS_TOKEN'),

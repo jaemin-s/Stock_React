@@ -29,7 +29,12 @@ const Detail = () => {
   const redirection = useNavigate();
 
   const { value } = useParams();
-  console.log(value);
+  console.log("벨류인데 말이야 = ", value);
+  const frontValue = {value}.value.slice({value}.value.indexOf("(") + 1, {value}.value.indexOf(")"));
+  useEffect(() => {
+    console.log('디테일화면에서 재검색했음');
+    dailyPrice(value);
+  },[value])
 
   // 즐겨찾기 별표 채우기
   const [filled, setFilled] = useState(false);
@@ -42,10 +47,15 @@ const Detail = () => {
   const dateFormat = (date) => {
     return date.slice(0, 4) + "-" + date.slice(4, 6) + "-" + date.slice(6, 8);
   };
-
+  
   //일자별 시세
   const dailyPrice = async (e) => {
-    const params = "000660";
+    // ㅇㅇㅇ(000000) 값 자르기
+    console.log("데일리프라이스 등장!");
+    
+    const params = frontValue; //종목 코드
+    console.log("파람인데 말이야 = ", params);
+
     const res = await fetch(
       "/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
         params +
@@ -56,7 +66,8 @@ const Detail = () => {
           tr_id: "FHKST01010400",
         },
       }
-    );
+      );
+      console.log(res);
 
     if (res.status === 200) {
       const data = await res.json();
@@ -83,7 +94,7 @@ const Detail = () => {
       console.log({ categoryData: dates, values });
       return { categoryData: dates, values };
     } else {
-      console.log(res);
+      console.log("res인데 말이야 = ",res);
     }
   };
 
@@ -357,6 +368,7 @@ const Detail = () => {
       if (res.status === 200) {
         const data = await res.json();
         setData(data.response.body.items.item); // 결과를 상태에 저장
+        console.log('지혁' + data.response.body.items.item);
       }
     } catch (error) {
       console.error(error);
@@ -371,7 +383,12 @@ const Detail = () => {
 
   // data 상태가 null인 경우 로딩 상태 표시
   if (data === null) {
-    return <div>Loading...</div>;
+    return <div id="spinner-image">
+            <img
+                src={require("../layout/guideline/image/spiner.gif")}
+                alt="Loading..."
+              ></img>
+            </div>;
   }
 
   const findStockCode = (stockName) => {
@@ -385,7 +402,7 @@ const Detail = () => {
 
   //   const stockName = value;
   const stockCode = findStockCode(value);
-  console.log(stockCode);
+  // console.log(stockCode);
   //관련종목 추천 버튼 클릭 시 이벤트 로직
   const research = (e) => {
     console.log(e.target.textContent);

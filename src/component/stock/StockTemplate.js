@@ -103,7 +103,12 @@ function StockTemplate (){
 
     // data 상태가 null인 경우 로딩 상태 표시
     if (data === null) {
-        return <div>Loading...</div>;
+        return <div id="spinner-image">
+                    <img
+                        src={require("../layout/guideline/image/spiner.gif")}
+                        alt="Loading..."
+                    ></img>
+                </div>;;
     }
 
 
