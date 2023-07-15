@@ -101,56 +101,15 @@ function StockTemplate (){
         return <div>Loading...</div>;
     }
 
-    const [data, setData] = useState(null); // 결과를 저장할 상태
-
-    const getRank = async () => {
-        try {
-        const res = await fetch("/quotations/volume-rank?FID_COND_MRKT_DIV_CODE=J&FID_COND_SCR_DIV_CODE=20171&FID_INPUT_ISCD=0000&FID_DIV_CLS_CODE=0&FID_BLNG_CLS_CODE=0&FID_TRGT_CLS_CODE=111111111&FID_TRGT_EXLS_CLS_CODE=000000&FID_INPUT_PRICE_1=&FID_INPUT_PRICE_2&FID_VOL_CNT=&FID_INPUT_DATE_1", {
-            headers: {
-            'tr_id': "FHPST01710000",
-            'custtype': "P",
-            'authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjQwYmJkMWE4LTdjNGMtNDAwMS1hNmJjLTMwMjU2M2ZhZmM4OCIsImlzcyI6InVub2d3IiwiZXhwIjoxNjg3ODQ0NDIwLCJpYXQiOjE2ODc3NTgwMjAsImp0aSI6IlBTczMwdmQ5SHh2eThtaEpGdzNxZnBBNUZRa2NQNmR1eGpPViJ9.GPq2u7Ewe-Bd8Vd7VYDp3fSyk17h6RgEGZgXVBMO1DmJw4kkGK-VYXJ0oJUcTIumO-PrBobWHaIionVXGqvOYQ",
-            ...requestHeader
-            }
-        });
-
-        if (res.status === 200) {
-            const data = await res.json();
-            setData(data.output); // 결과를 상태에 저장
-        }
-        } catch (error) {
-        console.error(error);
-        }
-    };
-
-    useEffect(() => {
-        getRank(); // 컴포넌트가 마운트될 때 getRank 함수 호출
-    }, []);
-
-    // data 상태가 null인 경우 로딩 상태 표시
-    if (data === null) {
-        return <div>Loading...</div>;
-    }
-
 
     function abbreviateNumber(acml_vol) {
-        const SI_SYMBOLS = ["", "K", "M", "G"]; // 약어 표기에 사용할 심볼 배열
+        const SI_SYMBOLS = ["", "", "K", "M", "G"]; // 약어 표기에 사용할 심볼 배열
         const tier = Math.log10(Math.abs(acml_vol)) / 3 | 0; // 숫자의 크기를 기준으로 심볼을 선택하기 위한 계산
         if (tier === 0) return acml_vol.toLocaleString(); // 1,000 미만의 수는 그대로 표기
         const suffix = SI_SYMBOLS[tier]; // 선택된 심볼
         const scale = Math.pow(10, tier * 3); // 해당 심볼에 대한 크기 조정
         const scaledNumber = acml_vol / scale; // 크기 조정된 숫자
-        return scaledNumber.toFixed(1) + suffix; // 소수점 첫째 자리까지 표기하고 심볼을 추가하여 반환
-    }
-
-    function abbreviateNumber(acml_vol) {
-        const SI_SYMBOLS = ["", "K", "M", "G"]; // 약어 표기에 사용할 심볼 배열
-        const tier = Math.log10(Math.abs(acml_vol)) / 3 | 0; // 숫자의 크기를 기준으로 심볼을 선택하기 위한 계산
-        if (tier === 0) return acml_vol.toLocaleString(); // 1,000 미만의 수는 그대로 표기
-        const suffix = SI_SYMBOLS[tier]; // 선택된 심볼
-        const scale = Math.pow(10, tier * 3); // 해당 심볼에 대한 크기 조정
-        const scaledNumber = acml_vol / scale; // 크기 조정된 숫자
-        return scaledNumber.toFixed(1) + suffix; // 소수점 첫째 자리까지 표기하고 심볼을 추가하여 반환
+        return scaledNumber.toFixed(2) + suffix; // 소수점 첫째 자리까지 표기하고 심볼을 추가하여 반환
     }
 
     return (
@@ -161,11 +120,11 @@ function StockTemplate (){
                     <div className="card-header">
                         <h6 className="m-0 font-weight-bold text-primary">코스닥</h6>
                     </div>
-                    <div className="card-body">
-                        <div>
+                    <div className="card-body" style={{display: 'flex'}}>
+                        <div style={{flex:1}}>
                             <Kospi/>
                         </div>
-                        <div>
+                        <div style={{flex: 1}}>
                             <Kosdaq/>
                         </div>
                     </div>
@@ -183,7 +142,7 @@ function StockTemplate (){
                             {value >= 0 && "+"}{value}%
                         </span> 
                         변동률 음수는 파란색, 양수는 빨간색 표시*/}
-                         <div className="table-container">
+                        <div className="table-container">
                             <table className="collapsed" id="table">
                                 <thead style={{position: 'sticky', top: 0}}>
                                 <tr className="high">
