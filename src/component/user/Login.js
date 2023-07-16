@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react'
 import '../bootstrap/css/sb-admin-2.min.css';
 import '../user/Login.scss';
-import { json, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AuthContext from '../util/AuthContext';
-import { KAKAO_AUTH_URL } from './OAuth';
+import { KAKAO_AUTH_URL } from './OAuth'
 
 
 
@@ -37,6 +37,8 @@ const Login = () => {
             email: $email.value,
             password: $password.value
          })
+
+         
     });
 
     if (res.status === 400) {
@@ -55,6 +57,7 @@ const Login = () => {
      redirection('/');
 
 }
+   
 
      //로그인 요청 핸들러
      const loginHandler = e => {
@@ -67,7 +70,42 @@ const Login = () => {
 
     }
 
+    //카카오 로그인 요청 핸들러
+    const kloginHandler = e => {
+        // e.preventDefault();
 
+        
+
+        // 서버에 로그인 요청 전송
+        checkToken();
+
+    }
+
+    async function checkToken(code) {
+       await fetch(`http://localhost:8181/api/user/callback/kakao?code=${code}`, { 
+        method: "GET"
+    }) 
+    
+       .then(res => res.json())             //json으로 받을 것을 명시
+       .then(res => {      
+                console.log(res);
+                console.log(res.data.email);
+                console.log(res.data.token);
+                
+                localStorage.setItem("email", res.data.email);
+                localStorage.setItem("token", res.data.token);
+                            
+      });
+
+          
+             //홈으로 리다이렉트
+             redirection('/');
+        
+        
+    }
+    
+    
+     
 
   return (
     <div className="bg-gradient-primary">
@@ -110,7 +148,7 @@ const Login = () => {
                                             </a>
                                             <hr />
                                             <div>
-                                            <a href={KAKAO_AUTH_URL} className="kakaobtn">
+                                            <a href={KAKAO_AUTH_URL} className="kakaobtn" onClick={kloginHandler}>
                                                 <img src={require('./image/kakao1.png')} alt="카카오로그인" />
                                             </a>
                                             </div>
@@ -140,7 +178,9 @@ const Login = () => {
     </div>
 
   )
-}
+  }
+
+
 
 
 export default Login;

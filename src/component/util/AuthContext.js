@@ -39,6 +39,15 @@ export const AuthContextProvider = props => {
         setUserEmail(email);
     };
 
+    //카카오 로그인 핸들러
+    const kLoginHandler = (token, email) => {
+        localStorage.setItem('isLoggedIn', '1');
+        localStorage.setItem('LOGIN_ACCESS_TOKEN', token);
+        localStorage.setItem('LOGIN_USEREMAIL', email);
+        setIsLoggedIn(true);
+        setUserEmail(email);
+    };
+
     //토큰 및 로그인 유저 데이터를 브라우저에 저장하는 함수
     const setLoginUserInfo = ({ token, email }) => {
         localStorage.setItem('LOGIN_ACCESS_TOKEN', token);
@@ -50,7 +59,7 @@ export const AuthContextProvider = props => {
             isLoggedIn,
             userEmail,
             onLogout: logoutHandler,
-            onLogin: loginHandler,
+            onLogin: loginHandler, kLoginHandler,
             setUserInfo: setLoginUserInfo
         }}>
             {props.children}
