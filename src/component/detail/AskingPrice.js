@@ -72,7 +72,12 @@ const AskingPrice = ({ selectedValueHandler }) => {
   }, [searchValue]);
 
   if (data === null) {
-    return <div>Loading...</div>;
+    return <div id="spinner-image">
+    <img
+        src={require("../layout/guideline/image/spiner.gif")}
+        alt="Loading..."
+      ></img>
+    </div>;
   }
 
   const handleClick = (rowIndex) => {

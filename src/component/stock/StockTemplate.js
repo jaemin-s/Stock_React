@@ -109,10 +109,16 @@ function StockTemplate() {
     getRank();
   }, []);
 
-  // data 상태가 null인 경우 로딩 상태 표시
-  if (data === null) {
-    return <div>Loading...</div>;
-  }
+    // data 상태가 null인 경우 로딩 상태 표시
+    if (data === null) {
+        return <div id="spinner-image">
+                    <img
+                        src={require("../layout/guideline/image/spiner.gif")}
+                        alt="Loading..."
+                    ></img>
+                </div>;;
+    }
+
 
   function abbreviateNumber(acml_vol) {
     const SI_SYMBOLS = ["", "", "K", "M", "G"]; // 약어 표기에 사용할 심볼 배열
