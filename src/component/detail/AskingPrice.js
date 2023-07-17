@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Echarts from "echarts-for-react";
 import { KI_APP_KEY, KI_SECRET_KEY } from "../../config/apikey";
 import "./AskingPrice.scss";
-import Header from "../layout/Header";
 import { useParams } from "react-router-dom";
 
 const AskingPrice = ({ selectedValueHandler }) => {
@@ -57,6 +55,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
 
   useEffect(() => {
     console.log("selectedValue : " + selectedValue);
+    selectedValueHandler(selectedValue);
   }, [selectedValue]);
 
   useEffect(() => {
@@ -72,12 +71,14 @@ const AskingPrice = ({ selectedValueHandler }) => {
   }, [searchValue]);
 
   if (data === null) {
-    return <div id="spinner-image">
-    <img
-        src={require("../layout/guideline/image/spiner.gif")}
-        alt="Loading..."
-      ></img>
-    </div>;
+    return (
+      <div id="spinner-image">
+        <img
+          src={require("../layout/guideline/image/spiner.gif")}
+          alt="Loading..."
+        ></img>
+      </div>
+    );
   }
 
   const handleClick = (rowIndex) => {
@@ -92,7 +93,6 @@ const AskingPrice = ({ selectedValueHandler }) => {
     // console.log("setSelectedValue : " + setSelectedValue);
     // console.log("setSelectedRow : " + setSelectedValue);
     console.log("selectedValue : " + selectedValue);
-    selectedValueHandler(selectedValue);
   };
   return (
     <>

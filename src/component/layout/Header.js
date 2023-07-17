@@ -1,16 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "../bootstrap/css/sb-admin-2.min.css";
 import "./Header.scss";
 import { Button, ModalBody, ModalFooter, ModalHeader, Modal } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { KI_APP_KEY, KI_SECRET_KEY, DATA_GO_KR_KEY } from "../../config/apikey";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import AuthContext from "../util/AuthContext";
+import { isLogin } from "../util/login-utils";
 const Header = () => {
   const redirection = useNavigate();
   const [keyItem, SetKeyItem] = useState([]); // api 값 관리
   const [infoIsModal, setInfoIsModal] = useState(false); // 모달 관리
   const inputRef = useRef();
+
+  const { onLogout } = useContext(AuthContext);
+
+  const logoutHandler = () => {
+    onLogout();
+    redirection("/login");
+  };
 
   const [data, setData] = useState(null); // 결과를 저장할 상태
   let corps;
@@ -209,21 +217,33 @@ const Header = () => {
                   </div>
                 </form>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/login">
-                  Login
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/join">
-                  Join
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/mypage">
-                  MyPage
-                </a>
-              </li>
+              {isLogin() ? (
+                <>
+                  <li className="nav-item">
+                    <a className="nav-link" onClick={logoutHandler}>
+                      Logout
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/mypage">
+                      MyPage
+                    </a>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/login">
+                      Login
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/join">
+                      Join
+                    </a>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </nav>

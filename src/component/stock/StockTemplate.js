@@ -23,6 +23,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import Kosdaq from "./Kosdaq";
 import { useNavigate } from "react-router-dom";
+import { isLogin } from "../util/login-utils";
 
 function StockTemplate() {
   const redirection = useNavigate();
@@ -383,12 +384,19 @@ function StockTemplate() {
             <div className="card-header">
               <h6 className="m-0 font-weight-bold text-primary">즐겨찾기</h6>
             </div>
-            <div className="card-body">
-              로그인 후 즐겨찾기 기능을 이용해 보세요!
-              <p onClick={loginHandler} style={{ cursor: "pointer" }}>
-                로그인 하러가기!
-              </p>
-            </div>
+            {isLogin() ? (
+              <div className="card-body">즐겨찾기 목록</div>
+            ) : (
+              <div className="card-body">
+                로그인 후 즐겨찾기 기능을 이용해 보세요!
+                <p
+                  onClick={loginHandler}
+                  style={{ cursor: "pointer", color: "blue" }}
+                >
+                  로그인 하러가기!
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
