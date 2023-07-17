@@ -29,8 +29,8 @@ import { elements } from "chart.js";
 const Detail = () => {
   const { value } = useParams();
   const title = value.split("(", 2);
-  console.log(title[0]); //검색어의 회사명
-  console.log(title[1].slice(0, -1)); // 검색어의 종목 코드
+  // console.log(title[0]); //검색어의 회사명
+  // console.log(title[1].slice(0, -1)); // 검색어의 종목 코드
 
   const redirection = useNavigate();
 
@@ -49,10 +49,8 @@ const Detail = () => {
   //일자별 시세
   const dailyPrice = async (e) => {
     // ㅇㅇㅇ(000000) 값 자르기
-    console.log("데일리프라이스 등장!");
 
     const params = title[1].slice(0, -1); //종목 코드
-    console.log("파람인데 말이야 = ", params);
 
     const res = await fetch(
       "/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
@@ -65,11 +63,11 @@ const Detail = () => {
         },
       }
     );
-    console.log(res);
+    // console.log(res);
 
     if (res.status === 200) {
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       //필요한 값만 추출
       let values = [];
       let dates = [];
@@ -89,18 +87,18 @@ const Detail = () => {
           parseInt(highest),
         ]);
       });
-      console.log({ categoryData: dates, values });
+      // console.log({ categoryData: dates, values });
       return { categoryData: dates, values };
     } else {
-      console.log("res인데 말이야 = ", res);
+      // console.log("res인데 말이야 = ",res);
     }
   };
   const [selectedValue, setSelectedValue] = useState(null);
 
   function selectedValueHandler(value) {
-    console.log("selectedValueHandler : " + value);
+    // console.log("selectedValueHandler : " + value);
     setSelectedValue(value, () => {
-      console.log("selectedValue : " + selectedValue);
+      // console.log("selectedValue : " + selectedValue);
     });
   }
   //모달 관리
@@ -376,7 +374,6 @@ const Detail = () => {
       if (res.status === 200) {
         const data = await res.json();
         setData(data.response.body.items.item); // 결과를 상태에 저장
-        console.log("지혁" + data.response.body.items.item);
       }
     } catch (error) {
       console.error(error);
@@ -412,10 +409,8 @@ const Detail = () => {
 
   //   const stockName = value;
   const stockCode = findStockCode(value);
-  console.log("stockCode: " + stockCode);
   //관련종목 추천 버튼 클릭 시 이벤트 로직
   const research = (e) => {
-    console.log(e.target.textContent);
     redirection(`/Detail/${e.target.textContent}`);
   };
 

@@ -3,23 +3,32 @@ import ECharts from "echarts-for-react";
 import { useParams } from "react-router-dom";
 const Candle = ({ dailyPrice }) => {
   const [dailyResult, setDailyResult] = useState();
+  const [time, setTime] = useState(new Date());
 
   useEffect(() => {
     const fetchDailyPrice = async () => {
       const result = await dailyPrice();
       setDailyResult(result);
     };
-    fetchDailyPrice();
+    const timer = setInterval(() => {
+      setTime(new Date());
+      fetchDailyPrice();
+    }, 1000); // 1초마다 렌더링
+
+    // 컴포넌트가 언마운트되었을 때 타이머를 정리해야 합니다.
+    return () => {
+      clearInterval(timer);
+    };
   }, [dailyPrice]);
 
   useEffect(() => {
-    !!dailyResult && console.log("결과 바뀜", dailyResult);
+    // !!dailyResult && console.log("결과 바뀜", dailyResult);
   }, [dailyResult]);
 
   const { value } = useParams();
   const title = value.split("(", 2);
-  console.log(title[0]); //검색어의 회사명
-  console.log(title[1].slice(0, -1)); // 검색어의 종목 코드
+  // console.log(title[0]); //검색어의 회사명
+  // console.log(title[1].slice(0, -1)); // 검색어의 종목 코드
 
   const makeEcharts = () => {
     const upColor = "#e74a3b";
@@ -61,7 +70,7 @@ const Candle = ({ dailyPrice }) => {
       dataZoom: [
         {
           type: "inside",
-          start: 35,
+          start: 50,
           end: 100,
         },
       ],
