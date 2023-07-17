@@ -430,12 +430,6 @@ const Detail = () => {
                 />
                 &nbsp;
               </span>
-              {/* <ul onClick={getCode}>
-                    <li data-stock-id="삼성전자">asdasd</li>
-                    <li>asdasd</li>
-                    <li>asdasd</li>
-                </ul> */}
-              {/* {corps}({stockCode}) */}
               {value}
               {stockCode}
             </h1>
