@@ -80,7 +80,11 @@ const MoveStockInfo = ({ getStockRate }) => {
                 <div className="move-stock">
                   {lowResult.slice(0, 5).map((result, index) => (
                     <p style={{ display: "inline" }} key={index}>
-                      <span className="stock-name" onClick={detailHandler}>
+                      <span
+                        className="stock-name"
+                        onClick={detailHandler}
+                        data-code={result.code}
+                      >
                         {result.name}
                       </span>{" "}
                       &ensp;

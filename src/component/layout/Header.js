@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { KI_APP_KEY, KI_SECRET_KEY, DATA_GO_KR_KEY } from "../../config/apikey";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Header = () => {
-
   const redirection = useNavigate();
   const [keyItem, SetKeyItem] = useState([]); // api 값 관리
   const [infoIsModal, setInfoIsModal] = useState(false); // 모달 관리
@@ -56,12 +55,9 @@ const Header = () => {
       alert("검색어를 입력하세요!!");
       return;
     }
-    
-    
     SetKeyItem([]);
+    setInfoIsModal(true);
     nameData();
-
-    
   };
 
   const nameData = async () => {
@@ -128,11 +124,10 @@ const Header = () => {
                   <Link
                     to={`/detail/${item.itmsNm}(${item.srtnCd})`}
                     onClick={() => {
-                      
                       infoModal();
                     }}
                   >
-                    	&#8226; {item.itmsNm} - {item.srtnCd} &nbsp;  &nbsp;
+                    &#8226; {item.itmsNm} - {item.srtnCd} &nbsp; &nbsp;
                   </Link>
                 </p>
               ))}
@@ -140,20 +135,20 @@ const Header = () => {
           )}
         </ModalBody>
         <ModalFooter>
-          <Button onClick={infoModal} id="cancleFooter" style={{backgroundColor: "skyblue", width: 100, height:50}}>
+          <Button
+            onClick={infoModal}
+            id="cancleFooter"
+            style={{ backgroundColor: "skyblue", width: 100, height: 50 }}
+          >
             취소
           </Button>
         </ModalFooter>
       </Modal>
     </>
   );
-  
-  
-
 
   return (
     <>
-
       <div
         style={{ display: "flex", justifyContent: "center", lineHeight: "5" }}
       >
