@@ -34,7 +34,6 @@ const Detail = () => {
 
   const redirection = useNavigate();
 
-  console.log("value: " + value);
 
   // 즐겨찾기 별표 채우기
   const [filled, setFilled] = useState(false);
@@ -47,10 +46,15 @@ const Detail = () => {
   const dateFormat = (date) => {
     return date.slice(0, 4) + "-" + date.slice(4, 6) + "-" + date.slice(6, 8);
   };
-
+  
   //일자별 시세
   const dailyPrice = async (e) => {
-    const params = title[1].slice(0, -1);
+    // ㅇㅇㅇ(000000) 값 자르기
+    console.log("데일리프라이스 등장!");
+    
+    const params = title[1].slice(0, -1); //종목 코드
+    console.log("파람인데 말이야 = ", params);
+
     const res = await fetch(
       "/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
         params +
@@ -61,7 +65,8 @@ const Detail = () => {
           tr_id: "FHKST01010400",
         },
       }
-    );
+      );
+      console.log(res);
 
     if (res.status === 200) {
       const data = await res.json();
@@ -88,7 +93,7 @@ const Detail = () => {
       console.log({ categoryData: dates, values });
       return { categoryData: dates, values };
     } else {
-      console.log(res);
+      console.log("res인데 말이야 = ",res);
     }
   };
   const [selectedValue, setSelectedValue] = useState(null);
@@ -368,6 +373,7 @@ const Detail = () => {
       if (res.status === 200) {
         const data = await res.json();
         setData(data.response.body.items.item); // 결과를 상태에 저장
+        console.log('지혁' + data.response.body.items.item);
       }
     } catch (error) {
       console.error(error);
@@ -382,7 +388,12 @@ const Detail = () => {
 
   // data 상태가 null인 경우 로딩 상태 표시
   if (data === null) {
-    return <div>Loading...</div>;
+    return <div id="spinner-image">
+            <img
+                src={require("../layout/guideline/image/spiner.gif")}
+                alt="Loading..."
+              ></img>
+            </div>;
   }
 
   const findStockCode = (stockName) => {

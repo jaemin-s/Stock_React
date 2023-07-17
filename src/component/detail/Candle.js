@@ -5,12 +5,12 @@ const Candle = ({ dailyPrice }) => {
   const [dailyResult, setDailyResult] = useState();
 
   useEffect(() => {
-    (async function () {
-      let result = await dailyPrice();
-      console.log(result);
+    const fetchDailyPrice = async () => {
+      const result = await dailyPrice();
       setDailyResult(result);
-    })();
-  }, []);
+    };
+    fetchDailyPrice();
+  }, [dailyPrice]);
 
   useEffect(() => {
     !!dailyResult && console.log("결과 바뀜", dailyResult);

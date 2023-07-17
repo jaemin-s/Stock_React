@@ -9,6 +9,9 @@ import AuthContext from "../util/AuthContext";
 import { isLogin } from "../util/login-utils";
 const Header = () => {
   const redirection = useNavigate();
+  const [keyItem, SetKeyItem] = useState([]); // api 값 관리
+  const [infoIsModal, setInfoIsModal] = useState(false); // 모달 관리
+  const inputRef = useRef();
 
   const { onLogout } = useContext(AuthContext);
 
@@ -40,7 +43,6 @@ const Header = () => {
       console.error(error);
     }
   };
-
   const findStockCode = (stockName) => {
     const stock = data.find((item) => item.corpNm === stockName); //이름
     if (stock) {
@@ -54,13 +56,6 @@ const Header = () => {
   // const stockCode = findStockCode(stockName);
   // console.log(stockCode);
 
-  const [keyItem, SetKeyItem] = useState([]);
-
-  const [infoIsModal, setInfoIsModal] = useState(false);
-
-  // const redirection = useNavigate();
-  const inputRef = useRef();
-
   const searchHandler = (e) => {
     console.log("핸들러 발동");
     e.preventDefault();
@@ -68,9 +63,7 @@ const Header = () => {
       alert("검색어를 입력하세요!!");
       return;
     }
-    // redirection(`/Detail/${inputRef.current.value}`);
-    console.log("입력값: " + inputRef.current.value);
-    infoModal();
+    SetKeyItem([]);
     setInfoIsModal(true);
     nameData();
   };
@@ -122,9 +115,9 @@ const Header = () => {
     <>
       <Modal
         isOpen={infoIsModal}
-        style={{ maxWidth: 2000, width: 800, marginTop: 200 }}
+        style={{ maxWidth: 2000, width: 600, marginTop: 200 }}
       >
-        <ModalBody style={{ height: 300 }}>
+        <ModalBody style={{ height: 650 }}>
           {keyItem.length === 0 ? (
             <div id="spinner-image">
               <img
@@ -139,11 +132,10 @@ const Header = () => {
                   <Link
                     to={`/detail/${item.itmsNm}(${item.srtnCd})`}
                     onClick={() => {
-                      // redirection(`/detail/${item.srtnCd}&${item.itmsNm}`);
                       infoModal();
                     }}
                   >
-                    {item.itmsNm} - {item.srtnCd} &nbsp; &#124; &nbsp;
+                    &#8226; {item.itmsNm} - {item.srtnCd} &nbsp; &nbsp;
                   </Link>
                 </p>
               ))}
@@ -151,7 +143,11 @@ const Header = () => {
           )}
         </ModalBody>
         <ModalFooter>
-          <Button onClick={infoModal} id="cancleFooter">
+          <Button
+            onClick={infoModal}
+            id="cancleFooter"
+            style={{ backgroundColor: "skyblue", width: 100, height: 50 }}
+          >
             취소
           </Button>
         </ModalFooter>

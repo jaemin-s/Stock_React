@@ -110,10 +110,16 @@ function StockTemplate() {
     getRank();
   }, []);
 
-  // data 상태가 null인 경우 로딩 상태 표시
-  if (data === null) {
-    return <div>Loading...</div>;
-  }
+    // data 상태가 null인 경우 로딩 상태 표시
+    if (data === null) {
+        return <div id="spinner-image">
+                    <img
+                        src={require("../layout/guideline/image/spiner.gif")}
+                        alt="Loading..."
+                    ></img>
+                </div>;;
+    }
+
 
   function abbreviateNumber(acml_vol) {
     const SI_SYMBOLS = ["", "", "K", "M", "G"]; // 약어 표기에 사용할 심볼 배열
@@ -336,6 +342,28 @@ function StockTemplate() {
                     </span>
                   </td>
                   <td>4,800,000</td>
+                </tr>
+                <tr>
+                  <th scope="row">7</th>
+                  <td>이경민</td>
+                  <td>
+                    <span className={-52 >= 0 ? "positive" : "negative"}>
+                      {-52 >= 0 && "+"}
+                      {-52}%
+                    </span>
+                  </td>
+                  <td>2,800,000</td>
+                </tr>
+                <tr>
+                  <th scope="row">8</th>
+                  <td>유승현</td>
+                  <td>
+                    <span className={-28 >= 0 ? "positive" : "negative"}>
+                      {-28 >= 0 && "+"}
+                      {-28}%
+                    </span>
+                  </td>
+                  <td>14,800,000</td>
                 </tr>
               </tbody>
             </table>
