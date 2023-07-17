@@ -46,27 +46,20 @@ table {
     font-size: 30px;
     font-weight: 700;
 }
-.navbar {
 
-    .navbar-nav{
-        align-items: center;
+#my-info {
+    margin-right: 100px;
+}
 
-        #my-info {
-            margin-right: 100px;
-        }
-        
-        #asset {
-            margin-left: 100px;
-        }
-    
-        #border {
-            flex: 1;
-            text-align: center;
-            font-size: 700;
-            color: blue;
-        }
-    }
-    
+#asset {
+    margin-left: 100px;
+}
+
+#border {
+    flex: 1;
+    text-align: center;
+    font-size: 700;
+    color: blue;
 }
 
 .userInfo {
@@ -116,9 +109,6 @@ table {
             margin-left: 4.3rem;
         }
 
-        .evaluation {
-
-        }
 
         .border {
             display: inline-block;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import InfoTest from "../info/InfoTest";
 import "./Detail.scss";
 import { KI_APP_KEY, KI_SECRET_KEY, DATA_GO_KR_KEY } from "../../config/apikey";
@@ -24,17 +24,16 @@ import NewsTest from "../news/NewsTest";
 import { RequsetHeader } from "../../config/apikey";
 import Candle from "./Candle";
 import AskingPrice from "./AskingPrice";
+import { elements } from "chart.js";
 
 const Detail = () => {
+  const { value } = useParams();
+  const title = value.split("(", 2);
+  console.log(title[0]); //검색어의 회사명
+  console.log(title[1].slice(0, -1)); // 검색어의 종목 코드
+
   const redirection = useNavigate();
 
-  const { value } = useParams();
-  console.log("벨류인데 말이야 = ", value);
-  const frontValue = {value}.value.slice({value}.value.indexOf("(") + 1, {value}.value.indexOf(")"));
-  useEffect(() => {
-    console.log('디테일화면에서 재검색했음');
-    dailyPrice(value);
-  },[value])
 
   // 즐겨찾기 별표 채우기
   const [filled, setFilled] = useState(false);
@@ -53,7 +52,7 @@ const Detail = () => {
     // ㅇㅇㅇ(000000) 값 자르기
     console.log("데일리프라이스 등장!");
     
-    const params = frontValue; //종목 코드
+    const params = title[1].slice(0, -1); //종목 코드
     console.log("파람인데 말이야 = ", params);
 
     const res = await fetch(
@@ -97,11 +96,17 @@ const Detail = () => {
       console.log("res인데 말이야 = ",res);
     }
   };
+  const [selectedValue, setSelectedValue] = useState(null);
 
+  function selectedValueHandler(value) {
+    console.log("selectedValueHandler : " + value);
+    setSelectedValue(value, () => {
+      console.log("selectedValue : " + selectedValue);
+    });
+  }
   //모달 관리
   const [isModalOpen, setIsModalOpen] = useState(false); //매수
   const [modalType, setModalType] = useState(false); //매도
-
   //호가, 뉴스, 종목정보, 내주식 관리
   const [stockPrice, setShowPrice] = useState(true);
   const [news, setNews] = useState(false);
@@ -156,15 +161,18 @@ const Detail = () => {
     }
   };
 
-  const currentPrice = 12120; //현재 1주 가격
+  const currentPrice = selectedValue;
 
   const totalOrder = order * currentPrice;
 
-  const afterAsset = 5000000 - totalOrder; //매매 후 자산
+  const currentAsset = 5000000;
+
+  const afterAsset = currentAsset - totalOrder; //매매 후 자산
 
   const currentHavingStock = 3;
 
   const totalPrice = currentHavingStock * currentPrice;
+
   const modalBuy = (
     <>
       <Modal
@@ -183,9 +191,7 @@ const Detail = () => {
                 <div>매수 후 잔액</div>
               </div>
               <div className="box2">
-                <div style={{ textAlign: "right" }}>
-                  {currentPrice.toLocaleString()}원
-                </div>
+                <div style={{ textAlign: "right" }}>{selectedValue}원</div>
                 <div className="won">{totalOrder.toLocaleString()}원</div>
                 <div className="won">{afterAsset.toLocaleString()}원</div>
               </div>
@@ -234,11 +240,9 @@ const Detail = () => {
                 <div>총 주문금액</div>
               </div>
               <div className="box2">
-                <div style={{ textAlign: "right" }}>
-                  {currentHavingStock.toLocaleString()}
-                </div>
-                <div>{currentPrice.toLocaleString()}원</div>
-                <div className="won">{totalOrder.toLocaleString()}원</div>
+                <div style={{ textAlign: "right" }}>{currentHavingStock}</div>
+                <div style={{ textAlign: "right" }}>{currentPrice}원</div>
+                <div className="won">{totalOrder}원</div>
               </div>
             </div>
             <div className="box3">
@@ -278,7 +282,7 @@ const Detail = () => {
     <>
       <div className="card-body" style={{ padding: "0" }}>
         <div>
-          <AskingPrice />
+          <AskingPrice selectedValueHandler={selectedValueHandler} />
         </div>
       </div>
       <div className="flex">
@@ -325,16 +329,17 @@ const Detail = () => {
             <tbody>
               <tr>
                 <td className="mine">1주 평균금액</td>
-                <td>{currentPrice.toLocaleString()}원</td>
+                <td>{selectedValue}원</td>
+                {/* 일단 '호가'에서 선택된 금액으로 설정하겠습니다. 불필요하다고 판단되면 삭제해도 좋습니다.  */}
               </tr>
               <tr>
                 <td className="mine">보유 수량</td>
-                <td>{currentHavingStock.toLocaleString()}</td>
+                <td>{currentHavingStock}</td>
               </tr>
               <tr>
                 <td className="mine">총 금액</td>
                 <td class="total-amount">
-                  40,000원
+                  {(selectedValue * currentHavingStock).toLocaleString()}원
                   <div style={{ fontSize: "15px" }}>
                     <span>+2,640</span>
                     <span class="positive">(+8.1%)</span>
@@ -402,7 +407,7 @@ const Detail = () => {
 
   //   const stockName = value;
   const stockCode = findStockCode(value);
-  // console.log(stockCode);
+  console.log("stockCode: " + stockCode);
   //관련종목 추천 버튼 클릭 시 이벤트 로직
   const research = (e) => {
     console.log(e.target.textContent);
@@ -446,7 +451,7 @@ const Detail = () => {
                   {filled && (
                     <div className="card-body">
                       <div className="like-content">
-                        <a href="/detail">{value}</a>
+                        <a href={`/detail/${value}`}>{value}</a>
                       </div>
                     </div>
                   )}
@@ -468,7 +473,10 @@ const Detail = () => {
                 </div>
                 <div id="third-box" className="popular-trade card shadow mb-4">
                   <div className="card-header">
-                    <h6 className="m-0 font-weight-bold text-primary">
+                    <h6
+                      className="m-0 font-weight-bold text-primary"
+                      style={{ cursor: "pointer" }}
+                    >
                       <span
                         id="price"
                         className="border-bottom-primary"

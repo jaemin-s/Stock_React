@@ -3,7 +3,16 @@
     vertical-align: middle;
     padding: 2px 0px;
 }
-
+.hoga:hover{
+    cursor: pointer;
+}
+.clicked{
+    border: 1px solid blue;
+    outline: none;
+    cursor: pointer;
+    font-weight: 700;
+    vertical-align: middle;
+}
 .hoga-bar {
     width: 100px;
     height: 25px; /* 막대 그래프의 높이 */
@@ -31,11 +40,19 @@
         }
     }
 
-    .rest {
-        max-width: 100px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        vertical-align: middle;
+    // .rest {
+    //     max-width: 100px;
+    //     overflow: hidden;
+    //     text-overflow: ellipsis;
+    //     white-space: nowrap;
+    //     vertical-align: middle;
+    // }
+
+    tbody{
+        tr {
+            td {
+                padding: 2px 0;
+            }
+        }
     }
 }

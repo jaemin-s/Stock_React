@@ -5,7 +5,9 @@ import { Button, ModalBody, ModalFooter, ModalHeader, Modal } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { KI_APP_KEY, KI_SECRET_KEY, DATA_GO_KR_KEY } from "../../config/apikey";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Header = () => {
+
   const redirection = useNavigate();
   const [keyItem, SetKeyItem] = useState([]); // api 값 관리
   const [infoIsModal, setInfoIsModal] = useState(false); // 모달 관리
@@ -55,9 +57,9 @@ const Header = () => {
       return;
     }
     
-    infoModal();
-    nameData();
+    
     SetKeyItem([]);
+    nameData();
 
     
   };
@@ -97,11 +99,11 @@ const Header = () => {
   };
 
   useEffect(() => {
-    console.log("useEffect");
+    // console.log("useEffect");
   }, [keyItem]);
 
   const infoModal = () => {
-    console.log("모달이야");
+    document.getElementById("searchText").value = "";
     setInfoIsModal(!infoIsModal);
   };
 
@@ -109,9 +111,9 @@ const Header = () => {
     <>
       <Modal
         isOpen={infoIsModal}
-        style={{ maxWidth: 2000, width: 800, marginTop: 200 }}
+        style={{ maxWidth: 2000, width: 600, marginTop: 200 }}
       >
-        <ModalBody style={{ height: 300 }}>
+        <ModalBody style={{ height: 650 }}>
           {keyItem.length === 0 ? (
             <div id="spinner-image">
               <img
@@ -130,7 +132,7 @@ const Header = () => {
                       infoModal();
                     }}
                   >
-                    {item.itmsNm} - {item.srtnCd} &nbsp; &#124; &nbsp;
+                    	&#8226; {item.itmsNm} - {item.srtnCd} &nbsp;  &nbsp;
                   </Link>
                 </p>
               ))}
@@ -138,13 +140,16 @@ const Header = () => {
           )}
         </ModalBody>
         <ModalFooter>
-          <Button onClick={infoModal} id="cancleFooter">
+          <Button onClick={infoModal} id="cancleFooter" style={{backgroundColor: "skyblue", width: 100, height:50}}>
             취소
           </Button>
         </ModalFooter>
       </Modal>
     </>
   );
+  
+  
+
 
   return (
     <>
@@ -187,21 +192,20 @@ const Header = () => {
                   className="search-form-container"
                   onSubmit={searchHandler}
                 >
-                  <div className="input-group">
-                    <button>
-                      <span className="input-group-text" id="basic-addon1">
-                        <img
-                          src={require("../bootstrap/img/search.png")}
-                          alt="search"
-                          style={{ width: "25px", border: "none" }}
-                        ></img>
-                      </span>
+                  <div className="input-group input-group-append">
+                    <button className="btn btn-primary searchBtn">
+                      <i className="fa-solid fa-magnifying-glass"></i>
+                      <img
+                        src={require("../bootstrap/img/search.png")}
+                        alt="search"
+                        style={{ width: "25px", border: "none" }}
+                      ></img>
                     </button>
-                    <i className="fa-regular fa-magnifying-glass"></i>
 
                     <input
+                      id="searchText"
                       type="text"
-                      className="form-control dropdown"
+                      className="form-control border-0 small"
                       placeholder="Search"
                       aria-label="Search"
                       aria-describedby="basic-addon1"
