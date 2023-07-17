@@ -88,6 +88,7 @@ const Candle = ({ dailyPrice }) => {
         },
       ],
     };
+
     return (
       <ECharts
         option={options}
