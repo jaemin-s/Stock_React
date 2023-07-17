@@ -70,7 +70,6 @@ const Header = () => {
     }
     // redirection(`/Detail/${inputRef.current.value}`);
     console.log("입력값: " + inputRef.current.value);
-    infoModal();
     setInfoIsModal(true);
     nameData();
   };
