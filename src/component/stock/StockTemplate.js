@@ -342,6 +342,28 @@ function StockTemplate() {
                   </td>
                   <td>4,800,000</td>
                 </tr>
+                <tr>
+                  <th scope="row">7</th>
+                  <td>이경민</td>
+                  <td>
+                    <span className={-52 >= 0 ? "positive" : "negative"}>
+                      {-52 >= 0 && "+"}
+                      {-52}%
+                    </span>
+                  </td>
+                  <td>2,800,000</td>
+                </tr>
+                <tr>
+                  <th scope="row">8</th>
+                  <td>유승현</td>
+                  <td>
+                    <span className={-28 >= 0 ? "positive" : "negative"}>
+                      {-28 >= 0 && "+"}
+                      {-28}%
+                    </span>
+                  </td>
+                  <td>14,800,000</td>
+                </tr>
               </tbody>
             </table>
           </div>
