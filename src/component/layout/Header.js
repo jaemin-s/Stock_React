@@ -7,13 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { KI_APP_KEY, KI_SECRET_KEY, DATA_GO_KR_KEY } from "../../config/apikey";
 import AuthContext from "../util/AuthContext";
 import { isLogin } from "../util/login-utils";
+import { API_BASE_URL, USER } from "../../config/host-config";
 const Header = () => {
   const redirection = useNavigate();
   const [keyItem, SetKeyItem] = useState([]); // api 값 관리
   const [infoIsModal, setInfoIsModal] = useState(false); // 모달 관리
   const inputRef = useRef();
-
-  const { onLogout } = useContext(AuthContext);
 
   const logoutHandler = () => {
     onLogout();
@@ -178,119 +177,66 @@ const Header = () => {
     </svg>
   );
 
+  const { isLoggedIn, onLogout, userEmail, userName } = useContext(AuthContext);
+  console.log("userEmail:  ", userEmail);
+  console.log("userName:  ", userName);
+  // const profileRequestURL =
+
+  // const [profileUrl, setProfileUrl] = useState(null);
+
+  // const fetchProfileImage = async () => {
+  //   const res = await fetch(profileRequestURL, {
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+  //     },
+  //   });
+
+  //   if (res.status === 200) {
+  //     //서버에서는 직렬화된 이미지가 응답된다.
+  //     const imgUrl = await res.text();
+  //     setProfileUrl(imgUrl);
+
+  //     /*
+  //       const profileBlob = await res.blob();
+  //       //해당 이미지를 imgUrl로 변경
+  //       const imgUrl = window.URL.createObjectURL(profileBlob);
+  //       setProfileUrl(imgUrl);
+  //       */
+  //   } else {
+  //     const err = await res.text();
+  //     setProfileUrl(null);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchProfileImage();
+  // }, [isLoggedIn]);
+
   return (
     <>
-      {/* <div
-        style={{ display: "flex", justifyContent: "center", lineHeight: "5" }}
-      >
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
-                <a className="nav-link" href="/">
-                  <img
-                    src={require("./guideline/image/logo.PNG")}
-                    alt="@"
-                    className="center-image"
-                    style={{ width: "180px" }}
-                  ></img>
-                  <span className="sr-only">(current)</span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/guide">
-                  Guide
-                </a>
-              </li>
-              <li className="nav-item">
-                <form
-                  className="search-form-container"
-                  onSubmit={searchHandler}
-                >
-                  <div className="input-group input-group-append">
-                    <button className="btn btn-primary searchBtn">
-                      <i className="fa-solid fa-magnifying-glass"></i>
-                      <img
-                        src={require("../bootstrap/img/search.png")}
-                        alt="search"
-                        style={{ width: "25px", border: "none" }}
-                      ></img>
-                    </button>
-
-                    <input
-                      id="searchText"
-                      type="text"
-                      className="form-control border-0 small"
-                      placeholder="Search"
-                      aria-label="Search"
-                      aria-describedby="basic-addon1"
-                      ref={inputRef}
-                    />
-                  </div>
-                </form>
-              </li>
-              {isLogin() ? (
-                <>
-                  <li className="nav-item">
-                    <a className="nav-link" onClick={logoutHandler}>
-                      Logout
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/mypage">
-                      MyPage
-                    </a>
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/login">
-                      Login
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/join">
-                      Join
-                    </a>
-                  </li>
-                </>
-              )}
-            </ul>
-          </div>
-        </nav>
-      </div> */}
       <nav
         class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
         style={{ width: "100%", justifyContent: "space-between" }}
       >
+        {/* LOGO */}
         <a className="nav-link" href="/">
           <img
             src={require("./guideline/image/logo.PNG")}
             alt="@"
             className="center-image"
-            style={{ width: "100px", marginLeft: "30px" }}
+            style={{ width: "300px", marginLeft: "55px" }}
           ></img>
           <span className="sr-only">(current)</span>
         </a>
 
+        {/* 검색창 */}
         <div
           style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            width: "30%",
+            marginLeft: "120px",
           }}
         >
           <form className="search-form-container" onSubmit={searchHandler}>
@@ -312,9 +258,10 @@ const Header = () => {
           </form>
         </div>
 
-        <ul class="navbar-nav" style={{ width: "10%" }}>
+        {/* 회원 정보 */}
+        <ul className="navbar-nav" style={{ width: "20%" }}>
           <li
-            class={
+            className={
               isToggle
                 ? "nav-item dropdown no-arrow show"
                 : "nav-item dropdown no-arrow"
@@ -322,7 +269,11 @@ const Header = () => {
             onClick={toggleHandler}
           >
             <a
-              class="nav-link dropdown-toggle"
+              className={
+                isToggle
+                  ? "nav-link dropdown-toggle slide-up"
+                  : "nav-link dropdown-toggle slide-down"
+              }
               href="#"
               id="userDropdown"
               role="button"
@@ -330,14 +281,28 @@ const Header = () => {
               aria-haspopup="true"
               aria-expanded={isToggle ? "true" : "false"}
             >
-              <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                오정원
-                <span style={{ fontSize: "25px", marginRight: "30px" }}>
+              <img
+                src={
+                  // profileUrl ||
+                  require("../user/image/anonymous.png")
+                }
+                alt="프로필사진"
+                style={{
+                  marginRight: 20,
+                  width: 50,
+                  height: 50,
+                  borderRadius: "50%",
+                }}
+              />
+              <span style={{ fontWeight: 600, fontSize: 20 }}>
+                {isLogin() ? userEmail : "WELCOME"}
+                &nbsp;
+                <span className={isToggle ? "rotate-up" : "rotate-down"}>
                   {isToggle ? "▲" : "▼"}
                 </span>
               </span>
-              {/* <img class="img-profile rounded-circle" src="img/undraw_profile.svg"> */}
             </a>
+
             {/* <!-- Dropdown - User Information --> */}
             <div
               class={
@@ -347,28 +312,39 @@ const Header = () => {
               }
               aria-labelledby="userDropdown"
             >
-              <a class="dropdown-item" href="/mypage">
-                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                MyPage
-              </a>
-              <a class="dropdown-item" href="#">
-                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                Settings
-              </a>
-              <a class="dropdown-item" href="#">
-                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                Activity Log
-              </a>
-              <div class="dropdown-divider"></div>
-              <a
-                class="dropdown-item"
-                href="#"
-                data-toggle="modal"
-                data-target="#logoutModal"
-              >
-                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                Logout
-              </a>
+              {isLogin() ? (
+                <>
+                  <a class="dropdown-item" href="/mypage">
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    MyPage
+                  </a>
+
+                  <div class="dropdown-divider"></div>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    data-toggle="modal"
+                    data-target="#logoutModal"
+                    onClick={logoutHandler}
+                  >
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                  </a>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/join">
+                      Join
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/login">
+                      Login
+                    </a>
+                  </li>
+                </>
+              )}
             </div>
           </li>
         </ul>
