@@ -47,7 +47,7 @@ const Login = () => {
       const { token, email, image } = await res.json();
 
     // Context API를 사용하여 로그인 상태를 업데이트합니다.
-    onLogin(token, email);
+    onLogin(token, email, image);
     
 
      //홈으로 리다이렉트
