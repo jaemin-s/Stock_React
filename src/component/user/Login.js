@@ -25,84 +25,88 @@ const Login = () => {
 
     const fetchLogin = async() => {
 
-     //사용자가 입력한 이메일, 비밀번호 입력 태그 얻어오기
-     const $email = document.getElementById('email');
-     const $password = document.getElementById('password');
+      //사용자가 입력한 이메일, 비밀번호 입력 태그 얻어오기
+      const $email = document.getElementById('email');
+      const $password = document.getElementById('password');
 
 
-     const res = await fetch(REQUEST_URL, {
+      const res = await fetch(REQUEST_URL, {
         method: 'POST',
         headers: { 'content-type' : 'application/json' },
         body: JSON.stringify({
             email: $email.value,
             password: $password.value
-         })
+         }) 
+      });
 
-         
-    });
+      if (res.status === 400) {
+          const text = await res.text();
+          alert(text);
+          return;
+      }
 
-    if (res.status === 400) {
-        const text = await res.text();
-        alert(text);
-        return;
-    }
+      const { token, email, image } = await res.json();
 
-    const { token, email } = await res.json();
-
-    // Context API를 사용하여 로그인 상태를 업데이트합니다.
-    onLogin(token, email);
+      // Context API를 사용하여 로그인 상태를 업데이트합니다.
+      onLogin(token, email, image);
     
 
-     //홈으로 리다이렉트
-     redirection('/');
+      //홈으로 리다이렉트
+      redirection('/');
 
-}
+
+    }
    
 
-     //로그인 요청 핸들러
-     const loginHandler = e => {
-        e.preventDefault();
+    //로그인 요청 핸들러
+    const loginHandler = e => {
+      e.preventDefault();
 
-        
+      
 
-        // 서버에 로그인 요청 전송
-        fetchLogin();
+      // 서버에 로그인 요청 전송
+      fetchLogin();
 
     }
 
     //카카오 로그인 요청 핸들러
     const kloginHandler = e => {
-        // e.preventDefault();
+        e.preventDefault();
 
         
 
         // 서버에 로그인 요청 전송
-        checkToken();
+        // checkToken();
+        window.location.href = KAKAO_AUTH_URL;
 
     }
 
-    async function checkToken(code) {
-       await fetch(`http://localhost:8181/api/user/callback/kakao?code=${code}`, { 
-        method: "GET"
-    }) 
+    // async function checkToken(code) {
+    //   const res = await fetch(`http://localhost:3000/api/user/callback/kakao?code=${code}`, { 
+    //     method: "GET"
+       
+    // });
     
-       .then(res => res.json())             //json으로 받을 것을 명시
-       .then(res => {      
-                console.log(res);
-                console.log(res.data.email);
-                console.log(res.data.token);
+    // const data = await res.json();
+    // console.log('data: ', data);
+    
+    //    .then(res => res.json())             //json으로 받을 것을 명시
+    //    .then(res => {      
+    //             console.log(res);
+    //             console.log(res.data.email);
+    //             console.log(res.data.token);
                 
-                localStorage.setItem("email", res.data.email);
-                localStorage.setItem("token", res.data.token);
+    //             localStorage.setItem("email", res.data.email);
+    //             localStorage.setItem("token", res.data.token);
                             
-      });
+    //   });
 
           
              //홈으로 리다이렉트
-             redirection('/');
+            //  redirection('/');
         
         
-    }
+    
     
     
      
@@ -140,7 +144,7 @@ const Login = () => {
                                             <div className="form-group">
                                                 <div className="custom-control custom-checkbox small">
                                                     <input type="checkbox" className="custom-control-input" id="customCheck" />
-                                                    <label className="custom-control-label" htmlFor="customCheck">기억하기</label>
+                                                    <label className="custom-control-label" htmlFor="customCheck">아이디 기억하기</label>
                                                 </div>
                                             </div>
                                             <a href="#" className="btn btn-primary btn-user btn-block" onClick={loginHandler}>
@@ -148,7 +152,7 @@ const Login = () => {
                                             </a>
                                             <hr />
                                             <div>
-                                            <a href={KAKAO_AUTH_URL} className="kakaobtn" onClick={kloginHandler}>
+                                            <a href="#" className="kakaobtn" onClick={kloginHandler}>
                                                 <img src={require('./image/kakao1.png')} alt="카카오로그인" />
                                             </a>
                                             </div>
@@ -178,8 +182,8 @@ const Login = () => {
     </div>
 
   )
-  }
-
+  
+}
 
 
 
