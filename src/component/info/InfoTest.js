@@ -96,8 +96,19 @@ const InfoTest = () => {
     });
   };
 
+  if (info.length === 0 && resInfo.length === 0) {
+    return (
+      <div id="spinner-image">
+        <img
+          src={require("../layout/guideline/image/spiner.gif")}
+          alt="Loading..."
+        ></img>
+      </div>
+    );
+  }
+
   return (
-    <div>
+    <div style={{ margin: "50px", fontWeight: "600", lineHeight: "2" }}>
       {info.map((item, index) => (
         <div key={index}>
           <p> 법인명: {item.corpNm} </p>

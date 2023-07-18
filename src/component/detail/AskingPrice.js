@@ -3,8 +3,17 @@ import Echarts from "echarts-for-react";
 import { KI_APP_KEY, KI_SECRET_KEY } from "../../config/apikey";
 import "./AskingPrice.scss";
 import Header from "../layout/Header";
-const AskingPrice = () => {
+import { useParams } from "react-router-dom";
+
+const AskingPrice = ({ selectedValueHandler }) => {
+  const { value } = useParams();
+  const title = value.split("(", 2);
+  // console.log("title[0]" + title[0]); //검색어의 회사명
+  // console.log("title[1].slice(0, -1))" + title[1].slice(0, -1)); // 검색어의 종목 코드
+
   const [selectedRow, setSelectedRow] = useState(null);
+
+  const [searchValue, setSearchValue] = useState(value);
 
   const requestHeader = {
     authorization: localStorage.getItem("ACCESS_TOKEN"),
@@ -16,8 +25,10 @@ const AskingPrice = () => {
 
   const [time, setTime] = useState(new Date());
 
+  const [selectedValue, setSelectedValue] = useState(null);
+
   const getHoga = async () => {
-    const code = "005930"; //일단 삼전
+    const code = title[1].slice(0, -1); //일단 삼전
     try {
       const res = await fetch(
         "/quotations/inquire-asking-price-exp-ccn?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
@@ -41,23 +52,49 @@ const AskingPrice = () => {
   };
 
   useEffect(() => {
+    setSearchValue(value);
+  }, [value]);
+
+  useEffect(() => {
+    console.log("selectedValue : " + selectedValue);
+    selectedValueHandler(selectedValue);
+  }, [selectedValue]);
+
+  useEffect(() => {
     // getHoga();
     const timer = setInterval(() => {
       getHoga();
       // console.log('1초지남');
       setTime(new Date());
-    }, 1000); // 1초마다 렌더링
+    }, 500); // 1초마다 렌더링
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [searchValue]);
 
   if (data === null) {
-    return <div>Loading...</div>;
+    return (
+      <div id="spinner-image">
+        <img
+          src={require("../layout/guideline/image/spiner.gif")}
+          alt="Loading..."
+        ></img>
+      </div>
+    );
   }
 
   const handleClick = (rowIndex) => {
     setSelectedRow(rowIndex === selectedRow ? null : rowIndex);
+    if (rowIndex < 5) {
+      // askp5부터 askp1까지
+      setSelectedValue(data.output1[`askp${5 - rowIndex}`]);
+    } else {
+      // bidp1부터 bidp5까지
+      setSelectedValue(data.output1[`bidp${rowIndex - 4}`]);
+    }
+    // console.log("setSelectedValue : " + setSelectedValue);
+    // console.log("setSelectedRow : " + setSelectedValue);
+    console.log("selectedValue : " + selectedValue);
   };
   return (
     <>
@@ -136,7 +173,9 @@ const AskingPrice = () => {
               </td>
               <td
                 className={`rest hoga ${selectedRow === 1 ? "clicked" : ""}`}
-                onClick={() => handleClick(1)}
+                onClick={() => {
+                  handleClick(1);
+                }}
               >
                 {data.output1.askp4}
               </td>

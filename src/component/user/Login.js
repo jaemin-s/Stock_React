@@ -8,20 +8,19 @@ import { KAKAO_AUTH_URL } from './OAuth'
 
 
 const Login = () => {
+  const redirection = useNavigate();
 
-    const redirection = useNavigate();
+  const { onLogin, isLoggedIn } = useContext(AuthContext);
 
-    const { onLogin, isLoggedIn } = useContext(AuthContext);
+  useEffect(() => {
+    if (isLoggedIn) {
+      setTimeout(() => {
+        redirection("/");
+      }, 3000);
+    }
+  }, [isLoggedIn, redirection]);
 
-    useEffect(() => {
-        if (isLoggedIn) {
-                setTimeout(() => {
-                redirection('/');
-            }, 3000);
-        }
-    }, [isLoggedIn, redirection]);
-
-    const REQUEST_URL = 'http://localhost:8181/api/user/login';
+  const REQUEST_URL = "http://localhost:8181/api/user/login";
 
     const fetchLogin = async() => {
 
@@ -47,16 +46,14 @@ const Login = () => {
 
       const { token, email, image } = await res.json();
 
-      // Context API를 사용하여 로그인 상태를 업데이트합니다.
-      onLogin(token, email, image);
+    // Context API를 사용하여 로그인 상태를 업데이트합니다.
+    onLogin(token, email);
     
 
-      //홈으로 리다이렉트
-      redirection('/');
+     //홈으로 리다이렉트
+     redirection('/');
 
-
-    }
-   
+}
 
     //로그인 요청 핸들러
     const loginHandler = e => {
@@ -175,16 +172,13 @@ const Login = () => {
                 </div>
             
             </div>
-        
+          </div>
         </div>
-        </div>
-       
-    </div>
-
+      </div>
+ 
   )
-  
 }
-
+  
 
 
 export default Login;
