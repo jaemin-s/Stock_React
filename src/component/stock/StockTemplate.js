@@ -23,6 +23,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import Kosdaq from "./Kosdaq";
 import { useNavigate } from "react-router-dom";
+import { isLogin } from "../util/login-utils";
 
 function StockTemplate() {
   const redirection = useNavigate();
@@ -111,7 +112,14 @@ function StockTemplate() {
 
   // data 상태가 null인 경우 로딩 상태 표시
   if (data === null) {
-    return <div>Loading...</div>;
+    return (
+      <div id="spinner-image">
+        <img
+          src={require("../layout/guideline/image/spiner.gif")}
+          alt="Loading..."
+        ></img>
+      </div>
+    );
   }
 
   function abbreviateNumber(acml_vol) {
@@ -149,7 +157,9 @@ function StockTemplate() {
         <div className="middle-content flex">
           <div className="popular-trade card shadow">
             <div className="card-header">
-              <h6 className="m-0 font-weight-bold text-primary">인기 거래</h6>
+              <h6 className="m-0 font-weight-bold text-primary">
+                인기 거래량 순위
+              </h6>
             </div>
 
             {/* 반응형 구현 예정 */}
@@ -211,7 +221,9 @@ function StockTemplate() {
           </div>
           <div className="sub-info card shadow">
             <div className="card-header">
-              <h6 className="m-0 font-weight-bold text-primary">뉴스</h6>
+              <h6 className="m-0 font-weight-bold text-primary">
+                오늘의 증시 뉴스
+              </h6>
             </div>
             {/* <Carousel>
                                 <Carousel.Item style={{width: "100%"}}>
@@ -336,6 +348,28 @@ function StockTemplate() {
                   </td>
                   <td>4,800,000</td>
                 </tr>
+                <tr>
+                  <th scope="row">7</th>
+                  <td>이경민</td>
+                  <td>
+                    <span className={-52 >= 0 ? "positive" : "negative"}>
+                      {-52 >= 0 && "+"}
+                      {-52}%
+                    </span>
+                  </td>
+                  <td>2,800,000</td>
+                </tr>
+                <tr>
+                  <th scope="row">8</th>
+                  <td>유승현</td>
+                  <td>
+                    <span className={-28 >= 0 ? "positive" : "negative"}>
+                      {-28 >= 0 && "+"}
+                      {-28}%
+                    </span>
+                  </td>
+                  <td>14,800,000</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -355,12 +389,19 @@ function StockTemplate() {
             <div className="card-header">
               <h6 className="m-0 font-weight-bold text-primary">즐겨찾기</h6>
             </div>
-            <div className="card-body">
-              로그인 후 즐겨찾기 기능을 이용해 보세요!
-              <p onClick={loginHandler} style={{ cursor: "pointer" }}>
-                로그인 하러가기!
-              </p>
-            </div>
+            {isLogin() ? (
+              <div className="card-body">즐겨찾기 목록</div>
+            ) : (
+              <div className="card-body">
+                로그인 후 즐겨찾기 기능을 이용해 보세요!
+                <p
+                  onClick={loginHandler}
+                  style={{ cursor: "pointer", color: "blue" }}
+                >
+                  로그인 하러가기!
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

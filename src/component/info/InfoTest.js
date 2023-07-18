@@ -18,10 +18,13 @@ const InfoTest = () => {
 
   useEffect(() => {
     corpInfo();
-  }, [fetchFail]);
+  }, [fetchFail, value]);
 
   const corpInfo = async () => {
     console.log("누름");
+    setInfo([]);
+    setResInfo([]);
+
     let infoList = [];
     let resList = [];
     let cno;
@@ -96,8 +99,19 @@ const InfoTest = () => {
     });
   };
 
+  if (info.length === 0 && resInfo.length === 0) {
+    return (
+      <div id="spinner-image">
+        <img
+          src={require("../layout/guideline/image/spiner.gif")}
+          alt="Loading..."
+        ></img>
+      </div>
+    );
+  }
+
   return (
-    <div style={{ margin: "50px", fontWeight: "600", lineHeight: "2" }}>
+    <div style={{ margin: "30px auto", fontWeight: "600", lineHeight: "1.6" }}>
       {info.map((item, index) => (
         <div key={index}>
           <p> 법인명: {item.corpNm} </p>
