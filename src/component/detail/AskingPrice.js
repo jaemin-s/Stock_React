@@ -103,7 +103,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
           <thead style={{ top: 0, padding: "0px" }}>
             <tr className="high">
               <th style={{ padding: 0 }}>매도 잔량</th>
-              <th style={{ textAlign: "center", width: "30px" }}>호가</th>
+              <th style={{ textAlign: "center", minWidth: "20px" }}>호가</th>
               <th>매수 잔량</th>
             </tr>
           </thead>
