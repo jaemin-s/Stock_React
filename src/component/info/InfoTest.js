@@ -18,10 +18,13 @@ const InfoTest = () => {
 
   useEffect(() => {
     corpInfo();
-  }, [fetchFail]);
+  }, [fetchFail, value]);
 
   const corpInfo = async () => {
     console.log("누름");
+    setInfo([]);
+    setResInfo([]);
+
     let infoList = [];
     let resList = [];
     let cno;
@@ -108,7 +111,7 @@ const InfoTest = () => {
   }
 
   return (
-    <div style={{ margin: "50px", fontWeight: "600", lineHeight: "2" }}>
+    <div style={{ margin: "30px auto", fontWeight: "600", lineHeight: "1.6" }}>
       {info.map((item, index) => (
         <div key={index}>
           <p> 법인명: {item.corpNm} </p>

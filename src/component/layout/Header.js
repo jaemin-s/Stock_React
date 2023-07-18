@@ -298,7 +298,7 @@ const Header = () => {
               <input
                 id="searchText"
                 type="text"
-                className="form-control border-0 small"
+                className="form-control " //border-0 small
                 placeholder="Search"
                 aria-label="Search"
                 aria-describedby="basic-addon1"

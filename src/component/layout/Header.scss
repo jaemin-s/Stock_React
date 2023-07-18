@@ -26,6 +26,10 @@
     justify-content: center;
     margin: 0 auto; 
     display: flex;
+
+    .searchBtn {
+        height: 38px;
+    }
 }
 
 img:not(.logo) {
