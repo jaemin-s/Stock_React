@@ -84,7 +84,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
   }
 
   const handleClick = (rowIndex) => {
-    setSelectedRow(rowIndex === selectedRow ? null : rowIndex);
+    setSelectedRow(rowIndex);
     if (rowIndex < 5) {
       // askp5부터 askp1까지
       setSelectedValue(data.output1[`askp${5 - rowIndex}`]);
@@ -94,7 +94,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
     }
     // console.log("setSelectedValue : " + setSelectedValue);
     // console.log("setSelectedRow : " + setSelectedValue);
-    console.log("selectedValue : " + selectedValue);
+    // console.log("selectedValue : " + selectedValue);
   };
   return (
     <>
