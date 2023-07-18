@@ -155,9 +155,32 @@ const Header = () => {
     </>
   );
 
+  const [isToggle, setIsToggle] = useState(false);
+  const toggleHandler = () => {
+    setIsToggle(!isToggle);
+    console.log(isToggle);
+  };
+
+  const Search = ({ size = 25, color = "#fcf9f9" }) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+  );
+
   return (
     <>
-      <div
+      {/* <div
         style={{ display: "flex", justifyContent: "center", lineHeight: "5" }}
       >
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -247,8 +270,109 @@ const Header = () => {
             </ul>
           </div>
         </nav>
-      </div>
+      </div> */}
+      <nav
+        class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
+        style={{ width: "100%", justifyContent: "space-between" }}
+      >
+        <a className="nav-link" href="/">
+          <img
+            src={require("./guideline/image/logo.PNG")}
+            alt="@"
+            className="center-image"
+            style={{ width: "100px", marginLeft: "30px" }}
+          ></img>
+          <span className="sr-only">(current)</span>
+        </a>
 
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "30%",
+          }}
+        >
+          <form className="search-form-container" onSubmit={searchHandler}>
+            <div className="input-group input-group-append">
+              <input
+                id="searchText"
+                type="text"
+                className="form-control border-0 small"
+                placeholder="Search"
+                aria-label="Search"
+                aria-describedby="basic-addon1"
+                ref={inputRef}
+              />
+              <button className="btn btn-primary searchBtn">
+                <i className="fa-solid fa-magnifying-glass"></i>
+                <Search />
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <ul class="navbar-nav" style={{ width: "10%" }}>
+          <li
+            class={
+              isToggle
+                ? "nav-item dropdown no-arrow show"
+                : "nav-item dropdown no-arrow"
+            }
+            onClick={toggleHandler}
+          >
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="userDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded={isToggle ? "true" : "false"}
+            >
+              <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                오정원
+                <span style={{ fontSize: "25px", marginRight: "30px" }}>
+                  {isToggle ? "▲" : "▼"}
+                </span>
+              </span>
+              {/* <img class="img-profile rounded-circle" src="img/undraw_profile.svg"> */}
+            </a>
+            {/* <!-- Dropdown - User Information --> */}
+            <div
+              class={
+                isToggle
+                  ? "dropdown-menu dropdown-menu-right shadow animated--grow-in show"
+                  : "dropdown-menu dropdown-menu-right shadow animated--grow-in"
+              }
+              aria-labelledby="userDropdown"
+            >
+              <a class="dropdown-item" href="/mypage">
+                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                MyPage
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                Settings
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                Activity Log
+              </a>
+              <div class="dropdown-divider"></div>
+              <a
+                class="dropdown-item"
+                href="#"
+                data-toggle="modal"
+                data-target="#logoutModal"
+              >
+                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+      </nav>
       {infoIsModal && allInfoModal}
     </>
   );
