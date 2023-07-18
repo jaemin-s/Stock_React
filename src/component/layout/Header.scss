@@ -8,9 +8,9 @@
         justify-content: space-between;
 
     .nav-item {
-        font-size: 30px;
-        font-weight: 600;
 
+        font-weight: 400;
+        color: black;
         
     }
 }
@@ -85,3 +85,8 @@ img:not(.logo) {
     margin: 100px auto;
 }
 
+.topbar.navbar-light .navbar-nav .nav-item .nav-link {
+    color: black;
+    padding: 4px 16px;
+    height: 40px;
+}

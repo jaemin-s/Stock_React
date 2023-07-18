@@ -345,7 +345,7 @@ const Join = () => {
     <div className="bg-gradient-primary">
       <div className="container">
         <div className="card o-hidden border-0 shadow-lg my-5">
-          <div className="card-body p-0">
+          <div className="card-body p-0" style={{ overflow: "hidden" }}>
             {/* <!-- Nested Row within Card Body --> */}
             <div className="row">
               <div className="col-lg-7">
