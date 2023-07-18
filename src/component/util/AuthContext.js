@@ -32,7 +32,7 @@ export const AuthContextProvider = props => {
         if(localStorage.getItem('isLoggedIn') === '1') {
             setIsLoggedIn(true);
             setUserEmail(localStorage.getItem('LOGIN_USEREMAIL'));
-            setUserImage(localStorage.getItem('Login_USERIMAGE'))
+            setUserImage(localStorage.getItem('LOGIN_USERIMAGE'))
         } 
     }, []);
 
