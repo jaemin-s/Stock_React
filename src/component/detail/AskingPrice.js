@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import Echarts from "echarts-for-react";
 import { KI_APP_KEY, KI_SECRET_KEY } from "../../config/apikey";
 import "./AskingPrice.scss";
+import Header from "../layout/Header";
 import { useParams } from "react-router-dom";
 
 const AskingPrice = ({ selectedValueHandler }) => {

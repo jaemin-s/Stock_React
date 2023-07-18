@@ -2,7 +2,6 @@
 
 .navbar {
     width: 80%;
-
     .navbar-nav{
         width: 100%;
         align-items: center;
@@ -12,19 +11,21 @@
         font-size: 30px;
         font-weight: 600;
 
-        .input-group{
-            width: 100%;   
-            min-width: 180px;
-            max-width: 300px;
-            width: 20vw;
-            align-items: center;
-            align-content: center;
-            justify-content: center;
-        }
-    
-        }
+        
     }
-    
+}
+
+}
+.input-group{
+    width: 100%;   
+    min-width: 180px;
+    max-width: 300px;
+    width: 20vw;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    margin: 0 auto; 
+    display: flex;
 }
 
 img:not(.logo) {
