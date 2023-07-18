@@ -4,6 +4,8 @@ import React from "react";
 // import Footer from './component/layout/Footer';
 import "./guide.scss";
 import "../../bootstrap/css/sb-admin-2.min.css";
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Guide = ({}) => {
   return (
     <>
@@ -54,23 +56,27 @@ const Guide = ({}) => {
               </a>
               <a class="nav-link" href="#7" style={{ padding: "5px 16px" }}>
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>예수금</span>
+                <span>가격 제한폭</span>
               </a>
               <a class="nav-link" href="#8" style={{ padding: "5px 16px" }}>
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>예수금</span>
+              </a>
+              <a class="nav-link" href="#9" style={{ padding: "5px 16px" }}>
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>우선주</span>
               </a>
               <hr class="sidebar-divider my-0"></hr>
               <div class="sidebar-heading">튜토리얼</div>
-              <a class="nav-link" href="#9" style={{ padding: "5px 16px" }}>
+              <a class="nav-link" href="#10" style={{ padding: "5px 16px" }}>
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>종목 검색</span>
               </a>
-              <a class="nav-link" href="#10" style={{ padding: "5px 16px" }}>
+              <a class="nav-link" href="#11" style={{ padding: "5px 16px" }}>
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>매수 / 매도</span>
               </a>
-              <a class="nav-link" href="#11" style={{ padding: "5px 16px" }}>
+              <a class="nav-link" href="#12" style={{ padding: "5px 16px" }}>
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>즐겨찾기</span>
               </a>
@@ -197,15 +203,30 @@ const Guide = ({}) => {
             ></img>
             <br />
 
-            <h4 id="7">예수금</h4>
+            <h4 id="7">가격 제한폭</h4>
+            <p>
+              주식시장 및 파생상품 시장에서 개별 주식이나 종목이 일정범위 이상
+              거래될 수 없도록 제한한 것이다. 주로 주식 값이 과도하게 상승했을
+              때나 아니면 폭락했을 때에 시장이 심하게 충격을 받는것을 방지하는
+              장치로 도입되었다.
+              <br />
+              <img
+                className="center-image"
+                src={require("./image/가격제한폭.jpg")}
+                alt="@"
+                style={{ width: 500, height: 600 }}
+              ></img>
+              <span style={{ textAlign: "center" }}>유가증권시장(KOSPI)</span>
+            </p>
+            <br />
+            <h4 id="8">예수금</h4>
             <p>
               계좌에 넣어둔 현금으로 매매 가능 금액을 나타낸다.
               <br />
-              {/* <img src={require('./image/kospi_kosdaq.png')} alt="@"></img> */}
             </p>
             <br />
 
-            <h4 id="8">우선주</h4>
+            <h4 id="9">우선주</h4>
             <p>
               의결권이 없으며 보통주보다 먼저 배당을 받을 수 있는 권리가 부여된
               주식이며, 보통주에 비해 높은 배당금을 받을 수 있다.
@@ -240,25 +261,24 @@ const Guide = ({}) => {
                   튜토리얼
                 </h1>
               </div>
-              <p id="9">매수나 매도를 원하는 종목 검색한다.</p>
+              <p id="10">매수나 매도를 원하는 종목 검색한다.</p>
               <img
                 src={require("./image/검색창.png")}
                 alt="@"
                 style={{ marginBottom: "50px", width: "500px" }}
                 className="center-image"
               ></img>
-              <p id="10">
+              <p id="11">
                 호가, 뉴스, 종목정보를 기반으로 차트를 참조하여 호가 파트에서
                 매수 혹은 매도를 진행한다.(매수/매도 사진)
               </p>
-              <p id="11">
+              <p id="12">
                 종목 상세창에서 즐겨찾기에 추가할 수 있으며 목록은 메인 화면의
                 우측 하단이나, 종목 상세창 좌측에서 확인할 수 있다.
               </p>
-              <p id="12">
+              <p id="13">
                 매수나 매도가 고민될 때, 관련주나 타 종목을 보고싶을 때 아래의
-                관련 종목 추천을 참고할 수 있다.(화면 하단 '관련 종목 추천'
-                사진)
+                관련 종목 추천을 참고할 수 있다.
               </p>
               <img
                 src={require("./image/관련종목추천.png")}
@@ -266,6 +286,46 @@ const Guide = ({}) => {
                 style={{ marginBottom: "50px", width: "1000px" }}
                 className="center-image"
               ></img>
+              <div style={{ backgroundColor: "lightgray" }}>
+                <p>
+                  <FontAwesomeIcon
+                    icon={faCircleExclamation}
+                    style={{ color: "red" }}
+                  />{" "}
+                  주의{" "}
+                  <FontAwesomeIcon
+                    icon={faCircleExclamation}
+                    style={{ color: "red" }}
+                  />
+                  <br />
+                  <br />
+                  <a
+                    href="https://www.ytn.co.kr/_ln/0102_202101222019368154"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div
+                      className="card-body"
+                      style={{
+                        backgroundColor: "white",
+                        width: "50%",
+                        alignContent: "center",
+                      }}
+                    >
+                      <h5>
+                        '주식 리딩방' 들어가보니...'주린이' 노린 사기 피해 급증
+                      </h5>
+                      <p>
+                        고수익이 나는 주식 투자 종목을 알려준다는 명목으로
+                        운영되는 SNS 단체 대화방
+                      </p>
+                    </div>
+                  </a>
+                  <br />본 프로그램 제작자들은 건전한 주식투자를 지향하고
+                  있습니다. 안전하고 신뢰할 수 있는 투자 방법과 정보를 찾아서
+                  안전하게 투자하시기를 권장드립니다.
+                </p>
+              </div>
             </div>
           </div>
         </div>
