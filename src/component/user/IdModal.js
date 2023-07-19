@@ -6,22 +6,48 @@ const IdModal = (props) => {
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
   const { open, close, header } = props;
 
-  _searchUserID = async function() {
-    const user_name = document.getElementsById('searchName')[0].value.trim();
-    const user_phoneNumber = document.getElementsById('searchPhoneNumber')[0].value.trim();
-   
-  const obj = { 
-    user_name : user_name,
-    user_phoneNumber : user_phoneNumber,
-    
-}
   
-const res = await axios('/searchId', {
-    method : 'POST',
-    data : obj,
-    headers: new Headers()
+
+  const fetchSearchId =  async() => {
+    const $name = document.getElementById('searchName');
+    const $phoneNumber = document.getElementById('searchPhoneNumber');
+  
+   
+    
+   
+  
+const res = await fetch('http://localhost:8181/api/user/searchId', {
+  method: 'POST',
+  headers: { 'content-type' : 'application/json' },
+  body: JSON.stringify({
+      name: $name.value,
+      phoneNumber: $phoneNumber.value
 })
   
+  });
+
+  if (res.status === 400) {
+    const text = await res.text();
+    alert(text);
+    return;
+}
+
+const email = await res.text();
+console.log(email);
+alert(`회원님의 email은 ${email} 입니다`);
+
+  }
+
+  //아이디찾기 요청 핸들러
+  const searchIdHandler = e => {
+    e.preventDefault();
+
+    
+
+    // 서버에 아이디찾기 요청 전송
+    fetchSearchId();
+
+  }
 
  
   return (
@@ -49,8 +75,12 @@ const res = await axios('/searchId', {
 
                
                 <div>
-                  <input type='button' value='조회하기' className='submit'/>
+                  <input type='button' value='조회하기' className='submit' onClick={searchIdHandler} />
                 </div>
+
+                {/* <div>
+                  <h5> 회원님의 이메일은 ${email} 입니다. </h5>
+                </div> */}
               </div></main>
         
         </section>
@@ -59,6 +89,6 @@ const res = await axios('/searchId', {
   );
       }
       
-    }
+    
 
 export default IdModal;
