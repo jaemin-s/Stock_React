@@ -39,7 +39,7 @@ const SicCode = () => {
               setInfo(infoList);
     
               const sicRes = await fetch(
-                "/getCorpOutline_V2?ServiceKey=1KP%2F74OKGakEjZuUJc6YTkn5UTLRHtfug6BKkunpBqx3owk%2BrrquqsAG7hl7NqMbb5qqQYWVrkVKn7fnYfvXtQ%3D%3D&pageNo=1&numOfRows=10&resultType=json&sicNm=" +
+                "/getCorpOutline_V2?ServiceKey=1KP%2F74OKGakEjZuUJc6YTkn5UTLRHtfug6BKkunpBqx3owk%2BrrquqsAG7hl7NqMbb5qqQYWVrkVKn7fnYfvXtQ%3D%3D&pageNo=1&numOfRows=20&resultType=json&sicNm=" +
                   sicNb
               );
               const sicData = await sicRes.json();
@@ -57,18 +57,18 @@ const SicCode = () => {
           }
         };
     
-        // setIdstNm([]);
+        setIdstNm([]);
 
         sCodeInfo();
-      }, []);
+      }, [value]);
     
       if (idstNm.length === 0) {
         return (
-          <div id="spinner-image">
+          <div id="spinner-image" style={{overflow: "hidden"}}>
             <img
-              src={require("../layout/guideline/image/spiner.gif")}
+              src={require("../layout/guideline/image/spiner2.gif")}
               alt="Loading..."
-            ></img>
+              style={{overflow: "hidden", height: 100}}></img>
           </div>
         );
       }

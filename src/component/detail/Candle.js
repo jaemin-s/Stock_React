@@ -1,17 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ECharts from "echarts-for-react";
+import * as echarts from "echarts";
 import { useParams } from "react-router-dom";
 const Candle = ({ dailyPrice }) => {
   const [dailyResult, setDailyResult] = useState();
   const [time, setTime] = useState(new Date());
+  const [zoomValue, setZoomValue] = useState(50);
+  // 컴포넌트 내부에서 useRef를 사용하여 ECharts 인스턴스에 접근할 ref 생성
+  const echartsRef = useRef(null);
 
   useEffect(() => {
     const fetchDailyPrice = async () => {
       const result = await dailyPrice();
       setDailyResult(result);
     };
+
     const timer = setInterval(() => {
       setTime(new Date());
+      if (echartsRef.current !== null) {
+        //230719 장 마감 전에 줌 해놓은상태로 캔들 움직이는지 확인할 것
+        setZoomValue(echartsRef.current.getOption().dataZoom[0].start);
+        // console.log(echartsRef.current.getOption().dataZoom[0].start);
+      }
       fetchDailyPrice();
     }, 1000); // 1초마다 렌더링
 
@@ -21,14 +31,10 @@ const Candle = ({ dailyPrice }) => {
     };
   }, [dailyPrice]);
 
-  useEffect(() => {
-    // !!dailyResult && console.log("결과 바뀜", dailyResult);
-  }, [dailyResult]);
+  useEffect(() => {}, [dailyResult]);
 
   const { value } = useParams();
   const title = value.split("(", 2);
-  // console.log(title[0]); //검색어의 회사명
-  // console.log(title[1].slice(0, -1)); // 검색어의 종목 코드
 
   const makeEcharts = () => {
     const upColor = "#e74a3b";
@@ -37,10 +43,6 @@ const Candle = ({ dailyPrice }) => {
     const downBorderColor = "#4e73df";
 
     let options = {
-      // title: {
-      //     text: '종목이름',
-      //     left: 0
-      // },
       tooltip: {
         trigger: "axis",
         axisPointer: {
@@ -70,7 +72,7 @@ const Candle = ({ dailyPrice }) => {
       dataZoom: [
         {
           type: "inside",
-          start: 50,
+          start: zoomValue,
           end: 100,
         },
       ],
@@ -88,8 +90,10 @@ const Candle = ({ dailyPrice }) => {
         },
       ],
     };
+
     return (
       <ECharts
+        ref={(e) => (echartsRef.current = e && e.getEchartsInstance())}
         option={options}
         style={{ width: "100%", height: "110%", marginTop: "-40px" }}
       />

@@ -9,6 +9,7 @@ import Guide from './component/layout/guideline/guide'
 import MyPage from './component/user/MyPage';
 import Detail from './component/detail/Detail';
 import { AuthContextProvider } from './component/util/AuthContext';
+import KakaoAuthHandle from './component/user/KakaoAuthHandle';
 function App() {
 
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path='/guide' element={ <Guide />}/>
             <Route path='/mypage' element={ <MyPage />}/>
             <Route path='/detail/:value' element={ < Detail /> } />
+            <Route path='/api/user/callback/kakao' element={ <KakaoAuthHandle />} />
           
   
 

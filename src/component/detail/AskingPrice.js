@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import Echarts from "echarts-for-react";
 import { KI_APP_KEY, KI_SECRET_KEY } from "../../config/apikey";
 import "./AskingPrice.scss";
+import Header from "../layout/Header";
 import { useParams } from "react-router-dom";
 
 const AskingPrice = ({ selectedValueHandler }) => {
@@ -82,7 +84,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
   }
 
   const handleClick = (rowIndex) => {
-    setSelectedRow(rowIndex === selectedRow ? null : rowIndex);
+    setSelectedRow(rowIndex);
     if (rowIndex < 5) {
       // askp5부터 askp1까지
       setSelectedValue(data.output1[`askp${5 - rowIndex}`]);
@@ -92,7 +94,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
     }
     // console.log("setSelectedValue : " + setSelectedValue);
     // console.log("setSelectedRow : " + setSelectedValue);
-    console.log("selectedValue : " + selectedValue);
+    // console.log("selectedValue : " + selectedValue);
   };
   return (
     <>
@@ -101,7 +103,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
           <thead style={{ top: 0, padding: "0px" }}>
             <tr className="high">
               <th style={{ padding: 0 }}>매도 잔량</th>
-              <th style={{ textAlign: "center", width: "30px" }}>호가</th>
+              <th style={{ textAlign: "center", minWidth: "20px" }}>호가</th>
               <th>매수 잔량</th>
             </tr>
           </thead>

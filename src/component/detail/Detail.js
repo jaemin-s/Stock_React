@@ -25,13 +25,20 @@ import { RequsetHeader } from "../../config/apikey";
 import Candle from "./Candle";
 import AskingPrice from "./AskingPrice";
 import { elements } from "chart.js";
+import { red } from "@mui/material/colors";
 import SicCode from "../info/SicCode";
 
 const Detail = () => {
   const { value } = useParams();
   const title = value.split("(", 2);
-  // console.log(title[0]); //검색어의 회사명
-  // console.log(title[1].slice(0, -1)); // 검색어의 종목 코드
+
+  //현재가, 등락률 관리
+  const [livePrice, setLivePrice] = useState();
+  const [fluctuationRate, setFluctuationRate] = useState();
+  const [isRise, setIsRise] = useState(true);
+
+  //로딩 관리
+  const [loadSuccess, setLoadSuccess] = useState(false);
 
   const redirection = useNavigate();
 
@@ -79,6 +86,7 @@ const Detail = () => {
           stck_clpr: close,
           stck_hgpr: highest,
           stck_lwpr: lowest,
+          prdy_ctrt: percent,
         } = x;
         dates.unshift(dateFormat(date));
         values.unshift([
@@ -86,9 +94,19 @@ const Detail = () => {
           parseInt(close),
           parseInt(lowest),
           parseInt(highest),
+          parseFloat(percent),
         ]);
       });
-      // console.log({ categoryData: dates, values });
+      // 현재가
+      setLivePrice(values[values.length - 1][1]);
+      if (values[values.length - 1][4] >= 0) {
+        setIsRise(true);
+      } else {
+        setIsRise(false);
+      }
+
+      setFluctuationRate(values[values.length - 1][4]);
+      // console.log(values[values.length - 1]);
       return { categoryData: dates, values };
     } else {
       // console.log("res인데 말이야 = ",res);
@@ -98,9 +116,7 @@ const Detail = () => {
 
   function selectedValueHandler(value) {
     // console.log("selectedValueHandler : " + value);
-    setSelectedValue(value, () => {
-      // console.log("selectedValue : " + selectedValue);
-    });
+    setSelectedValue(value);
   }
   //모달 관리
   const [isModalOpen, setIsModalOpen] = useState(false); //매수
@@ -142,12 +158,15 @@ const Detail = () => {
   //const [selected, setSelected] = useState('호가');
 
   const toggleModal = (e) => {
-    setIsModalOpen(!isModalOpen);
-    // console.log(e);
+    if (selectedValue !== null) {
+      setIsModalOpen(!isModalOpen);
+    }
   };
 
   const sellModal = () => {
-    setModalType(!modalType);
+    if (selectedValue !== null) {
+      setModalType(!modalType);
+    }
   };
 
   const [order, setOrder] = useState("");
@@ -364,7 +383,7 @@ const Detail = () => {
     try {
       //   corps = e.target.dataSet.stockId;
       const res = await fetch(
-        "https://apis.data.go.kr/1160100/service/GetCorpBasicInfoService_V2/getCorpOutline_V2?pageNo=1&resultType=json&serviceKey=" +
+        "/getCorpOutline_V2?pageNo=1&resultType=json&serviceKey=" +
           DATA_GO_KR_KEY +
           "&numOfRows=20&corpNm=" +
           corps +
@@ -387,7 +406,7 @@ const Detail = () => {
   }, [data]);
 
   // data 상태가 null인 경우 로딩 상태 표시
-  if (data === null) {
+  if (data === null || livePrice === null) {
     return (
       <div id="spinner-image">
         <img
@@ -430,14 +449,14 @@ const Detail = () => {
                 />
                 &nbsp;
               </span>
-              {/* <ul onClick={getCode}>
-                    <li data-stock-id="삼성전자">asdasd</li>
-                    <li>asdasd</li>
-                    <li>asdasd</li>
-                </ul> */}
-              {/* {corps}({stockCode}) */}
               {value}
               {stockCode}
+              <span className="live-price">
+                {livePrice}원{" "}
+                <span style={isRise ? { color: "red" } : { color: "blue" }}>
+                  {isRise ? `▲${fluctuationRate}%` : `▼${fluctuationRate}%`}
+                </span>
+              </span>
             </h1>
 
             <div className="margin-wrapper">
@@ -521,7 +540,7 @@ const Detail = () => {
                       관련종목 추천
                     </h6>
                   </div>
-                  <div className="card-body">
+                  <div className="card-body" id="sic-body">
                         <SicCode />
                   </div>
                 </div>
