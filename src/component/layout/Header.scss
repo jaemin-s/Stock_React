@@ -35,7 +35,7 @@ img:not(.logo) {
 #info-modal {
     max-height: 600px;
     max-width: 800px;
-    width: 500px;
+    width: 600px;
     display: flex;
     flex-wrap: wrap;
     overflow: auto;
@@ -53,23 +53,41 @@ img:not(.logo) {
 }
 #info-modal::-webkit-scrollbar-track {
     border-radius: 50px;
+    opacity: 1;
     background: rgb(153, 208, 228);
   }
 
-#info-modal #info-modal-tag a{
-        width: 240px;
-        height: 40px;
-        max-height: 50px;
-        display: flex;
-        flex-wrap: wrap;
-        text-decoration: none;
-        color: black;
-        padding: 5px;
-        margin-left: 3px;
-        font-size: 20px;
-        margin-bottom: 10px;
+#info-modal {
+
+    :nth-child(4n+3) {
+        background-color: #f8f9fc;
+    }
+    :nth-child(4n) {
+        background-color: #f8f9fc;
     }
 
+    #info-modal-tag {
+        margin-bottom: 0;
+
+        a{
+            width: 280px;
+            max-width: 280px;
+            height: 40px;
+            max-height: 50px;
+            display: flex;
+            flex-wrap: wrap;
+            text-decoration: none;
+            color: black;
+            padding: 5px;
+            margin-left: 3px;
+            font-size: 17px;
+            margin-bottom: 0;
+        }
+
+    }
+}
+
+    
 #cancleFooter {
     background: red;
 }

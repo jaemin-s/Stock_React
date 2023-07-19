@@ -115,7 +115,7 @@ const Header = () => {
     <>
       <Modal
         isOpen={infoIsModal}
-        style={{ maxWidth: 2000, width: 600, marginTop: 200 }}
+        style={{ maxWidth: 2000, width: 620, marginTop: 200 }}
       >
         <ModalBody style={{ height: 650 }}>
           {keyItem.length === 0 ? (
@@ -146,7 +146,7 @@ const Header = () => {
           <Button
             onClick={infoModal}
             id="cancleFooter"
-            style={{ backgroundColor: "skyblue", width: 100, height: 50 }}
+            style={{ backgroundColor: "skyblue", width: 100, height: 50, border: "none" }}
           >
             취소
           </Button>

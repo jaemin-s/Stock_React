@@ -25,6 +25,7 @@ import { RequsetHeader } from "../../config/apikey";
 import Candle from "./Candle";
 import AskingPrice from "./AskingPrice";
 import { elements } from "chart.js";
+import SicCode from "../info/SicCode";
 
 const Detail = () => {
   const { value } = useParams();
@@ -357,7 +358,6 @@ const Detail = () => {
       </div>
     </>
   );
-
   const [data, setData] = useState(null); // 결과를 저장할 상태
   let corps = value;
   const getCode = async (e) => {
@@ -522,10 +522,7 @@ const Detail = () => {
                     </h6>
                   </div>
                   <div className="card-body">
-                    <button onClick={research}>카카오페이</button>
-                    <button onClick={research}>카카오뱅크</button>
-                    <button onClick={research}>카카오화재</button>
-                    <button onClick={research}>카카오게임즈</button>
+                        <SicCode />
                   </div>
                 </div>
               </div>
