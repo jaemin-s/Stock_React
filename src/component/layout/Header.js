@@ -177,12 +177,12 @@ const Header = () => {
     </svg>
   );
 
-  const { isLoggedIn, onLogout, userEmail, userName } = useContext(AuthContext);
-  console.log("userEmail:  ", userEmail);
-  console.log("userName:  ", userName);
+  const { isLoggedIn, onLogout, email, name } = useContext(AuthContext);
+  console.log("userEmail:  ", email);
+  console.log("userName:  ", name);
   // const profileRequestURL =
 
-  // const [profileUrl, setProfileUrl] = useState(null);
+  // const [profileUrl, setProfileUrl] = useState("");
 
   // const fetchProfileImage = async () => {
   //   const res = await fetch(profileRequestURL, {
@@ -194,15 +194,13 @@ const Header = () => {
 
   //   if (res.status === 200) {
   //     //서버에서는 직렬화된 이미지가 응답된다.
-  //     const imgUrl = await res.text();
-  //     setProfileUrl(imgUrl);
+  //     // const imgUrl = await res.text();
+  //     // setProfileUrl(imgUrl);
 
-  //     /*
-  //       const profileBlob = await res.blob();
-  //       //해당 이미지를 imgUrl로 변경
-  //       const imgUrl = window.URL.createObjectURL(profileBlob);
-  //       setProfileUrl(imgUrl);
-  //       */
+  //     const profileBlob = await res.blob();
+  //     //해당 이미지를 imgUrl로 변경
+  //     const imgUrl = window.URL.createObjectURL(profileBlob);
+  //     setProfileUrl(imgUrl);
   //   } else {
   //     const err = await res.text();
   //     setProfileUrl(null);
@@ -295,7 +293,7 @@ const Header = () => {
                 }}
               />
               <span style={{ fontWeight: 600, fontSize: 20 }}>
-                {isLogin() ? userEmail : "WELCOME"}
+                {isLogin() ? email : "WELCOME"}
                 &nbsp;
                 <span className={isToggle ? "rotate-up" : "rotate-down"}>
                   {isToggle ? "▲" : "▼"}

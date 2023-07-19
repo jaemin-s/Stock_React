@@ -96,16 +96,25 @@ const Detail = () => {
           parseFloat(percent),
         ]);
       });
+
       // 현재가
-      setLivePrice(values[values.length - 1][1]);
+      if (values[values.length - 1][1] !== undefined) {
+        setLivePrice(values[values.length - 1][1]);
+      }
+
+      //등락률
       if (values[values.length - 1][4] >= 0) {
         setIsRise(true);
       } else {
         setIsRise(false);
       }
 
-      setFluctuationRate(values[values.length - 1][4]);
-      // console.log(values[values.length - 1]);
+      if (values[values.length - 1][4] !== undefined) {
+        setFluctuationRate(values[values.length - 1][4]);
+      } else {
+        setFluctuationRate(0);
+      }
+
       return { categoryData: dates, values };
     } else {
       // console.log("res인데 말이야 = ",res);
@@ -438,7 +447,7 @@ const Detail = () => {
       <body id="page-top" style={{ width: "80%" }}>
         <div id="wrapper">
           <div id="container">
-            <h1>
+            <h1 className="flex">
               <span className="star-icon" onClick={toggleStar}>
                 <FontAwesomeIcon
                   icon={filled ? filledStar : emptyStar}
@@ -452,9 +461,18 @@ const Detail = () => {
               {value}
               {stockCode}
               <span className="live-price">
-                {livePrice}원{" "}
+                {livePrice !== undefined
+                  ? livePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+                    "원 "
+                  : "      "}
+
                 <span style={isRise ? { color: "red" } : { color: "blue" }}>
-                  {isRise ? `▲${fluctuationRate}%` : `▼${fluctuationRate}%`}
+                  {fluctuationRate === undefined
+                    ? "      "
+                    : isRise
+                    ? `▲${fluctuationRate}%`
+                    : `▼${fluctuationRate}%`}
+                  {}
                 </span>
               </span>
             </h1>
