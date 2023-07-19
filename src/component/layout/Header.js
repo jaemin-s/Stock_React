@@ -67,47 +67,60 @@ const Header = () => {
     nameData();
   };
 
+  const [loadingFail, setLoadingFail] = useState(false); // 로딩실패시 재렌더링을 위한 상태관리
   const nameData = async () => {
     console.log("fetch문 안으로 등장");
     const res = await fetch(
       "/getStockPriceInfo?serviceKey=1KP%2F74OKGakEjZuUJc6YTkn5UTLRHtfug6BKkunpBqx3owk%2BrrquqsAG7hl7NqMbb5qqQYWVrkVKn7fnYfvXtQ%3D%3D&numOfRows=30&pageNo=1&resultType=json&likeItmsNm=" +
         inputRef.current.value
     );
-    console.log("res", res);
-    const nameData = await res.json();
-    const infoNameData = [];
 
-    nameData.response.body.items.item.forEach((nameList) => {
-      const { itmsNm: itmsNm, srtnCd: srtnCd } = nameList;
-      const isDuplicate = infoNameData.some(
-        (item) => item.itmsNm === itmsNm && item.srtnCd === srtnCd
-      ); // 중복 체크
-
-      // 중복된 값이 없을 경우에만 추가
-      if (!isDuplicate) {
-        console.log("중복검사중이야");
-        infoNameData.push({
-          itmsNm,
-          srtnCd,
-        });
-        SetKeyItem(infoNameData);
-      }
-    });
-    if (infoNameData.length === 0) {
-      alert("검색 결과가 없습니다.");
-      setInfoIsModal(false);
+    if (res.status === 500) {
+      setLoadingFail(!loadingFail);
+      return;
     } else {
-      infoModal();
+      console.log("res", res);
+      const nameData = await res.json();
+      const infoNameData = [];
+
+      nameData.response.body.items.item.forEach((nameList) => {
+        const { itmsNm: itmsNm, srtnCd: srtnCd } = nameList;
+        const isDuplicate = infoNameData.some(
+          (item) => item.itmsNm === itmsNm && item.srtnCd === srtnCd
+        ); // 중복 체크
+
+        // 중복된 값이 없을 경우에만 추가
+        if (!isDuplicate) {
+          infoNameData.push({
+            itmsNm,
+            srtnCd,
+          });
+          SetKeyItem(infoNameData);
+        }
+      });
+      if (infoNameData.length === 0) {
+        alert("검색 결과가 없습니다.");
+        setInfoIsModal(false);
+      } else {
+        // infoModal();
+      }
     }
   };
 
-  useEffect(() => {
-    // console.log("useEffect");
-  }, [keyItem]);
+  useEffect(() => {}, [keyItem]);
+
+  // useEffect(() => {
+  //   console.log("네임데이터 실행");
+  //   nameData();
+  // }, [loadingFail]);
 
   const infoModal = () => {
     document.getElementById("searchText").value = "";
     setInfoIsModal(!infoIsModal);
+  };
+
+  const closeModal = () => {
+    setInfoIsModal(false);
   };
 
   const allInfoModal = (
@@ -143,7 +156,7 @@ const Header = () => {
         </ModalBody>
         <ModalFooter>
           <Button
-            onClick={infoModal}
+            onClick={closeModal}
             id="cancleFooter"
             style={{ backgroundColor: "skyblue", width: 100, height: 50 }}
           >
@@ -339,6 +352,11 @@ const Header = () => {
                   <li className="nav-item">
                     <a className="nav-link" href="/login">
                       Login
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/guide">
+                      Guide
                     </a>
                   </li>
                 </>

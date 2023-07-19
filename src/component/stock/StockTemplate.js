@@ -387,13 +387,13 @@ function StockTemplate() {
           </div>
           <div className="bookmark card shadow">
             <div className="card-header">
-              <h6 className="m-0 font-weight-bold text-primary">즐겨찾기</h6>
+              <h6 className="m-0 font-weight-bold text-primary">관심종목</h6>
             </div>
             {isLogin() ? (
-              <div className="card-body">즐겨찾기 목록</div>
+              <div className="card-body">관심종목 목록</div>
             ) : (
               <div className="card-body">
-                로그인 후 즐겨찾기 기능을 이용해 보세요!
+                로그인 후 관심종목 기능을 이용해 보세요!
                 <p
                   onClick={loginHandler}
                   style={{ cursor: "pointer", color: "blue" }}
