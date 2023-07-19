@@ -177,9 +177,9 @@ const Header = () => {
     </svg>
   );
 
-  const { isLoggedIn, onLogout, userEmail, userName } = useContext(AuthContext);
-  console.log("userEmail:  ", userEmail);
-  console.log("userName:  ", userName);
+  const { isLoggedIn, onLogout, email, name } = useContext(AuthContext);
+  console.log("userEmail:  ", email);
+  console.log("userName:  ", name);
   // const profileRequestURL =
 
   // const [profileUrl, setProfileUrl] = useState(null);
@@ -295,7 +295,7 @@ const Header = () => {
                 }}
               />
               <span style={{ fontWeight: 600, fontSize: 20 }}>
-                {isLogin() ? userEmail : "WELCOME"}
+                {isLogin() ? email : "WELCOME"}
                 &nbsp;
                 <span className={isToggle ? "rotate-up" : "rotate-down"}>
                   {isToggle ? "▲" : "▼"}

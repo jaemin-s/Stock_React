@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 
 const AuthContext = React.createContext({
 isLoggedIn: false,
-  userEmail: "",
-  userName: "",
-  UserImage: "",
+  email: "",
+  name: "",
+  image: "",
   age: "",
   gender: "",
   career: "",
@@ -18,9 +18,9 @@ isLoggedIn: false,
 export const AuthContextProvider = props => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userEmail, setUserEmail] = useState(''); 
-    const [userImage, setUserImage] = useState('');
-    const [userName, setUserName] = useState("");
+    const [email, setEmail] = useState(''); 
+    const [image, setImage] = useState('');
+    const [name, setName] = useState("");
     const [nick, setNick] = useState("");
     const [age, setAge] = useState("");
     const [gender, setGender] = useState("");
@@ -31,8 +31,8 @@ export const AuthContextProvider = props => {
     useEffect(() => {
         if(localStorage.getItem('isLoggedIn') === '1') {
             setIsLoggedIn(true);
-            setUserEmail(localStorage.getItem('LOGIN_USEREMAIL'));
-            setUserImage(localStorage.getItem('LOGIN_USERIMAGE'))
+            setEmail(localStorage.getItem('LOGIN_USEREMAIL'));
+            setImage(localStorage.getItem('LOGIN_USERIMAGE'))
         } 
     }, []);
 
@@ -50,8 +50,8 @@ export const AuthContextProvider = props => {
         localStorage.setItem('LOGIN_USEREMAIL', email);
         localStorage.setItem('LOGIN_USERIMAGE', image);
         setIsLoggedIn(true);
-        setUserEmail(email);
-        setUserImage(image);
+        setEmail(email);
+        setImage(image);
     };
 
     //카카오 로그인 핸들러
@@ -61,8 +61,8 @@ export const AuthContextProvider = props => {
         localStorage.setItem('LOGIN_USEREMAIL', email);
         localStorage.setItem('LOGIN_USERIMAGE', image);
         setIsLoggedIn(true);
-        setUserEmail(email);
-        setUserImage(image);
+        setEmail(email);
+        setImage(image);
     };
 
     //토큰 및 로그인 유저 데이터를 브라우저에 저장하는 함수
@@ -76,8 +76,8 @@ export const AuthContextProvider = props => {
     useEffect(() => {
     if (localStorage.getItem("isLoggedIn") === "1") {
       setIsLoggedIn(true);
-      setUserEmail(localStorage.getItem("LOGIN_USEREMAIL"));
-      setUserName(localStorage.getItem("LOGIN_USERNAME"));
+      setEmail(localStorage.getItem("LOGIN_USEREMAIL"));
+      setName(localStorage.getItem("LOGIN_USERNAME"));
       setNick(localStorage.getItem("NICK"));
       setAge(localStorage.getItem("AGE"));
       setGender(localStorage.getItem("GENDER"));
@@ -88,8 +88,8 @@ export const AuthContextProvider = props => {
     return (
         <AuthContext.Provider value={{
             isLoggedIn,
-            userEmail,
-            userImage,
+            email,
+            image,
             onLogout: logoutHandler,
             onLogin: loginHandler, kLoginHandler,
             setUserInfo: setLoginUserInfo

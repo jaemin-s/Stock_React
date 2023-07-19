@@ -26,6 +26,7 @@ function App() {
             <Route path='/mypage' element={ <MyPage />}/>
             <Route path='/detail/:value' element={ < Detail /> } />
             <Route path='/api/user/callback/kakao' element={ <KakaoAuthHandle />} />
+           
           
   
 
