@@ -274,6 +274,31 @@ const Join = () => {
     });
   };
 
+   //전화번호 입력창 체인지 이벤트 핸들러
+   const phoneNumberHandler = (e) => {
+    let inputVal = e.target.value;
+
+    const phoneNumberRegex = /[^0-9]/;
+
+    let msg,
+      flag = false;
+    if (!inputVal) {
+      msg = "전화번호를 입력해주세요.";
+    } else if (phoneNumberRegex.test(inputVal)) {
+      msg = "숫자만 입력해주세요.";
+    } else {
+      msg = "";
+      flag = true;
+    }
+
+    saveInputState({
+      key: "phoneNumber",
+      inputVal,
+      msg,
+      flag,
+    });
+  };
+
   // 이미지 파일 상태변수
   const [imgFile, setImgFile] = useState(null);
 
@@ -484,6 +509,28 @@ const Join = () => {
                         {message.passwordCheck}
                       </span>
                     </div>
+
+
+                    <div className="form-group">
+                      <input
+                        type="text" maxLength='11'
+                        className="form-control form-control-user"
+                        id="phoneNumber"
+                        placeholder="전화번호"
+                        required
+                        onChange={phoneNumberHandler}
+                      />
+                       <span
+                        className="pass-msg"
+                        style={
+                          correct.phoneNumber ? { color: "blue" } : { color: "red" }
+                        }
+                      >
+                        {message.phoneNumber}
+                      </span>
+                      </div>
+
+
 
                     <div className="form-group">
                       <input

@@ -84,45 +84,16 @@ const Login = () => {
         // checkToken();
         window.location.href = KAKAO_AUTH_URL;
     }
-
-    // function Modal() {
-    //     // 모달창 노출 여부 state
-    //     const [modalOpen, setModalOpen] = useState(false);
     
-    //     // 모달창 노출
-    //     const showModal = () => {
-    //         setModalOpen(true);
-    //     };                 
-    
+    // 아이디 찾기 모달
+    const [modalOpen, setModalOpen] = useState(false);
 
-   
-
-    // async function checkToken(code) {
-    //   const res = await fetch(`http://localhost:3000/api/user/callback/kakao?code=${code}`, { 
-    //     method: "GET"
-       
-    // });
-    
-    // const data = await res.json();
-    // console.log('data: ', data);
-    
-    //    .then(res => res.json())             //json으로 받을 것을 명시
-    //    .then(res => {      
-    //             console.log(res);
-    //             console.log(res.data.email);
-    //             console.log(res.data.token);
-                
-    //             localStorage.setItem("email", res.data.email);
-    //             localStorage.setItem("token", res.data.token);
-                            
-    //   });
-
-          
-             //홈으로 리다이렉트
-            //  redirection('/');
-
-        
-        
+    const openModal = () => {
+      setModalOpen(true);
+    };
+    const closeModal = () => {
+      setModalOpen(false);
+    };     
     
     
     
@@ -178,8 +149,12 @@ const Login = () => {
                                         </form>
 
                                         <div className="text-center">
-                                        {/* <div>
-                                            <a className="small" href="#" onClick={showModal}>아이디 찾기</a>{modalOpen && <IdModal setModalOpen={setModalOpen} />}</div>  */}
+                                        <React.Fragment>
+                                            <a className="small"  href="#" onClick={openModal}>아이디 찾기</a> 
+                                            <IdModal open={modalOpen} close={closeModal} header="아이디 찾기">
+                                                </IdModal></React.Fragment>
+
+
                                            /<a className="small" href="#"> 비밀번호 변경</a> 
                                            </div>
                                         
@@ -202,7 +177,7 @@ const Login = () => {
     
   )
   }
-    }
+
 
   
 
