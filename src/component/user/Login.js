@@ -1,13 +1,16 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import '../bootstrap/css/sb-admin-2.min.css';
 import '../user/Login.scss';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../util/AuthContext';
-import { KAKAO_AUTH_URL } from './OAuth'
+import { KAKAO_AUTH_URL } from './OAuth';
+import IdModal from './IdModal'
 
 
 
 const Login = () => {
+   
+    
   const redirection = useNavigate();
 
   const { onLogin, isLoggedIn } = useContext(AuthContext);
@@ -53,7 +56,12 @@ const Login = () => {
      //홈으로 리다이렉트
      redirection('/');
 
-}
+    
+    
+    }
+
+
+
 
     //로그인 요청 핸들러
     const loginHandler = e => {
@@ -75,8 +83,19 @@ const Login = () => {
         // 서버에 로그인 요청 전송
         // checkToken();
         window.location.href = KAKAO_AUTH_URL;
-
     }
+
+    // function Modal() {
+    //     // 모달창 노출 여부 state
+    //     const [modalOpen, setModalOpen] = useState(false);
+    
+    //     // 모달창 노출
+    //     const showModal = () => {
+    //         setModalOpen(true);
+    //     };                 
+    
+
+   
 
     // async function checkToken(code) {
     //   const res = await fetch(`http://localhost:3000/api/user/callback/kakao?code=${code}`, { 
@@ -101,6 +120,7 @@ const Login = () => {
           
              //홈으로 리다이렉트
             //  redirection('/');
+
         
         
     
@@ -156,8 +176,12 @@ const Login = () => {
 
                                                                                 
                                         </form>
+
                                         <div className="text-center">
-                                            <a className="small" href="#">아이디 찾기 </a>/<a className="small" href="#"> 비밀번호 변경</a> 
+                                        {/* <div>
+                                            <a className="small" href="#" onClick={showModal}>아이디 찾기</a>{modalOpen && <IdModal setModalOpen={setModalOpen} />}</div>  */}
+                                           /<a className="small" href="#"> 비밀번호 변경</a> 
+                                           </div>
                                         
                                         <div className="text-center">
                                         <a className="small" href="/join">회원가입</a>
@@ -174,10 +198,12 @@ const Login = () => {
             </div>
           </div>
         </div>
-      </div>
- 
+
+    
   )
-}
+  }
+    }
+
   
 
 
