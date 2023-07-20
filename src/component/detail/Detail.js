@@ -387,6 +387,7 @@ const Detail = () => {
   );
 
   const [data, setData] = useState(null); // 결과를 저장할 상태
+  const [loadingFail, setLoadingFail] = useState(false); // 로딩실패시 재렌더링을 위한 상태관리
   let corps = value;
   const getCode = async (e) => {
     try {
@@ -403,16 +404,21 @@ const Detail = () => {
         const data = await res.json();
         setData(data.response.body.items.item); // 결과를 상태에 저장
       }
+      if (res.status === 500 || 504) {
+        setLoadingFail(!loadingFail);
+        console.log(data);
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
+    console.log(data);
     if (data === null) {
       getCode();
     }
-  }, [data]);
+  }, [loadingFail]);
 
   // data 상태가 null인 경우 로딩 상태 표시
   if (data === null || livePrice === null) {
