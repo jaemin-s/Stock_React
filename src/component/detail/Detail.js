@@ -171,6 +171,48 @@ const Detail = () => {
     }
   };
 
+  async function buyRequest() {
+    const res = await fetch("http://localhost:8181/api/trade/buy", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email: localStorage.getItem("LOGIN_USEREMAIL"),
+        stockName: title[0],
+        stockId: title[1].slice(0, -1),
+        price: totalOrder,
+        quantity: order,
+      }),
+    });
+    if (res.status === 200) {
+      const buyResponse = await res.text();
+      console.log(buyResponse);
+    }
+    toggleModal();
+  }
+
+  async function sellRequest() {
+    const res = await fetch("http://localhost:8181/api/trade/sell", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email: localStorage.getItem("LOGIN_USEREMAIL"),
+        stockName: title[0],
+        stockId: title[1].slice(0, -1),
+        price: totalOrder,
+        quantity: order,
+      }),
+    });
+    if (res.status === 200) {
+      const sellResponse = await res.text();
+      console.log(sellResponse);
+    }
+    toggleModal();
+  }
+
   const sellModal = () => {
     if (selectedValue !== null) {
       setModalType(!modalType);
@@ -240,7 +282,7 @@ const Detail = () => {
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button color="danger" onClick={toggleModal}>
+          <Button color="danger" onClick={buyRequest}>
             매수
           </Button>
           <Button color="secondary" onClick={toggleModal}>
@@ -290,7 +332,7 @@ const Detail = () => {
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={sellModal}>
+          <Button color="primary" onClick={sellRequest}>
             매도
           </Button>
           <Button color="secondary" onClick={sellModal}>
@@ -564,7 +606,7 @@ const Detail = () => {
                     </h6>
                   </div>
                   <div className="card-body" id="sic-body">
-                        {/* 원래 관련종목 칸 */}
+                    {/* 원래 관련종목 칸 */}
                   </div>
                 </div>
               </div>
