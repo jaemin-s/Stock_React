@@ -96,16 +96,25 @@ const Detail = () => {
           parseFloat(percent),
         ]);
       });
+
       // 현재가
-      setLivePrice(values[values.length - 1][1]);
+      if (values[values.length - 1][1] !== undefined) {
+        setLivePrice(values[values.length - 1][1]);
+      }
+
+      //등락률
       if (values[values.length - 1][4] >= 0) {
         setIsRise(true);
       } else {
         setIsRise(false);
       }
 
-      setFluctuationRate(values[values.length - 1][4]);
-      // console.log(values[values.length - 1]);
+      if (values[values.length - 1][4] !== undefined) {
+        setFluctuationRate(values[values.length - 1][4]);
+      } else {
+        setFluctuationRate(0);
+      }
+
       return { categoryData: dates, values };
     } else {
       // console.log("res인데 말이야 = ",res);
@@ -377,6 +386,7 @@ const Detail = () => {
     </>
   );
   const [data, setData] = useState(null); // 결과를 저장할 상태
+  const [loadingFail, setLoadingFail] = useState(false); // 로딩실패시 재렌더링을 위한 상태관리
   let corps = value;
   const getCode = async (e) => {
     try {
@@ -393,16 +403,21 @@ const Detail = () => {
         const data = await res.json();
         setData(data.response.body.items.item); // 결과를 상태에 저장
       }
+      if (res.status === 500 || 504) {
+        setLoadingFail(!loadingFail);
+        console.log(data);
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
+    console.log(data);
     if (data === null) {
       getCode();
     }
-  }, [data]);
+  }, [loadingFail]);
 
   // data 상태가 null인 경우 로딩 상태 표시
   if (data === null || livePrice === null) {
@@ -437,7 +452,7 @@ const Detail = () => {
       <body id="page-top" style={{ width: "80%" }}>
         <div id="wrapper">
           <div id="container">
-            <h1>
+            <h1 className="flex">
               <span className="star-icon" onClick={toggleStar}>
                 <FontAwesomeIcon
                   icon={filled ? filledStar : emptyStar}
@@ -451,9 +466,18 @@ const Detail = () => {
               {value}
               {stockCode}
               <span className="live-price">
-                {livePrice}원{" "}
+                {livePrice !== undefined
+                  ? livePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+                    "원 "
+                  : "      "}
+
                 <span style={isRise ? { color: "red" } : { color: "blue" }}>
-                  {isRise ? `▲${fluctuationRate}%` : `▼${fluctuationRate}%`}
+                  {fluctuationRate === undefined
+                    ? "      "
+                    : isRise
+                    ? `▲${fluctuationRate}%`
+                    : `▼${fluctuationRate}%`}
+                  {}
                 </span>
               </span>
             </h1>
