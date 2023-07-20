@@ -6,7 +6,14 @@ import AuthContext from "../util/AuthContext";
 import { KAKAO_AUTH_URL } from "./OAuth";
 import IdModal from "./IdModal";
 
+const LS_KEY_ID = "LS_KEY_ID";
+const LS_KEY_SAVE_ID_FLAG = "LS_KEY_SAVE_ID_FLAG";
+
 const Login = () => {
+
+  const [loginID, setLoginID] = useState("");
+  const [saveIDFlag, setSaveIDFlag] = useState(false);
+
   const redirection = useNavigate();
 
   const { onLogin, isLoggedIn } = useContext(AuthContext);
@@ -22,7 +29,7 @@ const Login = () => {
   const REQUEST_URL = "http://localhost:8181/api/user/login";
 
   const fetchLogin = async () => {
-    //사용자가 입력한 이메일, 비밀번호 입력 태그 얻어오기
+    // 사용자가 입력한 이메일, 비밀번호 입력 태그 얻어오기
     const $email = document.getElementById("email");
     const $password = document.getElementById("password");
 
@@ -77,8 +84,50 @@ const Login = () => {
     const closeModal = () => {
       setModalOpen(false);
     };     
+
+    //아이디 저장하기
+
+  
+      if (true /* login success */) {
+        if (saveIDFlag) localStorage.setItem(LS_KEY_ID, loginID);
+      }
+    ;
+
+    const getLoginID = (event) => {
+      let value = event.target.value;
+  
+      if (value === "") {
+        setLoginID(value);
+        return;
+      }
+  
+     
+      setLoginID(value);
+  
+      return;
+    };
+
     
-    
+    const handleSaveIDFlag = () => {
+      localStorage.setItem(LS_KEY_SAVE_ID_FLAG, !saveIDFlag);
+      setSaveIDFlag(!saveIDFlag);
+    };
+
+    if (true /* login success */) {
+      if (saveIDFlag) localStorage.setItem(LS_KEY_ID, loginID);
+    }
+  
+
+  useEffect(() => {
+
+    let idFlag = JSON.parse(localStorage.getItem(LS_KEY_SAVE_ID_FLAG));
+    if (idFlag !== null) setSaveIDFlag(idFlag);
+    if (idFlag === false) localStorage.setItem(LS_KEY_ID, "");
+
+    let data = localStorage.getItem(LS_KEY_ID);
+    if (data !== null) setLoginID(data);
+  }, []);
+
     
      
 
@@ -106,7 +155,10 @@ const Login = () => {
                                             <div className="form-group">
                                                 <input type="email" className="form-control form-control-user"
                                                     id="email" aria-describedby="emailHelp"
-                                                    placeholder="이메일 주소" />
+                                                    placeholder="이메일 주소" 
+                                                    value={loginID}
+                                                    onChange={(e) => getLoginID(e)}
+                                                    />
                                             </div>
                                             <div className="form-group">
                                                 <input type="password" className="form-control form-control-user"
@@ -114,7 +166,10 @@ const Login = () => {
                                             </div>
                                             <div className="form-group">
                                                 <div className="custom-control custom-checkbox small">
-                                                    <input type="checkbox" className="custom-control-input" id="customCheck" />
+                                                    <input type="checkbox" className="custom-control-input" id="customCheck"
+                                                      checked={saveIDFlag} 
+                                                      onChange={handleSaveIDFlag}
+                                                      />
                                                     <label className="custom-control-label" htmlFor="customCheck">아이디 기억하기</label>
                                                 </div>
                                             </div>
