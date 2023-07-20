@@ -1,16 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
-import '../bootstrap/css/sb-admin-2.min.css';
-import '../user/Login.scss';
-import { useNavigate } from 'react-router-dom';
-import AuthContext from '../util/AuthContext';
-import { KAKAO_AUTH_URL } from './OAuth';
-import IdModal from './IdModal'
-
-
+import React, { useContext, useEffect, useState } from "react";
+import "../bootstrap/css/sb-admin-2.min.css";
+import "../user/Login.scss";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../util/AuthContext";
+import { KAKAO_AUTH_URL } from "./OAuth";
+import IdModal from "./IdModal";
 
 const Login = () => {
-   
-    
   const redirection = useNavigate();
 
   const { onLogin, isLoggedIn } = useContext(AuthContext);
@@ -25,66 +21,53 @@ const Login = () => {
 
   const REQUEST_URL = "http://localhost:8181/api/user/login";
 
-    const fetchLogin = async() => {
+  const fetchLogin = async () => {
+    //사용자가 입력한 이메일, 비밀번호 입력 태그 얻어오기
+    const $email = document.getElementById("email");
+    const $password = document.getElementById("password");
 
-      //사용자가 입력한 이메일, 비밀번호 입력 태그 얻어오기
-      const $email = document.getElementById('email');
-      const $password = document.getElementById('password');
+    const res = await fetch(REQUEST_URL, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        email: $email.value,
+        password: $password.value,
+      }),
+    });
 
+    if (res.status === 400) {
+      const text = await res.text();
+      alert(text);
+      return;
+    }
 
-      const res = await fetch(REQUEST_URL, {
-        method: 'POST',
-        headers: { 'content-type' : 'application/json' },
-        body: JSON.stringify({
-            email: $email.value,
-            password: $password.value
-         }) 
-      });
-
-      if (res.status === 400) {
-          const text = await res.text();
-          alert(text);
-          return;
-      }
-
-      const { token, email, image } = await res.json();
+    const { token, email, image } = await res.json();
 
     // Context API를 사용하여 로그인 상태를 업데이트합니다.
     onLogin(token, email, image);
-    
 
-     //홈으로 리다이렉트
-     redirection('/');
+    //홈으로 리다이렉트
+    redirection("/");
+  };
 
-    
-    
-    }
+  //로그인 요청 핸들러
+  const loginHandler = (e) => {
+    e.preventDefault();
 
+    // 서버에 로그인 요청 전송
+    fetchLogin();
+  };
 
+  //카카오 로그인 요청 핸들러
+  const kloginHandler = (e) => {
+    e.preventDefault();
 
+    // 서버에 로그인 요청 전송
+    // checkToken();
+    window.location.href = KAKAO_AUTH_URL;
+  };
 
-    //로그인 요청 핸들러
-    const loginHandler = e => {
-      e.preventDefault();
-
-      
-
-      // 서버에 로그인 요청 전송
-      fetchLogin();
-
-    }
-
-    //카카오 로그인 요청 핸들러
-    const kloginHandler = e => {
-        e.preventDefault();
-
-        
-
-        // 서버에 로그인 요청 전송
-        // checkToken();
-        window.location.href = KAKAO_AUTH_URL;
-    }
-    
+  
     // 아이디 찾기 모달
     const [modalOpen, setModalOpen] = useState(false);
 
