@@ -26,7 +26,6 @@ import Candle from "./Candle";
 import AskingPrice from "./AskingPrice";
 import { elements } from "chart.js";
 import { red } from "@mui/material/colors";
-import SicCode from "../info/SicCode";
 
 const Detail = () => {
   const { value } = useParams();
@@ -541,7 +540,7 @@ const Detail = () => {
                     </h6>
                   </div>
                   <div className="card-body" id="sic-body">
-                        <SicCode />
+                        {/* 원래 관련종목 칸 */}
                   </div>
                 </div>
               </div>

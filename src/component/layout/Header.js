@@ -245,7 +245,7 @@ const Header = () => {
                 id="searchText"
                 type="text"
                 className="form-control " //border-0 small
-                placeholder="Search"
+                placeholder="이름으로 검색해주세요."
                 aria-label="Search"
                 aria-describedby="basic-addon1"
                 ref={inputRef}
