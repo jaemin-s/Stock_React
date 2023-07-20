@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../bootstrap/css/sb-admin-2.min.css";
 import "../user/Login.scss";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthContext from "../util/AuthContext";
 import { KAKAO_AUTH_URL } from "./OAuth";
+import IdModal from "./IdModal";
 
 const Login = () => {
   const redirection = useNavigate();
@@ -40,10 +41,10 @@ const Login = () => {
       return;
     }
 
-    const { token, email } = await res.json();
+    const { token, email, image } = await res.json();
 
     // Context API를 사용하여 로그인 상태를 업데이트합니다.
-    onLogin(token, email);
+    onLogin(token, email, image);
 
     //홈으로 리다이렉트
     redirection("/");
@@ -57,6 +58,47 @@ const Login = () => {
     fetchLogin();
   };
 
+  //카카오 로그인 요청 핸들러
+  const kloginHandler = (e) => {
+    e.preventDefault();
+
+    // 서버에 로그인 요청 전송
+    // checkToken();
+    window.location.href = KAKAO_AUTH_URL;
+  };
+
+  // function Modal() {
+  //     // 모달창 노출 여부 state
+  //     const [modalOpen, setModalOpen] = useState(false);
+
+  //     // 모달창 노출
+  //     const showModal = () => {
+  //         setModalOpen(true);
+  //     };
+
+  // async function checkToken(code) {
+  //   const res = await fetch(`http://localhost:3000/api/user/callback/kakao?code=${code}`, {
+  //     method: "GET"
+
+  // });
+
+  // const data = await res.json();
+  // console.log('data: ', data);
+
+  //    .then(res => res.json())             //json으로 받을 것을 명시
+  //    .then(res => {
+  //             console.log(res);
+  //             console.log(res.data.email);
+  //             console.log(res.data.token);
+
+  //             localStorage.setItem("email", res.data.email);
+  //             localStorage.setItem("token", res.data.token);
+
+  //   });
+
+  //홈으로 리다이렉트
+  //  redirection('/');
+
   return (
     <div className="bg-gradient-primary">
       <div className="container">
@@ -64,7 +106,7 @@ const Login = () => {
         <div className="row justify-content-center">
           <div className="col-xl-10 col-lg-12 col-md-9">
             <div className="card o-hidden border-0 shadow-lg my-5">
-              <div className="card-body p-0" style={{ overflow: "hidden" }}>
+              <div className="card-body p-0">
                 {/* <!-- Nested Row within Card Body --> */}
                 <div className="row">
                   {/* <div className="col-lg-6 d-none d-lg-block bg-login-image"></div> */}
@@ -102,7 +144,7 @@ const Login = () => {
                               className="custom-control-label"
                               htmlFor="customCheck"
                             >
-                              기억하기
+                              아이디 기억하기
                             </label>
                           </div>
                         </div>
@@ -115,7 +157,11 @@ const Login = () => {
                         </a>
                         <hr />
                         <div>
-                          <a href={KAKAO_AUTH_URL} className="kakaobtn">
+                          <a
+                            href="#"
+                            className="kakaobtn"
+                            onClick={kloginHandler}
+                          >
                             <img
                               src={require("./image/kakao1.png")}
                               alt="카카오로그인"
@@ -123,20 +169,21 @@ const Login = () => {
                           </a>
                         </div>
                       </form>
+
                       <div className="text-center">
-                        <a className="small" href="#">
-                          아이디 찾기{" "}
-                        </a>
+                        {/* <div>
+                                            <a className="small" href="#" onClick={showModal}>아이디 찾기</a>{modalOpen && <IdModal setModalOpen={setModalOpen} />}</div>  */}
                         /
                         <a className="small" href="#">
                           {" "}
                           비밀번호 변경
                         </a>
-                        <div className="text-center">
-                          <a className="small" href="/join">
-                            회원가입
-                          </a>
-                        </div>
+                      </div>
+
+                      <div className="text-center">
+                        <a className="small" href="/join">
+                          회원가입
+                        </a>
                       </div>
                     </div>
                   </div>

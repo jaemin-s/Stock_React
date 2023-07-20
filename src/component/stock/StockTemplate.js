@@ -110,16 +110,17 @@ function StockTemplate() {
     getRank();
   }, []);
 
-    // data 상태가 null인 경우 로딩 상태 표시
-    if (data === null) {
-        return <div id="spinner-image">
-                    <img
-                        src={require("../layout/guideline/image/spiner.gif")}
-                        alt="Loading..."
-                    ></img>
-                </div>;;
-    }
-
+  // data 상태가 null인 경우 로딩 상태 표시
+  if (data === null) {
+    return (
+      <div id="spinner-image">
+        <img
+          src={require("../layout/guideline/image/spiner.gif")}
+          alt="Loading..."
+        ></img>
+      </div>
+    );
+  }
 
   function abbreviateNumber(acml_vol) {
     const SI_SYMBOLS = ["", "", "K", "M", "G"]; // 약어 표기에 사용할 심볼 배열
@@ -156,7 +157,9 @@ function StockTemplate() {
         <div className="middle-content flex">
           <div className="popular-trade card shadow">
             <div className="card-header">
-              <h6 className="m-0 font-weight-bold text-primary">인기 거래</h6>
+              <h6 className="m-0 font-weight-bold text-primary">
+                인기 거래량 순위
+              </h6>
             </div>
 
             {/* 반응형 구현 예정 */}
@@ -218,7 +221,9 @@ function StockTemplate() {
           </div>
           <div className="sub-info card shadow">
             <div className="card-header">
-              <h6 className="m-0 font-weight-bold text-primary">뉴스</h6>
+              <h6 className="m-0 font-weight-bold text-primary">
+                오늘의 증시 뉴스
+              </h6>
             </div>
             {/* <Carousel>
                                 <Carousel.Item style={{width: "100%"}}>
@@ -382,13 +387,13 @@ function StockTemplate() {
           </div>
           <div className="bookmark card shadow">
             <div className="card-header">
-              <h6 className="m-0 font-weight-bold text-primary">즐겨찾기</h6>
+              <h6 className="m-0 font-weight-bold text-primary">관심종목</h6>
             </div>
             {isLogin() ? (
-              <div className="card-body">즐겨찾기 목록</div>
+              <div className="card-body">관심종목 목록</div>
             ) : (
               <div className="card-body">
-                로그인 후 즐겨찾기 기능을 이용해 보세요!
+                로그인 후 관심종목 기능을 이용해 보세요!
                 <p
                   onClick={loginHandler}
                   style={{ cursor: "pointer", color: "blue" }}

@@ -25,12 +25,19 @@ import { RequsetHeader } from "../../config/apikey";
 import Candle from "./Candle";
 import AskingPrice from "./AskingPrice";
 import { elements } from "chart.js";
+import { red } from "@mui/material/colors";
 
 const Detail = () => {
   const { value } = useParams();
   const title = value.split("(", 2);
-  // console.log(title[0]); //검색어의 회사명
-  // console.log(title[1].slice(0, -1)); // 검색어의 종목 코드
+
+  //현재가, 등락률 관리
+  const [livePrice, setLivePrice] = useState();
+  const [fluctuationRate, setFluctuationRate] = useState();
+  const [isRise, setIsRise] = useState(true);
+
+  //로딩 관리
+  const [loadSuccess, setLoadSuccess] = useState(false);
 
   const redirection = useNavigate();
 
@@ -78,6 +85,7 @@ const Detail = () => {
           stck_clpr: close,
           stck_hgpr: highest,
           stck_lwpr: lowest,
+          prdy_ctrt: percent,
         } = x;
         dates.unshift(dateFormat(date));
         values.unshift([
@@ -85,9 +93,28 @@ const Detail = () => {
           parseInt(close),
           parseInt(lowest),
           parseInt(highest),
+          parseFloat(percent),
         ]);
       });
-      // console.log({ categoryData: dates, values });
+
+      // 현재가
+      if (values[values.length - 1][1] !== undefined) {
+        setLivePrice(values[values.length - 1][1]);
+      }
+
+      //등락률
+      if (values[values.length - 1][4] >= 0) {
+        setIsRise(true);
+      } else {
+        setIsRise(false);
+      }
+
+      if (values[values.length - 1][4] !== undefined) {
+        setFluctuationRate(values[values.length - 1][4]);
+      } else {
+        setFluctuationRate(0);
+      }
+
       return { categoryData: dates, values };
     } else {
       // console.log("res인데 말이야 = ",res);
@@ -97,9 +124,7 @@ const Detail = () => {
 
   function selectedValueHandler(value) {
     // console.log("selectedValueHandler : " + value);
-    setSelectedValue(value, () => {
-      // console.log("selectedValue : " + selectedValue);
-    });
+    setSelectedValue(value);
   }
   //모달 관리
   const [isModalOpen, setIsModalOpen] = useState(false); //매수
@@ -141,12 +166,15 @@ const Detail = () => {
   //const [selected, setSelected] = useState('호가');
 
   const toggleModal = (e) => {
-    setIsModalOpen(!isModalOpen);
-    // console.log(e);
+    if (selectedValue !== null) {
+      setIsModalOpen(!isModalOpen);
+    }
   };
 
   const sellModal = () => {
-    setModalType(!modalType);
+    if (selectedValue !== null) {
+      setModalType(!modalType);
+    }
   };
 
   const [order, setOrder] = useState("");
@@ -357,14 +385,14 @@ const Detail = () => {
       </div>
     </>
   );
-
   const [data, setData] = useState(null); // 결과를 저장할 상태
+  const [loadingFail, setLoadingFail] = useState(false); // 로딩실패시 재렌더링을 위한 상태관리
   let corps = value;
   const getCode = async (e) => {
     try {
       //   corps = e.target.dataSet.stockId;
       const res = await fetch(
-        "https://apis.data.go.kr/1160100/service/GetCorpBasicInfoService_V2/getCorpOutline_V2?pageNo=1&resultType=json&serviceKey=" +
+        "/getCorpOutline_V2?pageNo=1&resultType=json&serviceKey=" +
           DATA_GO_KR_KEY +
           "&numOfRows=20&corpNm=" +
           corps +
@@ -375,19 +403,24 @@ const Detail = () => {
         const data = await res.json();
         setData(data.response.body.items.item); // 결과를 상태에 저장
       }
+      if (res.status === 500 || 504) {
+        setLoadingFail(!loadingFail);
+        console.log(data);
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
+    console.log(data);
     if (data === null) {
       getCode();
     }
-  }, [data]);
+  }, [loadingFail]);
 
   // data 상태가 null인 경우 로딩 상태 표시
-  if (data === null) {
+  if (data === null || livePrice === null) {
     return (
       <div id="spinner-image">
         <img
@@ -419,7 +452,7 @@ const Detail = () => {
       <body id="page-top" style={{ width: "80%" }}>
         <div id="wrapper">
           <div id="container">
-            <h1>
+            <h1 className="flex">
               <span className="star-icon" onClick={toggleStar}>
                 <FontAwesomeIcon
                   icon={filled ? filledStar : emptyStar}
@@ -432,6 +465,21 @@ const Detail = () => {
               </span>
               {value}
               {stockCode}
+              <span className="live-price">
+                {livePrice !== undefined
+                  ? livePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+                    "원 "
+                  : "      "}
+
+                <span style={isRise ? { color: "red" } : { color: "blue" }}>
+                  {fluctuationRate === undefined
+                    ? "      "
+                    : isRise
+                    ? `▲${fluctuationRate}%`
+                    : `▼${fluctuationRate}%`}
+                  {}
+                </span>
+              </span>
             </h1>
 
             <div className="margin-wrapper">
@@ -515,11 +563,8 @@ const Detail = () => {
                       관련종목 추천
                     </h6>
                   </div>
-                  <div className="card-body">
-                    <button onClick={research}>카카오페이</button>
-                    <button onClick={research}>카카오뱅크</button>
-                    <button onClick={research}>카카오화재</button>
-                    <button onClick={research}>카카오게임즈</button>
+                  <div className="card-body" id="sic-body">
+                        {/* 원래 관련종목 칸 */}
                   </div>
                 </div>
               </div>
