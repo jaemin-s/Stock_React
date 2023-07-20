@@ -177,40 +177,48 @@ const Header = () => {
     </svg>
   );
 
-  const { isLoggedIn, onLogout, email, name } = useContext(AuthContext);
+  const { isLoggedIn, onLogout, email, name, image } = useContext(AuthContext);
   console.log("userEmail:  ", email);
   console.log("userName:  ", name);
-  // const profileRequestURL =
+  console.log("image:  ", image);
+  const profileRequestURL = `${API_BASE_URL}/load`;
 
-  // const [profileUrl, setProfileUrl] = useState("");
+  //프로필 이미지 url 상태 변수
+  const [profileUrl, setProfileUrl] = useState(null);
 
-  // const fetchProfileImage = async () => {
-  //   const res = await fetch(profileRequestURL, {
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-  //     },
-  //   });
+  const fetchProfileImage = async () => {
+    try {
+      const res = await fetch(profileRequestURL, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+        },
+      });
 
-  //   if (res.status === 200) {
-  //     //서버에서는 직렬화된 이미지가 응답된다.
-  //     // const imgUrl = await res.text();
-  //     // setProfileUrl(imgUrl);
+      if (res.status === 200) {
+        //서버에서는 직렬화된 이미지가 응답된다.
+        const imgUrl = await res.text();
+        setProfileUrl(imgUrl.trim());
 
-  //     const profileBlob = await res.blob();
-  //     //해당 이미지를 imgUrl로 변경
-  //     const imgUrl = window.URL.createObjectURL(profileBlob);
-  //     setProfileUrl(imgUrl);
-  //   } else {
-  //     const err = await res.text();
-  //     setProfileUrl(null);
-  //   }
-  // };
+        /*
+              const profileBlob = await res.blob();
+              //해당 이미지를 imgUrl로 변경
+              const imgUrl = window.URL.createObjectURL(profileBlob);
+              setProfileUrl(imgUrl);
+              */
+      } else {
+        setProfileUrl(null);
+      }
+    } catch (error) {
+      console.error("Error profile: ", error);
+      setProfileUrl(null);
+    }
+  };
 
-  // useEffect(() => {
-  //   fetchProfileImage();
-  // }, [isLoggedIn]);
-
+  useEffect(() => {
+    fetchProfileImage();
+  }, [isLoggedIn]);
+  //로그인되면 바로 이미지 출력될 수 있도록 한다.
   return (
     <>
       <nav
@@ -257,7 +265,14 @@ const Header = () => {
         </div>
 
         {/* 회원 정보 */}
-        <ul className="navbar-nav" style={{ width: "20%" }}>
+        <ul className="navbar-nav" style={{ width: "30%" }}>
+          <div style={{ margin: "0 auto" }}>
+            <a href="/guide">
+              <button className="button-29" role="button">
+                guide
+              </button>
+            </a>
+          </div>
           <li
             className={
               isToggle
@@ -280,10 +295,7 @@ const Header = () => {
               aria-expanded={isToggle ? "true" : "false"}
             >
               <img
-                src={
-                  // profileUrl ||
-                  require("../user/image/anonymous.png")
-                }
+                src={profileUrl || require("../user/image/anonymous.png")}
                 alt="프로필사진"
                 style={{
                   marginRight: 20,

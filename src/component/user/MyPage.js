@@ -204,7 +204,7 @@ function MyPage() {
         </tbody>
       </table>
       <div className="button">
-        <button className="button" onClick={toggleExpanded}>
+        <button className="button-21" onClick={toggleExpanded}>
           {expanded ? "접기" : "더보기"}
         </button>
       </div>
