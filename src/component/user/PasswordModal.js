@@ -1,26 +1,25 @@
 
-import './IdModal.scss';
+import './PasswordModal.scss';
 
-
-const IdModal = (props) => {
+const PasswordModal = (props) => {
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
   const { open, close, header } = props;
 
   
 
-  const fetchSearchId =  async() => {
-    const $name = document.getElementById('searchName');
-    const $phoneNumber = document.getElementById('searchPhoneNumber');
+  const fetchChangePassword =  async() => {
+    const $email = document.getElementById('cpEmail');
+    const $phoneNumber = document.getElementById('cpPhoneNumber');
   
    
     
    
   
-const res = await fetch('http://localhost:8181/api/user/searchId', {
+const res = await fetch('http://localhost:8181/api/user/sendEmail', {
   method: 'POST',
   headers: { 'content-type' : 'application/json' },
   body: JSON.stringify({
-      name: $name.value,
+      email: $email.value,
       phoneNumber: $phoneNumber.value
 })
   
@@ -32,20 +31,20 @@ const res = await fetch('http://localhost:8181/api/user/searchId', {
     return;
 }
 
-const email = await res.text();
-console.log(email);
-alert(`회원님의 email은 ${email} 입니다`);
+const answer = await res.text();
+console.log(answer);
+alert(`${answer}`);
 
   }
 
-  //아이디찾기 요청 핸들러
-  const searchIdHandler = e => {
+  //비번변경 요청 핸들러
+  const changePasswordHandler = e => {
     e.preventDefault();
 
     
 
     // 서버에 아이디찾기 요청 전송
-    fetchSearchId();
+    fetchChangePassword();
 
   }
 
@@ -63,24 +62,21 @@ alert(`회원님의 email은 ${email} 입니다`);
           </header>
           <main><div className='Search_div'>
                 <div>  
-                  <h5> 이름 </h5>
-                  <input type='text' maxLength='6' id='searchName'/>
+                  <h5> 가입하신 이메일 </h5>
+                  <input type='email' id='cpEmail' />
                 </div>
 
                 <div>  
                   <h5> 전화번호 </h5>
-                <input type='text' maxLength='11' placeholder="- 제외한 숫자만 입력" id='searchPhoneNumber' />
+                <input type='text' maxLength='11' placeholder="- 제외한 숫자만 입력" id='cpPhoneNumber' />
                  
                 </div>
 
                
                 <div>
-                  <input type='button' value='조회하기' className='submit' onClick={searchIdHandler} />
+                  <input type='button' value='임시비밀번호 발급' className='submit' onClick={changePasswordHandler} />
                 </div>
 
-                {/* <div>
-                  <h5> 회원님의 이메일은 ${email} 입니다. </h5>
-                </div> */}
               </div></main>
         
         </section>
@@ -91,4 +87,4 @@ alert(`회원님의 email은 ${email} 입니다`);
       
     
 
-export default IdModal;
+export default PasswordModal;

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../util/AuthContext";
 import { KAKAO_AUTH_URL } from "./OAuth";
 import IdModal from "./IdModal";
+import PasswordModal from "./PasswordModal";
 
 const LS_KEY_ID = "LS_KEY_ID";
 const LS_KEY_SAVE_ID_FLAG = "LS_KEY_SAVE_ID_FLAG";
@@ -85,6 +86,17 @@ const Login = () => {
       setModalOpen(false);
     };     
 
+    //비번변경 모달
+    const [modalOpenl, setModalOpenl] = useState(false);
+
+    const openModall = () => {
+      setModalOpenl(true);
+    };
+    const closeModall = () => {
+      setModalOpenl(false);
+    };     
+
+
     //아이디 저장하기
 
   
@@ -129,7 +141,7 @@ const Login = () => {
   }, []);
 
     
-     
+    
 
   return (
     <div className="bg-gradient-primary">
@@ -193,8 +205,10 @@ const Login = () => {
                                                 </IdModal></React.Fragment>
 
 
-                                           /<a className="small" href="#"> 비밀번호 변경</a> 
-                                           </div>
+                                           / <React.Fragment>
+                                            <a className="small"  href="#" onClick={openModall}>비밀번호 변경</a> 
+                                            <PasswordModal open={modalOpenl} close={closeModall} header="비밀번호 변경">
+                                                </PasswordModal></React.Fragment>
                                         
                                         <div className="text-center">
                                         <a className="small" href="/join">회원가입</a>
@@ -211,7 +225,7 @@ const Login = () => {
             </div>
           </div>
         </div>
-
+</div>
     
   )
   }
