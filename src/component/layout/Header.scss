@@ -2,29 +2,34 @@
 
 .navbar {
     width: 80%;
-
     .navbar-nav{
         width: 100%;
         align-items: center;
         justify-content: space-between;
 
     .nav-item {
-        font-size: 30px;
-        font-weight: 600;
 
-        .input-group{
-            width: 100%;   
-            min-width: 180px;
-            max-width: 300px;
-            width: 20vw;
-            align-items: center;
-            align-content: center;
-            justify-content: center;
-        }
-    
-        }
+        font-weight: 400;
+        color: black;
+        
     }
-    
+}
+
+}
+.input-group{
+    width: 100%;   
+    min-width: 180px;
+    max-width: 300px;
+    width: 20vw;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    margin: 0 auto; 
+    display: flex;
+
+    .searchBtn {
+        height: 38px;
+    }
 }
 
 img:not(.logo) {
@@ -35,7 +40,7 @@ img:not(.logo) {
 #info-modal {
     max-height: 600px;
     max-width: 800px;
-    width: 500px;
+    width: 600px;
     display: flex;
     flex-wrap: wrap;
     overflow: auto;
@@ -53,23 +58,41 @@ img:not(.logo) {
 }
 #info-modal::-webkit-scrollbar-track {
     border-radius: 50px;
+    opacity: 1;
     background: rgb(153, 208, 228);
   }
 
-#info-modal #info-modal-tag a{
-        width: 240px;
-        height: 40px;
-        max-height: 50px;
-        display: flex;
-        flex-wrap: wrap;
-        text-decoration: none;
-        color: black;
-        padding: 5px;
-        margin-left: 3px;
-        font-size: 20px;
-        margin-bottom: 10px;
+#info-modal {
+
+    :nth-child(4n+3) {
+        background-color: #f8f9fc;
+    }
+    :nth-child(4n) {
+        background-color: #f8f9fc;
     }
 
+    #info-modal-tag {
+        margin-bottom: 0;
+
+        a{
+            width: 280px;
+            max-width: 280px;
+            height: 40px;
+            max-height: 50px;
+            display: flex;
+            flex-wrap: wrap;
+            text-decoration: none;
+            color: black;
+            padding: 5px;
+            margin-left: 3px;
+            font-size: 17px;
+            margin-bottom: 0;
+        }
+
+    }
+}
+
+    
 #cancleFooter {
     background: red;
 }
@@ -84,3 +107,8 @@ img:not(.logo) {
     margin: 100px auto;
 }
 
+.topbar.navbar-light .navbar-nav .nav-item .nav-link {
+    color: black;
+    padding: 4px 16px;
+    height: 40px;
+}

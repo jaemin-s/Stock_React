@@ -1,6 +1,6 @@
 
 thead {
-    background-color: blue;
+    background-color: #0d6efd;
     color: white;
     font-weight: 700;
 }
@@ -129,4 +129,11 @@ table {
     display: flex;
     justify-content: center;
     margin-top: 10px;
+}
+
+.profile {
+    .center-image {
+        margin-top: 50px;
+        border-radius: 50%;
+    }
 }
