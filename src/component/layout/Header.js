@@ -158,7 +158,12 @@ const Header = () => {
           <Button
             onClick={closeModal}
             id="cancleFooter"
-            style={{ backgroundColor: "skyblue", width: 100, height: 50, border: "none" }}
+            style={{
+              backgroundColor: "skyblue",
+              width: 100,
+              height: 50,
+              border: "none",
+            }}
           >
             취소
           </Button>
@@ -281,7 +286,7 @@ const Header = () => {
         <ul className="navbar-nav" style={{ width: "30%" }}>
           <div style={{ margin: "0 auto" }}>
             <a href="/guide">
-              <button className="button-29" role="button">
+              <button className="button-79" role="button">
                 guide
               </button>
             </a>
