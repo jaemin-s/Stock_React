@@ -3,6 +3,7 @@ import "../bootstrap/css/sb-admin-2.min.css";
 import "./Join.scss";
 import AuthContext from "../util/AuthContext";
 import { useNavigate } from "react-router-dom";
+import PasswordModal from "./PasswordModal";
 
 const Join = () => {
   const $fileTag = useRef();
@@ -316,7 +317,7 @@ const Join = () => {
     };
   };
 
-  // 4개의 입력칸이 모두 검증에 통과했는지 여부를 검사
+  // 입력칸이 모두 검증에 통과했는지 여부를 검사
   const isValid = () => {
     for (const key in correct) {
       const flag = correct[key];
@@ -365,6 +366,16 @@ const Join = () => {
       alert("입력란을 다시 확인해 주세요!");
     }
   };
+
+  //비번변경 모달
+  const [modalOpenl, setModalOpenl] = useState(false);
+
+  const openModall = () => {
+    setModalOpenl(true);
+  };
+  const closeModall = () => {
+    setModalOpenl(false);
+  };     
 
   return (
     <div className="bg-gradient-primary">
@@ -603,9 +614,10 @@ const Join = () => {
 
                   <hr />
                   <div className="text-center">
-                    <a className="small" href="forgot-password.html">
-                      비밀번호 변경
-                    </a>
+                  <React.Fragment>
+                                            <a className="small"  href="#" onClick={openModall}>비밀번호 변경</a> 
+                                            <PasswordModal open={modalOpenl} close={closeModall} header="비밀번호 변경">
+                                                </PasswordModal></React.Fragment>
                   </div>
                   <div className="text-center">
                     <a className="small" href="/login">
