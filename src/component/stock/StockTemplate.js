@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import { isLogin } from "../util/login-utils";
 
 function StockTemplate() {
+  const [favorites, setFavorites] = useState([]);
   const redirection = useNavigate();
 
   const detailHandler = (e) => {
