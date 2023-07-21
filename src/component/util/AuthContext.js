@@ -36,7 +36,12 @@ export const AuthContextProvider = (props) => {
 
   //로그아웃 핸들러
   const logoutHandler = () => {
-    localStorage.clear();
+    // localStorage.clear();
+    // 0721 수정 중
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("LOGIN_ACCESS_TOKEN");
+    localStorage.removeItem("LOGIN_USEREMAIL");
+    localStorage.removeItem("LOGIN_USERIMAGE");
     setIsLoggedIn(false);
   };
 

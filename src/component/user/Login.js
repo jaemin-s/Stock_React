@@ -11,13 +11,13 @@ const Login = () => {
 
   const { onLogin, isLoggedIn } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      setTimeout(() => {
-        redirection("/");
-      }, 3000);
-    }
-  }, [isLoggedIn, redirection]);
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     setTimeout(() => {
+  //       redirection("/");
+  //     }, 3000);
+  //   }
+  // }, [isLoggedIn, redirection]);
 
   const REQUEST_URL = "http://localhost:8181/api/user/login";
 
