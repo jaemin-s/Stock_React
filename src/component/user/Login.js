@@ -218,7 +218,7 @@ const Login = () => {
                                         <div className="text-center">
                                         <React.Fragment>
                                             <a className="small"  href="#" onClick={openModal}>아이디 찾기</a> 
-                                            <IdModal open={modalOpen} close={closeModal} header="          아이디 찾기">
+                                            <IdModal open={modalOpen} close={closeModal} header="아이디 찾기">
                                                 </IdModal></React.Fragment>
 
 
