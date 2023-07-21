@@ -283,14 +283,10 @@ const Header = () => {
         </div>
 
         {/* 회원 정보 */}
-        <ul className="navbar-nav" style={{ width: "30%" }}>
-          <div style={{ margin: "0 auto" }}>
-            <a href="/guide">
-              <button className="button-79" role="button">
-                guide
-              </button>
-            </a>
-          </div>
+        <ul
+          className="navbar-nav"
+          style={{ width: "30%", paddingLeft: "120px" }}
+        >
           <li
             className={
               isToggle
@@ -371,13 +367,13 @@ const Header = () => {
                       Login
                     </a>
                   </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/guide">
-                      Guide
-                    </a>
-                  </li>
                 </>
               )}
+              <li className="nav-item">
+                <a className="nav-link" href="/guide">
+                  Guide
+                </a>
+              </li>
             </div>
           </li>
         </ul>
