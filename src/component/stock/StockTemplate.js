@@ -30,29 +30,6 @@ function StockTemplate() {
   const [favoriteList, setFavoriteList] = useState([]);
 
   const redirection = useNavigate();
-  const [topButton, setTopButton] = useState(false);
-
-  const handleScroll = () => {
-    if (window.scrollY > 200) {
-      setTopButton(true);
-    } else {
-      setTopButton(false);
-    }
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   const detailHandler = (e) => {
     e.preventDefault();
@@ -443,11 +420,6 @@ function StockTemplate() {
             )}
           </div>
         </div>
-        {topButton && (
-          <button className="top-button" onClick={scrollToTop}>
-            <FontAwesomeIcon icon={faUpLong} />
-          </button>
-        )}
       </div>
     </>
   );
