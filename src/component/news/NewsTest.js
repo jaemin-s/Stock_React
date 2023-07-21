@@ -78,7 +78,10 @@ const NewsTest = () => {
     <>
       {news.length !== 0 && (
         <>
-          <div className="card-body" style={{ paddingBottom: 0 }}>
+          <div
+            className="card-body"
+            style={{ paddingBottom: 0, overflow: "auto" }}
+          >
             <h5 data-link={news[0].link} onClick={sendNews}>
               {news[0].newTitle}
             </h5>
