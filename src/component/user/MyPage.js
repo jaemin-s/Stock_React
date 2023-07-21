@@ -3,12 +3,115 @@ import "./MyPage.scss";
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import AuthContext from "../util/AuthContext";
+import { RequsetHeader } from "../../config/apikey";
+import { useParams } from "react-router-dom";
+
 // Doughnut 차트 import(npm install chart.js react-chartjs-2)
 
 // Doughnut 차트 등록
 Chart.register(ArcElement, Tooltip, Legend);
 
 function MyPage() {
+  const { value } = useParams();
+  const title = value ? value.split("(", 2) : [];
+  const [currentLivePrice, setCurrentLivePrice] = useState([]);
+
+  const dailyPrice = async (e) => {
+    // ㅇㅇㅇ(000000) 값 자르기
+
+    //const params = title[1].slice(0, -1); //종목 코드
+    userInfo.myStocks.forEach(async (element) => {
+      const res = await fetch(
+        "/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+          element.stockId +
+          "&FID_PERIOD_DIV_CODE=D&FID_ORG_ADJ_PRC=1",
+        {
+          headers: {
+            ...RequsetHeader,
+            tr_id: "FHKST01010400",
+          },
+        }
+      );
+      if (res.status === 200) {
+        const data = await res.json();
+        // console.log(data);
+        //필요한 값만 추출
+        let values = [];
+        let dates = [];
+        data.output.forEach((x) => {
+          const { stck_clpr: close } = x;
+          values.unshift([parseInt(close)]);
+        });
+
+        // 현재가
+        if (values[values.length - 1][0] !== undefined) {
+          setCurrentLivePrice((prevArray) => [
+            ...prevArray,
+            { stockId: element.stockId, price: values[values.length - 1][0] },
+          ]);
+        }
+      } else {
+        // console.log("res인데 말이야 = ",res);
+      }
+    });
+  };
+
+  useEffect(() => {
+    dailyPrice();
+  }, []);
+  console.log("currentLivePrice:  ", currentLivePrice);
+  console.log("현재주가");
+  // console.log(currentLivePrice[0].stockId, currentLivePrice[0].price);
+
+  // 주식 수익률 계싼
+  function returnPercent() {
+    const returnPercentArray = [];
+    for (let i = 0; i < currentLivePrice.length; i++) {
+      const stockData = currentLivePrice[i];
+      const { stockId, price } = stockData;
+      const purchasedStock = userInfo.myStocks.find(
+        (stock) => stock.stockId === stockId
+      );
+      if (purchasedStock) {
+        const { price: purchasePrice, quantity } = purchasedStock;
+        const returnPercent = (
+          (price / (purchasePrice / quantity)) * 100 -
+          100
+        ).toFixed(2);
+        returnPercentArray.push({ stockId, returnPercent });
+      }
+      // (currentLivePrice[i].price / userInfo.myStocks[i].(price/quntity)) * 100 - 100
+    }
+    let totalReturnPercent = 0;
+    returnPercentArray.forEach((item) => {
+      totalReturnPercent += parseFloat(item.returnPercent);
+    });
+    const averageReturnPercent = (
+      totalReturnPercent / returnPercentArray.length
+    ).toFixed(2);
+    return averageReturnPercent;
+  }
+
+  // 주식 평가금액 계산
+  function estimate() {
+    let totalEstimate = 0;
+    if (Array.isArray(userInfo.myStocks) && userInfo.myStocks.length > 0) {
+      for (let i = 0; i < userInfo.myStocks.length; i++) {
+        totalEstimate += userInfo.myStocks[i].price;
+      }
+    }
+    return totalEstimate;
+  }
+
+  // 날짜 형식 변환(거래 일자)
+  function getFormattedDate(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear().toString().slice(2);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${year}.${month}.${day}`;
+  }
+
   const { userName, userNick, email, gender, age, career, mbti } =
     useContext(AuthContext);
 
@@ -35,6 +138,8 @@ function MyPage() {
     money: 0,
   });
 
+  // console.log("userInfo.myStocks: ", userInfo.myStocks);
+
   const [historyInfo, setHistoryInfo] = useState([]);
 
   const showInfo = () => {
@@ -49,44 +154,24 @@ function MyPage() {
 
   const rank = 3;
 
-  // 자산
-  const currentPrice = 71000; //현재 주가 (주식마다 다름)
-
-  const totalOrder = 3 * currentPrice;
-
-  const currentAsset = 5000000; //총 자산 (매매 후 반영)
-
-  const afterAsset = currentAsset - totalOrder; //매매 후 자산
-
-  const currentHavingStock = 3; //보유 주식 수 (주식마다 다름)
-
-  const pastPrice = 69000; //매수시 주가
-
-  const returnRate = ((currentPrice / pastPrice) * 100 - 100).toFixed(1);
-  // 수익률 : (현재주가 / 매수시 주가) * 100 - 100
-
-  //주식
-  const stockName = "삼성전자"; //종목명
-  const stockCode = "005930"; //종목코드
-  const many = 3; //매매 수량
-
-  // 주식 평가금액: 주가의 움직임을 반영한 금액   평가금액 : 보유자산별 수량 * 현재가
-  // 삼성전자 * 8 + SK하이닉스 * 4
-
-  const estimate = currentPrice * currentHavingStock;
   //도넛 안에 넣기 위한 labels
-  const stockNames = Array.isArray(historyInfo)
-    ? historyInfo.map((trade) => trade.stockName)
+  const stockNames = Array.isArray(userInfo.myStocks)
+    ? userInfo.myStocks.map((stock) => stock.stockName)
+    : [];
+
+  const stockPrice = Array.isArray(userInfo.myStocks)
+    ? userInfo.myStocks.map((stock) => stock.price)
     : [];
 
   // Doughnut 차트에 들어갈 내용
   const data = {
     labels: [...stockNames],
+
     // 주식 종목 / 현금
     datasets: [
       {
         label: "금액",
-        data: [currentPrice * currentHavingStock, 2500000, 1000000, 500000],
+        data: stockPrice,
         backgroundColor: [
           "blue",
           "red",
@@ -99,7 +184,7 @@ function MyPage() {
       },
     ],
   };
-
+  console.log(stockPrice);
   async function getInfo() {
     const res = await fetch(
       "http://localhost:8181/api/user/myInfo/" +
@@ -116,9 +201,10 @@ function MyPage() {
       gender: myInfo.gender,
       money: myInfo.money,
       myStocks: myInfo.myStocks,
-      mbti: myInfo.mbti
+      mbti: myInfo.mbti,
     });
   }
+  console.log(userInfo.money);
   async function getHistory() {
     const res = await fetch(
       "http://localhost:8181/api/trade/history/" +
@@ -169,7 +255,7 @@ function MyPage() {
     }
     return null;
   }
-
+  console.log("returnPercent(): ", returnPercent());
   const viewInfo = (
     <>
       {/* <!-- Page Heading --> */}
@@ -254,16 +340,17 @@ function MyPage() {
                 ))
               : null}
           </h5>
-          <h5 className="having-cash">
-            보유 현금<span className="border">|</span>{" "}
-            {afterAsset.toLocaleString()} 원
-          </h5>
+          {/* <h5 className="having-cash">
+            보유 현금<span className="border">|</span>
+            {(5000000 - userInfo.money).toLocaleString()} 원
+          </h5> */}
           <h5 className="return">
-            수익률<span className="border">|</span> {returnRate} %
+            수익률<span className="border">|</span> {returnPercent()}%
           </h5>
           {/* 수익률 : (현재주가 / 매수시 주가) * 100 - 100 */}
           <h5 className="evaluation">
-            주식 평가금액<span className="border">|</span> 943,857 원
+            주식 평가금액<span className="border">|</span>
+            {estimate().toLocaleString()} 원
           </h5>
           {/* 주식 평가금액: 주가의 움직임을 반영한 금액 
               평가금액 : 보유자산별 수량 * 현재가 
@@ -275,12 +362,6 @@ function MyPage() {
       </div>
 
       {/* 거래내역 테이블 */}
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
       <div style={{ marginBottom: "40px" }}>
         <h4 id="3-1" style={{ flex: 1, textAlign: "center", fontSize: "40px" }}>
           거래 내역
@@ -303,7 +384,7 @@ function MyPage() {
                   .slice(0, expanded ? historyInfo.length : 3)
                   .map((trade, index) => (
                     <tr key={index}>
-                      <th scope="row">{trade.tradeDate}</th>
+                      <th scope="row">{getFormattedDate(trade.tradeDate)}</th>
                       <td>{getTradeType(trade.tradeType)}</td>
                       <td>
                         {trade.stockName}({trade.stockId})
