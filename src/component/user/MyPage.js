@@ -112,7 +112,7 @@ function MyPage() {
     return `${year}.${month}.${day}`;
   }
 
-  const { userName, userNick, email, gender, age, career } =
+  const { userName, userNick, email, gender, age, career, mbti } =
     useContext(AuthContext);
 
   const [expanded, setExpanded] = useState(false);
@@ -133,6 +133,7 @@ function MyPage() {
     age: "",
     career: "",
     gender: "",
+    mbti: "",
     myStocks: [],
     money: 0,
   });
@@ -200,6 +201,7 @@ function MyPage() {
       gender: myInfo.gender,
       money: myInfo.money,
       myStocks: myInfo.myStocks,
+      mbti: myInfo.mbti,
     });
   }
   console.log(userInfo.money);
@@ -288,6 +290,9 @@ function MyPage() {
           </h5>
           <h5 className="career">
             경력<span className="border">|</span> {getAge(userInfo.career)}
+          </h5>
+          <h5 className="mbti">
+            MBTI<span className="border">|</span> {userInfo.mbti}
           </h5>
         </div>
 

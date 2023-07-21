@@ -8,6 +8,7 @@ const AuthContext = React.createContext({
   age: "",
   gender: "",
   career: "",
+  mbti: "",
 
   onLogout: () => {},
   onLogin: (email, password) => {},
@@ -23,6 +24,7 @@ export const AuthContextProvider = (props) => {
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [career, setCareer] = useState("");
+  const [mbti, setMbti] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("isLoggedIn") === "1") {
@@ -34,7 +36,13 @@ export const AuthContextProvider = (props) => {
 
   //로그아웃 핸들러
   const logoutHandler = () => {
-    localStorage.clear();
+    // localStorage.clear();
+    localStorage.removeItem("LOGIN_USEREMAIL");
+    localStorage.removeItem("LOGIN_USERIMAGE");
+    localStorage.removeItem("LOGIN_ACCESS_TOKEN");
+    localStorage.removeItem("isLoggedIn");
+   
+    
     setIsLoggedIn(false);
   };
 
@@ -76,6 +84,7 @@ export const AuthContextProvider = (props) => {
       setAge(localStorage.getItem("AGE"));
       setGender(localStorage.getItem("GENDER"));
       setCareer(localStorage.getItem("CAREER"));
+      setMbti(localStorage.getItem("MBTI"));
     }
   }, []);
 
