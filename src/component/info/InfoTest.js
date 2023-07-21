@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const InfoTest = ({ }) => {
+const InfoTest = ({}) => {
   // 기업정보 관리
   const [info, setInfo] = useState([]);
   // 재무 관리
@@ -10,13 +10,12 @@ const InfoTest = ({ }) => {
   const [fetchFail, setFetchFail] = useState(true);
   // api에 없는 정보 시 문구
   const [noData, setNodata] = useState(true);
-  
 
   const { value } = useParams();
   const title = value.split("(", 2);
-  console.log(title[0]); //검색어의 회사명
-  console.log(title[1].slice(0, -1)); // 검색어의 종목 코드
-  
+  // console.log(title[0]); //검색어의 회사명
+  // console.log(title[1].slice(0, -1)); // 검색어의 종목 코드
+
   const sicList = [];
   let sicNb;
 
@@ -25,7 +24,6 @@ const InfoTest = ({ }) => {
   }, [fetchFail, value]);
 
   const corpInfo = async () => {
-    console.log("누름");
     setInfo([]);
     setResInfo([]);
 
@@ -49,15 +47,13 @@ const InfoTest = ({ }) => {
       infoList.push({
         crno,
         corpNm,
-        sicNm
+        sicNm,
       });
 
       setInfo(infoList);
       // 기업정보 crno 값(기업법인코드)
       cno = infoList[0].crno;
     });
-   
-    
 
     const secRes = await fetch(
       "/getSummFinaStat_V2?numOfRows=1&pageNo=1&resultType=json&serviceKey=1KP%2F74OKGakEjZuUJc6YTkn5UTLRHtfug6BKkunpBqx3owk%2BrrquqsAG7hl7NqMbb5qqQYWVrkVKn7fnYfvXtQ%3D%3D&crno=" +
@@ -115,9 +111,6 @@ const InfoTest = ({ }) => {
       </div>
     );
   }
-
-
- 
 
   return (
     <div style={{ margin: "30px auto", fontWeight: "600", lineHeight: "1.6" }}>
