@@ -145,58 +145,74 @@ const Login = () => {
 
   return (
     <div className="bg-gradient-primary">
-
-        <div className="container">
-
-            {/* <!-- Outer Row --> */}
-            <div className="row justify-content-center">
-
-                <div className="col-xl-10 col-lg-12 col-md-9">
-
-                    <div className="card o-hidden border-0 shadow-lg my-5">
-                        <div className="card-body p-0">
-                            {/* <!-- Nested Row within Card Body --> */}
-                            <div className="row">
-                                {/* <div className="col-lg-6 d-none d-lg-block bg-login-image"></div> */}
-                                <div className="col-lg-6"> 
-                                    <div className="p-5">
-                                        <div className="text-center">
-                                            <h1 className="h4 text-gray-900 mb-4">로그인</h1>
-                                        </div>
-                                        <form className="user">
-                                            <div className="form-group">
-                                                <input type="email" className="form-control form-control-user"
-                                                    id="email" aria-describedby="emailHelp"
-                                                    placeholder="이메일 주소" 
-                                                    value={loginID}
-                                                    onChange={(e) => getLoginID(e)}
-                                                    />
-                                            </div>
-                                            <div className="form-group">
-                                                <input type="password" className="form-control form-control-user"
-                                                    id="password" placeholder="비밀번호" />
-                                            </div>
-                                            <div className="form-group">
-                                                <div className="custom-control custom-checkbox small">
-                                                    <input type="checkbox" className="custom-control-input" id="customCheck"
-                                                      checked={saveIDFlag} 
-                                                      onChange={handleSaveIDFlag}
-                                                      />
-                                                    <label className="custom-control-label" htmlFor="customCheck">아이디 기억하기</label>
-                                                </div>
-                                            </div>
-                                            <a href="#" className="btn btn-primary btn-user btn-block" onClick={loginHandler}>
-                                                로그인
-                                            </a>
-                                            <hr />
-                                            <div>
-                                            <a href="#" className="kakaobtn" onClick={kloginHandler}>
-                                                <img src={require('./image/kakao1.png')} alt="카카오로그인" />
-                                            </a>
-                                            </div>
-
-                                                                                
-                                        </form>
+      <div className="container">
+        {/* <!-- Outer Row --> */}
+        <div className="row justify-content-center">
+          <div className="col-xl-10 col-lg-12 col-md-9">
+            <div className="card o-hidden border-0 shadow-lg my-5">
+              <div className="card-body p-0">
+                {/* <!-- Nested Row within Card Body --> */}
+                <div className="row">
+                  {/* <div className="col-lg-6 d-none d-lg-block bg-login-image"></div> */}
+                  <div className="col-lg-6">
+                    <div className="p-5">
+                      <div className="text-center">
+                        <h1 className="h4 text-gray-900 mb-4">로그인</h1>
+                      </div>
+                      <form className="user">
+                        <div className="form-group">
+                          <input
+                            type="email"
+                            className="form-control form-control-user"
+                            id="email"
+                            aria-describedby="emailHelp"
+                            placeholder="이메일 주소"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <input
+                            type="password"
+                            className="form-control form-control-user"
+                            id="password"
+                            placeholder="비밀번호"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <div className="custom-control custom-checkbox small">
+                            <input
+                              type="checkbox"
+                              className="custom-control-input"
+                              id="customCheck"
+                            />
+                            <label
+                              className="custom-control-label"
+                              htmlFor="customCheck"
+                            >
+                              아이디 기억하기
+                            </label>
+                          </div>
+                        </div>
+                        <a
+                          href="#"
+                          className="btn btn-primary btn-user btn-block"
+                          onClick={loginHandler}
+                        >
+                          로그인
+                        </a>
+                        <hr />
+                        <div>
+                          <a
+                            href="#"
+                            className="kakaobtn"
+                            onClick={kloginHandler}
+                          >
+                            <img
+                              src={require("./image/kakao1.png")}
+                              alt="카카오로그인"
+                            />
+                          </a>
+                        </div>
+                      </form>
 
                                         <div className="text-center">
                                         <React.Fragment>
