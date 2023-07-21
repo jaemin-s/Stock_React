@@ -11,23 +11,20 @@ const MoveStockInfo = ({ getStockRate }) => {
 
   useEffect(() => {
     (async function () {
-      // getStockRate(0).then(res => {
-      //   console.log(res);
-      //   // res.forEach( x => {
-      //   //   setTopResult(x);
-      //   // });
-      //   setTopResult(res);
-      // })
       const result = await getStockRate(0);
-      // console.log(result);
-      setTopResult(result);
+      const refinedResult = result.filter(
+        (x) => !x.name.includes("KODEX") && !x.name.includes("선물")
+      );
+      setTopResult(refinedResult);
     })();
   }, []);
 
   useEffect(() => {
     getStockRate(1).then((res) => {
-      // console.log(res);
-      setLowResult(res);
+      const refinedResult = res.filter(
+        (x) => !x.name.includes("KODEX") && !x.name.includes("선물")
+      );
+      setLowResult(refinedResult);
     });
   }, []);
 

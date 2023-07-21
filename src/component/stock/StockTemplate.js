@@ -26,7 +26,9 @@ import { useNavigate } from "react-router-dom";
 import { isLogin } from "../util/login-utils";
 
 function StockTemplate() {
-  const [favorites, setFavorites] = useState([]);
+  // 관심종목 목록 관리
+  const [favoriteList, setFavoriteList] = useState([]);
+
   const redirection = useNavigate();
   const [topButton, setTopButton] = useState(false);
 
@@ -77,7 +79,9 @@ function StockTemplate() {
 
   //처음 렌더링시 실행
   useEffect(() => {
+    // loadFavorite(); //관심종목 리스트 불러오기
     getKIAccessToken(); //토큰 발급
+    getRank(); //거래량 순위 불러오기
   }, []);
 
   //등락률 상위(0),하위(1) 종목
@@ -108,6 +112,7 @@ function StockTemplate() {
 
   const [data, setData] = useState(null); // 결과를 저장할 상태
 
+  //거래량 순위
   const getRank = async () => {
     try {
       const res = await fetch(
@@ -130,9 +135,9 @@ function StockTemplate() {
     }
   };
 
-  useEffect(() => {
-    getRank();
-  }, []);
+  // useEffect(() => {
+  //   getRank();
+  // }, []);
 
   // data 상태가 null인 경우 로딩 상태 표시
   if (data === null) {
@@ -159,6 +164,36 @@ function StockTemplate() {
   //로그인하러 가기 로직
   const loginHandler = () => {
     redirection(`/login`);
+  };
+
+  // useEffect(() => {
+  //   loadFavorite();
+  // }, []);
+  //관심종목 목록 불러오기 로직
+  const loadFavorite = async () => {
+    const loginEmail = localStorage.getItem("LOGIN_USEREMAIL");
+    const res = await fetch(
+      "http://localhost:8181/api/user/favorite/" + loginEmail,
+      {
+        method: "GET",
+        headers: { "content-type": "application/json" },
+      }
+    );
+    if (res.status === 200) {
+      const list = await res.json();
+      setFavoriteList(list);
+
+      // let flag = false;
+      // list.forEach((x) => {
+      //   if (x.stockName === title[0]) {
+      //     setFilled(true);
+      //     flag = true;
+      //   }
+      // });
+      // if (!flag) {
+      //   setFilled(false);
+      // }
+    }
   };
 
   return (
@@ -388,7 +423,13 @@ function StockTemplate() {
               <h6 className="m-0 font-weight-bold text-primary">관심종목</h6>
             </div>
             {isLogin() ? (
-              <div className="card-body">관심종목 목록</div>
+              <div className="card-body">
+                <div className="like-content">
+                  {favoriteList.map((item, index) => (
+                    <p key={index}>{item.stockName}</p>
+                  ))}
+                </div>
+              </div>
             ) : (
               <div className="card-body">
                 로그인 후 관심종목 기능을 이용해 보세요!
