@@ -554,10 +554,8 @@ const Detail = () => {
     redirection(`/Detail/${e.target.textContent}`);
   };
 
-  //즐겨찾기 클릭 이벤트
+  //관심종목 클릭 이벤트
   function favoriteClickHandler(index) {
-    console.log(index);
-    console.log(favoriteList[index].stockCode);
     redirection(
       `/detail/${favoriteList[index].stockName}(${favoriteList[index].stockCode})`
     );
@@ -615,8 +613,10 @@ const Detail = () => {
                       <div className="like-content">
                         {favoriteList.map((item, index) => (
                           <p
+                            className="btn btn-success btn-icon-split"
                             onClick={(e) => favoriteClickHandler(index)}
                             key={index}
+                            style={{ display: "block", fontWeight: "bold" }}
                           >
                             {item.stockName}
                           </p>

@@ -26,6 +26,8 @@ import { useNavigate } from "react-router-dom";
 import { isLogin } from "../util/login-utils";
 
 function StockTemplate() {
+  // 토큰 발급이 최우선이기 때문에 토큰 발급 시 관리할 변수
+  const [haveToken, setHaveToken] = useState(false);
   // 관심종목 목록 관리
   const [favoriteList, setFavoriteList] = useState([]);
 
@@ -51,15 +53,18 @@ function StockTemplate() {
     if (res.status === 200) {
       const data = await res.json();
       localStorage.setItem("ACCESS_TOKEN", "Bearer " + data.access_token);
+      setHaveToken(true);
     }
   };
+  useEffect(() => {
+    getKIAccessToken(); //토큰 발급
+    // loadFavorite(); //관심종목 리스트 불러오기
+  }, []);
 
   //처음 렌더링시 실행
   useEffect(() => {
-    // loadFavorite(); //관심종목 리스트 불러오기
-    getKIAccessToken(); //토큰 발급
     getRank(); //거래량 순위 불러오기
-  }, []);
+  }, [haveToken]);
 
   //등락률 상위(0),하위(1) 종목
   const fluctuationRate = async (seq) => {
@@ -106,15 +111,14 @@ function StockTemplate() {
       if (res.status === 200) {
         const data = await res.json();
         setData(data.output); // 결과를 상태에 저장
+        loadFavorite(); //관심종목 리스트 불러오기
+      } else if (res.status === 500) {
+        redirection("/");
       }
     } catch (error) {
       console.error(error);
     }
   };
-
-  // useEffect(() => {
-  //   getRank();
-  // }, []);
 
   // data 상태가 null인 경우 로딩 상태 표시
   if (data === null) {
@@ -143,36 +147,32 @@ function StockTemplate() {
     redirection(`/login`);
   };
 
-  // useEffect(() => {
-  //   loadFavorite();
-  // }, []);
   //관심종목 목록 불러오기 로직
   const loadFavorite = async () => {
     const loginEmail = localStorage.getItem("LOGIN_USEREMAIL");
-    const res = await fetch(
-      "http://localhost:8181/api/user/favorite/" + loginEmail,
-      {
-        method: "GET",
-        headers: { "content-type": "application/json" },
+    console.log(loginEmail);
+    if (loginEmail !== null) {
+      const res = await fetch(
+        "http://localhost:8181/api/user/favorite/" + loginEmail,
+        {
+          method: "GET",
+          headers: { "content-type": "application/json" },
+        }
+      );
+      if (res.status === 200) {
+        const list = await res.json();
+        setFavoriteList(list);
       }
-    );
-    if (res.status === 200) {
-      const list = await res.json();
-      setFavoriteList(list);
-
-      // let flag = false;
-      // list.forEach((x) => {
-      //   if (x.stockName === title[0]) {
-      //     setFilled(true);
-      //     flag = true;
-      //   }
-      // });
-      // if (!flag) {
-      //   setFilled(false);
-      // }
     }
   };
-
+  //관심종목 클릭 이벤트
+  function favoriteClickHandler(index) {
+    console.log(index);
+    console.log(favoriteList[index].stockCode);
+    redirection(
+      `/detail/${favoriteList[index].stockName}(${favoriteList[index].stockCode})`
+    );
+  }
   return (
     <>
       <MoveStockInfo getStockRate={fluctuationRate} />
@@ -401,9 +401,16 @@ function StockTemplate() {
             </div>
             {isLogin() ? (
               <div className="card-body">
-                <div className="like-content">
+                <div className="like-content favorite-box">
                   {favoriteList.map((item, index) => (
-                    <p key={index}>{item.stockName}</p>
+                    <p
+                      className="btn btn-success btn-icon-split btn-favorite"
+                      key={index}
+                      onClick={(e) => favoriteClickHandler(index)}
+                      style={{ display: "block", fontWeight: "bold" }}
+                    >
+                      {item.stockName}
+                    </p>
                   ))}
                 </div>
               </div>
