@@ -91,7 +91,7 @@ table {
 
         .having-stock {
             width: 700px;
-            margin-left: 0.9rem;
+            margin-left: 2.5rem;
         }
 
         .having-cash {
@@ -106,7 +106,7 @@ table {
         .border {
             display: inline-block;
             vertical-align: middle;
-            margin: 0px 6rem 0px 3rem;
+            margin: 0px 4rem 0px 3rem;
             color: blue;
             font-weight: 700;
         }
@@ -173,4 +173,8 @@ table {
 
 .button-21:focus:not(:active) {
   box-shadow: rgba(40, 170, 255, 0.25) 0 0 0 .125em;
+}
+
+.button {
+    margin-bottom: 100px;
 }
