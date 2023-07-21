@@ -1,12 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import Header from './component/layout/Header';
 // import StockTemplate from './component/stock/StockTemplate';
 // import Footer from './component/layout/Footer';
 import "./guide.scss";
 import "../../bootstrap/css/sb-admin-2.min.css";
-import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowsUpToLine,
+  faCircleExclamation,
+  faTemperatureArrowUp,
+  faUpLong,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Guide = ({}) => {
+  const [topButton, setTopButton] = useState(false);
+
+  const handleScroll = () => {
+    if (window.scrollY > 200) {
+      setTopButton(true);
+    } else {
+      setTopButton(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <body id="page-top" style={{ width: "80%" }}>
@@ -295,7 +324,7 @@ const Guide = ({}) => {
               <img
                 src={require("./image/검색창.png")}
                 alt="@"
-                style={{ marginBottom: "50px", width: "500px" }}
+                style={{ marginBottom: "50px", width: "450px" }}
                 className="center-image"
               ></img>
               <p id="12">
@@ -358,6 +387,11 @@ const Guide = ({}) => {
               </div>
             </div>
           </div>
+          {topButton && (
+            <button className="top-button" onClick={scrollToTop}>
+              <FontAwesomeIcon icon={faUpLong} />
+            </button>
+          )}
         </div>
       </body>
     </>
