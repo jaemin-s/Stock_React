@@ -558,22 +558,22 @@ const Join = () => {
                           MBTI
                         </option>
                         <option value="1">선택안함</option>
-                        <option value="2">ISTJ</option>
-                        <option value="2">ISFJ</option>
-                        <option value="2">ESTJ</option>
-                        <option value="2">ESFJ</option>
-                        <option value="3">ISTP</option>
-                        <option value="3">ISFP</option>
-                        <option value="3">ESFP</option>
-                        <option value="3">ESTP</option>
-                        <option value="4">INFJ</option>
-                        <option value="4">INFP</option>
-                        <option value="4">ENFP</option>
-                        <option value="4">ENFJ</option>
-                        <option value="5">INTJ</option>
-                        <option value="5">INTP</option>
-                        <option value="5">ENTP</option>
-                        <option value="5">ENTJ</option>
+                        <option value="ISTJ">ISTJ</option>
+                        <option value="ISFJ">ISFJ</option>
+                        <option value="ESTJ">ESTJ</option>
+                        <option value="ESFJ">ESFJ</option>
+                        <option value="ISTP">ISTP</option>
+                        <option value="ISFP">ISFP</option>
+                        <option value="ESFP">ESFP</option>
+                        <option value="ESTP">ESTP</option>
+                        <option value="INFJ">INFJ</option>
+                        <option value="INFP">INFP</option>
+                        <option value="ENFP">ENFP</option>
+                        <option value="ENFJ">ENFJ</option>
+                        <option value="INTJ">INTJ</option>
+                        <option value="INTP">INTP</option>
+                        <option value="ENTP">ENTP</option>
+                        <option value="ENTJ">ENTJ</option>
                       </select>
                       <p>*MBTI별 추천을 받고 싶으시면 선택해주세요.</p>
                     </div>

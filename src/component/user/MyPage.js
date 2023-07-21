@@ -9,7 +9,7 @@ import AuthContext from "../util/AuthContext";
 Chart.register(ArcElement, Tooltip, Legend);
 
 function MyPage() {
-  const { userName, userNick, email, gender, age, career } =
+  const { userName, userNick, email, gender, age, career, mbti } =
     useContext(AuthContext);
 
   const [expanded, setExpanded] = useState(false);
@@ -30,6 +30,7 @@ function MyPage() {
     age: "",
     career: "",
     gender: "",
+    mbti: "",
     myStocks: [],
     money: 0,
   });
@@ -115,9 +116,9 @@ function MyPage() {
       gender: myInfo.gender,
       money: myInfo.money,
       myStocks: myInfo.myStocks,
+      mbti: myInfo.mbti
     });
   }
-
   async function getHistory() {
     const res = await fetch("http://localhost:8181/api/trade/history/" + email);
     const history = await res.json();
@@ -160,6 +161,9 @@ function MyPage() {
           </h5>
           <h5 className="career">
             경력<span className="border">|</span> {userInfo.career}
+          </h5>
+          <h5 className="mbti">
+            MBTI<span className="border">|</span> {userInfo.mbti}
           </h5>
         </div>
 

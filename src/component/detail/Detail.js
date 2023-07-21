@@ -26,6 +26,7 @@ import Candle from "./Candle";
 import AskingPrice from "./AskingPrice";
 import { elements } from "chart.js";
 import { red } from "@mui/material/colors";
+import RcmMbti from "./RcmMbti";
 
 const Detail = () => {
   const { value } = useParams();
@@ -606,7 +607,7 @@ const Detail = () => {
                     </h6>
                   </div>
                   <div className="card-body" id="sic-body">
-                    {/* 원래 관련종목 칸 */}
+                    {/* <RcmMbti /> */}
                   </div>
                 </div>
               </div>
