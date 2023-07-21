@@ -691,7 +691,7 @@ const Detail = () => {
                     </h6>
                   </div>
                   <div className="card-body" id="sic-body">
-                    {/* <RcmMbti /> */}
+                    <RcmMbti />
                   </div>
                 </div>
               </div>

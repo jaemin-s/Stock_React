@@ -206,7 +206,7 @@ function MyPage() {
             경력<span className="border">|</span> {getAge(userInfo.career)}
           </h5>
           <h5 className="mbti">
-            MBTI<span className="border">|</span> {userInfo.mbti}
+          &nbsp; MBTI<span className="border">|</span> {userInfo.mbti}
           </h5>
         </div>
 
