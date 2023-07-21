@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import InfoTest from "../info/InfoTest";
 import "./Detail.scss";
 import { KI_APP_KEY, KI_SECRET_KEY, DATA_GO_KR_KEY } from "../../config/apikey";
@@ -26,10 +26,14 @@ import Candle from "./Candle";
 import AskingPrice from "./AskingPrice";
 import { elements } from "chart.js";
 import { red } from "@mui/material/colors";
+import { isLogin } from "../util/login-utils";
+import AuthContext from "../util/AuthContext";
 
 const Detail = () => {
   const { value } = useParams();
   const title = value.split("(", 2);
+  // console.log(title[0]); //종목 이름
+  // console.log(title[1].slice(0, -1)); //종목 코드
 
   //현재가, 등락률 관리
   const [livePrice, setLivePrice] = useState();
@@ -44,8 +48,68 @@ const Detail = () => {
   // 즐겨찾기 별표 채우기
   const [filled, setFilled] = useState(false);
 
-  const toggleStar = () => {
+  const REQUEST_URL = "http://localhost:8181/api/user/favorite";
+  const { email } = useContext(AuthContext);
+  // 관심종목 목록
+  const [favoriteList, setFavoriteList] = useState([]);
+
+  // 관심종목(별 모양 클릭시) 백 연결 로직
+  const toggleStar = async () => {
     setFilled(!filled);
+
+    const res = await fetch(REQUEST_URL, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        stockCode: title[1].slice(0, -1),
+        stockName: title[0],
+        userEmail: email,
+      }),
+    });
+    if (res.status === 200) {
+      const favoriteData = await res.json();
+      let results = [];
+      favoriteData.forEach((x) => {
+        const { stockCode, stockName } = x;
+        results.push({ stockCode, stockName });
+      });
+      setFavoriteList(results);
+    }
+  };
+  // console.log(favoriteList[0].stockName);
+  // 관심종목 백 연결 로직 끝
+
+  useEffect(() => {
+    loadFavorite();
+  }, [value]);
+
+  // 관심종목 목록 불러오기
+  const loadFavorite = async () => {
+    const loginEmail = localStorage.getItem("LOGIN_USEREMAIL");
+    // console.log("email: ", loginEmail);
+    const res = await fetch(
+      "http://localhost:8181/api/user/favorite/" + loginEmail,
+      {
+        method: "GET",
+        headers: { "content-type": "application/json" },
+      }
+    );
+    if (res.status === 200) {
+      const list = await res.json();
+      console.log(list);
+      setFavoriteList(list);
+
+      let flag = false;
+      list.forEach((x) => {
+        if (x.stockName === title[0]) {
+          setFilled(true);
+          flag = true;
+        }
+      });
+      if (!flag) {
+        setFilled(false);
+      }
+    }
   };
 
   // 8자리 날짜를 yyyy-MM-dd로 변환
@@ -447,22 +511,35 @@ const Detail = () => {
     redirection(`/Detail/${e.target.textContent}`);
   };
 
+  //즐겨찾기 클릭 이벤트
+  function favoriteClickHandler(index) {
+    console.log(index);
+    console.log(favoriteList[index].stockCode);
+    redirection(
+      `/detail/${favoriteList[index].stockName}(${favoriteList[index].stockCode})`
+    );
+  }
+
   return (
     <>
       <body id="page-top" style={{ width: "80%" }}>
         <div id="wrapper">
           <div id="container">
             <h1 className="flex">
-              <span className="star-icon" onClick={toggleStar}>
-                <FontAwesomeIcon
-                  icon={filled ? filledStar : emptyStar}
-                  style={{
-                    color: filled ? "#F9BC28" : "black",
-                    marginBottom: "4px",
-                  }}
-                />
-                &nbsp;
-              </span>
+              {isLogin() ? (
+                <span className="star-icon" onClick={toggleStar}>
+                  <FontAwesomeIcon
+                    icon={filled ? filledStar : emptyStar}
+                    style={{
+                      color: filled ? "#F9BC28" : "black",
+                      marginBottom: "4px",
+                    }}
+                  />
+                  &nbsp;
+                </span>
+              ) : (
+                <span></span>
+              )}
               {value}
               {stockCode}
               <span className="live-price">
@@ -487,16 +564,23 @@ const Detail = () => {
                 <div id="first-box" className="popular-trade card shadow mb-4">
                   <div className="card-header">
                     <h6 className="m-0 font-weight-bold text-primary">
-                      즐겨찾기
+                      관심종목
                     </h6>
                   </div>
-                  {filled && (
+                  {
                     <div className="card-body">
                       <div className="like-content">
-                        <a href={`/detail/${value}`}>{value}</a>
+                        {favoriteList.map((item, index) => (
+                          <p
+                            onClick={(e) => favoriteClickHandler(index)}
+                            key={index}
+                          >
+                            {item.stockName}
+                          </p>
+                        ))}
                       </div>
                     </div>
-                  )}
+                  }
                   {/* {filled && (
                             <div className="card-body">
                             <div className='like-content'><a href="/detail/{종목명}">{종목명}</a> </div>
@@ -564,7 +648,7 @@ const Detail = () => {
                     </h6>
                   </div>
                   <div className="card-body" id="sic-body">
-                        {/* 원래 관련종목 칸 */}
+                    {/* 원래 관련종목 칸 */}
                   </div>
                 </div>
               </div>
