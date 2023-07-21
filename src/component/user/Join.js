@@ -22,6 +22,7 @@ const Join = () => {
     age: "",
     gender: "",
     career: "",
+    mbti: "",
   });
 
   //검증 메세지에 대한 상태변수 관리
@@ -543,6 +544,38 @@ const Join = () => {
                         <option value="3">4~10년</option>
                         <option value="4">10년 이상</option>
                       </select>
+                    </div>
+
+                    <div className="form-group">
+                      MBTI
+                      <span style={{ marginRight: 20 }}></span>
+                      <select
+                        onChange={(e) =>
+                          setUserValue({ ...userValue, mbti: e.target.value })
+                        }
+                      >
+                        <option selected disabled hidden>
+                          MBTI
+                        </option>
+                        <option value="1">선택안함</option>
+                        <option value="ISTJ">ISTJ</option>
+                        <option value="ISFJ">ISFJ</option>
+                        <option value="ESTJ">ESTJ</option>
+                        <option value="ESFJ">ESFJ</option>
+                        <option value="ISTP">ISTP</option>
+                        <option value="ISFP">ISFP</option>
+                        <option value="ESFP">ESFP</option>
+                        <option value="ESTP">ESTP</option>
+                        <option value="INFJ">INFJ</option>
+                        <option value="INFP">INFP</option>
+                        <option value="ENFP">ENFP</option>
+                        <option value="ENFJ">ENFJ</option>
+                        <option value="INTJ">INTJ</option>
+                        <option value="INTP">INTP</option>
+                        <option value="ENTP">ENTP</option>
+                        <option value="ENTJ">ENTJ</option>
+                      </select>
+                      <p>*MBTI별 추천을 받고 싶으시면 선택해주세요.</p>
                     </div>
 
                     <a
