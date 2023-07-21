@@ -66,29 +66,40 @@ const Guide = ({}) => {
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>우선주</span>
               </a>
+              <a class="nav-link" href="#10" style={{ padding: "5px 16px" }}>
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>상장폐지</span>
+              </a>
               <hr class="sidebar-divider my-0"></hr>
               <div class="sidebar-heading">튜토리얼</div>
-              <a class="nav-link" href="#10" style={{ padding: "5px 16px" }}>
+              <a class="nav-link" href="#11" style={{ padding: "5px 16px" }}>
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>종목 검색</span>
               </a>
-              <a class="nav-link" href="#11" style={{ padding: "5px 16px" }}>
+              <a class="nav-link" href="#12" style={{ padding: "5px 16px" }}>
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>매수 / 매도</span>
               </a>
-              <a class="nav-link" href="#12" style={{ padding: "5px 16px" }}>
+              <a class="nav-link" href="#13" style={{ padding: "5px 16px" }}>
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>즐겨찾기</span>
               </a>
-              <a class="nav-link" href="#12" style={{ padding: "5px 16px" }}>
+              <a class="nav-link" href="#14" style={{ padding: "5px 16px" }}>
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>관련 종목 추천</span>
               </a>
               <hr class="sidebar-divider my-0"></hr>
+              <a class="nav-link" href="#15" style={{ padding: "5px 16px" }}>
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>주의사항</span>
+              </a>
             </li>
           </ul>
 
-          <div className="container-fluid" style={{ padding: "20px 100px" }}>
+          <div
+            className="container-fluid"
+            style={{ padding: "20px 100px 200px 100px" }}
+          >
             {/* <!-- Page Heading --> */}
             <div className="d-sm-flex align-items-center justify-content-between mb-4">
               <h1
@@ -247,6 +258,25 @@ const Guide = ({}) => {
                 style={{ textAlign: "center" }}
               >{`<보통주와 우선주의 차이>`}</div>
             </p>
+            <h4 id="10">상장폐지</h4>
+            <p>
+              주가가 앞서 말한 바와 다르게 30% 이상 하락하는 경우가 있다. 이는
+              상장폐지 된 주식일 수 있으며 해당 주식은 약 일주일 간
+              '정리매매'기간을 부여받는다. 그 시기에는 가격제한폭이 없고 많은
+              변동을 보인다. 주가 제한폭이 없으므로 투자를 추천하지 않는다.
+              <br />
+              <img
+                src={require("./image/상장폐지.png")}
+                alt="2013년 상장폐지된 에스와이코퍼레이션"
+                style={{
+                  width: 650,
+                  height: 300,
+                  marginTop: "50px",
+                  alignContent: "center",
+                }}
+                className="center-image"
+              ></img>
+            </p>
 
             <br></br>
             <br></br>
@@ -261,22 +291,22 @@ const Guide = ({}) => {
                   튜토리얼
                 </h1>
               </div>
-              <p id="10">매수나 매도를 원하는 종목 검색한다.</p>
+              <p id="11">매수나 매도를 원하는 종목 검색한다.</p>
               <img
                 src={require("./image/검색창.png")}
                 alt="@"
                 style={{ marginBottom: "50px", width: "500px" }}
                 className="center-image"
               ></img>
-              <p id="11">
+              <p id="12">
                 호가, 뉴스, 종목정보를 기반으로 차트를 참조하여 호가 파트에서
                 매수 혹은 매도를 진행한다.(매수/매도 사진)
               </p>
-              <p id="12">
+              <p id="13">
                 종목 상세창에서 즐겨찾기에 추가할 수 있으며 목록은 메인 화면의
                 우측 하단이나, 종목 상세창 좌측에서 확인할 수 있다.
               </p>
-              <p id="13">
+              <p id="14">
                 매수나 매도가 고민될 때, 관련주나 타 종목을 보고싶을 때 아래의
                 관련 종목 추천을 참고할 수 있다.
               </p>
@@ -287,7 +317,7 @@ const Guide = ({}) => {
                 className="center-image"
               ></img>
               <div style={{ backgroundColor: "lightgray" }}>
-                <p>
+                <p id="15">
                   <FontAwesomeIcon
                     icon={faCircleExclamation}
                     style={{ color: "red" }}
@@ -308,7 +338,7 @@ const Guide = ({}) => {
                       className="card-body"
                       style={{
                         backgroundColor: "white",
-                        width: "50%",
+                        width: "70%",
                         alignContent: "center",
                       }}
                     >
