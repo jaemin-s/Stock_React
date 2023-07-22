@@ -46,6 +46,7 @@ table {
 
 #asset {
     margin-left: 100px;
+    margin-right: 100px;
 }
 #like-info {
 
@@ -136,6 +137,13 @@ table {
     }
 }
 
+.navbar-nav {
+    .nav-item {
+        p {
+            margin: 0;
+        }
+    }
+}
 /* CSS */
 .button-21 {
   align-items: center;

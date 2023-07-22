@@ -196,9 +196,6 @@ const Header = () => {
   );
 
   const { isLoggedIn, onLogout, email, name, image } = useContext(AuthContext);
-  console.log("userEmail:  ", email);
-  console.log("userName:  ", name);
-  console.log("image:  ", image);
   const profileRequestURL = `${API_BASE_URL}/load`;
 
   //프로필 이미지 url 상태 변수

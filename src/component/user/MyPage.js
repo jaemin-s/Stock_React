@@ -19,6 +19,15 @@ function MyPage() {
   const [livePrice, setLivePrice] = useState();
   const [fluctuationRate, setFluctuationRate] = useState();
   const [isRise, setIsRise] = useState(true);
+  const [infoData, setInfoData] = useState({
+    categoryData: [],
+    values: [],
+  });
+  const [selectedStock, setSelectedStock] = useState(null);
+  const handleStockClick = (trade) => {
+    setSelectedStock(trade);
+    transition(trade.stockId);
+  };
 
   const dailyPrice = async (e) => {
     // ㅇㅇㅇ(000000) 값 자르기
@@ -63,8 +72,8 @@ function MyPage() {
   useEffect(() => {
     dailyPrice();
   }, []);
-  console.log("currentLivePrice:  ", currentLivePrice);
-  console.log("현재주가");
+  // console.log("currentLivePrice:  ", currentLivePrice);
+  // console.log("현재주가");
   // console.log(currentLivePrice[0].stockId, currentLivePrice[0].price);
 
   // 주식 수익률 계산
@@ -120,70 +129,12 @@ function MyPage() {
   const dateFormat = (date) => {
     return date.slice(0, 4) + "-" + date.slice(4, 6) + "-" + date.slice(6, 8);
   };
-
-  const transition = async () => {
-    //  const params = title[1].slice(0, -1); //종목 코드
-    const params = "005930";
-    const res = await fetch(
-      "/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
-        params +
-        "&FID_PERIOD_DIV_CODE=M&FID_ORG_ADJ_PRC=1",
-        {
-          headers: {
-            ...RequsetHeader,
-            tr_id: "FHKST01010400",
-          },
-        }
-    );
-    console.log("res: ",res);
-    if (res.status === 200) {
-      const data = await res.json();
-      // console.log(data);
-      //필요한 값만 추출
-      let values = [];
-      let dates = [];
-      data.output.forEach((x) => {
-        const {
-          stck_bsop_date: date,
-          stck_oprc: open,
-          stck_clpr: close,
-          stck_hgpr: highest,
-          stck_lwpr: lowest,
-          prdy_ctrt: percent,
-        } = x;
-        dates.unshift(dateFormat(date));
-        values.unshift([
-          parseInt(open),
-          parseInt(close),
-          parseInt(lowest),
-          parseInt(highest),
-          parseFloat(percent),
-        ]);
-      });
-
-      // 현재가
-      if (values[values.length - 1][1] !== undefined) {
-        setLivePrice(values[values.length - 1][1]);
-      }
-
-      //등락률
-      if (values[values.length - 1][4] >= 0) {
-        setIsRise(true);
-      } else {
-        setIsRise(false);
-      }
-
-      if (values[values.length - 1][4] !== undefined) {
-        setFluctuationRate(values[values.length - 1][4]);
-      } else {
-        setFluctuationRate(0);
-      }
-
-      return { categoryData: dates, values };
-    } else {
-      // console.log("res인데 말이야 = ",res);
-    }
-  }
+  let today = new Date();
+  let currentDate = today.toISOString().slice(0, 10).replaceAll("-", "");
+  let startDate = new Date(today.setDate(today.getDate() - 365))
+    .toISOString()
+    .slice(0, 10)
+    .replaceAll("-", "");
 
   const { userName, userNick, email, gender, age, career, mbti } =
     useContext(AuthContext);
@@ -232,7 +183,7 @@ function MyPage() {
     setInfo(false);
     setAsset(false);
     setLikeInfo(true);
-  }
+  };
 
   const rank = 3;
 
@@ -266,7 +217,7 @@ function MyPage() {
       },
     ],
   };
-  console.log(stockPrice);
+  // console.log(stockPrice);
   async function getInfo() {
     const res = await fetch(
       "http://localhost:8181/api/user/myInfo/" +
@@ -286,7 +237,7 @@ function MyPage() {
       mbti: myInfo.mbti,
     });
   }
-  console.log(userInfo.money);
+  // console.log(userInfo.money);
   async function getHistory() {
     const res = await fetch(
       "http://localhost:8181/api/trade/history/" +
@@ -337,7 +288,15 @@ function MyPage() {
     }
     return null;
   }
-  console.log("returnPercent(): ", returnPercent());
+  // console.log("returnPercent(): ", returnPercent());
+
+  //중복된 종목 구매 시 하나만 나오게 하도록
+  const uniqueHistoryInfo = Array.isArray(historyInfo)
+    ? [...new Set(historyInfo.map((trade) => trade.stockId))].map((stockId) =>
+        historyInfo.find((trade) => trade.stockId === stockId)
+      )
+    : [];
+
   const viewInfo = (
     <>
       {/* <!-- Page Heading --> */}
@@ -409,7 +368,9 @@ function MyPage() {
           </h5>
           <h5 className="having-stock">
             보유 주식<span className="border">|</span>
-            {Array.isArray(historyInfo)
+            {/* {Array.isArray(historyInfo)
+              ? historyInfo.slice(0, 3).map((trade, index) => ( */}
+            {uniqueHistoryInfo
               ? historyInfo.slice(0, 3).map((trade, index) => (
                   <span key={index}>
                     {trade.stockName}
@@ -418,14 +379,11 @@ function MyPage() {
                       : index < historyInfo.length - 1
                       ? ", "
                       : null}
+                    {}
                   </span>
                 ))
               : null}
           </h5>
-          {/* <h5 className="having-cash">
-            보유 현금<span className="border">|</span>
-            {(5000000 - userInfo.money).toLocaleString()} 원
-          </h5> */}
           <h5 className="return">
             수익률<span className="border">|</span> {returnPercent()}%
           </h5>
@@ -485,10 +443,110 @@ function MyPage() {
 
   const viewLikeInfo = (
     <>
-    <h1>dd</h1>
-    <div>{dailyPrice}</div>
+      {/* 보유 종목 */}
+      <ul>
+        {uniqueHistoryInfo.map((trade, index) => (
+          <p key={index} onClick={() => handleStockClick(trade)}>
+            {trade.stockName} ({trade.stockId})
+          </p>
+        ))}
+      </ul>
+      {selectedStock && (
+        <div>
+          <p>
+            주식 이름: {"  "}
+            {selectedStock.stockName}
+          </p>
+          <p>
+            주식 코드:{"  "}
+            {selectedStock.stockId}
+          </p>
+        </div>
+      )}
+
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">날짜</th>
+            <th scope="col">종가</th>
+            <th scope="col">대비</th>
+            <th scope="col">거래량</th>
+          </tr>
+        </thead>
+        <tbody>
+          {infoData.categoryData
+            .map((date, index) => ({
+              date,
+              values: infoData.values[index],
+            }))
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .map((item, index) => (
+              <tr key={index}>
+                <td>{item.date}</td>
+                {item.values.map((value, innerIndex) => (
+                  <td key={innerIndex}>
+                    {innerIndex === 4 ? (
+                      <span>{value}</span>
+                    ) : (
+                      value.toLocaleString()
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+        </tbody>
+      </table>
     </>
   );
+
+  const transition = async (stockId) => {
+    //  const params = title[1].slice(0, -1); //종목 코드
+    console.log("stockId: ", stockId);
+    const res = await fetch(
+      "/quotations/inquire-daily-itemchartprice?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+        stockId +
+        "&FID_INPUT_DATE_1=" +
+        startDate +
+        "&FID_INPUT_DATE_2=" +
+        currentDate +
+        "&FID_PERIOD_DIV_CODE=M&FID_ORG_ADJ_PRC=1",
+      {
+        headers: {
+          ...RequsetHeader,
+          tr_id: "FHKST03010100",
+        },
+      }
+    );
+    console.log("res: ", res);
+
+    if (res.status === 200) {
+      const data = await res.json();
+      // console.log(data);
+      //필요한 값만 추출
+      let values = [];
+      let dates = [];
+      console.log(data);
+
+      data.output2.forEach((x) => {
+        const {
+          stck_bsop_date: date,
+          prdy_vrss: than,
+          stck_clpr: close,
+
+          acml_vol: deal,
+        } = x;
+        console.log(typeof deal);
+        dates.unshift(dateFormat(date));
+
+        values.unshift([parseInt(close), parseInt(than), parseInt(deal)]);
+      });
+
+      setInfoData({ categoryData: dates, values });
+      return { categoryData: dates, values };
+    }
+  };
+  // console.log("transition: ", transition());
+
   return (
     <>
       <body id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
@@ -608,7 +666,7 @@ function MyPage() {
                         id="my-info"
                         href="#"
                         onClick={showInfo}
-                        style={{ fontWeight: 700, fontSize: 30 }}
+                        style={{ fontWeight: 700, fontSize: 25 }}
                       >
                         내 정보
                       </a>
@@ -626,7 +684,7 @@ function MyPage() {
                         id="asset"
                         href="#"
                         onClick={showAsset}
-                        style={{ fontWeight: 700, fontSize: 30 }}
+                        style={{ fontWeight: 700, fontSize: 25 }}
                       >
                         자산관리
                       </a>
@@ -644,9 +702,9 @@ function MyPage() {
                         id="like-info"
                         href="#"
                         onClick={showLikeInfo}
-                        style={{ fontWeight: 700, fontSize: 30 }}
+                        style={{ fontWeight: 700, fontSize: 25 }}
                       >
-                        관심 종목 정보
+                        보유 종목 주가 추이
                       </a>
                     </li>
                   </ul>
