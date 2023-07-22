@@ -19,7 +19,7 @@ const NewsTest = () => {
   };
 
   const getNews = async () => {
-    const query = { value }.value || "증시";
+    const query = { value }.value || "주식";
     const res = await fetch("/search/news.json?query=" + query + "&sort=sim", {
       headers: requestHeader,
     });

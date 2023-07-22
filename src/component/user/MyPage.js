@@ -15,6 +15,10 @@ function MyPage() {
   const { value } = useParams();
   const title = value ? value.split("(", 2) : [];
   const [currentLivePrice, setCurrentLivePrice] = useState([]);
+  //현재가, 등락률 관리
+  const [livePrice, setLivePrice] = useState();
+  const [fluctuationRate, setFluctuationRate] = useState();
+  const [isRise, setIsRise] = useState(true);
 
   const dailyPrice = async (e) => {
     // ㅇㅇㅇ(000000) 값 자르기
@@ -63,7 +67,7 @@ function MyPage() {
   console.log("현재주가");
   // console.log(currentLivePrice[0].stockId, currentLivePrice[0].price);
 
-  // 주식 수익률 계싼
+  // 주식 수익률 계산
   function returnPercent() {
     const returnPercentArray = [];
     for (let i = 0; i < currentLivePrice.length; i++) {
@@ -112,6 +116,75 @@ function MyPage() {
     return `${year}.${month}.${day}`;
   }
 
+  // 8자리 날짜를 yyyy-MM-dd로 변환
+  const dateFormat = (date) => {
+    return date.slice(0, 4) + "-" + date.slice(4, 6) + "-" + date.slice(6, 8);
+  };
+
+  const transition = async () => {
+    //  const params = title[1].slice(0, -1); //종목 코드
+    const params = "005930";
+    const res = await fetch(
+      "/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+        params +
+        "&FID_PERIOD_DIV_CODE=M&FID_ORG_ADJ_PRC=1",
+        {
+          headers: {
+            ...RequsetHeader,
+            tr_id: "FHKST01010400",
+          },
+        }
+    );
+    console.log("res: ",res);
+    if (res.status === 200) {
+      const data = await res.json();
+      // console.log(data);
+      //필요한 값만 추출
+      let values = [];
+      let dates = [];
+      data.output.forEach((x) => {
+        const {
+          stck_bsop_date: date,
+          stck_oprc: open,
+          stck_clpr: close,
+          stck_hgpr: highest,
+          stck_lwpr: lowest,
+          prdy_ctrt: percent,
+        } = x;
+        dates.unshift(dateFormat(date));
+        values.unshift([
+          parseInt(open),
+          parseInt(close),
+          parseInt(lowest),
+          parseInt(highest),
+          parseFloat(percent),
+        ]);
+      });
+
+      // 현재가
+      if (values[values.length - 1][1] !== undefined) {
+        setLivePrice(values[values.length - 1][1]);
+      }
+
+      //등락률
+      if (values[values.length - 1][4] >= 0) {
+        setIsRise(true);
+      } else {
+        setIsRise(false);
+      }
+
+      if (values[values.length - 1][4] !== undefined) {
+        setFluctuationRate(values[values.length - 1][4]);
+      } else {
+        setFluctuationRate(0);
+      }
+
+      return { categoryData: dates, values };
+    } else {
+      // console.log("res인데 말이야 = ",res);
+    }
+  }
+
   const { userName, userNick, email, gender, age, career, mbti } =
     useContext(AuthContext);
 
@@ -125,6 +198,7 @@ function MyPage() {
 
   const [info, setInfo] = useState(true);
   const [asset, setAsset] = useState(false);
+  const [likeInfo, setLikeInfo] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
     email: "",
@@ -145,12 +219,20 @@ function MyPage() {
   const showInfo = () => {
     setInfo(true);
     setAsset(false);
+    setLikeInfo(false);
   };
 
   const showAsset = () => {
     setInfo(false);
     setAsset(true);
+    setLikeInfo(false);
   };
+
+  const showLikeInfo = () => {
+    setInfo(false);
+    setAsset(false);
+    setLikeInfo(true);
+  }
 
   const rank = 3;
 
@@ -400,6 +482,13 @@ function MyPage() {
       {moreButton()}
     </>
   );
+
+  const viewLikeInfo = (
+    <>
+    <h1>dd</h1>
+    <div>{dailyPrice}</div>
+    </>
+  );
   return (
     <>
       <body id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
@@ -519,7 +608,7 @@ function MyPage() {
                         id="my-info"
                         href="#"
                         onClick={showInfo}
-                        style={{ fontWeight: 700, fontSize: 40 }}
+                        style={{ fontWeight: 700, fontSize: 30 }}
                       >
                         내 정보
                       </a>
@@ -537,9 +626,27 @@ function MyPage() {
                         id="asset"
                         href="#"
                         onClick={showAsset}
-                        style={{ fontWeight: 700, fontSize: 40 }}
+                        style={{ fontWeight: 700, fontSize: 30 }}
                       >
                         자산관리
+                      </a>
+                    </li>
+                    <li
+                      className="nav-item"
+                      id="border"
+                      style={{ fontSize: 30 }}
+                    >
+                      <p>|</p>
+                    </li>
+                    <li className="nav-item">
+                      <a
+                        className="nav-link"
+                        id="like-info"
+                        href="#"
+                        onClick={showLikeInfo}
+                        style={{ fontWeight: 700, fontSize: 30 }}
+                      >
+                        관심 종목 정보
                       </a>
                     </li>
                   </ul>
@@ -554,6 +661,7 @@ function MyPage() {
 
             {info && viewInfo}
             {asset && viewAsset}
+            {likeInfo && viewLikeInfo}
           </div>
         </div>
       </body>
