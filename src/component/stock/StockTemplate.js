@@ -20,17 +20,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Carousel from "react-bootstrap/Carousel";
 import Kospi from "./Kospi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCrown, faUpLong } from "@fortawesome/free-solid-svg-icons";
+import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import Kosdaq from "./Kosdaq";
 import { useNavigate } from "react-router-dom";
 import { isLogin } from "../util/login-utils";
+import OverallRank from "./OverallRank";
 
 function StockTemplate() {
-  // 토큰 발급이 최우선이기 때문에 토큰 발급 시 관리할 변수
-  const [haveToken, setHaveToken] = useState(false);
-  // 관심종목 목록 관리
-  const [favoriteList, setFavoriteList] = useState([]);
-
   const redirection = useNavigate();
 
   const detailHandler = (e) => {
@@ -53,18 +49,13 @@ function StockTemplate() {
     if (res.status === 200) {
       const data = await res.json();
       localStorage.setItem("ACCESS_TOKEN", "Bearer " + data.access_token);
-      setHaveToken(true);
     }
   };
-  useEffect(() => {
-    getKIAccessToken(); //토큰 발급
-    // loadFavorite(); //관심종목 리스트 불러오기
-  }, []);
 
   //처음 렌더링시 실행
   useEffect(() => {
-    getRank(); //거래량 순위 불러오기
-  }, [haveToken]);
+    getKIAccessToken(); //토큰 발급
+  }, []);
 
   //등락률 상위(0),하위(1) 종목
   const fluctuationRate = async (seq) => {
@@ -94,7 +85,6 @@ function StockTemplate() {
 
   const [data, setData] = useState(null); // 결과를 저장할 상태
 
-  //거래량 순위
   const getRank = async () => {
     try {
       const res = await fetch(
@@ -111,14 +101,15 @@ function StockTemplate() {
       if (res.status === 200) {
         const data = await res.json();
         setData(data.output); // 결과를 상태에 저장
-        loadFavorite(); //관심종목 리스트 불러오기
-      } else if (res.status === 500) {
-        redirection("/");
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    getRank();
+  }, []);
 
   // data 상태가 null인 경우 로딩 상태 표시
   if (data === null) {
@@ -147,32 +138,6 @@ function StockTemplate() {
     redirection(`/login`);
   };
 
-  //관심종목 목록 불러오기 로직
-  const loadFavorite = async () => {
-    const loginEmail = localStorage.getItem("LOGIN_USEREMAIL");
-    console.log(loginEmail);
-    if (loginEmail !== null) {
-      const res = await fetch(
-        "http://localhost:8181/api/user/favorite/" + loginEmail,
-        {
-          method: "GET",
-          headers: { "content-type": "application/json" },
-        }
-      );
-      if (res.status === 200) {
-        const list = await res.json();
-        setFavoriteList(list);
-      }
-    }
-  };
-  //관심종목 클릭 이벤트
-  function favoriteClickHandler(index) {
-    console.log(index);
-    console.log(favoriteList[index].stockCode);
-    redirection(
-      `/detail/${favoriteList[index].stockName}(${favoriteList[index].stockCode})`
-    );
-  }
   return (
     <>
       <MoveStockInfo getStockRate={fluctuationRate} />
@@ -221,8 +186,7 @@ function StockTemplate() {
                     .filter(
                       (x) =>
                         !x.hts_kor_isnm.includes("KODEX") &&
-                        !x.hts_kor_isnm.includes("선물") &&
-                        !x.hts_kor_isnm.includes("스팩")
+                        !x.hts_kor_isnm.includes("선물")
                     ) // 특정 단어를 포함하지 않는 항목만 필터링
                     .map((x, index) => (
                       <tr key={index}>
@@ -266,7 +230,8 @@ function StockTemplate() {
           </div>
         </div>
         <div className="flex bottom-content">
-          <div className="simulated-rank card shadow">
+          <OverallRank />
+          {/* <div className="simulated-rank card shadow">
             <div className="card-header">
               <h6 className="m-0 font-weight-bold text-primary">
                 모의 투자 랭킹
@@ -286,7 +251,7 @@ function StockTemplate() {
                             {value >= 0 && "+"}{value}%
                         </span> 
                         변동률 음수는 파란색, 양수는 빨간색 표시*/}
-              <tbody>
+          {/* <tbody>
                 <tr>
                   <th scope="row">
                     <FontAwesomeIcon
@@ -382,7 +347,7 @@ function StockTemplate() {
                 </tr>
               </tbody>
             </table>
-          </div>
+          </div> */}
           <div className="youtube-iframe card shadow">
             <div className="card-header">
               <h6 className="m-0 font-weight-bold text-primary">관련 영상</h6>
@@ -400,20 +365,7 @@ function StockTemplate() {
               <h6 className="m-0 font-weight-bold text-primary">관심종목</h6>
             </div>
             {isLogin() ? (
-              <div className="card-body">
-                <div className="like-content favorite-box">
-                  {favoriteList.map((item, index) => (
-                    <p
-                      className="btn btn-success btn-icon-split btn-favorite"
-                      key={index}
-                      onClick={(e) => favoriteClickHandler(index)}
-                      style={{ display: "block", fontWeight: "bold" }}
-                    >
-                      {item.stockName}
-                    </p>
-                  ))}
-                </div>
-              </div>
+              <div className="card-body">관심종목 목록</div>
             ) : (
               <div className="card-body">
                 로그인 후 관심종목 기능을 이용해 보세요!
