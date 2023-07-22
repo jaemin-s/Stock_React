@@ -445,8 +445,13 @@ function MyPage() {
     <>
       {/* 보유 종목 */}
       <ul>
-        {uniqueHistoryInfo.map((trade, index) => (
-          <p key={index} onClick={() => handleStockClick(trade)}>
+        <p>주식을 클릭하세요</p>
+        {userInfo.myStocks.map((trade, index) => (
+          <p
+            key={index}
+            onClick={() => handleStockClick(trade)}
+            style={{ color: "blue", cursor: "pointer" }}
+          >
             {trade.stockName} ({trade.stockId})
           </p>
         ))}
@@ -464,10 +469,12 @@ function MyPage() {
         </div>
       )}
 
-      <table className="table">
+      <table className="havingStockInfoTable">
         <thead>
           <tr>
-            <th scope="col">날짜</th>
+            <th scope="col" style={{ maxWidth: "100px" }}>
+              날짜
+            </th>
             <th scope="col">종가</th>
             <th scope="col">대비</th>
             <th scope="col">거래량</th>
