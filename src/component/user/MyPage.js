@@ -1,30 +1,119 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./MyPage.scss";
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import AuthContext from "../util/AuthContext";
+import { RequsetHeader } from "../../config/apikey";
+import { useParams } from "react-router-dom";
+
 // Doughnut 차트 import(npm install chart.js react-chartjs-2)
 
 // Doughnut 차트 등록
 Chart.register(ArcElement, Tooltip, Legend);
 
 function MyPage() {
-  const { userName, userNick, userEmail, gender, age, career } =
-    useContext(AuthContext);
+  const { value } = useParams();
+  const title = value ? value.split("(", 2) : [];
+  const [currentLivePrice, setCurrentLivePrice] = useState([]);
 
-  // Doughnut 차트에 들어갈 내용
-  const data = {
-    labels: ["삼성전자", "SK하이닉스", "대한항공", "현금"],
-    // 주식 종목 / 현금
-    datasets: [
-      {
-        label: "금액",
-        data: [1000000, 2500000, 1000000, 500000],
-        backgroundColor: ["blue", "red", "skyblue", "orange"],
-        // 순서대로 금액과 색깔 설정
-      },
-    ],
+  const dailyPrice = async (e) => {
+    // ㅇㅇㅇ(000000) 값 자르기
+
+    //const params = title[1].slice(0, -1); //종목 코드
+    userInfo.myStocks.forEach(async (element) => {
+      const res = await fetch(
+        "/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+          element.stockId +
+          "&FID_PERIOD_DIV_CODE=D&FID_ORG_ADJ_PRC=1",
+        {
+          headers: {
+            ...RequsetHeader,
+            tr_id: "FHKST01010400",
+          },
+        }
+      );
+      if (res.status === 200) {
+        const data = await res.json();
+        // console.log(data);
+        //필요한 값만 추출
+        let values = [];
+        let dates = [];
+        data.output.forEach((x) => {
+          const { stck_clpr: close } = x;
+          values.unshift([parseInt(close)]);
+        });
+
+        // 현재가
+        if (values[values.length - 1][0] !== undefined) {
+          setCurrentLivePrice((prevArray) => [
+            ...prevArray,
+            { stockId: element.stockId, price: values[values.length - 1][0] },
+          ]);
+        }
+      } else {
+        // console.log("res인데 말이야 = ",res);
+      }
+    });
   };
+
+  useEffect(() => {
+    dailyPrice();
+  }, []);
+  console.log("currentLivePrice:  ", currentLivePrice);
+  console.log("현재주가");
+  // console.log(currentLivePrice[0].stockId, currentLivePrice[0].price);
+
+  // 주식 수익률 계싼
+  function returnPercent() {
+    const returnPercentArray = [];
+    for (let i = 0; i < currentLivePrice.length; i++) {
+      const stockData = currentLivePrice[i];
+      const { stockId, price } = stockData;
+      const purchasedStock = userInfo.myStocks.find(
+        (stock) => stock.stockId === stockId
+      );
+      if (purchasedStock) {
+        const { price: purchasePrice, quantity } = purchasedStock;
+        const returnPercent = (
+          (price / (purchasePrice / quantity)) * 100 -
+          100
+        ).toFixed(2);
+        returnPercentArray.push({ stockId, returnPercent });
+      }
+      // (currentLivePrice[i].price / userInfo.myStocks[i].(price/quntity)) * 100 - 100
+    }
+    let totalReturnPercent = 0;
+    returnPercentArray.forEach((item) => {
+      totalReturnPercent += parseFloat(item.returnPercent);
+    });
+    const averageReturnPercent = (
+      totalReturnPercent / returnPercentArray.length
+    ).toFixed(2);
+    return averageReturnPercent;
+  }
+
+  // 주식 평가금액 계산
+  function estimate() {
+    let totalEstimate = 0;
+    if (Array.isArray(userInfo.myStocks) && userInfo.myStocks.length > 0) {
+      for (let i = 0; i < userInfo.myStocks.length; i++) {
+        totalEstimate += userInfo.myStocks[i].price;
+      }
+    }
+    return totalEstimate;
+  }
+
+  // 날짜 형식 변환(거래 일자)
+  function getFormattedDate(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear().toString().slice(2);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${year}.${month}.${day}`;
+  }
+
+  const { userName, userNick, email, gender, age, career, mbti } =
+    useContext(AuthContext);
 
   const [expanded, setExpanded] = useState(false);
 
@@ -37,6 +126,22 @@ function MyPage() {
   const [info, setInfo] = useState(true);
   const [asset, setAsset] = useState(false);
 
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    name: "",
+    nick: "",
+    age: "",
+    career: "",
+    gender: "",
+    mbti: "",
+    myStocks: [],
+    money: 0,
+  });
+
+  // console.log("userInfo.myStocks: ", userInfo.myStocks);
+
+  const [historyInfo, setHistoryInfo] = useState([]);
+
   const showInfo = () => {
     setInfo(true);
     setAsset(false);
@@ -47,6 +152,110 @@ function MyPage() {
     setAsset(true);
   };
 
+  const rank = 3;
+
+  //도넛 안에 넣기 위한 labels
+  const stockNames = Array.isArray(userInfo.myStocks)
+    ? userInfo.myStocks.map((stock) => stock.stockName)
+    : [];
+
+  const stockPrice = Array.isArray(userInfo.myStocks)
+    ? userInfo.myStocks.map((stock) => stock.price)
+    : [];
+
+  // Doughnut 차트에 들어갈 내용
+  const data = {
+    labels: [...stockNames],
+
+    // 주식 종목 / 현금
+    datasets: [
+      {
+        label: "금액",
+        data: stockPrice,
+        backgroundColor: [
+          "blue",
+          "red",
+          "skyblue",
+          "orange",
+          "purple",
+          "green",
+        ],
+        // 순서대로 금액과 색깔 설정
+      },
+    ],
+  };
+  console.log(stockPrice);
+  async function getInfo() {
+    const res = await fetch(
+      "http://localhost:8181/api/user/myInfo/" +
+        localStorage.getItem("LOGIN_USEREMAIL")
+    );
+    const myInfo = await res.json();
+    // console.log("myInfo: ", myInfo);
+    setUserInfo({
+      email: myInfo.email,
+      name: myInfo.name,
+      nick: myInfo.nick,
+      age: myInfo.age,
+      career: myInfo.career,
+      gender: myInfo.gender,
+      money: myInfo.money,
+      myStocks: myInfo.myStocks,
+      mbti: myInfo.mbti,
+    });
+  }
+  console.log(userInfo.money);
+  async function getHistory() {
+    const res = await fetch(
+      "http://localhost:8181/api/trade/history/" +
+        localStorage.getItem("LOGIN_USEREMAIL")
+    );
+    const history = await res.json();
+    // console.log("history: ", history);
+    setHistoryInfo(history);
+  }
+  useEffect(() => {
+    getInfo();
+    getHistory();
+  }, []);
+
+  function getAge(age) {
+    switch (age) {
+      case "1":
+        return "입문";
+      case "2":
+        return "1~3년";
+      case "3":
+        return "4~10년";
+      case "4":
+        return "10년 이상";
+      default:
+        return age;
+    }
+  }
+
+  function getTradeType(tradeType) {
+    switch (tradeType) {
+      case "buy":
+        return "매수";
+      case "sell":
+        return "매도";
+    }
+  }
+
+  function moreButton() {
+    if (historyInfo.length > 3) {
+      return (
+        <div className="button">
+          <button className="button-21" onClick={toggleExpanded}>
+            {expanded ? "접기" : "더보기"}
+          </button>
+        </div>
+      );
+    }
+    return null;
+  }
+  console.log("returnPercent(): ", returnPercent());
   const viewInfo = (
     <>
       {/* <!-- Page Heading --> */}
@@ -55,7 +264,9 @@ function MyPage() {
         <br />
         <br />
         <br />
-        <div id="1">'{userEmail}' 님의 현재 등수 : 45 등</div>
+        <div id="1">
+          '{userInfo.name}' 님의 현재 등수 : {rank} 등
+        </div>
       </div>
       <br />
       <br />
@@ -63,22 +274,25 @@ function MyPage() {
       <div className="userInfo">
         <div className="info">
           <h5 className="name">
-            이름<span className="border">|</span> {userName}
+            이름<span className="border">|</span> {userInfo.name}
           </h5>
           <h5 className="nick">
-            닉네임<span className="border">|</span> {userNick}
+            닉네임<span className="border">|</span> {userInfo.nick}
           </h5>
           <h5 className="email">
-            이메일<span className="border">|</span> {userEmail}
+            이메일<span className="border">|</span> {userInfo.email}
           </h5>
           <h5 className="gender">
-            성별<span className="border">|</span> {gender}
+            성별<span className="border">|</span> {userInfo.gender}
           </h5>
           <h5 className="age">
-            나이<span className="border">|</span> {age}세
+            나이<span className="border">|</span> {userInfo.age}세
           </h5>
           <h5 className="career">
-            경력<span className="border">|</span> {career}년
+            경력<span className="border">|</span> {getAge(userInfo.career)}
+          </h5>
+          <h5 className="mbti">
+            MBTI<span className="border">|</span> {userInfo.mbti}
           </h5>
         </div>
 
@@ -109,21 +323,38 @@ function MyPage() {
       <div className="assets">
         <div className="assetsDetail">
           <h5 className="asset">
-            자산평가<span className="border">|</span> 10,028,843 원
+            자산평가<span className="border">|</span> {userInfo.money} 원
           </h5>
           <h5 className="having-stock">
-            보유 주식 수<span className="border">|</span> 삼성전자 8주,
-            SK하이닉스 4주, 대한항공 25주
+            보유 주식<span className="border">|</span>
+            {Array.isArray(historyInfo)
+              ? historyInfo.slice(0, 3).map((trade, index) => (
+                  <span key={index}>
+                    {trade.stockName}
+                    {index === 2
+                      ? " 등"
+                      : index < historyInfo.length - 1
+                      ? ", "
+                      : null}
+                  </span>
+                ))
+              : null}
           </h5>
-          <h5 className="having-cash">
-            보유 현금<span className="border">|</span> 28,520 원
-          </h5>
+          {/* <h5 className="having-cash">
+            보유 현금<span className="border">|</span>
+            {(5000000 - userInfo.money).toLocaleString()} 원
+          </h5> */}
           <h5 className="return">
-            수익률<span className="border">|</span> 18.6 %
+            수익률<span className="border">|</span> {returnPercent()}%
           </h5>
+          {/* 수익률 : (현재주가 / 매수시 주가) * 100 - 100 */}
           <h5 className="evaluation">
-            주식 평가금액<span className="border">|</span> 943,857 원
+            주식 평가금액<span className="border">|</span>
+            {estimate().toLocaleString()} 원
           </h5>
+          {/* 주식 평가금액: 주가의 움직임을 반영한 금액 
+              평가금액 : 보유자산별 수량 * 현재가 
+              삼성전자 * 8 + SK하이닉스 * 4 + 대한항공 * 25*/}
         </div>
         <div style={{ marginLeft: "50px" }}>
           <Doughnut data={data} options={options}></Doughnut>
@@ -131,83 +362,42 @@ function MyPage() {
       </div>
 
       {/* 거래내역 테이블 */}
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <h4 id="3-1" style={{ flex: 1, textAlign: "center", fontSize: "40px" }}>
-        거래 내역
-      </h4>
-      <br />
-      <br />
-      <table className="collapsed" id="table">
-        <thead>
-          <tr className="high">
-            <th scope="col">거래 일자</th>
-            <th scope="col">매수 / 매도</th>
-            <th scope="col">종목</th>
-            <th scope="col">매매 수량</th>
-            <th scope="col">매매 금액</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">23/07/03</th>
-            <td>매수</td>
-            <td>대한항공(003490)</td>
-            <td>25</td>
-            <td>1,000,000</td>
-          </tr>
-          <tr>
-            <th scope="row">23/06/10</th>
-            <td>매도</td>
-            <td>SK하이닉스(000660)</td>
-            <td>4</td>
-            <td>2,500,000</td>
-          </tr>
-          <tr>
-            <th scope="row">23/05/11</th>
-            <td>매수</td>
-            <td>삼성전자(005930)</td>
-            <td>8</td>
-            <td>1,000,000</td>
-          </tr>
-          {expanded && ( //더보기 누르면 추가로 나올 내용
-            <>
-              <tr>
-                <th scope="row">23/04/09</th>
-                <td>매도</td>
-                <td>현대차(005380)</td>
-                <td>1</td>
-                <td>12,3900</td>
-              </tr>
-              <tr>
-                <th scope="row">23/03/03</th>
-                <td>매도</td>
-                <td>기아(000270)</td>
-                <td>4</td>
-                <td>500,000</td>
-              </tr>
-              <tr>
-                <th scope="row">23/02/18</th>
-                <td>매도</td>
-                <td>삼성전자(005930)</td>
-                <td>6</td>
-                <td>170,300</td>
-              </tr>
-            </>
-          )}
-        </tbody>
-      </table>
-      <div className="button">
-        <button className="button" onClick={toggleExpanded}>
-          {expanded ? "접기" : "더보기"}
-        </button>
+      <div style={{ marginBottom: "40px" }}>
+        <h4 id="3-1" style={{ flex: 1, textAlign: "center", fontSize: "40px" }}>
+          거래 내역
+        </h4>
+        <br />
+        <br />
+        <table className="collapsed" id="table">
+          <thead>
+            <tr className="high">
+              <th scope="col">거래 일자</th>
+              <th scope="col">매수 / 매도</th>
+              <th scope="col">종목</th>
+              <th scope="col">매매 수량</th>
+              <th scope="col">매매 금액</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array.isArray(historyInfo)
+              ? historyInfo
+                  .slice(0, expanded ? historyInfo.length : 3)
+                  .map((trade, index) => (
+                    <tr key={index}>
+                      <th scope="row">{getFormattedDate(trade.tradeDate)}</th>
+                      <td>{getTradeType(trade.tradeType)}</td>
+                      <td>
+                        {trade.stockName}({trade.stockId})
+                      </td>
+                      <td>{trade.quantity}</td>
+                      <td>{trade.price.toLocaleString()}</td>
+                    </tr>
+                  ))
+              : null}
+          </tbody>
+        </table>
       </div>
+      {moreButton()}
     </>
   );
   return (

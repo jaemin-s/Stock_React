@@ -40,7 +40,7 @@ img:not(.logo) {
 #info-modal {
     max-height: 600px;
     max-width: 800px;
-    width: 500px;
+    width: 600px;
     display: flex;
     flex-wrap: wrap;
     overflow: auto;
@@ -58,23 +58,41 @@ img:not(.logo) {
 }
 #info-modal::-webkit-scrollbar-track {
     border-radius: 50px;
+    opacity: 1;
     background: rgb(153, 208, 228);
   }
 
-#info-modal #info-modal-tag a{
-        width: 240px;
-        height: 40px;
-        max-height: 50px;
-        display: flex;
-        flex-wrap: wrap;
-        text-decoration: none;
-        color: black;
-        padding: 5px;
-        margin-left: 3px;
-        font-size: 20px;
-        margin-bottom: 10px;
+#info-modal {
+
+    :nth-child(4n+3) {
+        background-color: #f8f9fc;
+    }
+    :nth-child(4n) {
+        background-color: #f8f9fc;
     }
 
+    #info-modal-tag {
+        margin-bottom: 0;
+
+        a{
+            width: 280px;
+            max-width: 280px;
+            height: 40px;
+            max-height: 50px;
+            display: flex;
+            flex-wrap: wrap;
+            text-decoration: none;
+            color: black;
+            padding: 5px;
+            margin-left: 3px;
+            font-size: 17px;
+            margin-bottom: 0;
+        }
+
+    }
+}
+
+    
 #cancleFooter {
     background: red;
 }
@@ -93,4 +111,65 @@ img:not(.logo) {
     color: black;
     padding: 4px 16px;
     height: 40px;
+}
+/* CSS */
+.button-79 {
+  backface-visibility: hidden;
+  background: #332cf2;
+  border: 0;
+  border-radius: .375rem;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Circular,Helvetica,sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  line-height: 1.3;
+  padding: 1rem 1.25rem;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  transform: translateZ(0) scale(1);
+  transition: transform .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-79:disabled {
+  color: #787878;
+  cursor: auto;
+}
+
+.button-79:not(:disabled):hover {
+  transform: scale(1.05);
+}
+
+.button-79:not(:disabled):hover:active {
+  transform: scale(1.05) translateY(.125rem);
+}
+
+.button-79:focus {
+  outline: 0 solid transparent;
+}
+
+.button-79:focus:before {
+  border-width: .125rem;
+  content: "";
+  left: calc(-1*.375rem);
+  pointer-events: none;
+  position: absolute;
+  top: calc(-1*.375rem);
+  transition: border-radius;
+  user-select: none;
+}
+
+.button-79:focus:not(:focus-visible) {
+  outline: 0 solid transparent;
+}
+
+.button-79:not(:disabled):active {
+  transform: translateY(.125rem);
 }

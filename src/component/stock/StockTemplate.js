@@ -20,12 +20,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Carousel from "react-bootstrap/Carousel";
 import Kospi from "./Kospi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCrown } from "@fortawesome/free-solid-svg-icons";
+import { faCrown, faUpLong } from "@fortawesome/free-solid-svg-icons";
 import Kosdaq from "./Kosdaq";
 import { useNavigate } from "react-router-dom";
 import { isLogin } from "../util/login-utils";
 
 function StockTemplate() {
+  // 토큰 발급이 최우선이기 때문에 토큰 발급 시 관리할 변수
+  const [haveToken, setHaveToken] = useState(false);
+  // 관심종목 목록 관리
+  const [favoriteList, setFavoriteList] = useState([]);
+
   const redirection = useNavigate();
 
   const detailHandler = (e) => {
@@ -48,13 +53,18 @@ function StockTemplate() {
     if (res.status === 200) {
       const data = await res.json();
       localStorage.setItem("ACCESS_TOKEN", "Bearer " + data.access_token);
+      setHaveToken(true);
     }
   };
+  useEffect(() => {
+    getKIAccessToken(); //토큰 발급
+    // loadFavorite(); //관심종목 리스트 불러오기
+  }, []);
 
   //처음 렌더링시 실행
   useEffect(() => {
-    getKIAccessToken(); //토큰 발급
-  }, []);
+    getRank(); //거래량 순위 불러오기
+  }, [haveToken]);
 
   //등락률 상위(0),하위(1) 종목
   const fluctuationRate = async (seq) => {
@@ -84,6 +94,7 @@ function StockTemplate() {
 
   const [data, setData] = useState(null); // 결과를 저장할 상태
 
+  //거래량 순위
   const getRank = async () => {
     try {
       const res = await fetch(
@@ -100,15 +111,14 @@ function StockTemplate() {
       if (res.status === 200) {
         const data = await res.json();
         setData(data.output); // 결과를 상태에 저장
+        loadFavorite(); //관심종목 리스트 불러오기
+      } else if (res.status === 500) {
+        redirection("/");
       }
     } catch (error) {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    getRank();
-  }, []);
 
   // data 상태가 null인 경우 로딩 상태 표시
   if (data === null) {
@@ -137,6 +147,32 @@ function StockTemplate() {
     redirection(`/login`);
   };
 
+  //관심종목 목록 불러오기 로직
+  const loadFavorite = async () => {
+    const loginEmail = localStorage.getItem("LOGIN_USEREMAIL");
+    console.log(loginEmail);
+    if (loginEmail !== null) {
+      const res = await fetch(
+        "http://localhost:8181/api/user/favorite/" + loginEmail,
+        {
+          method: "GET",
+          headers: { "content-type": "application/json" },
+        }
+      );
+      if (res.status === 200) {
+        const list = await res.json();
+        setFavoriteList(list);
+      }
+    }
+  };
+  //관심종목 클릭 이벤트
+  function favoriteClickHandler(index) {
+    console.log(index);
+    console.log(favoriteList[index].stockCode);
+    redirection(
+      `/detail/${favoriteList[index].stockName}(${favoriteList[index].stockCode})`
+    );
+  }
   return (
     <>
       <MoveStockInfo getStockRate={fluctuationRate} />
@@ -185,7 +221,8 @@ function StockTemplate() {
                     .filter(
                       (x) =>
                         !x.hts_kor_isnm.includes("KODEX") &&
-                        !x.hts_kor_isnm.includes("선물")
+                        !x.hts_kor_isnm.includes("선물") &&
+                        !x.hts_kor_isnm.includes("스팩")
                     ) // 특정 단어를 포함하지 않는 항목만 필터링
                     .map((x, index) => (
                       <tr key={index}>
@@ -225,33 +262,6 @@ function StockTemplate() {
                 오늘의 증시 뉴스
               </h6>
             </div>
-            {/* <Carousel>
-                                <Carousel.Item style={{width: "100%"}}>
-                                <img src={require('./image/light-gray.png')} alt="@" className="center-image" ></img>
-                                    <Carousel.Caption>
-                                    <h3>뉴스</h3>
-                                    <p>'코스피 지수 3000 돌파!'는 사라진 꿈이었나.. 잃어버린 우리의 코스피를 찾아서</p>
-                                    </Carousel.Caption>
-                                </Carousel.Item >
-                                <Carousel.Item style={{width: "100%"}}>
-                                    <img src={require('./image/light-gray.png')} alt="@" className="center-image"></img>
-
-                                    <Carousel.Caption>
-                                    <h3>사진사진</h3>
-                                    <p>여의도 증권가는 오늘도 정신없다.</p>
-                                    </Carousel.Caption>
-                                </Carousel.Item>
-                                <Carousel.Item style={{width: "100%"}}>
-                                <img src={require('./image/light-gray.png')} alt="@" className="center-image"></img>
-                                    <Carousel.Caption>
-                                    <h3>인기 거래표</h3>
-                                    <p>
-                                        (23.07.04 기준) <br/>
-                                        에코프로 (086520), 에코프로비엠(247540), 삼성전자(005930)
-                                    </p>
-                                    </Carousel.Caption>
-                                </Carousel.Item>
-                                </Carousel> */}
             <NewsTest />
           </div>
         </div>
@@ -387,13 +397,26 @@ function StockTemplate() {
           </div>
           <div className="bookmark card shadow">
             <div className="card-header">
-              <h6 className="m-0 font-weight-bold text-primary">즐겨찾기</h6>
+              <h6 className="m-0 font-weight-bold text-primary">관심종목</h6>
             </div>
             {isLogin() ? (
-              <div className="card-body">즐겨찾기 목록</div>
+              <div className="card-body">
+                <div className="like-content favorite-box">
+                  {favoriteList.map((item, index) => (
+                    <p
+                      className="btn btn-success btn-icon-split btn-favorite"
+                      key={index}
+                      onClick={(e) => favoriteClickHandler(index)}
+                      style={{ display: "block", fontWeight: "bold" }}
+                    >
+                      {item.stockName}
+                    </p>
+                  ))}
+                </div>
+              </div>
             ) : (
               <div className="card-body">
-                로그인 후 즐겨찾기 기능을 이용해 보세요!
+                로그인 후 관심종목 기능을 이용해 보세요!
                 <p
                   onClick={loginHandler}
                   style={{ cursor: "pointer", color: "blue" }}

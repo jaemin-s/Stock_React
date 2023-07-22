@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const InfoTest = () => {
+const InfoTest = ({}) => {
   // 기업정보 관리
   const [info, setInfo] = useState([]);
   // 재무 관리
@@ -13,15 +13,17 @@ const InfoTest = () => {
 
   const { value } = useParams();
   const title = value.split("(", 2);
-  console.log(title[0]); //검색어의 회사명
-  console.log(title[1].slice(0, -1)); // 검색어의 종목 코드
+  // console.log(title[0]); //검색어의 회사명
+  // console.log(title[1].slice(0, -1)); // 검색어의 종목 코드
+
+  const sicList = [];
+  let sicNb;
 
   useEffect(() => {
     corpInfo();
   }, [fetchFail, value]);
 
   const corpInfo = async () => {
-    console.log("누름");
     setInfo([]);
     setResInfo([]);
 
@@ -41,14 +43,14 @@ const InfoTest = () => {
     }
     // 기업 정보
     data.response.body.items.item.forEach((list) => {
-      const { crno: crno, corpNm: corpNm } = list;
+      const { crno: crno, corpNm: corpNm, sicNm: sicNm } = list;
       infoList.push({
         crno,
         corpNm,
+        sicNm,
       });
 
       setInfo(infoList);
-      console.log("법인번호: " + infoList[0].crno);
       // 기업정보 crno 값(기업법인코드)
       cno = infoList[0].crno;
     });
