@@ -24,11 +24,16 @@ function MyPage() {
     values: [],
   });
   const [selectedStock, setSelectedStock] = useState(null);
+  const [selectedLikeStock, setSelectedLikeStock] = useState(null);
   const handleStockClick = (trade) => {
     setSelectedStock(trade);
     transition(trade.stockId);
   };
 
+  const handleLikeStockClick = (like) => {
+    setSelectedLikeStock(like);
+    transition(like.stockCode);
+  };
   const dailyPrice = async (e) => {
     // ㅇㅇㅇ(000000) 값 자르기
 
@@ -149,6 +154,7 @@ function MyPage() {
 
   const [info, setInfo] = useState(true);
   const [asset, setAsset] = useState(false);
+  const [havingInfo, setHavingInfo] = useState(false);
   const [likeInfo, setLikeInfo] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
@@ -162,7 +168,11 @@ function MyPage() {
     myStocks: [],
     money: 0,
   });
-
+  const [favoriteInfo, setFavoriteInfo] = useState({
+    stockCode: [],
+    stockName: [],
+  });
+  // console.log("userInfo: ", userInfo);
   // console.log("userInfo.myStocks: ", userInfo.myStocks);
 
   const [historyInfo, setHistoryInfo] = useState([]);
@@ -170,21 +180,30 @@ function MyPage() {
   const showInfo = () => {
     setInfo(true);
     setAsset(false);
+    setHavingInfo(false);
     setLikeInfo(false);
   };
 
   const showAsset = () => {
     setInfo(false);
     setAsset(true);
+    setHavingInfo(false);
+    setLikeInfo(false);
+  };
+
+  const showHavingInfo = () => {
+    setInfo(false);
+    setAsset(false);
+    setHavingInfo(true);
     setLikeInfo(false);
   };
 
   const showLikeInfo = () => {
     setInfo(false);
     setAsset(false);
+    setHavingInfo(false);
     setLikeInfo(true);
   };
-
   const rank = 3;
 
   //도넛 안에 넣기 위한 labels
@@ -247,9 +266,25 @@ function MyPage() {
     // console.log("history: ", history);
     setHistoryInfo(history);
   }
+
+  async function getFavoriteInfo() {
+    const res = await fetch(
+      "http://localhost:8181/api/user/favorite/" +
+        localStorage.getItem("LOGIN_USEREMAIL")
+    );
+
+    if (res.status === 200) {
+      const favorite = await res.json();
+      setFavoriteInfo(favorite);
+      // console.log("favorite: ", favorite);
+      // 아주 잘나옴
+    }
+  }
+
   useEffect(() => {
     getInfo();
     getHistory();
+    getFavoriteInfo();
   }, []);
 
   function getAge(age) {
@@ -441,34 +476,72 @@ function MyPage() {
     </>
   );
 
-  const viewLikeInfo = (
+  const viewHavingInfo = (
     <>
       {/* 보유 종목 */}
       <ul>
-        <p>주식을 클릭하세요</p>
-        {userInfo.myStocks.map((trade, index) => (
-          <p
-            key={index}
-            onClick={() => handleStockClick(trade)}
-            style={{ color: "blue", cursor: "pointer" }}
-          >
-            {trade.stockName} ({trade.stockId})
-          </p>
-        ))}
+        <h4>조회하고 싶은 주식을 목록에서 선택해 주세요.</h4>
+        {selectedStock && (
+          <div>
+            <h4>
+              주식 정보: {"  "}
+              {selectedStock.stockName}
+              {/* {"  "}({selectedStock.stockId}) */}
+            </h4>
+          </div>
+        )}
       </ul>
-      {selectedStock && (
-        <div>
-          <p>
-            주식 이름: {"  "}
-            {selectedStock.stockName}
-          </p>
-          <p>
-            주식 코드:{"  "}
-            {selectedStock.stockId}
-          </p>
-        </div>
-      )}
+      <table className="havingStockInfoTable">
+        <thead>
+          <tr>
+            <th scope="col" style={{ maxWidth: "100px" }}>
+              날짜
+            </th>
+            <th scope="col">종가</th>
+            <th scope="col">대비</th>
+            <th scope="col">거래량</th>
+          </tr>
+        </thead>
+        <tbody>
+          {infoData.categoryData
+            .map((date, index) => ({
+              date,
+              values: infoData.values[index],
+            }))
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .map((item, index) => (
+              <tr key={index}>
+                <td>{item.date}</td>
+                {item.values.map((value, innerIndex) => (
+                  <td key={innerIndex}>
+                    {innerIndex === 4 ? (
+                      <span>{value}</span>
+                    ) : (
+                      value.toLocaleString()
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </>
+  );
 
+  const viewLikeInfo = (
+    <>
+      {/* 관심 종목 */}
+      <ul>
+        <h4>조회하고 싶은 주식을 목록에서 선택해 주세요.</h4>
+        {selectedLikeStock && (
+          <div>
+            <h4>
+              주식 정보: {"  "}
+              {selectedLikeStock.stockName}
+            </h4>
+          </div>
+        )}
+      </ul>
       <table className="havingStockInfoTable">
         <thead>
           <tr>
@@ -508,7 +581,7 @@ function MyPage() {
 
   const transition = async (stockId) => {
     //  const params = title[1].slice(0, -1); //종목 코드
-    console.log("stockId: ", stockId);
+    //  console.log("stockId: ", stockId);
     const res = await fetch(
       "/quotations/inquire-daily-itemchartprice?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
         stockId +
@@ -524,7 +597,7 @@ function MyPage() {
         },
       }
     );
-    console.log("res: ", res);
+    // console.log("res: ", res);
 
     if (res.status === 200) {
       const data = await res.json();
@@ -656,6 +729,60 @@ function MyPage() {
                   </a>
                 </>
               ) : null}
+
+              {havingInfo ? (
+                <>
+                  <div class="sidebar-heading">보유 종목</div>
+                  <ul style={{ padding: "0 0 0 10px" }}>
+                    {userInfo.myStocks.map((trade, index) => (
+                      <div
+                        className="nav-link"
+                        key={index}
+                        onClick={() => handleStockClick(trade)}
+                        style={{
+                          color: "white",
+                          cursor: "pointer",
+                          padding: "4px 2px",
+                          fontSize: "15px",
+                        }}
+                      >
+                        {trade.stockName}
+                        {/* ({trade.stockId}) */}
+                      </div>
+                    ))}
+                  </ul>
+                  <hr class="sidebar-divider my-0"></hr>
+                </>
+              ) : null}
+
+              {likeInfo ? (
+                <>
+                  <div class="sidebar-heading">관심 종목</div>
+                  <ul style={{ padding: "0 0 0 10px" }}>
+                    {Array.isArray(favoriteInfo) && favoriteInfo.length > 0 ? (
+                      favoriteInfo.map((like, index) => (
+                        <div
+                          className="nav-link"
+                          key={index}
+                          onClick={() => handleLikeStockClick(like)}
+                          style={{
+                            color: "white",
+                            cursor: "pointer",
+                            padding: "4px 2px",
+                            fontSize: "15px",
+                          }}
+                        >
+                          {like.stockName}
+                          {/* ({like.stockCode}) */}
+                        </div>
+                      ))
+                    ) : (
+                      <p>관심 종목이 없습니다.</p> // 관심 종목이 없을 때의 문구 유지
+                    )}
+                  </ul>
+                  <hr class="sidebar-divider my-0"></hr>
+                </>
+              ) : null}
             </li>
           </ul>
 
@@ -706,12 +833,30 @@ function MyPage() {
                     <li className="nav-item">
                       <a
                         className="nav-link"
+                        id="having-info"
+                        href="#"
+                        onClick={showHavingInfo}
+                        style={{ fontWeight: 700, fontSize: 25 }}
+                      >
+                        보유 종목 주가 추이
+                      </a>
+                    </li>
+                    <li
+                      className="nav-item"
+                      id="border"
+                      style={{ fontSize: 30 }}
+                    >
+                      <p>|</p>
+                    </li>
+                    <li className="nav-item">
+                      <a
+                        className="nav-link"
                         id="like-info"
                         href="#"
                         onClick={showLikeInfo}
                         style={{ fontWeight: 700, fontSize: 25 }}
                       >
-                        보유 종목 주가 추이
+                        관심 종목 주가 추이
                       </a>
                     </li>
                   </ul>
@@ -726,6 +871,7 @@ function MyPage() {
 
             {info && viewInfo}
             {asset && viewAsset}
+            {havingInfo && viewHavingInfo}
             {likeInfo && viewLikeInfo}
           </div>
         </div>

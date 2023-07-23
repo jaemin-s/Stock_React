@@ -333,40 +333,56 @@ const Header = () => {
               }
               aria-labelledby="userDropdown"
             >
+              <li className="dropdown-item">
+                <a className="nav-link" href="/notice">
+                  Notice
+                </a>
+              </li>
+              <hr className="border-line" />
+              <li className="dropdown-item">
+                <a className="nav-link" href="/inquiryBoard">
+                  InquiryBoard
+                </a>
+              </li>
+              <hr className="border-line" />
               {isLogin() ? (
                 <>
-                  <a class="dropdown-item" href="/mypage">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    MyPage
-                  </a>
-
-                  <div class="dropdown-divider"></div>
-                  <a
-                    class="dropdown-item"
-                    href="#"
-                    data-toggle="modal"
-                    data-target="#logoutModal"
-                    onClick={logoutHandler}
-                  >
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
-                  </a>
+                  <li className="dropdown-item">
+                    <a className="nav-link" href="/mypage">
+                      MyPage
+                    </a>
+                  </li>
+                  <hr className="border-line" />
+                  <li className="dropdown-item">
+                    <a
+                      className="nav-link"
+                      href="#"
+                      data-toggle="modal"
+                      data-target="#logoutModal"
+                      onClick={logoutHandler}
+                    >
+                      Logout
+                    </a>
+                  </li>
+                  <hr className="border-line" />
                 </>
               ) : (
                 <>
-                  <li className="nav-item">
+                  <li className="dropdown-item">
                     <a className="nav-link" href="/join">
                       Join
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <hr className="border-line" />
+                  <li className="dropdown-item">
                     <a className="nav-link" href="/login">
                       Login
                     </a>
                   </li>
+                  <hr className="border-line" />
                 </>
               )}
-              <li className="nav-item">
+              <li className="dropdown-item">
                 <a className="nav-link" href="/guide">
                   Guide
                 </a>
