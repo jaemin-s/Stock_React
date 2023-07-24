@@ -11,7 +11,6 @@ const LS_KEY_ID = "LS_KEY_ID";
 const LS_KEY_SAVE_ID_FLAG = "LS_KEY_SAVE_ID_FLAG";
 
 const Login = () => {
-
   const [loginID, setLoginID] = useState("");
   const [saveIDFlag, setSaveIDFlag] = useState(false);
 
@@ -75,63 +74,54 @@ const Login = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
 
-  
-    // 아이디 찾기 모달
-    const [modalOpen, setModalOpen] = useState(false);
+  // 아이디 찾기 모달
+  const [modalOpen, setModalOpen] = useState(false);
 
-    const openModal = () => {
-      setModalOpen(true);
-    };
-    const closeModal = () => {
-      setModalOpen(false);
-    };     
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
-    //비번변경 모달
-    const [modalOpenl, setModalOpenl] = useState(false);
+  //비번변경 모달
+  const [modalOpenl, setModalOpenl] = useState(false);
 
-    const openModall = () => {
-      setModalOpenl(true);
-    };
-    const closeModall = () => {
-      setModalOpenl(false);
-    };     
+  const openModall = () => {
+    setModalOpenl(true);
+  };
+  const closeModall = () => {
+    setModalOpenl(false);
+  };
 
+  //아이디 저장하기
 
-    //아이디 저장하기
+  if (true /* login success */) {
+    if (saveIDFlag) localStorage.setItem(LS_KEY_ID, loginID);
+  }
+  const getLoginID = (event) => {
+    let value = event.target.value;
 
-  
-      if (true /* login success */) {
-        if (saveIDFlag) localStorage.setItem(LS_KEY_ID, loginID);
-      }
-    ;
-
-    const getLoginID = (event) => {
-      let value = event.target.value;
-  
-      if (value === "") {
-        setLoginID(value);
-        return;
-      }
-  
-     
+    if (value === "") {
       setLoginID(value);
-  
       return;
-    };
-
-    
-    const handleSaveIDFlag = () => {
-      localStorage.setItem(LS_KEY_SAVE_ID_FLAG, !saveIDFlag);
-      setSaveIDFlag(!saveIDFlag);
-    };
-
-    if (true /* login success */) {
-      if (saveIDFlag) localStorage.setItem(LS_KEY_ID, loginID);
     }
-  
+
+    setLoginID(value);
+
+    return;
+  };
+
+  const handleSaveIDFlag = () => {
+    localStorage.setItem(LS_KEY_SAVE_ID_FLAG, !saveIDFlag);
+    setSaveIDFlag(!saveIDFlag);
+  };
+
+  if (true /* login success */) {
+    if (saveIDFlag) localStorage.setItem(LS_KEY_ID, loginID);
+  }
 
   useEffect(() => {
-
     let idFlag = JSON.parse(localStorage.getItem(LS_KEY_SAVE_ID_FLAG));
     if (idFlag !== null) setSaveIDFlag(idFlag);
     if (idFlag === false) localStorage.setItem(LS_KEY_ID, "");
@@ -140,9 +130,6 @@ const Login = () => {
     if (data !== null) setLoginID(data);
   }, []);
 
-    
-    
-
   return (
     <div className="bg-gradient-primary">
       <div className="container">
@@ -150,7 +137,7 @@ const Login = () => {
         <div className="row justify-content-center">
           <div className="col-xl-10 col-lg-12 col-md-9">
             <div className="card o-hidden border-0 shadow-lg my-5">
-              <div className="card-body p-0">
+              <div className="card-body p-0" style={{ overflow: "hidden" }}>
                 {/* <!-- Nested Row within Card Body --> */}
                 <div className="row">
                   {/* <div className="col-lg-6 d-none d-lg-block bg-login-image"></div> */}
@@ -215,40 +202,44 @@ const Login = () => {
                         </div>
                       </form>
 
-                                        <div className="text-center">
-                                        <React.Fragment>
-                                            <a className="small"  href="#" onClick={openModal}>아이디 찾기</a> 
-                                            <IdModal open={modalOpen} close={closeModal} header="아이디 찾기">
-                                                </IdModal></React.Fragment>
-
-
-                                           / <React.Fragment>
-                                            <a className="small"  href="#" onClick={openModall}>비밀번호 변경</a> 
-                                            <PasswordModal open={modalOpenl} close={closeModall} header="비밀번호 변경">
-                                                </PasswordModal></React.Fragment>
-                                        
-                                        <div className="text-center">
-                                        <a className="small" href="/join">회원가입</a>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
+                      <div className="text-center">
+                        <React.Fragment>
+                          <a className="small" href="#" onClick={openModal}>
+                            아이디 찾기
+                          </a>
+                          <IdModal
+                            open={modalOpen}
+                            close={closeModal}
+                            header="아이디 찾기"
+                          ></IdModal>
+                        </React.Fragment>
+                        /{" "}
+                        <React.Fragment>
+                          <a className="small" href="#" onClick={openModall}>
+                            비밀번호 변경
+                          </a>
+                          <PasswordModal
+                            open={modalOpenl}
+                            close={closeModall}
+                            header="비밀번호 변경"
+                          ></PasswordModal>
+                        </React.Fragment>
+                        <div className="text-center">
+                          <a className="small" href="/join">
+                            회원가입
+                          </a>
                         </div>
+                      </div>
                     </div>
-
+                  </div>
                 </div>
-            
+              </div>
             </div>
           </div>
         </div>
-</div>
-    
-  )
-  }
-
-
-  
-
+      </div>
+    </div>
+  );
+};
 
 export default Login;

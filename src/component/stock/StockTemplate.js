@@ -53,7 +53,7 @@ function StockTemplate() {
     if (res.status === 200) {
       const data = await res.json();
       localStorage.setItem("ACCESS_TOKEN", "Bearer " + data.access_token);
-      setHaveToken(true);
+      setHaveToken(!haveToken);
     }
   };
   useEffect(() => {
