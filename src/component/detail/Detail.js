@@ -29,6 +29,7 @@ import { red } from "@mui/material/colors";
 import { isLogin } from "../util/login-utils";
 import AuthContext from "../util/AuthContext";
 import RcmMbti from "./RcmMbti";
+import Swal from "sweetalert2";
 
 const Detail = () => {
   const { value } = useParams();
@@ -50,7 +51,7 @@ const Detail = () => {
   const [filled, setFilled] = useState(false);
 
   const REQUEST_URL = "http://localhost:8181/api/user/favorite";
-  const { email } = useContext(AuthContext);
+  const { email, isLoggedIn } = useContext(AuthContext);
   // 관심종목 목록
   const [favoriteList, setFavoriteList] = useState([]);
 
@@ -110,6 +111,36 @@ const Detail = () => {
       if (!flag) {
         setFilled(false);
       }
+    }
+  };
+
+  //로그인 한 유저의 남은 보유 금액 관리 변수
+  const [currentAsset, setCurrentAsset] = useState(5000000);
+  //로그인 한 유저의 보유주식 정보 관리 변수
+  const [userStockInfo, setUserStockInfo] = useState([]);
+  //검색한 주식의 보유 개수
+  const [currentHavingStock, setCurrentHavingStock] = useState();
+  //내정보 불러오기 로직
+  const getMyInfo = async () => {
+    const res = await fetch("http://localhost:8181/api/user/myInfo/" + email);
+    if (res.status === 200) {
+      const result = await res.json();
+      // console.log(result.money); // 로그인 한 유저의 남은 보유 금액
+      setCurrentAsset(result.money); // 로그인 한 유저의 남은 보유 금액
+      console.log(result.myStocks);
+      let flag = false;
+
+      result.myStocks.forEach((x) => {
+        console.log(x.stockName);
+        if (x.stockName === title[0]) {
+          console.log(x.quantity);
+          setCurrentHavingStock(x.quantity);
+          flag = true;
+        }
+      });
+      if (!flag) setCurrentHavingStock(0);
+
+      setUserStockInfo(result.myStocks); // 로그인 한 유저의 보유주식 정보
     }
   };
 
@@ -187,10 +218,10 @@ const Detail = () => {
   };
   const [selectedValue, setSelectedValue] = useState(null);
 
-  function selectedValueHandler(value) {
-    // console.log("selectedValueHandler : " + value);
-    setSelectedValue(value);
-  }
+  // function selectedValueHandler(value) {
+  //   // console.log("selectedValueHandler : " + value);
+  //   setSelectedValue(value);
+  // }
   //모달 관리
   const [isModalOpen, setIsModalOpen] = useState(false); //매수
   const [modalType, setModalType] = useState(false); //매도
@@ -231,9 +262,11 @@ const Detail = () => {
   //const [selected, setSelected] = useState('호가');
 
   const toggleModal = (e) => {
-    if (selectedValue !== null) {
-      setIsModalOpen(!isModalOpen);
-    }
+    setOrder(1);
+    // if (selectedValue !== null) {
+    setIsModalOpen(!isModalOpen);
+    getMyInfo();
+    // }
   };
 
   async function buyRequest() {
@@ -253,6 +286,7 @@ const Detail = () => {
     if (res.status === 200) {
       const buyResponse = await res.text();
       console.log(buyResponse);
+      toastAlertHandler(1); //매수 시
     }
     toggleModal();
   }
@@ -274,38 +308,82 @@ const Detail = () => {
     if (res.status === 200) {
       const sellResponse = await res.text();
       console.log(sellResponse);
+      toastAlertHandler(0); //매도 시
     }
     sellModal();
   }
 
   const sellModal = () => {
-    if (selectedValue !== null) {
-      setModalType(!modalType);
-    }
+    setOrder(1);
+    // if (selectedValue !== null) {
+    setModalType(!modalType);
+    getMyInfo();
+    // }
   };
 
   const [order, setOrder] = useState("");
 
-  const orderChange = (e) => {
+  const buyOrderChange = (e) => {
     const value = parseInt(e.target.value, 10);
     if (!isNaN(value) && value >= 0) {
-      setOrder(value);
+      //보유금액보다 구매하려는 주식이 적을때만 매수 할 수 있게 검사
+      if (value * currentPrice <= currentAsset) {
+        setOrder(value);
+      } else {
+        setOrder(parseInt(currentAsset / currentPrice));
+      }
+    }
+  };
+  const sellOrderChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value) && value >= 0) {
+      //보유금액보다 구매하려는 주식이 적을때만 매수 할 수 있게 검사
+      if (value <= currentHavingStock) {
+        setOrder(value);
+      } else {
+        setOrder(currentHavingStock);
+      }
     }
   };
 
-  useEffect(() => {
-    console.log("selectedValue!!!: " + selectedValue);
-  }, [selectedValue]);
+  const toastAlertHandler = (num) => {
+    //1 => 매수 , 0=> 매도
+    let content = "";
+    if (num === 1) {
+      content = "매수가 성공적으로 체결되었습니다.";
+    } else {
+      content = "매도가 성공적으로 체결되었습니다.";
+    }
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-end",
+      showConfirmButton: false,
+      timer: 4000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+    Toast.fire({
+      icon: "success",
+      title: content,
+    });
+  };
 
-  const currentPrice = selectedValue;
+  // useEffect(() => {
+  //   console.log("selectedValue!!!: " + selectedValue);
+  // }, [selectedValue]);
+
+  const currentPrice = livePrice;
 
   const totalOrder = order * currentPrice;
 
-  const currentAsset = 5000000;
+  // const currentAsset = 5000000;
 
   const afterAsset = currentAsset - totalOrder; //매매 후 자산
 
-  const currentHavingStock = 3;
+  // const currentHavingStock = 3;
 
   const totalPrice = currentHavingStock * currentPrice;
 
@@ -327,7 +405,7 @@ const Detail = () => {
                 <div>매수 후 잔액</div>
               </div>
               <div className="box2">
-                <div style={{ textAlign: "right" }}>{selectedValue}원</div>
+                <div style={{ textAlign: "right" }}>{livePrice}원</div>
                 <div className="won">{totalOrder.toLocaleString()}원</div>
                 <div className="won">{afterAsset.toLocaleString()}원</div>
               </div>
@@ -340,7 +418,7 @@ const Detail = () => {
                 type="number"
                 min="1"
                 value={order}
-                onChange={orderChange}
+                onChange={buyOrderChange}
                 style={{ textAlign: "right" }}
               />
             </div>
@@ -373,10 +451,10 @@ const Detail = () => {
               <div className="box1">
                 <div>현재 보유 주</div>
                 <div>주문단가</div>
-                <div>총 주문금액</div>
+                <div>총 매도금액</div>
               </div>
               <div className="box2">
-                <div style={{ textAlign: "right" }}>{currentHavingStock}</div>
+                <div style={{ textAlign: "right" }}>{currentHavingStock}주</div>
                 <div style={{ textAlign: "right" }}>{currentPrice}원</div>
                 <div className="won">{totalOrder}원</div>
               </div>
@@ -390,7 +468,7 @@ const Detail = () => {
                 min="1"
                 max={currentHavingStock}
                 value={order}
-                onChange={orderChange}
+                onChange={sellOrderChange}
                 style={{ textAlign: "right" }}
               />
             </div>
@@ -418,20 +496,27 @@ const Detail = () => {
     <>
       <div className="card-body" style={{ padding: "0" }}>
         <div>
-          <AskingPrice selectedValueHandler={selectedValueHandler} />
+          <AskingPrice />
         </div>
       </div>
-      <div className="flex">
-        <button
-          className="btn btn-sm btn-user btn-danger"
-          onClick={toggleModal}
-        >
-          매수
-        </button>
-        <button className="btn btn-sm btn-user btn-primary" onClick={sellModal}>
-          매도
-        </button>
-      </div>
+      {isLoggedIn ? (
+        <div className="flex">
+          <button
+            className="btn btn-sm btn-user btn-danger"
+            onClick={toggleModal}
+          >
+            매수
+          </button>
+          <button
+            className="btn btn-sm btn-user btn-primary"
+            onClick={sellModal}
+          >
+            매도
+          </button>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </>
   );
 
@@ -465,7 +550,7 @@ const Detail = () => {
             <tbody>
               <tr>
                 <td className="mine">1주 평균금액</td>
-                <td>{selectedValue}원</td>
+                <td>{livePrice}원</td>
                 {/* 일단 '호가'에서 선택된 금액으로 설정하겠습니다. 불필요하다고 판단되면 삭제해도 좋습니다.  */}
               </tr>
               <tr>
@@ -475,7 +560,7 @@ const Detail = () => {
               <tr>
                 <td className="mine">총 금액</td>
                 <td class="total-amount">
-                  {(selectedValue * currentHavingStock).toLocaleString()}원
+                  {(livePrice * currentHavingStock).toLocaleString()}원
                   <div style={{ fontSize: "15px" }}>
                     <span>+2,640</span>
                     <span class="positive">(+8.1%)</span>
@@ -554,10 +639,8 @@ const Detail = () => {
     redirection(`/Detail/${e.target.textContent}`);
   };
 
-  //즐겨찾기 클릭 이벤트
+  //관심종목 클릭 이벤트
   function favoriteClickHandler(index) {
-    console.log(index);
-    console.log(favoriteList[index].stockCode);
     redirection(
       `/detail/${favoriteList[index].stockName}(${favoriteList[index].stockCode})`
     );
@@ -615,8 +698,10 @@ const Detail = () => {
                       <div className="like-content">
                         {favoriteList.map((item, index) => (
                           <p
+                            className="btn btn-success btn-icon-split"
                             onClick={(e) => favoriteClickHandler(index)}
                             key={index}
+                            style={{ display: "block", fontWeight: "bold" }}
                           >
                             {item.stockName}
                           </p>

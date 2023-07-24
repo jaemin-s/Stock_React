@@ -55,10 +55,10 @@ const AskingPrice = ({ selectedValueHandler }) => {
     setSearchValue(value);
   }, [value]);
 
-  useEffect(() => {
-    console.log("selectedValue : " + selectedValue);
-    selectedValueHandler(selectedValue);
-  }, [selectedValue]);
+  // useEffect(() => {
+  //   console.log("selectedValue : " + selectedValue);
+  //   selectedValueHandler(selectedValue);
+  // }, [selectedValue]);
 
   useEffect(() => {
     // getHoga();
@@ -83,19 +83,19 @@ const AskingPrice = ({ selectedValueHandler }) => {
     );
   }
 
-  const handleClick = (rowIndex) => {
-    setSelectedRow(rowIndex);
-    if (rowIndex < 5) {
-      // askp5부터 askp1까지
-      setSelectedValue(data.output1[`askp${5 - rowIndex}`]);
-    } else {
-      // bidp1부터 bidp5까지
-      setSelectedValue(data.output1[`bidp${rowIndex - 4}`]);
-    }
-    // console.log("setSelectedValue : " + setSelectedValue);
-    // console.log("setSelectedRow : " + setSelectedValue);
-    // console.log("selectedValue : " + selectedValue);
-  };
+  // const handleClick = (rowIndex) => {
+  //   setSelectedRow(rowIndex);
+  //   if (rowIndex < 5) {
+  //     // askp5부터 askp1까지
+  //     setSelectedValue(data.output1[`askp${5 - rowIndex}`]);
+  //   } else {
+  //     // bidp1부터 bidp5까지
+  //     setSelectedValue(data.output1[`bidp${rowIndex - 4}`]);
+  //   }
+  //   // console.log("setSelectedValue : " + setSelectedValue);
+  //   // console.log("setSelectedRow : " + setSelectedValue);
+  //   // console.log("selectedValue : " + selectedValue);
+  // };
   return (
     <>
       <div className="table-container" style={{ verticalAlign: "middle" }}>
@@ -135,7 +135,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
               </td>
               <td
                 className={`rest hoga ${selectedRow === 0 ? "clicked" : ""}`}
-                onClick={() => handleClick(0)}
+                // onClick={() => handleClick(0)}
                 style={{
                   maxWidth: "100px",
                   overflow: "hidden",
@@ -173,9 +173,9 @@ const AskingPrice = ({ selectedValueHandler }) => {
               </td>
               <td
                 className={`rest hoga ${selectedRow === 1 ? "clicked" : ""}`}
-                onClick={() => {
-                  handleClick(1);
-                }}
+                // onClick={() => {
+                //   handleClick(1);
+                // }}
               >
                 {data.output1.askp4}
               </td>
@@ -208,7 +208,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
               </td>
               <td
                 className={`rest hoga ${selectedRow === 2 ? "clicked" : ""}`}
-                onClick={() => handleClick(2)}
+                // onClick={() => handleClick(2)}
               >
                 {data.output1.askp3}
               </td>
@@ -243,7 +243,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
               {/* <td className='hoga' style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{data.output1.askp2}</td> */}
               <td
                 className={`rest hoga ${selectedRow === 3 ? "clicked" : ""}`}
-                onClick={() => handleClick(3)}
+                // onClick={() => handleClick(3)}
               >
                 {data.output1.askp2}
               </td>
@@ -276,7 +276,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
               </td>
               <td
                 className={`rest hoga ${selectedRow === 4 ? "clicked" : ""}`}
-                onClick={() => handleClick(4)}
+                // onClick={() => handleClick(4)}
               >
                 {data.output1.askp1}
               </td>
@@ -289,7 +289,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
               <td></td>
               <td
                 className={`rest hoga ${selectedRow === 5 ? "clicked" : ""}`}
-                onClick={() => handleClick(5)}
+                // onClick={() => handleClick(5)}
               >
                 {data.output1.bidp1}
               </td>
@@ -322,7 +322,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
               <td></td>
               <td
                 className={`rest hoga ${selectedRow === 6 ? "clicked" : ""}`}
-                onClick={() => handleClick(6)}
+                // onClick={() => handleClick(6)}
               >
                 {data.output1.bidp2}
               </td>
@@ -355,7 +355,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
               <td></td>
               <td
                 className={`rest hoga ${selectedRow === 7 ? "clicked" : ""}`}
-                onClick={() => handleClick(7)}
+                // onClick={() => handleClick(7)}
               >
                 {data.output1.bidp3}
               </td>
@@ -388,7 +388,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
               <td></td>
               <td
                 className={`rest hoga ${selectedRow === 8 ? "clicked" : ""}`}
-                onClick={() => handleClick(8)}
+                // onClick={() => handleClick(8)}
               >
                 {data.output1.bidp4}
               </td>
@@ -421,7 +421,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
               <td></td>
               <td
                 className={`rest hoga ${selectedRow === 9 ? "clicked" : ""}`}
-                onClick={() => handleClick(9)}
+                // onClick={() => handleClick(9)}
               >
                 {data.output1.bidp5}
               </td>

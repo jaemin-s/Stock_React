@@ -49,7 +49,7 @@ const RcmMbti = () => {
         const res = await fetch(
           "/quotations/psearch-result?user_id=" + userId + "&seq=" + seq,
           {
-            headers: {
+            headers: {                      
               ...RequsetHeader,
               tr_id: "HHKST03900400",
               custtype: "P",
@@ -68,13 +68,15 @@ const RcmMbti = () => {
       };
       
       useEffect(() => {
-          getUserMbti();
+      getUserMbti();
+    
         }, []);
         
         useEffect(() => {
             if (isMbti && isMbti.mbti) {
                 rcmMbtiApi(getMbti(isMbti.mbti));
             }
+            
         }, [isMbti]);
         
         
