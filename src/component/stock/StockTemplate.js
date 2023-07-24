@@ -20,10 +20,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Carousel from "react-bootstrap/Carousel";
 import Kospi from "./Kospi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCrown, faUpLong } from "@fortawesome/free-solid-svg-icons";
+import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import Kosdaq from "./Kosdaq";
 import { useNavigate } from "react-router-dom";
 import { isLogin } from "../util/login-utils";
+import OverallRank from "./OverallRank";
 
 function StockTemplate() {
   // 토큰 발급이 최우선이기 때문에 토큰 발급 시 관리할 변수
@@ -56,12 +57,12 @@ function StockTemplate() {
       setHaveToken(!haveToken);
     }
   };
-  useEffect(() => {
-    getKIAccessToken(); //토큰 발급
-    // loadFavorite(); //관심종목 리스트 불러오기
-  }, []);
 
   //처음 렌더링시 실행
+  useEffect(() => {
+    getKIAccessToken(); //토큰 발급
+  }, []);
+
   useEffect(() => {
     getRank(); //거래량 순위 불러오기
   }, [haveToken]);
@@ -94,7 +95,6 @@ function StockTemplate() {
 
   const [data, setData] = useState(null); // 결과를 저장할 상태
 
-  //거래량 순위
   const getRank = async () => {
     try {
       const res = await fetch(
@@ -112,13 +112,15 @@ function StockTemplate() {
         const data = await res.json();
         setData(data.output); // 결과를 상태에 저장
         loadFavorite(); //관심종목 리스트 불러오기
-      } else if (res.status === 500) {
-        redirection("/");
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    getRank();
+  }, []);
 
   // data 상태가 null인 경우 로딩 상태 표시
   if (data === null) {
@@ -173,6 +175,7 @@ function StockTemplate() {
       `/detail/${favoriteList[index].stockName}(${favoriteList[index].stockCode})`
     );
   }
+
   return (
     <>
       <MoveStockInfo getStockRate={fluctuationRate} />
@@ -197,14 +200,6 @@ function StockTemplate() {
                 인기 거래량 순위
               </h6>
             </div>
-
-            {/* 반응형 구현 예정 */}
-
-            {/* value : 변동률
-                        <span className={value >= 0 ? "positive" : "negative"}>
-                            {value >= 0 && "+"}{value}%
-                        </span> 
-                        변동률 음수는 파란색, 양수는 빨간색 표시*/}
             <div className="table-container">
               <table className="collapsed" id="table">
                 <thead style={{ position: "sticky", top: 0 }}>
@@ -221,8 +216,7 @@ function StockTemplate() {
                     .filter(
                       (x) =>
                         !x.hts_kor_isnm.includes("KODEX") &&
-                        !x.hts_kor_isnm.includes("선물") &&
-                        !x.hts_kor_isnm.includes("스팩")
+                        !x.hts_kor_isnm.includes("선물")
                     ) // 특정 단어를 포함하지 않는 항목만 필터링
                     .map((x, index) => (
                       <tr key={index}>
@@ -266,123 +260,7 @@ function StockTemplate() {
           </div>
         </div>
         <div className="flex bottom-content">
-          <div className="simulated-rank card shadow">
-            <div className="card-header">
-              <h6 className="m-0 font-weight-bold text-primary">
-                모의 투자 랭킹
-              </h6>
-            </div>
-            <table className="collapsed" id="table">
-              <thead>
-                <tr className="high">
-                  <th scope="col">랭킹</th>
-                  <th scope="col">회원명</th>
-                  <th scope="col">수익률</th>
-                  <th scope="col">총 자산</th>
-                </tr>
-              </thead>
-              {/*  value : 수익률
-                        <span className={value >= 0 ? "positive" : "negative"}>
-                            {value >= 0 && "+"}{value}%
-                        </span> 
-                        변동률 음수는 파란색, 양수는 빨간색 표시*/}
-              <tbody>
-                <tr>
-                  <th scope="row">
-                    <FontAwesomeIcon
-                      icon={faCrown}
-                      style={{ color: "#F9BC28", fontSize: "23px" }}
-                    />
-                  </th>
-                  <td>심재민</td>
-                  <td>
-                    <span className={+97.5 >= 0 ? "positive" : "negative"}>
-                      {+97.5 >= 0 && "+"}
-                      {+97.5}%
-                    </span>
-                  </td>
-                  <td>10,000,000</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>김나영</td>
-                  <td>
-                    <span className={+83.2 >= 0 ? "positive" : "negative"}>
-                      {+83.2 >= 0 && "+"}
-                      {+83.2}%
-                    </span>
-                  </td>
-                  <td>9,000,000</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>권진현</td>
-                  <td>
-                    <span className={+44 >= 0 ? "positive" : "negative"}>
-                      {+44 >= 0 && "+"}
-                      {+44}%
-                    </span>
-                  </td>
-                  <td>8,000,000</td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>최지혁</td>
-                  <td>
-                    <span className={+31 >= 0 ? "positive" : "negative"}>
-                      {+31 >= 0 && "+"}
-                      {+31}%
-                    </span>
-                  </td>
-                  <td>7,000,000</td>
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                  <td>오정원</td>
-                  <td>
-                    <span className={+5 >= 0 ? "positive" : "negative"}>
-                      {+5 >= 0 && "+"}
-                      {+5}%
-                    </span>
-                  </td>
-                  <td>5,100,000</td>
-                </tr>
-                <tr>
-                  <th scope="row">6</th>
-                  <td>이준호</td>
-                  <td>
-                    <span className={-2 >= 0 ? "positive" : "negative"}>
-                      {-2 >= 0 && "+"}
-                      {-2}%
-                    </span>
-                  </td>
-                  <td>4,800,000</td>
-                </tr>
-                <tr>
-                  <th scope="row">7</th>
-                  <td>이경민</td>
-                  <td>
-                    <span className={-52 >= 0 ? "positive" : "negative"}>
-                      {-52 >= 0 && "+"}
-                      {-52}%
-                    </span>
-                  </td>
-                  <td>2,800,000</td>
-                </tr>
-                <tr>
-                  <th scope="row">8</th>
-                  <td>유승현</td>
-                  <td>
-                    <span className={-28 >= 0 ? "positive" : "negative"}>
-                      {-28 >= 0 && "+"}
-                      {-28}%
-                    </span>
-                  </td>
-                  <td>14,800,000</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <OverallRank />
           <div className="youtube-iframe card shadow">
             <div className="card-header">
               <h6 className="m-0 font-weight-bold text-primary">관련 영상</h6>

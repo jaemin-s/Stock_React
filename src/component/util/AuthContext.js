@@ -9,7 +9,6 @@ const AuthContext = React.createContext({
   gender: "",
   career: "",
   mbti: "",
-  userId: "",
   onLogout: () => {},
   onLogin: (email, password) => {},
   setUserInfo: () => {},
@@ -25,7 +24,7 @@ export const AuthContextProvider = (props) => {
   const [gender, setGender] = useState("");
   const [career, setCareer] = useState("");
   const [mbti, setMbti] = useState("");
-  const [userId, setUserId] = useState("");
+
 
   useEffect(() => {
     if (localStorage.getItem("isLoggedIn") === "1") {
@@ -45,16 +44,16 @@ export const AuthContextProvider = (props) => {
   };
 
   //로그인 핸들러
-  const loginHandler = (token, email, image, userId) => {
+  const loginHandler = (token, email, image) => {
     localStorage.setItem("isLoggedIn", "1");
     localStorage.setItem("LOGIN_ACCESS_TOKEN", token);
     localStorage.setItem("LOGIN_USEREMAIL", email);
     localStorage.setItem("LOGIN_USERIMAGE", image);
-    localStorage.setItem("USER_ID", userId);
+
     setIsLoggedIn(true);
     setEmail(email);
     setImage(image);
-    setUserId(userId);
+
   };
 
   //카카오 로그인 핸들러
@@ -85,8 +84,6 @@ export const AuthContextProvider = (props) => {
       setGender(localStorage.getItem("GENDER"));
       setCareer(localStorage.getItem("CAREER"));
       setMbti(localStorage.getItem("MBTI"));
-      const storedUserId = localStorage.getItem("USER_ID");
-    setUserId(storedUserId);
     }
   }, []);
 
@@ -96,7 +93,6 @@ export const AuthContextProvider = (props) => {
         isLoggedIn,
         email,
         image,
-        userId,
         onLogout: logoutHandler,
         onLogin: loginHandler,
         kLoginHandler,

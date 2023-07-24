@@ -776,7 +776,7 @@ const Detail = () => {
                     </h6>
                   </div>
                   <div className="card-body" id="sic-body">
-                    <RcmMbti />
+                  <RcmMbti value={value} />
                   </div>
                 </div>
               </div>
