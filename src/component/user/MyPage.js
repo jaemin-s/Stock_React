@@ -15,6 +15,7 @@ function MyPage() {
   const { value } = useParams();
   const title = value ? value.split("(", 2) : [];
   const [currentLivePrice, setCurrentLivePrice] = useState([]);
+
   //현재가, 등락률 관리
   const [livePrice, setLivePrice] = useState();
   const [fluctuationRate, setFluctuationRate] = useState();
@@ -73,7 +74,6 @@ function MyPage() {
       console.error(error);
     }
   };
-
   useEffect(() => {
     const fetchData = async () => {
       await dailyPrice();
