@@ -116,3 +116,10 @@ table th {
 .favorite-box{
     overflow: auto;
 }
+
+.no-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
