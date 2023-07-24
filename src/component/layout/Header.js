@@ -298,6 +298,12 @@ const Header = () => {
                 </a>
               </li>
               <hr className="border-line" />
+              <li className="dropdown-item">
+                <a className="nav-link" href="/guide">
+                  Guide
+                </a>
+              </li>
+              <hr className="border-line" />
               {isLogin() ? (
                 <>
                   <li className="dropdown-item">
@@ -317,7 +323,6 @@ const Header = () => {
                       Logout
                     </a>
                   </li>
-                  <hr className="border-line" />
                 </>
               ) : (
                 <>
@@ -332,14 +337,8 @@ const Header = () => {
                       Login
                     </a>
                   </li>
-                  <hr className="border-line" />
                 </>
               )}
-              <li className="dropdown-item">
-                <a className="nav-link" href="/guide">
-                  Guide
-                </a>
-              </li>
             </div>
           </li>
         </ul>
