@@ -687,7 +687,7 @@ const Detail = () => {
                 <div id="last-box" className="simulated-rank card shadow mb-4">
                   <div className="card-header">
                     <h6 className="m-0 font-weight-bold text-primary">
-                      관련종목 추천
+                      MBTI별 추천
                     </h6>
                   </div>
                   <div className="card-body" id="sic-body">

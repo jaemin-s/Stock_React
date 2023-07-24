@@ -1,4 +1,4 @@
-import { redirect, useParams } from "react-router-dom";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 import { KI_ID, RequsetHeader } from "../../config/apikey";
 
 import React, { useContext, useEffect, useState } from 'react'
@@ -10,6 +10,8 @@ const RcmMbti = () => {
     const [isMbti, setIsMbti] = useState();
     // 종목이름,코드 저장
     const [ mbtiPro, setMbitPro] = useState([]);
+    const redirect = useNavigate();
+    
     let values = [];
     const { email, mbti } =
         useContext(AuthContext);
@@ -30,7 +32,7 @@ const RcmMbti = () => {
           }
 
         const seq = getMbti(mbti);
-        console.log("seq 인데 = ", getMbti(mbti));
+
         const getUserMbti = async () => {
         const mbtiRes = await fetch("http://localhost:8181/api/user/myInfo/" +
           localStorage.getItem("LOGIN_USEREMAIL"));
@@ -38,9 +40,9 @@ const RcmMbti = () => {
         setIsMbti({
           mbti: mbtiData.mbti
         });
-        console.log("mbtiRes인데 말이야 = ", mbtiRes);
+
       };
-      console.log("isMbti란 말이지 = ", isMbti);
+
       
         const rcmMbtiApi = async (seq) => {
         const userId = KI_ID;
@@ -54,7 +56,7 @@ const RcmMbti = () => {
             },
           }
         );
-        console.log("res인데 말이야 = ", res);
+
         if (res.status === 200) {
           const data = await res.json();
           data.output2.forEach((x) => {
@@ -74,25 +76,30 @@ const RcmMbti = () => {
                 rcmMbtiApi(getMbti(isMbti.mbti));
             }
         }, [isMbti]);
-        // console.log("name란 말이야 = ", mbtiPro.map((item) => item[0].name));
-        //   console.log("code란 말이야 = ", mbtiPro.map((item) => item[0].code));
-    
-    //   const goDetailHandler = () => {
-    //     if (mbtiPro.length > 0) {
-    //     //   redirect(`/detail/${mbtiPro[0].name}(${mbtiPro[0].code})`);
-    //     return null;
-    //     }
-    //   };
+        
+        
+
+   // 랜덤하게 4개의 항목 선택하는 함수
+   const getRandomItems = (arr, count) => {
+    const shuffled = arr.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  };
+
+  const goDetailHandler = (item) => {
+    redirect(`/detail/${item.name}(${item.code})`);
+  };
+
+  // 랜덤하게 4개의 항목 선택
+  const randomItems = getRandomItems(mbtiPro, 4);
   
   return(
     <>
-    {mbtiPro.length > 0 && mbtiPro.map((item, index) => (
-        <p key={index} id="mbtiBtnBox"> 
-        {/* <button onClick={goDetailHandler()}>{item.name}({item.code})</button> */}
-        <button>{item.name}({item.code})</button>
-        </p>
+    {randomItems.length > 0 && randomItems.map((item, index) => (
+      <p key={index} id="mbtiBtnBox"> 
+        <button onClick={() => goDetailHandler(item)}>{item.name}({item.code})</button>
+      </p>
     ))}
-    </>
+  </>
   );
 }
 
