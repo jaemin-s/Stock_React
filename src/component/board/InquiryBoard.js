@@ -76,6 +76,7 @@ const InquiryBoard = () => {
             <table className="table" style={{ marginTop: "60px" }}>
               <thead>
                 <tr>
+                  <th scope="col">번호</th>
                   <th scope="col">작성일</th>
                   <th scope="col">제목</th>
                   <th scope="col">작성자</th>
@@ -83,11 +84,13 @@ const InquiryBoard = () => {
               </thead>
               <tbody>
                 <tr>
+                  <td>2</td>
                   <td>2023-07-23</td>
                   <td>문의사항 1</td>
                   <td>작성자 1</td>
                 </tr>
                 <tr>
+                  <td>1</td>
                   <td>2023-07-24</td>
                   <td>문의사항 2</td>
                   <td>작성자 2</td>
@@ -95,9 +98,11 @@ const InquiryBoard = () => {
               </tbody>
             </table>
             <br />
-            <button className="button-58" style={{ float: "right" }}>
-              글쓰기
-            </button>
+            <a href="/regist">
+              <button className="button-58" style={{ float: "right" }}>
+                글쓰기
+              </button>
+            </a>
           </div>
         </div>
       </body>
