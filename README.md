@@ -13,6 +13,7 @@ $ npm install react-ticker --save --legacy-peer-deps // 슬라이드 텍스트
 $ npm install chart.js react-chartjs-2 // 리액트용 chart2
 $ npm install react-bootstrap bootstrap --force //메인화면 Carousel
 $ npm install sweetalert2 --save --legacy-peer-deps // alert 라이브러리
+$ npm install react-js-pagination --legacy-peer-deps //페이징 라이브러리
 ```
 
 ## bootstrap
