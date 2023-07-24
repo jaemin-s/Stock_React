@@ -16,7 +16,9 @@ const Kospi = () => {
       data: []
     },
     yAxis: {
-      type: 'value'
+      type: 'value',
+      min: '2500',
+      max: '2650'
     },
     series: [{
       data: [],
