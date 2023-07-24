@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Notice.scss";
+import Paging from "./Paging";
 
-const announcement = () => {
+const Notice = () => {
+  const [page, setPage] = useState(1);
+
   return (
     <>
       <body id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
@@ -67,6 +70,7 @@ const announcement = () => {
                       >
                         공지사항
                       </a>
+                      <a>{page}</a>
                     </li>
                   </ul>
                   <br />
@@ -77,6 +81,7 @@ const announcement = () => {
             <table className="table" style={{ marginTop: "60px" }}>
               <thead>
                 <tr>
+                  <th scope="col">번호</th>
                   <th scope="col">작성일</th>
                   <th scope="col">제목</th>
                   <th scope="col">작성자</th>
@@ -84,17 +89,20 @@ const announcement = () => {
               </thead>
               <tbody>
                 <tr>
+                  <td>2</td>
                   <td>2023-07-23</td>
                   <td>공지사항 1</td>
                   <td>작성자 1</td>
                 </tr>
                 <tr>
+                  <td>1</td>
                   <td>2023-07-24</td>
                   <td>공지사항 2</td>
                   <td>작성자 2</td>
                 </tr>
               </tbody>
             </table>
+            <Paging page={page} count={100} setPage={setPage} />
           </div>
         </div>
       </body>
@@ -102,4 +110,4 @@ const announcement = () => {
   );
 };
 
-export default announcement;
+export default Notice;
