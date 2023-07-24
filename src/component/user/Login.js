@@ -167,7 +167,9 @@ const Login = () => {
                             id="email"
                             aria-describedby="emailHelp"
                             placeholder="이메일 주소"
-                          />
+                            value={loginID}
+                            onChange={(e) => getLoginID(e)}
+                            />
                         </div>
                         <div className="form-group">
                           <input
@@ -179,11 +181,10 @@ const Login = () => {
                         </div>
                         <div className="form-group">
                           <div className="custom-control custom-checkbox small">
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                              id="customCheck"
-                            />
+                          <input type="checkbox" className="custom-control-input" id="customCheck"
+                                                      checked={saveIDFlag} 
+                                                      onChange={handleSaveIDFlag}
+                                                      />
                             <label
                               className="custom-control-label"
                               htmlFor="customCheck"
