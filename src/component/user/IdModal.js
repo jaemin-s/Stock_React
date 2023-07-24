@@ -52,7 +52,7 @@ alert(`회원님의 email은 ${email} 입니다`);
  
   return (
     // 모달이 열릴때 openModal 클래스가 생성된다.
-    <div className={open ? 'openModal modal' : 'modal'}>
+    <div className={open ? 'openModal userModal' : 'userModal'}>
       {open ? (
         <section>
           <header>
@@ -75,7 +75,7 @@ alert(`회원님의 email은 ${email} 입니다`);
 
                
                 <div>
-                  <input type='button' value='조회하기' className='submit' onClick={searchIdHandler} />
+                  <input type='button' value='조회하기' id="searchSubmit" onClick={searchIdHandler} />
                 </div>
 
                 {/* <div>
