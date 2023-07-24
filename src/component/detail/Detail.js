@@ -286,7 +286,11 @@ const Detail = () => {
     if (res.status === 200) {
       const buyResponse = await res.text();
       console.log(buyResponse);
-      toastAlertHandler(1); //매수 시
+      if (buyResponse === "success") {
+        toastAlertHandler(1); //매수 시 띄울 알림창
+      } else {
+        toastAlertHandler(-2); //에러 시
+      }
     }
     toggleModal();
   }
@@ -308,24 +312,30 @@ const Detail = () => {
     if (res.status === 200) {
       const sellResponse = await res.text();
       console.log(sellResponse);
-      toastAlertHandler(0); //매도 시
+      if (sellResponse === "success") {
+        toastAlertHandler(0); //매도 시 띄울 알림창
+      } else {
+        toastAlertHandler(-1); //에러 시
+      }
     }
     sellModal();
   }
 
   const sellModal = () => {
-    setOrder(1);
-    // if (selectedValue !== null) {
+    if (currentHavingStock === 0) {
+      setOrder(0);
+    } else {
+      setOrder(1);
+    }
     setModalType(!modalType);
     getMyInfo();
-    // }
   };
 
   const [order, setOrder] = useState("");
 
   const buyOrderChange = (e) => {
     const value = parseInt(e.target.value, 10);
-    if (!isNaN(value) && value >= 0) {
+    if (!isNaN(value) && value > 0) {
       //보유금액보다 구매하려는 주식이 적을때만 매수 할 수 있게 검사
       if (value * currentPrice <= currentAsset) {
         setOrder(value);
@@ -336,7 +346,7 @@ const Detail = () => {
   };
   const sellOrderChange = (e) => {
     const value = parseInt(e.target.value, 10);
-    if (!isNaN(value) && value >= 0) {
+    if (!isNaN(value) && value > 0) {
       //보유금액보다 구매하려는 주식이 적을때만 매수 할 수 있게 검사
       if (value <= currentHavingStock) {
         setOrder(value);
@@ -349,10 +359,19 @@ const Detail = () => {
   const toastAlertHandler = (num) => {
     //1 => 매수 , 0=> 매도
     let content = "";
+    let icons = "";
     if (num === 1) {
       content = "매수가 성공적으로 체결되었습니다.";
-    } else {
+      icons = "success";
+    } else if (num === 0) {
       content = "매도가 성공적으로 체결되었습니다.";
+      icons = "success";
+    } else if (num === -1) {
+      content = "매도수량이 보유주식보다 많거나 0개 입니다";
+      icons = "error";
+    } else if (num === -2) {
+      content = "매수 수량이 0개입니다.";
+      icons = "error";
     }
     const Toast = Swal.mixin({
       toast: true,
@@ -366,7 +385,7 @@ const Detail = () => {
       },
     });
     Toast.fire({
-      icon: "success",
+      icon: icons,
       title: content,
     });
   };
@@ -465,7 +484,7 @@ const Detail = () => {
                 className="form-control bg-light border-0 small"
                 placeholder="주"
                 type="number"
-                min="1"
+                min="0"
                 max={currentHavingStock}
                 value={order}
                 onChange={sellOrderChange}

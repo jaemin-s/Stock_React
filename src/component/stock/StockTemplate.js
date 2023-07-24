@@ -93,6 +93,25 @@ function StockTemplate() {
     return values;
   };
 
+  //관심종목 목록 불러오기 로직
+  const loadFavorite = async () => {
+    const loginEmail = localStorage.getItem("LOGIN_USEREMAIL");
+    console.log(loginEmail);
+    if (loginEmail !== null) {
+      const res = await fetch(
+        "http://localhost:8181/api/user/favorite/" + loginEmail,
+        {
+          method: "GET",
+          headers: { "content-type": "application/json" },
+        }
+      );
+      if (res.status === 200) {
+        const list = await res.json();
+        setFavoriteList(list);
+      }
+    }
+  };
+
   const [data, setData] = useState(null); // 결과를 저장할 상태
 
   const getRank = async () => {
@@ -149,24 +168,6 @@ function StockTemplate() {
     redirection(`/login`);
   };
 
-  //관심종목 목록 불러오기 로직
-  const loadFavorite = async () => {
-    const loginEmail = localStorage.getItem("LOGIN_USEREMAIL");
-    console.log(loginEmail);
-    if (loginEmail !== null) {
-      const res = await fetch(
-        "http://localhost:8181/api/user/favorite/" + loginEmail,
-        {
-          method: "GET",
-          headers: { "content-type": "application/json" },
-        }
-      );
-      if (res.status === 200) {
-        const list = await res.json();
-        setFavoriteList(list);
-      }
-    }
-  };
   //관심종목 클릭 이벤트
   function favoriteClickHandler(index) {
     console.log(index);
@@ -278,20 +279,26 @@ function StockTemplate() {
               <h6 className="m-0 font-weight-bold text-primary">관심종목</h6>
             </div>
             {isLogin() ? (
-              <div className="card-body">
-                <div className="like-content favorite-box">
-                  {favoriteList.map((item, index) => (
-                    <p
-                      className="btn btn-success btn-icon-split btn-favorite"
-                      key={index}
-                      onClick={(e) => favoriteClickHandler(index)}
-                      style={{ display: "block", fontWeight: "bold" }}
-                    >
-                      {item.stockName}
-                    </p>
-                  ))}
+              favoriteList.length === 0 ? (
+                <div className="no-info">
+                  <p>관심종목이 없습니다.</p>
                 </div>
-              </div>
+              ) : (
+                <div className="card-body">
+                  <div className="like-content favorite-box">
+                    {favoriteList.map((item, index) => (
+                      <p
+                        className="btn btn-success btn-icon-split btn-favorite"
+                        key={index}
+                        onClick={(e) => favoriteClickHandler(index)}
+                        style={{ display: "block", fontWeight: "bold" }}
+                      >
+                        {item.stockName}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )
             ) : (
               <div className="card-body">
                 로그인 후 관심종목 기능을 이용해 보세요!
