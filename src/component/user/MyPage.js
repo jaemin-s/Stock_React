@@ -6,6 +6,8 @@ import AuthContext from "../util/AuthContext";
 import { RequsetHeader } from "../../config/apikey";
 import { useParams } from "react-router-dom";
 
+import Update from "./Update";
+import Delete from "./Delete";
 // Doughnut 차트 import(npm install chart.js react-chartjs-2)
 
 // Doughnut 차트 등록
@@ -149,6 +151,10 @@ function MyPage() {
 
   const { userName, userNick, email, gender, age, career, mbti } =
     useContext(AuthContext);
+
+     // 수정 showModal 
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+
 
   const [expanded, setExpanded] = useState(false);
 
@@ -383,7 +389,7 @@ function MyPage() {
             경력<span className="border">|</span> {getAge(userInfo.career)}
           </h5>
           <h5 className="mbti">
-            MBTI<span className="border">|</span> {userInfo.mbti}
+          MBTI<span className="border">|</span> {userInfo.mbti}
           </h5>
         </div>
 
@@ -691,6 +697,12 @@ function MyPage() {
     }
   };
   // console.log("transition: ", transition());
+  const toggleModifyModal = () => {
+    setShowUpdateModal((prev) => !prev);
+  };
+
+  useEffect(() => { 
+  }, [showUpdateModal]);
 
   return (
     <>
@@ -724,15 +736,8 @@ function MyPage() {
                       <i class="fas fa-fw fa-tachometer-alt"></i>
                       <span>정보</span>
                     </a>
-                    <a
-                      class="nav-link"
-                      href="#0"
-                      className="nav-link"
-                      style={{ padding: "0px 16px" }}
-                    >
-                      <i class="fas fa-fw fa-tachometer-alt"></i>
-                      <span>수정</span>
-                    </a>
+                    <Update toggleModifyModal={toggleModifyModal} />
+                  
                     <a
                       class="nav-link"
                       href="#0"
@@ -741,6 +746,7 @@ function MyPage() {
                     >
                       <i class="fas fa-fw fa-tachometer-alt"></i>
                       <span>탈퇴</span>
+                      <Delete />
                     </a>
                   </div>
                 </>
@@ -938,6 +944,7 @@ function MyPage() {
             {asset && viewAsset}
             {havingInfo && viewHavingInfo}
             {likeInfo && viewLikeInfo}
+            
           </div>
         </div>
       </body>

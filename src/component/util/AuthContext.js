@@ -9,7 +9,6 @@ const AuthContext = React.createContext({
   gender: "",
   career: "",
   mbti: "",
-
   onLogout: () => {},
   onLogin: (email, password) => {},
   setUserInfo: () => {},
@@ -25,6 +24,7 @@ export const AuthContextProvider = (props) => {
   const [gender, setGender] = useState("");
   const [career, setCareer] = useState("");
   const [mbti, setMbti] = useState("");
+
 
   useEffect(() => {
     if (localStorage.getItem("isLoggedIn") === "1") {
@@ -49,9 +49,11 @@ export const AuthContextProvider = (props) => {
     localStorage.setItem("LOGIN_ACCESS_TOKEN", token);
     localStorage.setItem("LOGIN_USEREMAIL", email);
     localStorage.setItem("LOGIN_USERIMAGE", image);
+
     setIsLoggedIn(true);
     setEmail(email);
     setImage(image);
+
   };
 
   //카카오 로그인 핸들러
