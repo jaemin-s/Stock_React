@@ -70,7 +70,7 @@ const Notice = () => {
                       >
                         공지사항
                       </a>
-                      <a>{page}</a>
+                      {/* <a>{page}</a> */}
                     </li>
                   </ul>
                   <br />
@@ -103,6 +103,11 @@ const Notice = () => {
               </tbody>
             </table>
             <Paging page={page} count={100} setPage={setPage} />
+            <a href="/regist">
+              <button className="button-58" style={{ float: "right" }}>
+                글쓰기
+              </button>
+            </a>
           </div>
         </div>
       </body>
