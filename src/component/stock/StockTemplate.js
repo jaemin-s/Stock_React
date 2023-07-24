@@ -27,6 +27,11 @@ import { isLogin } from "../util/login-utils";
 import OverallRank from "./OverallRank";
 
 function StockTemplate() {
+  // 토큰 발급이 최우선이기 때문에 토큰 발급 시 관리할 변수
+  const [haveToken, setHaveToken] = useState(false);
+  // 관심종목 목록 관리
+  const [favoriteList, setFavoriteList] = useState([]);
+
   const redirection = useNavigate();
 
   const detailHandler = (e) => {
@@ -49,6 +54,7 @@ function StockTemplate() {
     if (res.status === 200) {
       const data = await res.json();
       localStorage.setItem("ACCESS_TOKEN", "Bearer " + data.access_token);
+      setHaveToken(!haveToken);
     }
   };
 

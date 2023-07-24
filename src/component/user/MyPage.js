@@ -15,7 +15,25 @@ function MyPage() {
   const { value } = useParams();
   const title = value ? value.split("(", 2) : [];
   const [currentLivePrice, setCurrentLivePrice] = useState([]);
+  //현재가, 등락률 관리
+  const [livePrice, setLivePrice] = useState();
+  const [fluctuationRate, setFluctuationRate] = useState();
+  const [isRise, setIsRise] = useState(true);
+  const [infoData, setInfoData] = useState({
+    categoryData: [],
+    values: [],
+  });
+  const [selectedStock, setSelectedStock] = useState(null);
+  const [selectedLikeStock, setSelectedLikeStock] = useState(null);
+  const handleStockClick = (trade) => {
+    setSelectedStock(trade);
+    transition(trade.stockId);
+  };
 
+  const handleLikeStockClick = (like) => {
+    setSelectedLikeStock(like);
+    transition(like.stockCode);
+  };
   const dailyPrice = async (e) => {
     // ㅇㅇㅇ(000000) 값 자르기
 
@@ -59,11 +77,11 @@ function MyPage() {
   useEffect(() => {
     dailyPrice();
   }, []);
-  console.log("currentLivePrice:  ", currentLivePrice);
-  console.log("현재주가");
+  // console.log("currentLivePrice:  ", currentLivePrice);
+  // console.log("현재주가");
   // console.log(currentLivePrice[0].stockId, currentLivePrice[0].price);
 
-  // 주식 수익률 계싼
+  // 주식 수익률 계산
   function returnPercent() {
     const returnPercentArray = [];
     for (let i = 0; i < currentLivePrice.length; i++) {
@@ -112,6 +130,17 @@ function MyPage() {
     return `${year}.${month}.${day}`;
   }
 
+  // 8자리 날짜를 yyyy-MM-dd로 변환
+  const dateFormat = (date) => {
+    return date.slice(0, 4) + "-" + date.slice(4, 6) + "-" + date.slice(6, 8);
+  };
+  let today = new Date();
+  let currentDate = today.toISOString().slice(0, 10).replaceAll("-", "");
+  let startDate = new Date(today.setDate(today.getDate() - 365))
+    .toISOString()
+    .slice(0, 10)
+    .replaceAll("-", "");
+
   const { userName, userNick, email, gender, age, career, mbti } =
     useContext(AuthContext);
 
@@ -125,6 +154,8 @@ function MyPage() {
 
   const [info, setInfo] = useState(true);
   const [asset, setAsset] = useState(false);
+  const [havingInfo, setHavingInfo] = useState(false);
+  const [likeInfo, setLikeInfo] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
     email: "",
@@ -137,7 +168,11 @@ function MyPage() {
     myStocks: [],
     money: 0,
   });
-
+  const [favoriteInfo, setFavoriteInfo] = useState({
+    stockCode: [],
+    stockName: [],
+  });
+  // console.log("userInfo: ", userInfo);
   // console.log("userInfo.myStocks: ", userInfo.myStocks);
 
   const [historyInfo, setHistoryInfo] = useState([]);
@@ -145,13 +180,30 @@ function MyPage() {
   const showInfo = () => {
     setInfo(true);
     setAsset(false);
+    setHavingInfo(false);
+    setLikeInfo(false);
   };
 
   const showAsset = () => {
     setInfo(false);
     setAsset(true);
+    setHavingInfo(false);
+    setLikeInfo(false);
   };
 
+  const showHavingInfo = () => {
+    setInfo(false);
+    setAsset(false);
+    setHavingInfo(true);
+    setLikeInfo(false);
+  };
+
+  const showLikeInfo = () => {
+    setInfo(false);
+    setAsset(false);
+    setHavingInfo(false);
+    setLikeInfo(true);
+  };
   const rank = 3;
 
   //도넛 안에 넣기 위한 labels
@@ -184,7 +236,7 @@ function MyPage() {
       },
     ],
   };
-  console.log(stockPrice);
+  // console.log(stockPrice);
   async function getInfo() {
     const res = await fetch(
       "http://localhost:8181/api/user/myInfo/" +
@@ -204,7 +256,7 @@ function MyPage() {
       mbti: myInfo.mbti,
     });
   }
-  console.log(userInfo.money);
+  // console.log(userInfo.money);
   async function getHistory() {
     const res = await fetch(
       "http://localhost:8181/api/trade/history/" +
@@ -214,9 +266,25 @@ function MyPage() {
     // console.log("history: ", history);
     setHistoryInfo(history);
   }
+
+  async function getFavoriteInfo() {
+    const res = await fetch(
+      "http://localhost:8181/api/user/favorite/" +
+        localStorage.getItem("LOGIN_USEREMAIL")
+    );
+
+    if (res.status === 200) {
+      const favorite = await res.json();
+      setFavoriteInfo(favorite);
+      // console.log("favorite: ", favorite);
+      // 아주 잘나옴
+    }
+  }
+
   useEffect(() => {
     getInfo();
     getHistory();
+    getFavoriteInfo();
   }, []);
 
   function getAge(age) {
@@ -255,7 +323,15 @@ function MyPage() {
     }
     return null;
   }
-  console.log("returnPercent(): ", returnPercent());
+  // console.log("returnPercent(): ", returnPercent());
+
+  //중복된 종목 구매 시 하나만 나오게 하도록
+  const uniqueHistoryInfo = Array.isArray(historyInfo)
+    ? [...new Set(historyInfo.map((trade) => trade.stockId))].map((stockId) =>
+        historyInfo.find((trade) => trade.stockId === stockId)
+      )
+    : [];
+
   const viewInfo = (
     <>
       {/* <!-- Page Heading --> */}
@@ -327,7 +403,9 @@ function MyPage() {
           </h5>
           <h5 className="having-stock">
             보유 주식<span className="border">|</span>
-            {Array.isArray(historyInfo)
+            {/* {Array.isArray(historyInfo)
+              ? historyInfo.slice(0, 3).map((trade, index) => ( */}
+            {uniqueHistoryInfo
               ? historyInfo.slice(0, 3).map((trade, index) => (
                   <span key={index}>
                     {trade.stockName}
@@ -336,14 +414,11 @@ function MyPage() {
                       : index < historyInfo.length - 1
                       ? ", "
                       : null}
+                    {}
                   </span>
                 ))
               : null}
           </h5>
-          {/* <h5 className="having-cash">
-            보유 현금<span className="border">|</span>
-            {(5000000 - userInfo.money).toLocaleString()} 원
-          </h5> */}
           <h5 className="return">
             수익률<span className="border">|</span> {returnPercent()}%
           </h5>
@@ -400,6 +475,158 @@ function MyPage() {
       {moreButton()}
     </>
   );
+
+  const viewHavingInfo = (
+    <>
+      {/* 보유 종목 */}
+      <ul>
+        <h4>조회하고 싶은 주식을 목록에서 선택해 주세요.</h4>
+        {selectedStock && (
+          <div>
+            <h4>
+              주식 정보: {"  "}
+              {selectedStock.stockName}
+              {/* {"  "}({selectedStock.stockId}) */}
+            </h4>
+          </div>
+        )}
+      </ul>
+      <table className="havingStockInfoTable">
+        <thead>
+          <tr>
+            <th scope="col" style={{ maxWidth: "100px" }}>
+              날짜
+            </th>
+            <th scope="col">종가</th>
+            <th scope="col">대비</th>
+            <th scope="col">거래량</th>
+          </tr>
+        </thead>
+        <tbody>
+          {infoData.categoryData
+            .map((date, index) => ({
+              date,
+              values: infoData.values[index],
+            }))
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .map((item, index) => (
+              <tr key={index}>
+                <td>{item.date}</td>
+                {item.values.map((value, innerIndex) => (
+                  <td key={innerIndex}>
+                    {innerIndex === 4 ? (
+                      <span>{value}</span>
+                    ) : (
+                      value.toLocaleString()
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </>
+  );
+
+  const viewLikeInfo = (
+    <>
+      {/* 관심 종목 */}
+      <ul>
+        <h4>조회하고 싶은 주식을 목록에서 선택해 주세요.</h4>
+        {selectedLikeStock && (
+          <div>
+            <h4>
+              주식 정보: {"  "}
+              {selectedLikeStock.stockName}
+            </h4>
+          </div>
+        )}
+      </ul>
+      <table className="havingStockInfoTable">
+        <thead>
+          <tr>
+            <th scope="col" style={{ maxWidth: "100px" }}>
+              날짜
+            </th>
+            <th scope="col">종가</th>
+            <th scope="col">대비</th>
+            <th scope="col">거래량</th>
+          </tr>
+        </thead>
+        <tbody>
+          {infoData.categoryData
+            .map((date, index) => ({
+              date,
+              values: infoData.values[index],
+            }))
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .map((item, index) => (
+              <tr key={index}>
+                <td>{item.date}</td>
+                {item.values.map((value, innerIndex) => (
+                  <td key={innerIndex}>
+                    {innerIndex === 4 ? (
+                      <span>{value}</span>
+                    ) : (
+                      value.toLocaleString()
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </>
+  );
+
+  const transition = async (stockId) => {
+    //  const params = title[1].slice(0, -1); //종목 코드
+    //  console.log("stockId: ", stockId);
+    const res = await fetch(
+      "/quotations/inquire-daily-itemchartprice?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+        stockId +
+        "&FID_INPUT_DATE_1=" +
+        startDate +
+        "&FID_INPUT_DATE_2=" +
+        currentDate +
+        "&FID_PERIOD_DIV_CODE=M&FID_ORG_ADJ_PRC=1",
+      {
+        headers: {
+          ...RequsetHeader,
+          tr_id: "FHKST03010100",
+        },
+      }
+    );
+    // console.log("res: ", res);
+
+    if (res.status === 200) {
+      const data = await res.json();
+      // console.log(data);
+      //필요한 값만 추출
+      let values = [];
+      let dates = [];
+      console.log(data);
+
+      data.output2.forEach((x) => {
+        const {
+          stck_bsop_date: date,
+          prdy_vrss: than,
+          stck_clpr: close,
+
+          acml_vol: deal,
+        } = x;
+        console.log(typeof deal);
+        dates.unshift(dateFormat(date));
+
+        values.unshift([parseInt(close), parseInt(than), parseInt(deal)]);
+      });
+
+      setInfoData({ categoryData: dates, values });
+      return { categoryData: dates, values };
+    }
+  };
+  // console.log("transition: ", transition());
+
   return (
     <>
       <body id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
@@ -502,6 +729,60 @@ function MyPage() {
                   </a>
                 </>
               ) : null}
+
+              {havingInfo ? (
+                <>
+                  <div class="sidebar-heading">보유 종목</div>
+                  <ul style={{ padding: "0 0 0 10px" }}>
+                    {userInfo.myStocks.map((trade, index) => (
+                      <div
+                        className="nav-link"
+                        key={index}
+                        onClick={() => handleStockClick(trade)}
+                        style={{
+                          color: "white",
+                          cursor: "pointer",
+                          padding: "4px 2px",
+                          fontSize: "15px",
+                        }}
+                      >
+                        {trade.stockName}
+                        {/* ({trade.stockId}) */}
+                      </div>
+                    ))}
+                  </ul>
+                  <hr class="sidebar-divider my-0"></hr>
+                </>
+              ) : null}
+
+              {likeInfo ? (
+                <>
+                  <div class="sidebar-heading">관심 종목</div>
+                  <ul style={{ padding: "0 0 0 10px" }}>
+                    {Array.isArray(favoriteInfo) && favoriteInfo.length > 0 ? (
+                      favoriteInfo.map((like, index) => (
+                        <div
+                          className="nav-link"
+                          key={index}
+                          onClick={() => handleLikeStockClick(like)}
+                          style={{
+                            color: "white",
+                            cursor: "pointer",
+                            padding: "4px 2px",
+                            fontSize: "15px",
+                          }}
+                        >
+                          {like.stockName}
+                          {/* ({like.stockCode}) */}
+                        </div>
+                      ))
+                    ) : (
+                      <p>관심 종목이 없습니다.</p> // 관심 종목이 없을 때의 문구 유지
+                    )}
+                  </ul>
+                  <hr class="sidebar-divider my-0"></hr>
+                </>
+              ) : null}
             </li>
           </ul>
 
@@ -519,7 +800,7 @@ function MyPage() {
                         id="my-info"
                         href="#"
                         onClick={showInfo}
-                        style={{ fontWeight: 700, fontSize: 40 }}
+                        style={{ fontWeight: 700, fontSize: 25 }}
                       >
                         내 정보
                       </a>
@@ -537,9 +818,45 @@ function MyPage() {
                         id="asset"
                         href="#"
                         onClick={showAsset}
-                        style={{ fontWeight: 700, fontSize: 40 }}
+                        style={{ fontWeight: 700, fontSize: 25 }}
                       >
                         자산관리
+                      </a>
+                    </li>
+                    <li
+                      className="nav-item"
+                      id="border"
+                      style={{ fontSize: 30 }}
+                    >
+                      <p>|</p>
+                    </li>
+                    <li className="nav-item">
+                      <a
+                        className="nav-link"
+                        id="having-info"
+                        href="#"
+                        onClick={showHavingInfo}
+                        style={{ fontWeight: 700, fontSize: 25 }}
+                      >
+                        보유 종목 주가 추이
+                      </a>
+                    </li>
+                    <li
+                      className="nav-item"
+                      id="border"
+                      style={{ fontSize: 30 }}
+                    >
+                      <p>|</p>
+                    </li>
+                    <li className="nav-item">
+                      <a
+                        className="nav-link"
+                        id="like-info"
+                        href="#"
+                        onClick={showLikeInfo}
+                        style={{ fontWeight: 700, fontSize: 25 }}
+                      >
+                        관심 종목 주가 추이
                       </a>
                     </li>
                   </ul>
@@ -554,6 +871,8 @@ function MyPage() {
 
             {info && viewInfo}
             {asset && viewAsset}
+            {havingInfo && viewHavingInfo}
+            {likeInfo && viewLikeInfo}
           </div>
         </div>
       </body>

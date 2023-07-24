@@ -51,25 +51,7 @@ const OverallRank = () => {
             <th scope="col">총 수익</th>
           </tr>
         </thead>
-        {/*  value : 수익률
-                        <span className={value >= 0 ? "positive" : "negative"}>
-                            {value >= 0 && "+"}{value}%
-                        </span> 
-                        변동률 음수는 파란색, 양수는 빨간색 표시*/}
-        <tbody>
-          {!!rankingTable && rankingBody()}
-          {/* <tr>
-            
-            <td>김나영</td>
-            <td>
-              <span className={+83.2 >= 0 ? "positive" : "negative"}>
-                {+83.2 >= 0 && "+"}
-                {+83.2}%
-              </span>
-            </td>
-            <td>9,000,000</td>
-          </tr> */}
-        </tbody>
+        <tbody>{!!rankingTable && rankingBody()}</tbody>
       </table>
     </div>
   );
