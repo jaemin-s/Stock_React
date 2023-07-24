@@ -31,7 +31,7 @@ const OverallRank = () => {
         <td>
           <span className={item.profit >= 0 ? "positive" : "negative"}>
             {item.profit >= 0 ? "+" : ""}
-            {item.profit}
+            {item.profit.toLocaleString()}
           </span>
         </td>
       </tr>

@@ -15,6 +15,7 @@ function MyPage() {
   const { value } = useParams();
   const title = value ? value.split("(", 2) : [];
   const [currentLivePrice, setCurrentLivePrice] = useState([]);
+
   //현재가, 등락률 관리
   const [livePrice, setLivePrice] = useState();
   const [fluctuationRate, setFluctuationRate] = useState();
@@ -63,8 +64,9 @@ function MyPage() {
 
         // 현재가
         if (values[values.length - 1][0] !== undefined) {
-          setCurrentLivePrice((prevArray) => [
-            ...prevArray,
+          console.log("777");
+          setCurrentLivePrice([
+            ...currentLivePrice,
             { stockId: element.stockId, price: values[values.length - 1][0] },
           ]);
         }
@@ -73,7 +75,6 @@ function MyPage() {
       }
     });
   };
-
   useEffect(() => {
     dailyPrice();
   }, []);
@@ -84,6 +85,7 @@ function MyPage() {
   // 주식 수익률 계산
   function returnPercent() {
     const returnPercentArray = [];
+    console.log("현재 가격:", currentLivePrice);
     for (let i = 0; i < currentLivePrice.length; i++) {
       const stockData = currentLivePrice[i];
       const { stockId, price } = stockData;

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "./InquiryBoard.scss";
+import Paging from "./Paging";
 const InquiryBoard = () => {
+  const [page, setPage] = useState(1);
   return (
     <>
       <body id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
@@ -94,6 +96,7 @@ const InquiryBoard = () => {
                 </tr>
               </tbody>
             </table>
+            <Paging page={page} count={100} setPage={setPage} />
             <br />
             <button className="button-58" style={{ float: "right" }}>
               글쓰기
