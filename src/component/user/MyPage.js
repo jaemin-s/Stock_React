@@ -238,14 +238,13 @@ function MyPage() {
         label: "금액",
         data: stockPrice,
         backgroundColor: [
-          "blue",
-          "red",
-          "skyblue",
-          "orange",
-          "lightgray",
-          "purple",
-          "yellow",
-          "pink",
+          "#007AFF", // 파랑
+          "#FF9500", // 오렌지
+          "#FFCC00", // 노랑
+          "#FF2D55", // 핑크
+          "#5856D6", // 보라
+          "skyBlue",
+          "#FF3B30", // 빨강
         ],
         // 순서대로 금액과 색깔 설정
       },
@@ -496,8 +495,8 @@ function MyPage() {
                   {trade.stockName}({trade.stockId})
                 </th>
                 <td>{trade.quantity}</td>
-                <td>{(trade.price / trade.quantity).toFixed(0)}</td>
-                <td>{trade.price.toLocaleString()}</td>
+                <td>{(trade.price / trade.quantity).toFixed(0)}원</td>
+                <td>{trade.price.toLocaleString()}원</td>
                 <td style={{ fontWeight: "600", color: textColor }}>
                   {returnPercentValue !== null ? `${returnPercentValue}%` : "-"}
                 </td>
