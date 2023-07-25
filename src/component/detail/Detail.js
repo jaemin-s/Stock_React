@@ -737,11 +737,6 @@ const Detail = () => {
                       </div>
                     </div>
                   }
-                  {/* {filled && (
-                            <div className="card-body">
-                            <div className='like-content'><a href="/detail/{종목명}">{종목명}</a> </div>
-                            </div>
-                        )} */}
                 </div>
                 <div id="second-box" className="popular-trade card shadow mb-4">
                   <div className="card-header">

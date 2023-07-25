@@ -673,6 +673,7 @@ function MyPage() {
                   <div className="sidebar-heading ">내 정보</div>
                   <div className="list-info">
                     <Update toggleModifyModal={toggleModifyModal} />
+
                     <a
                       className="nav-link"
                       href="#0"

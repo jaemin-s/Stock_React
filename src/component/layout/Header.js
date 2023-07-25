@@ -195,7 +195,7 @@ const Header = () => {
     </svg>
   );
 
-  const { isLoggedIn, onLogout, email, name, image } = useContext(AuthContext);
+  const { onLogout, email } = useContext(AuthContext);
 
   return (
     <>
