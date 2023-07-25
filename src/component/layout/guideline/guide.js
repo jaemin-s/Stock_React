@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import Header from './component/layout/Header';
-// import StockTemplate from './component/stock/StockTemplate';
-// import Footer from './component/layout/Footer';
 import "./guide.scss";
 import "../../bootstrap/css/sb-admin-2.min.css";
 import {
@@ -42,6 +39,7 @@ const Guide = ({}) => {
         <div id="wrapper">
           <ul
             class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+            style={{ padding: "30px 20px" }}
             id="accordionSidebar"
           >
             <div class="sidebar-brand d-flex align-items-center justify-content-center">
@@ -103,24 +101,42 @@ const Guide = ({}) => {
               <div class="sidebar-heading">튜토리얼</div>
               <a class="nav-link" href="#11" style={{ padding: "5px 16px" }}>
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>종목 검색</span>
+                <span>메인 화면</span>
               </a>
               <a class="nav-link" href="#12" style={{ padding: "5px 16px" }}>
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>매수 / 매도</span>
+                <span>종목 검색</span>
               </a>
               <a class="nav-link" href="#13" style={{ padding: "5px 16px" }}>
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>즐겨찾기</span>
+                <span>매수 / 매도</span>
               </a>
               <a class="nav-link" href="#14" style={{ padding: "5px 16px" }}>
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>관련 종목 추천</span>
+                <span>즐겨찾기</span>
               </a>
-              <hr class="sidebar-divider my-0"></hr>
               <a class="nav-link" href="#15" style={{ padding: "5px 16px" }}>
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>주의사항</span>
+                <span>mbti별 종목 추천</span>
+              </a>
+              <a class="nav-link" href="#16" style={{ padding: "5px 16px" }}>
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>랭킹</span>
+              </a>
+              <div class="sidebar-heading" style={{ fontSize: "15px" }}>
+                자산관리 및 주가 추이
+              </div>
+              <a class="nav-link" href="#17" style={{ padding: "5px 16px" }}>
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>자산 정보</span>
+              </a>
+              <a class="nav-link" href="#18" style={{ padding: "5px 16px" }}>
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>주가 추이</span>
+              </a>
+              <hr class="sidebar-divider my-0"></hr>
+              <a href="#19" style={{ textDecoration: "none" }}>
+                <div class="sidebar-heading">주의사항</div>
               </a>
             </li>
           </ul>
@@ -174,11 +190,10 @@ const Guide = ({}) => {
             <p>
               매수는 주식을 구매하는 것이고, 매도는 주식을 판매하는 것이다.(호가
               창에서의 빨간 버튼의 매수, 파란 버튼의 매도)
-              <br />
               <img
                 src={require("./image/매수매도.png")}
                 alt="@"
-                style={{ width: 350, height: 50 }}
+                style={{ width: 450, height: 50, marginTop: "50px" }}
                 className="center-image"
               ></img>
             </p>
@@ -194,16 +209,21 @@ const Guide = ({}) => {
                 src={require("./image/시가총액.png")}
                 alt="@"
                 className="center-image"
-                style={{ width: "800px" }}
+                style={{ width: "800px", marginTop: "50px" }}
               ></img>
             </p>
             <br />
 
             <h4 id="4">호가</h4>
             <p>
-              매수/매도 시 구매/판매 할 가격을 미리 걸어두는 것이다.(호가 창)
+              매수/매도 시 구매/판매 할 가격을 미리 걸어두는 것이다.
               <br />
-              {/* <img src={require('./image/kospi_kosdaq.png')} alt="@"></img> */}
+              <img
+                className="center-image"
+                src={require("./image/호가.png")}
+                style={{ width: "350px", marginTop: "50px" }}
+                alt="@"
+              ></img>
             </p>
             <br />
 
@@ -250,13 +270,19 @@ const Guide = ({}) => {
               때나 아니면 폭락했을 때에 시장이 심하게 충격을 받는것을 방지하는
               장치로 도입되었다.
               <br />
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "30px",
+                  fontWeight: "600",
+                }}
+              >{`<유가증권시장(KOSPI)>`}</div>
               <img
                 className="center-image"
                 src={require("./image/가격제한폭.jpg")}
                 alt="@"
-                style={{ width: 500, height: 600 }}
+                style={{ width: 500, height: 600, marginTop: "10px" }}
               ></img>
-              <span style={{ textAlign: "center" }}>유가증권시장(KOSPI)</span>
             </p>
             <br />
             <h4 id="8">예수금</h4>
@@ -320,33 +346,110 @@ const Guide = ({}) => {
                   튜토리얼
                 </h1>
               </div>
-              <p id="11">매수나 매도를 원하는 종목 검색한다.</p>
+              <p id="11">
+                메인 화면은 종목을 검색하여 매매가 가능한 검색창, 상승주와
+                하락주, KOSPI와 KOSDAQ 지수, 당일 인기 거래량 순위, 오늘의
+                증시뉴스, 모의 투자 랭킹, 관련 영상, 관심종목으로 이루어져 있다.
+              </p>
+              <img
+                src={require("./image/메인1.png")}
+                alt="@"
+                style={{ marginTop: "50px", width: "900px" }}
+                className="center-image"
+              ></img>
+              <img
+                src={require("./image/메인2.png")}
+                alt="@"
+                style={{ marginBottom: "100px", width: "850px" }}
+                className="center-image"
+              ></img>
+              <p id="12">매수나 매도를 원하는 종목 검색한다.</p>
               <img
                 src={require("./image/검색창.png")}
                 alt="@"
                 style={{ marginBottom: "50px", width: "450px" }}
                 className="center-image"
               ></img>
-              <p id="12">
+              <p id="13">
                 호가, 뉴스, 종목정보를 기반으로 차트를 참조하여 호가 파트에서
                 매수 혹은 매도를 진행한다.(매수/매도 사진)
               </p>
-              <p id="13">
-                종목 상세창에서 즐겨찾기에 추가할 수 있으며 목록은 메인 화면의
-                우측 하단이나, 종목 상세창 좌측에서 확인할 수 있다.
-              </p>
+              <img
+                src={require("./image/매수.png")}
+                alt="@"
+                style={{ margin: "50px 0", width: "450px" }}
+              ></img>
+              <img
+                src={require("./image/매도.png")}
+                alt="@"
+                style={{ margin: "50px 0", width: "450px" }}
+              ></img>
               <p id="14">
-                매수나 매도가 고민될 때, 관련주나 타 종목을 보고싶을 때 아래의
-                관련 종목 추천을 참고할 수 있다.
+                종목 상세창에서 즐겨찾기 버튼으로 관심종목에 추가할 수 있으며
+                목록은 메인 화면의 우측 하단이나, 종목 상세창 좌측에서 확인할 수
+                있다.
               </p>
               <img
-                src={require("./image/관련종목추천.png")}
+                src={require("./image/즐겨찾기1.png")}
                 alt="@"
-                style={{ marginBottom: "50px", width: "1000px" }}
+                style={{ marginBottom: "50px", width: "200px" }}
+                className="center-image"
+              ></img>
+              <p id="15">
+                매수나 매도가 고민될 때, 관련주나 타 종목을 보고싶을 때 종목
+                상세 페이지 아래의 mbti별 추천 종목을 참고할 수 있다.
+              </p>
+              <img
+                src={require("./image/mbti.png")}
+                alt="@"
+                style={{ marginBottom: "50px", width: "900px" }}
+                className="center-image"
+              ></img>
+              <p id="16">
+                수익에 따른 랭킹이 부여된다. 랭킹은 메인 화면의 좌측 하단에서
+                확인할 수 있다.
+              </p>
+              <img
+                src={require("./image/랭킹.png")}
+                alt="@"
+                style={{ marginBottom: "50px", width: "350px" }}
+                className="center-image"
+              ></img>
+              <p id="17">
+                마이페이지의 '자산관리' 파트에서 나의 자산 정보, 보유 종목 정보,
+                거래내역을 확인할 수 있다.
+                <br />
+                자산 정보에서는 주식 평가금액을 포함해 보유 주식의 수익률과 함께
+                도넛 그래프를 통해 자산의 현황을 확인할 수 있다.
+              </p>
+              <img
+                src={require("./image/자산관리_자산정보.png")}
+                alt="@"
+                style={{ margin: "50px auto 200px auto", width: "900px" }}
+                className="center-image"
+              ></img>
+              <p>
+                보유 종목 정보와 거래 내역 테이블로 매매이력과 각 주식들의
+                수익률을 확인할 수 있다.
+              </p>
+              <img
+                src={require("./image/자산관리_보유종목정보거래내역.png")}
+                alt="@"
+                style={{ margin: "50px auto 200px auto", width: "900px" }}
+                className="center-image"
+              ></img>
+              <p id="18">
+                보유 종목과 관심 종목의 1년간의 주가 추이를 마이페이지에서
+                조회할 수 있다.
+              </p>
+              <img
+                src={require("./image/주가추이.png")}
+                alt="@"
+                style={{ margin: "50px auto 200px auto", width: "900px" }}
                 className="center-image"
               ></img>
               <div style={{ backgroundColor: "lightgray" }}>
-                <p id="15">
+                <p id="19">
                   <FontAwesomeIcon
                     icon={faCircleExclamation}
                     style={{ color: "red" }}
