@@ -5,6 +5,8 @@ const BoardRegist = () => {
     name: "",
     email: "",
   });
+  const [inputTitle, setInputTitle] = useState("");
+  const [inputContent, setInputContent] = useState("");
   const REQUEST_URL = "http://localhost:8181/api/";
   async function getInfo() {
     const res = await fetch(
@@ -21,39 +23,30 @@ const BoardRegist = () => {
   useEffect(() => {
     getInfo();
   }, []);
-
-  async function submitHandler(e) {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-
-    const title = formData.get("title");
-    const content = formData.get("content");
-    const writer = userInfo.name;
-    const email = userInfo.email;
-    const type = formData.get("type");
-
-    const res = await fetch(REQUEST_URL, +"/board", {
+  function contentHandler(e) {
+    setInputContent(e.target.value);
+  }
+  function titleHandler(e) {
+    setInputTitle(e.target.value);
+  }
+  async function fetchResister() {
+    const res = await fetch("http://localhost:8181/api/board", {
       method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ title, content, writer, email, type }),
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        writer: userInfo.name,
+        title: inputTitle,
+        content: inputContent,
+        email: userInfo.email,
+        type: "inquiry",
+      }),
     });
-    // const submitInfo = await res.json();
-    // console.log("submitInfo: ", submitInfo);
-    // setSubmit({
-    //   email: submitInfo.email,
-    //   name: submitInfo.name,
-    //   title: submitInfo.title,
-    //   content: submitInfo.content,
-    // });
-    const responseJson = await res.json();
-    console.log("responseJson: ", responseJson);
+    const data = await res.text();
+    console.log(data);
   }
 
-  const [selectedItem, setSelectedItem] = useState("선택");
-  function handleDropdownSelect(eventKey) {
-    setSelectedItem(eventKey);
-  }
   return (
     <>
       <body id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
@@ -122,6 +115,8 @@ const BoardRegist = () => {
                         className="form-control input-sm"
                         name="title"
                         id="title"
+                        value={inputTitle}
+                        onChange={(e) => titleHandler(e)}
                       />
                     </td>
                   </tr>
@@ -134,7 +129,9 @@ const BoardRegist = () => {
                         name="content"
                         id="content"
                         type="text"
-                        maxlength="300"
+                        maxLength="300"
+                        value={inputContent}
+                        onChange={(e) => contentHandler(e)}
                       ></textarea>
                     </td>
                   </tr>
@@ -145,6 +142,7 @@ const BoardRegist = () => {
                 className="button-58"
                 id="regist-btn"
                 style={{ float: "right" }}
+                onClick={fetchResister}
               >
                 등록
               </button>

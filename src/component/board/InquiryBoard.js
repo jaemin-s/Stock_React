@@ -8,7 +8,7 @@ const InquiryBoard = () => {
       <body id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
         <div id="wrapper">
           <ul
-            class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+            className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
             id="accordionSidebar"
             style={{ position: "sticky" }}
           >

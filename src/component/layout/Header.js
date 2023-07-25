@@ -200,7 +200,7 @@ const Header = () => {
   return (
     <>
       <nav
-        class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
+        className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
         style={{ width: "100%", justifyContent: "space-between" }}
       >
         {/* LOGO */}
