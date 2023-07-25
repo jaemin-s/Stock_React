@@ -41,7 +41,6 @@ const Delete = () => {
 
   return (
     <div>
-      <h2>회원 탈퇴</h2>
       <button onClick={handleDeleteUser}>회원 탈퇴</button>
       <p>{responseMessage}</p>
     </div>

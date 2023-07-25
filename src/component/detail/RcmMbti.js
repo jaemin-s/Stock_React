@@ -109,13 +109,19 @@ const RcmMbti = ({ value }) => {
             redirect(`/detail/${item.name}(${item.code})`);
           };
         
+          const mypageHandler = (e) => {
+            redirect("/mypage");
+          }
+
           if (seq === 0) {
             return (
               <div style={{width: 400}}>
                 추천 종목을 보고 싶으시면 MBTI를 추가해주세요!
+                <button onClick={mypageHandler} style={{width:200, height:40, marginLeft:80}}>수정하러 내정보 가기</button>
               </div>
             );
           }
+
 
           return (
             <>
