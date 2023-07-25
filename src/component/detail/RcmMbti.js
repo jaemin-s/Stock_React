@@ -3,6 +3,7 @@ import { KI_ID, RequsetHeader } from "../../config/apikey";
 
 import React, { useContext, useEffect, useState } from 'react'
 import AuthContext from "../util/AuthContext";
+import { width } from "@mui/system";
 
 const RcmMbti = ({ value }) => {
     // const { value } = useParams();
@@ -20,18 +21,30 @@ const RcmMbti = ({ value }) => {
         function getMbti(mbti) {
             console.log("mbti swithc안에 =", mbti);
             switch (mbti) {
-              case "ISTJ", "ISFJ", "ESTJ", "ESFJ":
+              case "ISTJ":
+              case "ISFJ":
+              case "ESTJ":
+              case "ESFJ":
                 return 2;
-              case "ISFP", "ESFP", "ISTP", "ESTP":
+              case "ISFP":
+              case "ESFP":
+              case "ISTP":
+              case "ESTP":
                 return 3;
-              case "INFJ", "ENFJ", "INFP", "ENFP":
+              case "INFJ":
+              case "ENFJ":
+              case "INFP":
+              case "ENFP":
                 return 4;
-              case "INTJ", "ENTJ", "INTP", "ENTP":
+              case "INTJ":
+              case "ENTJ":
+              case "INTP":
+              case "ENTP":
                 return 5;
-
-                default:
-                    return 0;
-                
+              case "선택안함":
+                return 0;
+              default:
+                return 0;
             }
           }
 
@@ -44,7 +57,7 @@ const RcmMbti = ({ value }) => {
               mbti: mbtiData.mbti
             });
           };
-        
+          console.log("seq인데 = ", seq);
           const rcmMbtiApi = async (seq) => {
             const userId = KI_ID;
             const res = await fetch("/quotations/psearch-result?user_id=" + userId + "&seq=" + seq, {
@@ -54,7 +67,8 @@ const RcmMbti = ({ value }) => {
                 custtype: "P",
               },
             });
-        
+            console.log("res인데 =" , res);
+            
             if (res.status === 200) {
               const data = await res.json();
               data.output2.forEach((x) => {
@@ -95,6 +109,14 @@ const RcmMbti = ({ value }) => {
             redirect(`/detail/${item.name}(${item.code})`);
           };
         
+          if (seq === 0) {
+            return (
+              <div style={{width: 400}}>
+                추천 종목을 보고 싶으시면 MBTI를 추가해주세요!
+              </div>
+            );
+          }
+
           return (
             <>
               {randomItems.length > 0 && randomItems.map((item, index) => (
