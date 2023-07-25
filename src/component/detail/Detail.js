@@ -411,11 +411,7 @@ const Detail = () => {
 
   const totalOrder = order * currentPrice;
 
-  // const currentAsset = 5000000;
-
   const afterAsset = currentAsset - totalOrder; //매매 후 자산
-
-  // const currentHavingStock = 3;
 
   const totalPrice = currentHavingStock * currentPrice;
 
@@ -808,7 +804,7 @@ const Detail = () => {
                     </h6>
                   </div>
                   <div className="card-body" id="sic-body">
-                  <RcmMbti value={value} />
+                    <RcmMbti value={value} />
                   </div>
                 </div>
               </div>
