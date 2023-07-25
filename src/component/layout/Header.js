@@ -288,19 +288,19 @@ const Header = () => {
             >
               <li className="dropdown-item">
                 <a className="nav-link" href="/notice">
-                  Notice
+                  공지사항
                 </a>
               </li>
               <hr className="border-line" />
               <li className="dropdown-item">
                 <a className="nav-link" href="/inquiryBoard">
-                  InquiryBoard
+                  문의 게시판
                 </a>
               </li>
               <hr className="border-line" />
               <li className="dropdown-item">
                 <a className="nav-link" href="/guide">
-                  Guide
+                  가이드
                 </a>
               </li>
               <hr className="border-line" />
@@ -308,7 +308,7 @@ const Header = () => {
                 <>
                   <li className="dropdown-item">
                     <a className="nav-link" href="/mypage">
-                      MyPage
+                      마이 페이지
                     </a>
                   </li>
                   <hr className="border-line" />
@@ -320,7 +320,7 @@ const Header = () => {
                       data-target="#logoutModal"
                       onClick={logoutHandler}
                     >
-                      Logout
+                      로그아웃
                     </a>
                   </li>
                 </>
@@ -328,13 +328,13 @@ const Header = () => {
                 <>
                   <li className="dropdown-item">
                     <a className="nav-link" href="/join">
-                      Join
+                      회원가입
                     </a>
                   </li>
                   <hr className="border-line" />
                   <li className="dropdown-item">
                     <a className="nav-link" href="/login">
-                      Login
+                      로그인
                     </a>
                   </li>
                 </>
