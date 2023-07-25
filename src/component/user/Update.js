@@ -1,9 +1,11 @@
+import e from "express";
 import React, { useState } from "react";
 import { Modal, ModalBody, ModalFooter } from "reactstrap";
 
 const Update = ({ toggleModifyModal }) => {
   const [password, setPassword] = useState("");
   const [nick, setNick] = useState("");
+  const [mbti, setMbti] = useState("");
   const [modifyModal, setModifyModal] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -61,6 +63,31 @@ const Update = ({ toggleModifyModal }) => {
             onChange={(e) => setNick(e.target.value)}
             placeholder="새로운 닉네임"
           />
+                      {/* <select
+                        onChange={(e) => setMbti(e.target.value)}
+                      >
+                        <option selected disabled hidden>
+                          MBTI
+                        </option>
+                        <option value="선택안함">선택안함</option>
+                        <option value="ISTJ">ISTJ</option>
+                        <option value="ISFJ">ISFJ</option>
+                        <option value="ESTJ">ESTJ</option>
+                        <option value="ESFJ">ESFJ</option>
+                        <option value="ISTP">ISTP</option>
+                        <option value="ISFP">ISFP</option>
+                        <option value="ESFP">ESFP</option>
+                        <option value="ESTP">ESTP</option>
+                        <option value="INFJ">INFJ</option>
+                        <option value="INFP">INFP</option>
+                        <option value="ENFP">ENFP</option>
+                        <option value="ENFJ">ENFJ</option>
+                        <option value="INTJ">INTJ</option>
+                        <option value="INTP">INTP</option>
+                        <option value="ENTP">ENTP</option>
+                        <option value="ENTJ">ENTJ</option>
+                      </select>
+                       */}
         </ModalBody>
         <ModalFooter>
           <button
