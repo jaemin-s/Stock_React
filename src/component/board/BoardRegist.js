@@ -1,156 +1,26 @@
 import React, { useEffect, useState } from "react";
 import "./BoardRegist.scss";
+import BoardSideBar from "./BoardSideBar";
+import RegistFrame from "./RegistFrame";
+import { useLocation } from "react-router-dom";
+
 const BoardRegist = () => {
-  const [userInfo, setUserInfo] = useState({
-    name: "",
-    email: "",
-  });
-  const [inputTitle, setInputTitle] = useState("");
-  const [inputContent, setInputContent] = useState("");
-  const REQUEST_URL = "http://localhost:8181/api/";
-  async function getInfo() {
-    const res = await fetch(
-      REQUEST_URL + "user/myInfo/" + localStorage.getItem("LOGIN_USEREMAIL")
-    );
-    const myInfo = await res.json();
-    // console.log("myInfo: ", myInfo);
-    setUserInfo({
-      name: myInfo.name,
-      email: myInfo.email,
-    });
-  }
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const boardType = searchParams.get("boardType");
 
-  useEffect(() => {
-    getInfo();
-  }, []);
-  function contentHandler(e) {
-    setInputContent(e.target.value);
-  }
-  function titleHandler(e) {
-    setInputTitle(e.target.value);
-  }
-  async function fetchResister() {
-    const res = await fetch("http://localhost:8181/api/board", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        writer: userInfo.name,
-        title: inputTitle,
-        content: inputContent,
-        email: userInfo.email,
-        type: "inquiry",
-      }),
-    });
-    const data = await res.text();
-    console.log(data);
-  }
-
+  console.log("boardType: ", boardType);
   return (
     <>
       <body id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
         <div id="wrapper">
-          <ul
-            className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
-            id="accordionSidebar"
-            style={{ position: "sticky" }}
-          >
-            <div className="sidebar-brand d-flex align-items-center justify-content-center">
-              <div className="sidebar-brand-icon rotate-n-15">
-                <i className="fas fa-laugh-wink"></i>
-              </div>
-              <div className="sidebar-brand-text mx-3">notice & board</div>
-            </div>
-            <hr className="sidebar-divider my-0"></hr>
-
-            {/* <!-- Nav Item - Dashboard --> */}
-            <li className="nav-item">
-              <>
-                {/* <div className="sidebar-heading ">공지사항</div> */}
-                <div className="list-info">
-                  <a
-                    className="nav-link"
-                    href="/notice"
-                    style={{ padding: "0px 16px" }}
-                  >
-                    <i className="fas fa-fw fa-tachometer-alt"></i>
-                    <span>공지사항</span>
-                  </a>
-                  <a
-                    className="nav-link"
-                    href="/inquiryboard"
-                    style={{ padding: "0px 16px" }}
-                  >
-                    <i className="fas fa-fw fa-tachometer-alt"></i>
-
-                    <span>문의 게시판</span>
-                  </a>
-                </div>
-              </>
-
-              <hr className="sidebar-divider my-0"></hr>
-            </li>
-          </ul>
-
+          <BoardSideBar />
           <div className="container-fluid">
             <div>
-              <h2 className="board-title">문의사항</h2>
-              <table className="table" id="inquiryBoard">
-                <tbody>
-                  <tr>
-                    <td className="writer">작성자</td>
-                    <td>
-                      <input
-                        className="form-control input-sm"
-                        value={userInfo.name}
-                        readOnly
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="title">제목</td>
-                    <td>
-                      <input
-                        className="form-control input-sm"
-                        name="title"
-                        id="title"
-                        value={inputTitle}
-                        onChange={(e) => titleHandler(e)}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="content">내용</td>
-                    <td>
-                      <textarea
-                        className="form-control"
-                        rows="10"
-                        name="content"
-                        id="content"
-                        type="text"
-                        maxLength="300"
-                        value={inputContent}
-                        onChange={(e) => contentHandler(e)}
-                      ></textarea>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <button
-                type="submit"
-                className="button-58"
-                id="regist-btn"
-                style={{ float: "right" }}
-                onClick={fetchResister}
-              >
-                등록
-              </button>
-              <a href="/inquiryBoard">
-                <button className="button-58-1" style={{ float: "right" }}>
-                  취소
-                </button>
-              </a>
+              <h2 className="board-title">
+                {boardType === "notice" ? "공지사항" : "문의사항"}
+              </h2>
+              <RegistFrame boardType={boardType} />
             </div>
           </div>
         </div>
