@@ -359,7 +359,10 @@ const Join = () => {
   // 회원가입 버튼 클릭 이벤트 핸들러
   const joinButtonClickHandler = (e) => {
     e.preventDefault();
-
+    if (!userValue.mbti) {
+      alert("MBTI를 선택해주세요.");
+      return;
+    }
     //회원 가입 서버 요청
     if (isValid()) {
       fetchSignUpPost();
