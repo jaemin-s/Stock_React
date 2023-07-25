@@ -55,6 +55,10 @@ const Detail = () => {
   // 관심종목 목록
   const [favoriteList, setFavoriteList] = useState([]);
 
+  useEffect(() => {
+    getMyInfo();
+  }, []);
+
   // 관심종목(별 모양 클릭시) 백 연결 로직
   const toggleStar = async () => {
     setFilled(!filled);
@@ -259,17 +263,23 @@ const Detail = () => {
     setMyStock(false);
   };
 
-  //const [selected, setSelected] = useState('호가');
-
   const toggleModal = (e) => {
-    setOrder(1);
-    // if (selectedValue !== null) {
+    console.log(livePrice);
+    console.log(currentAsset);
+    if (livePrice > currentAsset) {
+      setOrder(0);
+    } else {
+      setOrder(1);
+    }
     setIsModalOpen(!isModalOpen);
     getMyInfo();
-    // }
   };
 
   async function buyRequest() {
+    if (order <= 0) {
+      toastAlertHandler(-2);
+      return;
+    }
     const res = await fetch("http://localhost:8181/api/trade/buy", {
       method: "POST",
       headers: {
@@ -296,6 +306,10 @@ const Detail = () => {
   }
 
   async function sellRequest() {
+    if (order <= 0) {
+      toastAlertHandler(-11);
+      return;
+    }
     const res = await fetch("http://localhost:8181/api/trade/sell", {
       method: "POST",
       headers: {
@@ -367,7 +381,10 @@ const Detail = () => {
       content = "매도가 성공적으로 체결되었습니다.";
       icons = "success";
     } else if (num === -1) {
-      content = "매도수량이 보유주식보다 많거나 0개 입니다";
+      content = "매도 수량이 보유주식보다 많습니다.";
+      icons = "error";
+    } else if (num === -11) {
+      content = "매도 수량이 0개입니다.";
       icons = "error";
     } else if (num === -2) {
       content = "매수 수량이 0개입니다.";
@@ -389,10 +406,6 @@ const Detail = () => {
       title: content,
     });
   };
-
-  // useEffect(() => {
-  //   console.log("selectedValue!!!: " + selectedValue);
-  // }, [selectedValue]);
 
   const currentPrice = livePrice;
 
