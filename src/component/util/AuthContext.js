@@ -9,6 +9,7 @@ const AuthContext = React.createContext({
   gender: "",
   career: "",
   mbti: "",
+  userRole: "",
   onLogout: () => {},
   onLogin: (email, password) => {},
   setUserInfo: () => {},
@@ -16,7 +17,6 @@ const AuthContext = React.createContext({
 
 export const AuthContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userRole, setUserRole] = useState("");
   const [email, setEmail] = useState("");
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
@@ -25,6 +25,7 @@ export const AuthContextProvider = (props) => {
   const [gender, setGender] = useState("");
   const [career, setCareer] = useState("");
   const [mbti, setMbti] = useState("");
+  const [userRole, setUserRole] = useState("");
 
 
   useEffect(() => {
@@ -75,7 +76,7 @@ export const AuthContextProvider = (props) => {
   };
 
   //토큰 및 로그인 유저 데이터를 브라우저에 저장하는 함수
-  const setLoginUserInfo = ({ token, email, image }) => {
+  const setLoginUserInfo = ({ token, email, image, userRole }) => {
     localStorage.setItem("LOGIN_ACCESS_TOKEN", token);
     localStorage.setItem("LOGIN_USEREMAIL", email);
     localStorage.setItem("LOGIN_USERIMAGE", image);
@@ -87,7 +88,7 @@ export const AuthContextProvider = (props) => {
       setIsLoggedIn(true);
       setEmail(localStorage.getItem("LOGIN_USEREMAIL"));
       setName(localStorage.getItem("LOGIN_USERNAME"));
-      setEmail(localStorage.getItem("LOGIN_USERROLE"));
+      setUserRole(localStorage.getItem("LOGIN_USERROLE"));
       setNick(localStorage.getItem("NICK"));
       setAge(localStorage.getItem("AGE"));
       setGender(localStorage.getItem("GENDER"));
