@@ -359,7 +359,10 @@ const Join = () => {
   // 회원가입 버튼 클릭 이벤트 핸들러
   const joinButtonClickHandler = (e) => {
     e.preventDefault();
-
+    if (!userValue.mbti) {
+      alert("MBTI를 선택해주세요.");
+      return;
+    }
     //회원 가입 서버 요청
     if (isValid()) {
       fetchSignUpPost();
@@ -615,7 +618,7 @@ const Join = () => {
                         <option selected disabled hidden>
                           MBTI
                         </option>
-                        <option value="1">선택안함</option>
+                        <option value="선택안함">선택안함</option>
                         <option value="ISTJ">ISTJ</option>
                         <option value="ISFJ">ISFJ</option>
                         <option value="ESTJ">ESTJ</option>
@@ -633,7 +636,9 @@ const Join = () => {
                         <option value="ENTP">ENTP</option>
                         <option value="ENTJ">ENTJ</option>
                       </select>
-                      <p>*MBTI별 추천을 받고 싶으시면 선택해주세요.</p>
+                      <p>*MBTI별 추천을 받고 싶으시면 선택해주세요. <br />
+                        원하지 않으시면 선택안함으로 해주세요.
+                      </p>
                     </div>
 
                     <a
