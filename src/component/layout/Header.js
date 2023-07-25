@@ -196,44 +196,7 @@ const Header = () => {
   );
 
   const { isLoggedIn, onLogout, email, name, image } = useContext(AuthContext);
-  const profileRequestURL = `${API_BASE_URL}/load`;
 
-  //프로필 이미지 url 상태 변수
-  const [profileUrl, setProfileUrl] = useState(null);
-
-  const fetchProfileImage = async () => {
-    try {
-      const res = await fetch(profileRequestURL, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-        },
-      });
-
-      if (res.status === 200) {
-        //서버에서는 직렬화된 이미지가 응답된다.
-        const imgUrl = await res.text();
-        setProfileUrl(imgUrl.trim());
-
-        /*
-              const profileBlob = await res.blob();
-              //해당 이미지를 imgUrl로 변경
-              const imgUrl = window.URL.createObjectURL(profileBlob);
-              setProfileUrl(imgUrl);
-              */
-      } else {
-        setProfileUrl(null);
-      }
-    } catch (error) {
-      console.error("Error profile: ", error);
-      setProfileUrl(null);
-    }
-  };
-
-  useEffect(() => {
-    fetchProfileImage();
-  }, [isLoggedIn]);
-  //로그인되면 바로 이미지 출력될 수 있도록 한다.
   return (
     <>
       <nav
@@ -305,16 +268,6 @@ const Header = () => {
               aria-haspopup="true"
               aria-expanded={isToggle ? "true" : "false"}
             >
-              <img
-                src={profileUrl || require("../user/image/anonymous.png")}
-                alt="프로필사진"
-                style={{
-                  marginRight: 20,
-                  width: 50,
-                  height: 50,
-                  borderRadius: "50%",
-                }}
-              />
               <span style={{ fontWeight: 600, fontSize: 20 }}>
                 {isLogin() ? email : "WELCOME"}
                 &nbsp;
@@ -345,6 +298,12 @@ const Header = () => {
                 </a>
               </li>
               <hr className="border-line" />
+              <li className="dropdown-item">
+                <a className="nav-link" href="/guide">
+                  Guide
+                </a>
+              </li>
+              <hr className="border-line" />
               {isLogin() ? (
                 <>
                   <li className="dropdown-item">
@@ -364,7 +323,6 @@ const Header = () => {
                       Logout
                     </a>
                   </li>
-                  <hr className="border-line" />
                 </>
               ) : (
                 <>
@@ -379,14 +337,8 @@ const Header = () => {
                       Login
                     </a>
                   </li>
-                  <hr className="border-line" />
                 </>
               )}
-              <li className="dropdown-item">
-                <a className="nav-link" href="/guide">
-                  Guide
-                </a>
-              </li>
             </div>
           </li>
         </ul>

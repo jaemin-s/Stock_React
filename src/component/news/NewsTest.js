@@ -36,13 +36,15 @@ const NewsTest = () => {
           .replace(/&quot;/g, "")
           .replace(/\"n/, "")
           .replace(/&amp;/g, "")
-          .replace(/&apos;/g, "");
+          .replace(/&apos;/g, "")
+          .replace(/&lt;/g, "");
         const newArticle = x.description
           .replace(/(<([^>]+)>)/gi, "")
           .replace(/&quot;/g, "")
           .replace(/\"n/, "")
           .replace(/&amp;/g, "")
-          .replace(/&apos;/g, "");
+          .replace(/&apos;/g, "")
+          .replace(/&gt;/g, "");
 
         values.push({
           newTitle,

@@ -1,0 +1,68 @@
+.board-title {
+    text-align: center;
+    margin: 30px 0;
+}
+
+#inquiryBoard {
+    width: 80%;
+    margin: 0 auto;
+}
+
+#regist-btn {
+    margin-right: 120px;
+}
+.button-58 {
+    margin: 70px 30px;
+}
+.button-58-1 {
+    margin: 70px 30px;
+}
+/* CSS */
+.button-58-1 {
+    align-items: center;
+    background-color: red;
+    border: 2px solid red;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    fill: #000;
+    font-family: Inter,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    height: 48px;
+    justify-content: center;
+    letter-spacing: -.8px;
+    line-height: 20px;
+    max-width: 100px;
+    outline: 0;
+    text-align: center;
+    text-decoration: none;
+    transition: all .3s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  
+  .button-58-1:focus {
+    color: #171e29;
+    font-weight: 600;
+  }
+  
+  .button-58-1:hover {
+    background-color: #F76150;
+    border-color: #F76150;
+    fill: tomato;
+  }
+  
+  .button-58-1:active {
+    background-color: #F76150;
+    border-color: #F76150;
+    fill: tomato;
+  }
+  
+  @media (min-width: 768px) {
+    .button-58-1 {
+      min-width: 170px;
+    }
+  }

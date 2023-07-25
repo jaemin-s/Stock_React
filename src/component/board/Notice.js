@@ -70,7 +70,7 @@ const Notice = () => {
                       >
                         공지사항
                       </a>
-                      <a>{page}</a>
+                      {/* <a>{page}</a> */}
                     </li>
                   </ul>
                   <br />
@@ -81,6 +81,7 @@ const Notice = () => {
             <table className="table" style={{ marginTop: "60px" }}>
               <thead>
                 <tr>
+                  <th scope="col">번호</th>
                   <th scope="col">작성일</th>
                   <th scope="col">제목</th>
                   <th scope="col">작성자</th>
@@ -88,11 +89,13 @@ const Notice = () => {
               </thead>
               <tbody>
                 <tr>
+                  <td>2</td>
                   <td>2023-07-23</td>
                   <td>공지사항 1</td>
                   <td>작성자 1</td>
                 </tr>
                 <tr>
+                  <td>1</td>
                   <td>2023-07-24</td>
                   <td>공지사항 2</td>
                   <td>작성자 2</td>
@@ -100,6 +103,11 @@ const Notice = () => {
               </tbody>
             </table>
             <Paging page={page} count={100} setPage={setPage} />
+            <a href="/regist">
+              <button className="button-58" style={{ float: "right" }}>
+                글쓰기
+              </button>
+            </a>
           </div>
         </div>
       </body>

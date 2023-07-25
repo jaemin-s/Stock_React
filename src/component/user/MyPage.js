@@ -6,6 +6,8 @@ import AuthContext from "../util/AuthContext";
 import { RequsetHeader } from "../../config/apikey";
 import { useParams } from "react-router-dom";
 
+import Update from "./Update";
+import Delete from "./Delete";
 // Doughnut 차트 import(npm install chart.js react-chartjs-2)
 
 // Doughnut 차트 등록
@@ -30,62 +32,65 @@ function MyPage() {
     setSelectedStock(trade);
     transition(trade.stockId);
   };
+  const [uniqueHistoryInfo, setUniqueHistoryInfo] = useState([]);
 
+  const [returnPercent2, setReturnPercent2] = useState([]);
   const handleLikeStockClick = (like) => {
     setSelectedLikeStock(like);
     transition(like.stockCode);
   };
   const dailyPrice = async (e) => {
     // ㅇㅇㅇ(000000) 값 자르기
+    try {
+      //const params = title[1].slice(0, -1); //종목 코드
+      const updatedCurrentLivePrice = [];
+      for (const element of userInfo.myStocks) {
+        const res = await fetch(
+          "/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+            element.stockId +
+            "&FID_PERIOD_DIV_CODE=D&FID_ORG_ADJ_PRC=1",
+          {
+            headers: {
+              ...RequsetHeader,
+              tr_id: "FHKST01010400",
+            },
+          }
+        );
 
-    //const params = title[1].slice(0, -1); //종목 코드
-    userInfo.myStocks.forEach(async (element) => {
-      const res = await fetch(
-        "/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
-          element.stockId +
-          "&FID_PERIOD_DIV_CODE=D&FID_ORG_ADJ_PRC=1",
-        {
-          headers: {
-            ...RequsetHeader,
-            tr_id: "FHKST01010400",
-          },
+        if (res.status === 200) {
+          const data = await res.json();
+          const { stck_clpr: close } = data.output[0];
+          updatedCurrentLivePrice.push({
+            stockId: element.stockId,
+            price: parseInt(close),
+          });
+        } else {
+          updatedCurrentLivePrice.push({
+            stockId: element.stockId,
+            price: 0,
+          });
         }
-      );
-      if (res.status === 200) {
-        const data = await res.json();
-        // console.log(data);
-        //필요한 값만 추출
-        let values = [];
-        let dates = [];
-        data.output.forEach((x) => {
-          const { stck_clpr: close } = x;
-          values.unshift([parseInt(close)]);
-        });
-
-        // 현재가
-        if (values[values.length - 1][0] !== undefined) {
-          console.log("777");
-          setCurrentLivePrice([
-            ...currentLivePrice,
-            { stockId: element.stockId, price: values[values.length - 1][0] },
-          ]);
-        }
-      } else {
-        // console.log("res인데 말이야 = ",res);
       }
-    });
+      setCurrentLivePrice(updatedCurrentLivePrice);
+    } catch (error) {
+      console.error(error);
+    }
   };
   useEffect(() => {
-    dailyPrice();
-  }, []);
-  // console.log("currentLivePrice:  ", currentLivePrice);
-  // console.log("현재주가");
+    const fetchData = async () => {
+      await dailyPrice();
+      const averageReturnPercent = returnPercent();
+      // console.log("Average Return Percent: ", averageReturnPercent);
+    };
+
+    fetchData();
+  }, [currentLivePrice]);
+  // console.log("현재주가 currentLivePrice:  ", currentLivePrice);
   // console.log(currentLivePrice[0].stockId, currentLivePrice[0].price);
 
   // 주식 수익률 계산
+  const returnPercentArray = [];
   function returnPercent() {
-    const returnPercentArray = [];
-    console.log("현재 가격:", currentLivePrice);
     for (let i = 0; i < currentLivePrice.length; i++) {
       const stockData = currentLivePrice[i];
       const { stockId, price } = stockData;
@@ -109,6 +114,7 @@ function MyPage() {
     const averageReturnPercent = (
       totalReturnPercent / returnPercentArray.length
     ).toFixed(2);
+    // console.log(returnPercentArray);
     return averageReturnPercent;
   }
 
@@ -146,6 +152,10 @@ function MyPage() {
   const { userName, userNick, email, gender, age, career, mbti } =
     useContext(AuthContext);
 
+     // 수정 showModal 
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+
+
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpanded = () => {
@@ -169,6 +179,7 @@ function MyPage() {
     mbti: "",
     myStocks: [],
     money: 0,
+    return: "",
   });
   const [favoriteInfo, setFavoriteInfo] = useState({
     stockCode: [],
@@ -227,12 +238,13 @@ function MyPage() {
         label: "금액",
         data: stockPrice,
         backgroundColor: [
-          "blue",
-          "red",
-          "skyblue",
-          "orange",
-          "purple",
-          "green",
+          "#007AFF", // 파랑
+          "#FF9500", // 오렌지
+          "#FFCC00", // 노랑
+          "#FF2D55", // 핑크
+          "#5856D6", // 보라
+          "skyBlue",
+          "#FF3B30", // 빨강
         ],
         // 순서대로 금액과 색깔 설정
       },
@@ -279,7 +291,6 @@ function MyPage() {
       const favorite = await res.json();
       setFavoriteInfo(favorite);
       // console.log("favorite: ", favorite);
-      // 아주 잘나옴
     }
   }
 
@@ -288,6 +299,16 @@ function MyPage() {
     getHistory();
     getFavoriteInfo();
   }, []);
+
+  useEffect(() => {
+    const uniqueStocks = Array.isArray(historyInfo)
+      ? [...new Set(historyInfo.map((trade) => trade.stockId))]
+      : [];
+    const uniqueHistory = uniqueStocks.map((stockId) =>
+      historyInfo.find((trade) => trade.stockId === stockId)
+    );
+    setUniqueHistoryInfo(uniqueHistory);
+  }, [historyInfo]);
 
   function getAge(age) {
     switch (age) {
@@ -327,13 +348,6 @@ function MyPage() {
   }
   // console.log("returnPercent(): ", returnPercent());
 
-  //중복된 종목 구매 시 하나만 나오게 하도록
-  const uniqueHistoryInfo = Array.isArray(historyInfo)
-    ? [...new Set(historyInfo.map((trade) => trade.stockId))].map((stockId) =>
-        historyInfo.find((trade) => trade.stockId === stockId)
-      )
-    : [];
-
   const viewInfo = (
     <>
       {/* <!-- Page Heading --> */}
@@ -352,7 +366,11 @@ function MyPage() {
       <div className="userInfo">
         <div className="info">
           <h5 className="name">
-            이름<span className="border">|</span> {userInfo.name}
+            이름
+            <span className="border" style={{ textAlign: "center" }}>
+              |
+            </span>{" "}
+            {userInfo.name}
           </h5>
           <h5 className="nick">
             닉네임<span className="border">|</span> {userInfo.nick}
@@ -370,12 +388,12 @@ function MyPage() {
             경력<span className="border">|</span> {getAge(userInfo.career)}
           </h5>
           <h5 className="mbti">
-            MBTI<span className="border">|</span> {userInfo.mbti}
+          MBTI<span className="border">|</span> {userInfo.mbti}
           </h5>
         </div>
 
         {/* 프로필사진 */}
-        <div className="profile">
+        {/* <div className="profile">
           <img
             src={
               // profileUrl ||
@@ -384,7 +402,7 @@ function MyPage() {
             alt="@"
             className="center-image"
           ></img>
-        </div>
+        </div> */}
       </div>
     </>
   );
@@ -401,14 +419,15 @@ function MyPage() {
       <div className="assets">
         <div className="assetsDetail">
           <h5 className="asset">
-            자산평가<span className="border">|</span> {userInfo.money} 원
+            자산평가<span className="border">|</span>{" "}
+            {userInfo.money.toLocaleString()} 원
           </h5>
           <h5 className="having-stock">
             보유 주식<span className="border">|</span>
             {/* {Array.isArray(historyInfo)
               ? historyInfo.slice(0, 3).map((trade, index) => ( */}
             {uniqueHistoryInfo
-              ? historyInfo.slice(0, 3).map((trade, index) => (
+              ? uniqueHistoryInfo.slice(0, 3).map((trade, index) => (
                   <span key={index}>
                     {trade.stockName}
                     {index === 2
@@ -437,6 +456,55 @@ function MyPage() {
           <Doughnut data={data} options={options}></Doughnut>
         </div>
       </div>
+      <h4 id="2" className="assetInfo">
+        보유 종목 정보
+      </h4>
+      <br />
+
+      <table className="collapsed" id="table" style={{ marginBottom: "150px" }}>
+        <thead>
+          <tr className="high">
+            <th scope="col">종목명(종목 코드)</th>
+            <th scope="col">수량</th>
+            <th scope="col">주당 평균 가격</th>
+            <th scope="col">금액</th>
+            <th scope="col">수익률</th>
+          </tr>
+        </thead>
+        <tbody>
+          {userInfo.myStocks.map((trade, index) => {
+            const returnPercentInfo = returnPercentArray.find(
+              (item) => item.stockId === trade.stockId
+            );
+            const returnPercentValue = returnPercentInfo
+              ? parseFloat(returnPercentInfo.returnPercent)
+              : null; // Parse the value to a floating-point number
+            let textColor = "black";
+
+            if (returnPercentValue !== null) {
+              if (returnPercentValue > 0) {
+                textColor = "red";
+              } else if (returnPercentValue < 0) {
+                textColor = "blue";
+              }
+            }
+
+            return (
+              <tr key={index}>
+                <th>
+                  {trade.stockName}({trade.stockId})
+                </th>
+                <td>{trade.quantity}</td>
+                <td>{(trade.price / trade.quantity).toFixed(0)}원</td>
+                <td>{trade.price.toLocaleString()}원</td>
+                <td style={{ fontWeight: "600", color: textColor }}>
+                  {returnPercentValue !== null ? `${returnPercentValue}%` : "-"}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
 
       {/* 거래내역 테이블 */}
       <div style={{ marginBottom: "40px" }}>
@@ -482,7 +550,7 @@ function MyPage() {
     <>
       {/* 보유 종목 */}
       <ul>
-        <h4>조회하고 싶은 주식을 목록에서 선택해 주세요.</h4>
+        <h4>조회하고 싶은 주식을 왼쪽 사이드바에서 선택해 주세요.</h4>
         {selectedStock && (
           <div>
             <h4>
@@ -517,7 +585,7 @@ function MyPage() {
                 {item.values.map((value, innerIndex) => (
                   <td key={innerIndex}>
                     {innerIndex === 4 ? (
-                      <span>{value}</span>
+                      <div>{value}</div>
                     ) : (
                       value.toLocaleString()
                     )}
@@ -534,7 +602,7 @@ function MyPage() {
     <>
       {/* 관심 종목 */}
       <ul>
-        <h4>조회하고 싶은 주식을 목록에서 선택해 주세요.</h4>
+        <h4>조회하고 싶은 주식을 왼쪽 사이드바에서 선택해 주세요.</h4>
         {selectedLikeStock && (
           <div>
             <h4>
@@ -607,7 +675,7 @@ function MyPage() {
       //필요한 값만 추출
       let values = [];
       let dates = [];
-      console.log(data);
+      // console.log(data);
 
       data.output2.forEach((x) => {
         const {
@@ -628,6 +696,12 @@ function MyPage() {
     }
   };
   // console.log("transition: ", transition());
+  const toggleModifyModal = () => {
+    setShowUpdateModal((prev) => !prev);
+  };
+
+  useEffect(() => { 
+  }, [showUpdateModal]);
 
   return (
     <>
@@ -661,15 +735,8 @@ function MyPage() {
                       <i class="fas fa-fw fa-tachometer-alt"></i>
                       <span>정보</span>
                     </a>
-                    <a
-                      class="nav-link"
-                      href="#0"
-                      className="nav-link"
-                      style={{ padding: "0px 16px" }}
-                    >
-                      <i class="fas fa-fw fa-tachometer-alt"></i>
-                      <span>수정</span>
-                    </a>
+                    <Update toggleModifyModal={toggleModifyModal} />
+                  
                     <a
                       class="nav-link"
                       href="#0"
@@ -678,6 +745,7 @@ function MyPage() {
                     >
                       <i class="fas fa-fw fa-tachometer-alt"></i>
                       <span>탈퇴</span>
+                      <Delete />
                     </a>
                   </div>
                 </>
@@ -875,6 +943,7 @@ function MyPage() {
             {asset && viewAsset}
             {havingInfo && viewHavingInfo}
             {likeInfo && viewLikeInfo}
+            
           </div>
         </div>
       </body>
