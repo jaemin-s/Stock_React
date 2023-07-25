@@ -200,7 +200,7 @@ const Header = () => {
   return (
     <>
       <nav
-        class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
+        className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
         style={{ width: "100%", justifyContent: "space-between" }}
       >
         {/* LOGO */}
@@ -279,7 +279,7 @@ const Header = () => {
 
             {/* <!-- Dropdown - User Information --> */}
             <div
-              class={
+              className={
                 isToggle
                   ? "dropdown-menu dropdown-menu-right shadow animated--grow-in show"
                   : "dropdown-menu dropdown-menu-right shadow animated--grow-in"

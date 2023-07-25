@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Echarts from "echarts-for-react";
 import { KI_APP_KEY, KI_SECRET_KEY } from "../../config/apikey";
 import "./AskingPrice.scss";
-import Header from "../layout/Header";
 import { useParams } from "react-router-dom";
 
 const AskingPrice = ({ selectedValueHandler }) => {
@@ -55,18 +53,13 @@ const AskingPrice = ({ selectedValueHandler }) => {
     setSearchValue(value);
   }, [value]);
 
-  // useEffect(() => {
-  //   console.log("selectedValue : " + selectedValue);
-  //   selectedValueHandler(selectedValue);
-  // }, [selectedValue]);
-
   useEffect(() => {
     // getHoga();
     const timer = setInterval(() => {
       getHoga();
       // console.log('1초지남');
       setTime(new Date());
-    }, 500); // 1초마다 렌더링
+    }, 500); // 0.5초마다 렌더링
     return () => {
       clearInterval(timer);
     };
@@ -83,19 +76,6 @@ const AskingPrice = ({ selectedValueHandler }) => {
     );
   }
 
-  // const handleClick = (rowIndex) => {
-  //   setSelectedRow(rowIndex);
-  //   if (rowIndex < 5) {
-  //     // askp5부터 askp1까지
-  //     setSelectedValue(data.output1[`askp${5 - rowIndex}`]);
-  //   } else {
-  //     // bidp1부터 bidp5까지
-  //     setSelectedValue(data.output1[`bidp${rowIndex - 4}`]);
-  //   }
-  //   // console.log("setSelectedValue : " + setSelectedValue);
-  //   // console.log("setSelectedRow : " + setSelectedValue);
-  //   // console.log("selectedValue : " + selectedValue);
-  // };
   return (
     <>
       <div className="table-container" style={{ verticalAlign: "middle" }}>
