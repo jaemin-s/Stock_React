@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 
 import Update from "./Update";
 import Delete from "./Delete";
+import MyPageViewInfo from "./MyPageViewInfo";
 // Doughnut 차트 import(npm install chart.js react-chartjs-2)
 
 // Doughnut 차트 등록
@@ -324,15 +325,6 @@ function MyPage() {
     }
   }
 
-  function getGender(gender) {
-    switch (gender) {
-      case "man":
-        return "남성";
-      case "woman":
-        return "여성";
-    }
-  }
-
   function getTradeType(tradeType) {
     switch (tradeType) {
       case "buy":
@@ -356,60 +348,9 @@ function MyPage() {
   }
   // console.log("returnPercent(): ", returnPercent());
 
-  //수익률 색깔 출력
-  const returnColor = () => {
-    const percent = returnPercent();
-    if (percent > 0) {
-      return "red";
-    } else if (percent === 0) {
-      return "black";
-    } else return "blue";
-  };
-
   const viewInfo = (
     <>
-      {/* <!-- Page Heading --> */}
-      <div className="basic-info">
-        <br />
-        <br />
-        <br />
-        <br />
-        <div id="1">
-          '{userInfo.name}' 님의 현재 등수 : {rank} 등
-        </div>
-      </div>
-      <br />
-      <br />
-      {/* 회원정보 */}
-      <div className="userInfo">
-        <div className="info">
-          <h5 className="name">
-            이름
-            <span className="border" style={{ textAlign: "center" }}>
-              |
-            </span>{" "}
-            {userInfo.name}
-          </h5>
-          <h5 className="nick">
-            닉네임<span className="border">|</span> {userInfo.nick}
-          </h5>
-          <h5 className="email">
-            이메일<span className="border">|</span> {userInfo.email}
-          </h5>
-          <h5 className="gender">
-            성별<span className="border">|</span> {getGender(userInfo.gender)}
-          </h5>
-          <h5 className="age">
-            나이<span className="border">|</span> {userInfo.age}세
-          </h5>
-          <h5 className="career">
-            경력<span className="border">|</span> {getAge(userInfo.career)}
-          </h5>
-          <h5 className="mbti">
-            MBTI<span className="border">|</span> {userInfo.mbti}
-          </h5>
-        </div>
-      </div>
+      <MyPageViewInfo />
     </>
   );
 
@@ -447,10 +388,7 @@ function MyPage() {
               : null}
           </h5>
           <h5 className="return">
-            수익률<span className="border">|</span>{" "}
-            <span style={{ color: returnColor(), fontWeight: "600" }}>
-              {returnPercent()}%
-            </span>
+            수익률<span className="border">|</span> {returnPercent()}%
           </h5>
           {/* 수익률 : (현재주가 / 매수시 주가) * 100 - 100 */}
           <h5 className="evaluation">
@@ -716,42 +654,31 @@ function MyPage() {
       <body id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
         <div id="wrapper">
           <ul
-            class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+            className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
             id="accordionSidebar"
             style={{ position: "sticky" }}
           >
-            <div class="sidebar-brand d-flex align-items-center justify-content-center">
-              <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
+            <div className="sidebar-brand d-flex align-items-center justify-content-center">
+              <div className="sidebar-brand-icon rotate-n-15">
+                <i className="fas fa-laugh-wink"></i>
               </div>
-              <div class="sidebar-brand-text mx-3">MyPage</div>
+              <div className="sidebar-brand-text mx-3">MyPage</div>
             </div>
-            <hr class="sidebar-divider my-0"></hr>
+            <hr className="sidebar-divider my-0"></hr>
 
             {/* <!-- Nav Item - Dashboard --> */}
             <li className="nav-item">
               {info ? (
                 <>
-                  <div class="sidebar-heading ">내 정보</div>
+                  <div className="sidebar-heading ">내 정보</div>
                   <div className="list-info">
-                    <a
-                      class="nav-link"
-                      href="#1"
-                      className="nav-link"
-                      style={{ padding: "0px 16px" }}
-                    >
-                      <i class="fas fa-fw fa-tachometer-alt"></i>
-                      <span>정보</span>
-                    </a>
                     <Update toggleModifyModal={toggleModifyModal} />
-
                     <a
-                      class="nav-link"
-                      href="#0"
                       className="nav-link"
+                      href="#0"
                       style={{ padding: "0px 16px" }}
                     >
-                      <i class="fas fa-fw fa-tachometer-alt"></i>
+                      <i className="fas fa-fw fa-tachometer-alt"></i>
                       <span>탈퇴</span>
                       <Delete />
                     </a>
@@ -759,50 +686,46 @@ function MyPage() {
                 </>
               ) : null}
 
-              <hr class="sidebar-divider my-0"></hr>
+              <hr className="sidebar-divider my-0"></hr>
 
               {asset ? (
                 <>
-                  <div class="sidebar-heading">자산 관리</div>
+                  <div className="sidebar-heading">자산 관리</div>
                   <div className="list-assets">
                     <a
-                      class="nav-link"
-                      href="#2"
                       className="nav-link"
+                      href="#2"
                       style={{ padding: "0px 16px" }}
                     >
-                      <i class="fas fa-fw fa-tachometer-alt"></i>
+                      <i className="fas fa-fw fa-tachometer-alt"></i>
                       <span>내 자산 정보</span>
                     </a>
                     <a
-                      class="nav-link"
-                      href="#0"
                       className="nav-link"
+                      href="#0"
                       style={{ padding: "0px 16px" }}
                     >
-                      <i class="fas fa-fw fa-tachometer-alt"></i>
+                      <i className="fas fa-fw fa-tachometer-alt"></i>
                       <span>자산 변동</span>
                     </a>
                     <a
-                      class="nav-link"
-                      href="#0"
                       className="nav-link"
+                      href="#0"
                       style={{ padding: "0px 16px" }}
                     >
-                      <i class="fas fa-fw fa-tachometer-alt"></i>
+                      <i className="fas fa-fw fa-tachometer-alt"></i>
                       <span>총 자산</span>
                     </a>
                   </div>
-                  <hr class="sidebar-divider my-0"></hr>
+                  <hr className="sidebar-divider my-0"></hr>
 
-                  <div class="sidebar-heading">거래 내역</div>
+                  <div className="sidebar-heading">거래 내역</div>
                   <a
-                    class="nav-link"
-                    href="#3-1"
                     className="nav-link"
+                    href="#3-1"
                     style={{ padding: "0px 16px", margin: "0 0 0 20px" }}
                   >
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i className="fas fa-fw fa-tachometer-alt"></i>
                     <span>상세 내역</span>
                   </a>
                 </>
@@ -810,7 +733,7 @@ function MyPage() {
 
               {havingInfo ? (
                 <>
-                  <div class="sidebar-heading">보유 종목</div>
+                  <div className="sidebar-heading">보유 종목</div>
                   <ul style={{ padding: "0 0 0 10px" }}>
                     {userInfo.myStocks.map((trade, index) => (
                       <div
@@ -829,13 +752,13 @@ function MyPage() {
                       </div>
                     ))}
                   </ul>
-                  <hr class="sidebar-divider my-0"></hr>
+                  <hr className="sidebar-divider my-0"></hr>
                 </>
               ) : null}
 
               {likeInfo ? (
                 <>
-                  <div class="sidebar-heading">관심 종목</div>
+                  <div className="sidebar-heading">관심 종목</div>
                   <ul style={{ padding: "0 0 0 10px" }}>
                     {Array.isArray(favoriteInfo) && favoriteInfo.length > 0 ? (
                       favoriteInfo.map((like, index) => (
@@ -858,7 +781,7 @@ function MyPage() {
                       <p>관심 종목이 없습니다.</p> // 관심 종목이 없을 때의 문구 유지
                     )}
                   </ul>
-                  <hr class="sidebar-divider my-0"></hr>
+                  <hr className="sidebar-divider my-0"></hr>
                 </>
               ) : null}
             </li>
