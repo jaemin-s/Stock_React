@@ -217,7 +217,6 @@ function MyPage() {
     setHavingInfo(false);
     setLikeInfo(true);
   };
-  const rank = 3;
 
   //도넛 안에 넣기 위한 labels
   const stockNames = Array.isArray(userInfo.myStocks)

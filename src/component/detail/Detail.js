@@ -32,6 +32,11 @@ import RcmMbti from "./RcmMbti";
 import Swal from "sweetalert2";
 
 const Detail = () => {
+  const [infoData, setInfoData] = useState({
+    categoryData: [],
+    values: [],
+  });
+
   const { value } = useParams();
   const title = value.split("(", 2);
   // console.log(title[0]); //종목 이름
@@ -150,6 +155,7 @@ const Detail = () => {
 
   // 8자리 날짜를 yyyy-MM-dd로 변환
   const dateFormat = (date) => {
+    if (!date) return ""; // date가 undefined인 경우 빈 문자열 반환
     return date.slice(0, 4) + "-" + date.slice(4, 6) + "-" + date.slice(6, 8);
   };
 
@@ -170,7 +176,7 @@ const Detail = () => {
         },
       }
     );
-    // console.log(res);
+    // console.log("res: ", res);
 
     if (res.status === 200) {
       const data = await res.json();
@@ -415,6 +421,70 @@ const Detail = () => {
 
   const totalPrice = currentHavingStock * currentPrice;
 
+  const dateFormatJ = (date) => {
+    const [year, month, day] = date.split("-");
+    return `${year.slice(2)}.${month}.${day}`;
+  };
+
+  // console.log("title[1].slice(0, -1): ", title[1].slice(0, -1));
+  const transition = async (title) => {
+    const stockId = Array.isArray(title) ? title.join("") : title;
+    let today = new Date();
+    let currentDate = today.toISOString().slice(0, 10).replaceAll("-", "");
+    let startDate = new Date(today.setDate(today.getDate() - 150))
+      .toISOString()
+      .slice(0, 10)
+      .replaceAll("-", "");
+    const res = await fetch(
+      "/quotations/inquire-daily-itemchartprice?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+        stockId +
+        "&FID_INPUT_DATE_1=" +
+        startDate +
+        "&FID_INPUT_DATE_2=" +
+        currentDate +
+        "&FID_PERIOD_DIV_CODE=M&FID_ORG_ADJ_PRC=1",
+      {
+        headers: {
+          ...RequsetHeader,
+          tr_id: "FHKST03010100",
+        },
+      }
+    );
+    // console.log("res: ", res);
+
+    if (res.status === 200) {
+      const data = await res.json();
+      // console.log(data);
+      //필요한 값만 추출
+      let values = [];
+      let dates = [];
+      // console.log(data);
+
+      data.output2.forEach((x) => {
+        const {
+          stck_bsop_date: date,
+          prdy_vrss: than,
+          stck_clpr: close,
+          acml_vol: deal,
+        } = x;
+        // console.log(typeof deal);
+        dates.unshift(dateFormat(date));
+
+        values.unshift([parseInt(close), parseInt(than), parseInt(deal)]);
+      });
+
+      setInfoData({ categoryData: dates, values });
+      return { categoryData: dates, values };
+    }
+  };
+
+  useEffect(() => {
+    const title = value.split("(", 2);
+
+    if (title && title.length >= 2) {
+      transition(title[1].slice(0, -1));
+    }
+  }, []);
   const modalBuy = (
     <>
       <Modal
@@ -550,23 +620,40 @@ const Detail = () => {
 
   // 종목 정보
   const viewInfo = (
-    // <Carousel>
-    // <div className="card-body" id='viewInfoId'>1
-    //     <p> 법인번호: 0287364849484 </p>
-    //     <hr />
-    //     <p> 법인명: 오늘내일 </p>
-    //     <hr />
-    //     <p> 기업매출액 : 34,357,098,222 </p>
-    //     <hr />
-    //     <p> 기업영업이익: 53,363,644 </p>
-    //     <hr />
-    //     <p> 기업총자본금액 : 5,525,645,723 </p>
-    //     <hr />
-    //     <p> 재무제표부채비율: 24</p>
-    // </div>
-    // </Carousel>
     <>
       <InfoTest />
+      <table className="havingStockInfoTable" style={{ width: "100%" }}>
+        <thead>
+          <tr>
+            <th scope="col">날짜</th>
+            <th scope="col">종가</th>
+            <th scope="col">대비</th>
+            <th scope="col">거래량</th>
+          </tr>
+        </thead>
+        <tbody>
+          {infoData.categoryData
+            .map((date, index) => ({
+              date,
+              values: infoData.values[index],
+            }))
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .map((item, index) => (
+              <tr key={index}>
+                <td>{dateFormatJ(item.date)}</td>
+                {item.values.map((value, innerIndex) => (
+                  <td key={innerIndex}>
+                    {innerIndex === 4 ? (
+                      <div>{value}</div>
+                    ) : (
+                      value.toLocaleString()
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+        </tbody>
+      </table>
     </>
   );
 
