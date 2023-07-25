@@ -57,7 +57,6 @@ const RcmMbti = ({ value }) => {
               mbti: mbtiData.mbti
             });
           };
-          console.log("seq인데 = ", seq);
           const rcmMbtiApi = async (seq) => {
             const userId = KI_ID;
             const res = await fetch("/quotations/psearch-result?user_id=" + userId + "&seq=" + seq, {
@@ -67,7 +66,6 @@ const RcmMbti = ({ value }) => {
                 custtype: "P",
               },
             });
-            console.log("res인데 =" , res);
             
             if (res.status === 200) {
               const data = await res.json();
@@ -91,7 +89,7 @@ const RcmMbti = ({ value }) => {
         
           useEffect(() => {
             if (mbtiPro.length > 0) {
-              // KODEX와 선물을 포함하지 않는 항목들만 필터링합니다.
+              // 필터링
               const filteredItems = mbtiPro.filter(item => !item.name.includes("KODEX") &&
                !item.name.includes("선물") && !item.name.includes("KRX") && !item.name.includes("QV")
                && !item.name.includes("2x"));
