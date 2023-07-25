@@ -10,7 +10,7 @@ const Notice = ({ boardType }) => {
 
   return (
     <>
-      <body id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
+      <div id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
         <div id="wrapper">
           <BoardSideBar />
           <div className="container-fluid">
@@ -71,7 +71,7 @@ const Notice = ({ boardType }) => {
             </NavLink>
           </div>
         </div>
-      </body>
+      </div>
     </>
   );
 };

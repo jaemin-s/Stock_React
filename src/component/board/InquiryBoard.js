@@ -7,7 +7,7 @@ const InquiryBoard = ({ props }) => {
   const [page, setPage] = useState(1);
   return (
     <>
-      <body id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
+      <div id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
         <div id="wrapper">
           <BoardSideBar />
           <div className="container-fluid">
@@ -67,7 +67,7 @@ const InquiryBoard = ({ props }) => {
             </NavLink>
           </div>
         </div>
-      </body>
+      </div>
     </>
   );
 };
