@@ -48,7 +48,7 @@ const OverallRank = () => {
           <tr className="high">
             <th scope="col">랭킹</th>
             <th scope="col">회원명</th>
-            <th scope="col">총 수익</th>
+            <th scope="col">총 수익 (원)</th>
           </tr>
         </thead>
         <tbody>{!!rankingTable && rankingBody()}</tbody>

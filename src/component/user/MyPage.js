@@ -152,9 +152,8 @@ function MyPage() {
   const { userName, userNick, email, gender, age, career, mbti } =
     useContext(AuthContext);
 
-     // 수정 showModal 
+  // 수정 showModal
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-
 
   const [expanded, setExpanded] = useState(false);
 
@@ -238,14 +237,13 @@ function MyPage() {
         label: "금액",
         data: stockPrice,
         backgroundColor: [
-          "blue",
-          "red",
-          "skyblue",
-          "orange",
-          "lightgray",
-          "purple",
-          "yellow",
-          "pink",
+          "#007AFF", // 파랑
+          "#FF9500", // 오렌지
+          "#FFCC00", // 노랑
+          "#FF2D55", // 핑크
+          "#5856D6", // 보라
+          "skyBlue",
+          "#FF3B30", // 빨강
         ],
         // 순서대로 금액과 색깔 설정
       },
@@ -326,6 +324,15 @@ function MyPage() {
     }
   }
 
+  function getGender(gender) {
+    switch (gender) {
+      case "man":
+        return "남성";
+      case "woman":
+        return "여성";
+    }
+  }
+
   function getTradeType(tradeType) {
     switch (tradeType) {
       case "buy":
@@ -348,6 +355,16 @@ function MyPage() {
     return null;
   }
   // console.log("returnPercent(): ", returnPercent());
+
+  //수익률 색깔 출력
+  const returnColor = () => {
+    const percent = returnPercent();
+    if (percent > 0) {
+      return "red";
+    } else if (percent === 0) {
+      return "black";
+    } else return "blue";
+  };
 
   const viewInfo = (
     <>
@@ -380,7 +397,7 @@ function MyPage() {
             이메일<span className="border">|</span> {userInfo.email}
           </h5>
           <h5 className="gender">
-            성별<span className="border">|</span> {userInfo.gender}
+            성별<span className="border">|</span> {getGender(userInfo.gender)}
           </h5>
           <h5 className="age">
             나이<span className="border">|</span> {userInfo.age}세
@@ -389,21 +406,9 @@ function MyPage() {
             경력<span className="border">|</span> {getAge(userInfo.career)}
           </h5>
           <h5 className="mbti">
-          MBTI<span className="border">|</span> {userInfo.mbti}
+            MBTI<span className="border">|</span> {userInfo.mbti}
           </h5>
         </div>
-
-        {/* 프로필사진 */}
-        {/* <div className="profile">
-          <img
-            src={
-              // profileUrl ||
-              require("../user/image/anonymous.png")
-            }
-            alt="@"
-            className="center-image"
-          ></img>
-        </div> */}
       </div>
     </>
   );
@@ -442,7 +447,10 @@ function MyPage() {
               : null}
           </h5>
           <h5 className="return">
-            수익률<span className="border">|</span> {returnPercent()}%
+            수익률<span className="border">|</span>{" "}
+            <span style={{ color: returnColor(), fontWeight: "600" }}>
+              {returnPercent()}%
+            </span>
           </h5>
           {/* 수익률 : (현재주가 / 매수시 주가) * 100 - 100 */}
           <h5 className="evaluation">
@@ -496,8 +504,8 @@ function MyPage() {
                   {trade.stockName}({trade.stockId})
                 </th>
                 <td>{trade.quantity}</td>
-                <td>{(trade.price / trade.quantity).toFixed(0)}</td>
-                <td>{trade.price.toLocaleString()}</td>
+                <td>{(trade.price / trade.quantity).toFixed(0)}원</td>
+                <td>{trade.price.toLocaleString()}원</td>
                 <td style={{ fontWeight: "600", color: textColor }}>
                   {returnPercentValue !== null ? `${returnPercentValue}%` : "-"}
                 </td>
@@ -701,8 +709,7 @@ function MyPage() {
     setShowUpdateModal((prev) => !prev);
   };
 
-  useEffect(() => { 
-  }, [showUpdateModal]);
+  useEffect(() => {}, [showUpdateModal]);
 
   return (
     <>
@@ -737,7 +744,7 @@ function MyPage() {
                       <span>정보</span>
                     </a>
                     <Update toggleModifyModal={toggleModifyModal} />
-                  
+
                     <a
                       class="nav-link"
                       href="#0"
@@ -944,7 +951,6 @@ function MyPage() {
             {asset && viewAsset}
             {havingInfo && viewHavingInfo}
             {likeInfo && viewLikeInfo}
-            
           </div>
         </div>
       </body>
