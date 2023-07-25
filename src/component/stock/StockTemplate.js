@@ -268,11 +268,13 @@ function StockTemplate() {
             </div>
             <iframe
               width="560"
-              height="315"
-              src="https://www.youtube-nocookie.com/embed/7S5ZdmnXQyU"
-              title="YouTube video player"
+              height="345"
+              src="https://www.youtube.com/embed/nawUv8DcI80"
+              title="최고민수의 주식 종목 고르는 10단계 방법 1부"
+              frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            />
+              allowfullscreen
+            ></iframe>
           </div>
           <div className="bookmark card shadow">
             <div className="card-header">
