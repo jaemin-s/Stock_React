@@ -101,11 +101,13 @@ const RegistFrame = ({ boardType }) => {
         >
           등록
         </button>
-        <a href="/inquiryBoard">
-          <button className="button-58-1" style={{ float: "right" }}>
-            취소
-          </button>
-        </a>
+        <button
+          className="button-58-1"
+          style={{ float: "right" }}
+          onClick={() => window.history.back()}
+        >
+          취소
+        </button>
       </div>
     </div>
   );

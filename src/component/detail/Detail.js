@@ -621,11 +621,20 @@ const Detail = () => {
   // 종목 정보
   const viewInfo = (
     <>
-      <InfoTest />
-      <table className="havingStockInfoTable" style={{ width: "100%" }}>
+      <table
+        className="responsive-table"
+        style={{
+          width: "100%",
+          fontWeight: "550",
+          margin: "0",
+          height: "350px",
+        }}
+      >
         <thead>
           <tr>
-            <th scope="col">날짜</th>
+            <th scope="col" style={{ textAlign: "center" }}>
+              날짜
+            </th>
             <th scope="col">종가</th>
             <th scope="col">대비</th>
             <th scope="col">거래량</th>
@@ -654,6 +663,7 @@ const Detail = () => {
             ))}
         </tbody>
       </table>
+      <InfoTest />
     </>
   );
 

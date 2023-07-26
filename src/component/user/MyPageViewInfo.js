@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import OverallRank from "../stock/OverallRank";
 const MyPageViewInfo = () => {
   const [userInfo, setUserInfo] = useState({
     email: "",
