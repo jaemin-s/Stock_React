@@ -29,7 +29,7 @@ function App() {
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/detail/:value" element={<Detail />} />
             <Route path="/notice" element={<Notice />} />
-            <Route path="/inquiryboard" element={<InquiryBoard />} />
+            <Route path="/inquiry" element={<InquiryBoard />} />
             <Route path="/regist" element={<BoardRegist />} />
             <Route
               path="/api/user/callback/kakao"

@@ -27,7 +27,7 @@ const BoardSideBar = () => {
             <span>공지사항</span>
           </a>
           <a
-            href="/inquiryboard"
+            href="/inquiry"
             className="nav-link"
             style={{ padding: "0px 16px" }}
           >

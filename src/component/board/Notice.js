@@ -1,12 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Notice.scss";
 import Paging from "./Paging";
 import BoardSideBar from "./BoardSideBar";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import BoardContent from "./BoardContent";
 const Notice = ({ boardType }) => {
   const redirection = useNavigate();
   const [page, setPage] = useState(1);
+  const [boardData, setboardData] = useState();
+
+  async function getBoardList() {
+    const res = await fetch(
+      "http://localhost:8181/api/board/notice" +
+        "?size=" +
+        8 +
+        "&page=" +
+        (page - 1)
+    );
+    const data = await res.json();
+    setboardData({
+      content: data.content,
+      totalElements: data.totalElements,
+      totlaPages: data.totalPages,
+      pageIndex: data.pageable.pageNumber,
+      offset: data.pageable.offset,
+    });
+    console.log(data);
+  }
+  useEffect(() => {
+    getBoardList();
+  }, [page]);
+
+  function titleClickHandler(id) {
+    console.log("click");
+    console.log("id:" + id);
+    console.log("type: notice");
+    redirection("/regist/?boardType=notice&id=" + id + "&type=read");
+  }
 
   return (
     <>
@@ -38,69 +69,19 @@ const Notice = ({ boardType }) => {
                 </div>
               </nav>
             </div>
-            <table className="table" style={{ marginTop: "60px" }}>
-              <thead>
-                <tr>
-                  <th
-                    style={{
-                      backgroundColor: "#3385ff",
-                      color: "white",
-                      fontWeight: "600",
-                    }}
-                    scope="col"
-                  >
-                    번호
-                  </th>
-                  <th
-                    scope="col"
-                    style={{
-                      backgroundColor: "#3385ff",
-                      color: "white",
-                      fontWeight: "600",
-                    }}
-                  >
-                    작성일
-                  </th>
-                  <th
-                    scope="col"
-                    style={{
-                      backgroundColor: "#3385ff",
-                      color: "white",
-                      fontWeight: "600",
-                    }}
-                  >
-                    제목
-                  </th>
-                  <th
-                    scope="col"
-                    style={{
-                      backgroundColor: "#3385ff",
-                      color: "white",
-                      fontWeight: "600",
-                    }}
-                  >
-                    작성자
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>2</td>
-                  <td>2023-07-23</td>
-                  <td>공지사항 1</td>
-                  <td>작성자 1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>2023-07-24</td>
-                  <td>공지사항 2</td>
-                  <td>작성자 2</td>
-                </tr>
-              </tbody>
-            </table>
-            <Paging page={page} count={100} setPage={setPage} />
+            <BoardContent
+              boardData={boardData}
+              titleClickHandler={titleClickHandler}
+            />
+            {boardData && (
+              <Paging
+                page={page}
+                count={boardData.totalElements}
+                setPage={setPage}
+              />
+            )}
 
-            <NavLink to="/regist?boardType=notice">
+            <NavLink to="/regist?boardType=notice&type=write">
               <button className="button-58" style={{ float: "right" }}>
                 글쓰기
               </button>

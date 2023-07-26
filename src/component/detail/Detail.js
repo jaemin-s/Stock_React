@@ -92,6 +92,7 @@ const Detail = () => {
 
   useEffect(() => {
     loadFavorite();
+    getMyInfo();
   }, [value]);
 
   // 관심종목 목록 불러오기
@@ -129,12 +130,16 @@ const Detail = () => {
   const [userStockInfo, setUserStockInfo] = useState([]);
   //검색한 주식의 보유 개수
   const [currentHavingStock, setCurrentHavingStock] = useState();
+  //샀을 당시 주식 가격
+  const [pastStock, setPastStock] = useState(0);
   //내정보 불러오기 로직
   const getMyInfo = async () => {
-    const res = await fetch("http://localhost:8181/api/user/myInfo/" + email);
+    const res = await fetch(
+      "http://localhost:8181/api/user/myInfo/" +
+        localStorage.getItem("LOGIN_USEREMAIL")
+    );
     if (res.status === 200) {
       const result = await res.json();
-      // console.log(result.money); // 로그인 한 유저의 남은 보유 금액
       setCurrentAsset(result.money); // 로그인 한 유저의 남은 보유 금액
       console.log(result.myStocks);
       let flag = false;
@@ -142,8 +147,8 @@ const Detail = () => {
       result.myStocks.forEach((x) => {
         console.log(x.stockName);
         if (x.stockName === title[0]) {
-          console.log(x.quantity);
           setCurrentHavingStock(x.quantity);
+          setPastStock(x.price);
           flag = true;
         }
       });
@@ -413,13 +418,15 @@ const Detail = () => {
     });
   };
 
-  const currentPrice = livePrice;
+  const currentPrice = livePrice; //보고있는 주식의 현재가
 
-  const totalOrder = order * currentPrice;
+  const totalOrder = order * currentPrice; // 주문 수량 * 현재가 = 총 주문금액
 
   const afterAsset = currentAsset - totalOrder; //매매 후 자산
 
-  const totalPrice = currentHavingStock * currentPrice;
+  const totalPrice = currentHavingStock * currentPrice; // 보유 주식 * 현재가
+
+  const profit = livePrice * currentHavingStock - pastStock; //내가 산 주식 - 현재가격 = 손익 금액
 
   const dateFormatJ = (date) => {
     const [year, month, day] = date.split("-");
@@ -675,29 +682,51 @@ const Detail = () => {
             <tbody>
               <tr>
                 <td className="mine">1주 평균금액</td>
-                <td>{livePrice}원</td>
+                <td>
+                  {currentHavingStock === 0
+                    ? 0
+                    : Math.floor(pastStock / currentHavingStock)}
+                  원
+                </td>
                 {/* 일단 '호가'에서 선택된 금액으로 설정하겠습니다. 불필요하다고 판단되면 삭제해도 좋습니다.  */}
               </tr>
               <tr>
                 <td className="mine">보유 수량</td>
-                <td>{currentHavingStock}</td>
+                <td>{currentHavingStock}주</td>
               </tr>
               <tr>
                 <td className="mine">총 금액</td>
                 <td class="total-amount">
                   {(livePrice * currentHavingStock).toLocaleString()}원
-                  <div style={{ fontSize: "15px" }}>
-                    <span>+2,640</span>
-                    <span class="positive">(+8.1%)</span>
-                  </div>
+                  {currentHavingStock === 0 ? (
+                    <div></div>
+                  ) : (
+                    <div
+                      style={{
+                        fontSize: "15px",
+                        color: profit >= 0 ? "red" : "blue",
+                      }}
+                    >
+                      <span>{profit}원 </span>
+                      <span>
+                        ({parseFloat((profit / pastStock) * 100).toFixed(2)}
+                        %)
+                      </span>
+                    </div>
+                  )}
                 </td>
               </tr>
               <tr>
                 <td className="mine">투자 원금</td>
-                <td>{totalPrice.toLocaleString()}원</td>
+                <td>
+                  {currentHavingStock === 0 ? 0 : pastStock.toLocaleString()}원
+                </td>
               </tr>
             </tbody>
           </table>
+          {currentHavingStock === 0 && (
+            <div>해당 주식의 보유 수량은 0개입니다</div>
+          )}
         </div>
       </div>
     </>
