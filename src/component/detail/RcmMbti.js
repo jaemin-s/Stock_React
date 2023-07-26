@@ -100,7 +100,8 @@ const RcmMbti = ({ value }) => {
           !item.name.includes("선물") &&
           !item.name.includes("KRX") &&
           !item.name.includes("QV") &&
-          !item.name.includes("2x")
+          !item.name.includes("2x") &&
+          !item.name.includes("옥수수")
       );
       const newRandomItems = getRandomItems(filteredItems, 4);
       setRandomItems(newRandomItems);
