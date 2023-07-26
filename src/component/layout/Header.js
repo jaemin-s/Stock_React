@@ -293,7 +293,7 @@ const Header = () => {
               </li>
               <hr className="border-line" />
               <li className="dropdown-item">
-                <a className="nav-link" href="/inquiryBoard">
+                <a className="nav-link" href="/inquiry">
                   문의 게시판
                 </a>
               </li>
