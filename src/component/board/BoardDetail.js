@@ -113,7 +113,9 @@ const BoardDetail = ({ boardType, id }) => {
                   readOnly
                 />
               ) : (
-                <p>{writer}</p>
+                <p style={{ textAlign: "left", marginLeft: "20px" }}>
+                  {writer}
+                </p>
               )}
             </td>
           </tr>
@@ -138,7 +140,7 @@ const BoardDetail = ({ boardType, id }) => {
                   value={inputTitle}
                 />
               ) : (
-                <p>{title}</p>
+                <p style={{ textAlign: "left", marginLeft: "20px" }}>{title}</p>
               )}
             </td>
           </tr>
@@ -149,7 +151,7 @@ const BoardDetail = ({ boardType, id }) => {
                 backgroundColor: "#3385ff",
                 color: "white",
                 fontWeight: "600",
-                height: "400px",
+                height: "100px",
                 lineHeight: "20",
               }}
             >
@@ -167,7 +169,9 @@ const BoardDetail = ({ boardType, id }) => {
               />
             ) : (
               <td>
-                <p>{content}</p>
+                <p style={{ textAlign: "left", marginLeft: "20px" }}>
+                  {content}
+                </p>
               </td>
             )}
           </tr>

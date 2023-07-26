@@ -167,7 +167,7 @@ const MyPageViewInfo = () => {
 
         {/* BRONZE : #804A00
             SILVER :  #C0C0C0
-            GOLD : #F9BC28
+            GOLD : #F9BC28 
         */}
       </div>
     </>
