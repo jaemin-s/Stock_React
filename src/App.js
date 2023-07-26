@@ -13,6 +13,7 @@ import KakaoAuthHandle from "./component/user/KakaoAuthHandle";
 import Notice from "./component/board/Notice";
 import InquiryBoard from "./component/board/InquiryBoard";
 import BoardRegist from "./component/board/BoardRegist";
+import AdminPage from "./component/user/AdminPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/notice" element={<Notice />} />
             <Route path="/inquiry" element={<InquiryBoard />} />
             <Route path="/regist" element={<BoardRegist />} />
+            <Route path="/adminPage" element={<AdminPage />} />
             <Route
               path="/api/user/callback/kakao"
               element={<KakaoAuthHandle />}
