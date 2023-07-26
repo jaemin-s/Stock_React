@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import OverallRank from "../stock/OverallRank";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMedal } from "@fortawesome/free-solid-svg-icons";
 const MyPageViewInfo = () => {
   const [userInfo, setUserInfo] = useState({
     email: "",
@@ -12,6 +13,7 @@ const MyPageViewInfo = () => {
     myStocks: [],
     money: 0,
     return: "",
+    grade: "",
   });
   const [rank, setRank] = useState("0");
 
@@ -47,6 +49,7 @@ const MyPageViewInfo = () => {
       money: myInfo.money,
       myStocks: myInfo.myStocks,
       mbti: myInfo.mbti,
+      grade: myInfo.grade,
     });
   }
   useEffect(() => {
@@ -77,6 +80,19 @@ const MyPageViewInfo = () => {
       }
     }
   };
+
+  function getGrade(grade) {
+    switch (grade) {
+      case "BRONZE":
+        return "#804A00";
+      case "SILVER":
+        return "#C0C0C0";
+      case "GOLD":
+        return "#F9BC28";
+      default:
+        return ""; //일단 은색으로
+    }
+  }
 
   return (
     <>
@@ -136,7 +152,23 @@ const MyPageViewInfo = () => {
           <h5 className="mbti">
             MBTI<span className="border">|</span> {userInfo.mbti}
           </h5>
+          <h5 className="grade">
+            등급<span className="border">|</span> {userInfo.grade}
+          </h5>
         </div>
+        <FontAwesomeIcon
+          icon={faMedal}
+          style={{
+            color: getGrade(userInfo.grade),
+            fontSize: "260px",
+            marginTop: "50px",
+          }}
+        />
+
+        {/* BRONZE : #804A00
+            SILVER :  #C0C0C0
+            GOLD : #F9BC28
+        */}
       </div>
     </>
   );

@@ -61,6 +61,7 @@ const BoardContent = ({ boardData, titleClickHandler }) => {
                 onClick={() => {
                   titleClickHandler(item.id);
                 }}
+                style={{ cursor: "pointer" }}
               >
                 {item.title}
               </td>
