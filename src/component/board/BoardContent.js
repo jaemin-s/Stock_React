@@ -10,10 +10,46 @@ const BoardContent = ({ boardData, titleClickHandler }) => {
     <table className="table" style={{ marginTop: "60px" }}>
       <thead>
         <tr>
-          <th scope="col">번호</th>
-          <th scope="col">제목</th>
-          <th scope="col">작성자</th>
-          <th scope="col">작성일</th>
+          <th
+            style={{
+              backgroundColor: "#3385ff",
+              color: "white",
+              fontWeight: "600",
+            }}
+            scope="col"
+          >
+            번호
+          </th>
+          <th
+            scope="col"
+            style={{
+              backgroundColor: "#3385ff",
+              color: "white",
+              fontWeight: "600",
+            }}
+          >
+            제목
+          </th>
+          <th
+            scope="col"
+            style={{
+              backgroundColor: "#3385ff",
+              color: "white",
+              fontWeight: "600",
+            }}
+          >
+            작성자
+          </th>
+          <th
+            scope="col"
+            style={{
+              backgroundColor: "#3385ff",
+              color: "white",
+              fontWeight: "600",
+            }}
+          >
+            작성일
+          </th>
         </tr>
       </thead>
       <tbody>

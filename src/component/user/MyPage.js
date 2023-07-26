@@ -242,7 +242,7 @@ function MyPage() {
           "#FFCC00", // 노랑
           "#FF2D55", // 핑크
           "#5856D6", // 보라
-          "skyBlue",
+          "lightgray",
           "#FF3B30", // 빨강
         ],
         // 순서대로 금액과 색깔 설정
@@ -402,15 +402,24 @@ function MyPage() {
           <Doughnut data={data} options={options}></Doughnut>
         </div>
       </div>
+      <p style={{ textAlign: "center", marginBottom: "30px" }}>
+        종목명(종목 코드)열을 클릭하면 해당 주식의 상세 페이지로 이동합니다.
+      </p>
       <h4 id="2" className="assetInfo">
         보유 종목 정보
       </h4>
       <br />
 
-      <table className="collapsed" id="table" style={{ marginBottom: "150px" }}>
+      <table
+        className="responsive-table"
+        id="table"
+        style={{ marginBottom: "150px" }}
+      >
         <thead>
           <tr className="high">
-            <th scope="col">종목명(종목 코드)</th>
+            <th scope="col" style={{ textAlign: "center" }}>
+              종목명(종목 코드)
+            </th>
             <th scope="col">수량</th>
             <th scope="col">주당 평균 가격</th>
             <th scope="col">금액</th>
@@ -437,8 +446,22 @@ function MyPage() {
 
             return (
               <tr key={index}>
-                <th>
-                  {trade.stockName}({trade.stockId})
+                <th
+                  style={{
+                    border: "1px solid lightgray",
+                    textAlign: "center",
+                  }}
+                >
+                  <a
+                    href={`/Detail/${trade.stockName}(${trade.stockId})`}
+                    style={{
+                      textDecoration: "none",
+                      color: "black",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {trade.stockName}({trade.stockId})
+                  </a>
                 </th>
                 <td>{trade.quantity}</td>
                 <td>{(trade.price / trade.quantity).toFixed(0)}원</td>
@@ -459,12 +482,14 @@ function MyPage() {
         </h4>
         <br />
         <br />
-        <table className="collapsed" id="table">
+        <table className="responsive-table" id="table">
           <thead>
             <tr className="high">
-              <th scope="col">거래 일자</th>
+              <th scope="col" style={{ textAlign: "center" }}>
+                거래 일자
+              </th>
               <th scope="col">매수 / 매도</th>
-              <th scope="col">종목</th>
+              <th scope="col">종목명(종목 코드)</th>
               <th scope="col">매매 수량</th>
               <th scope="col">매매 금액</th>
             </tr>
@@ -475,10 +500,21 @@ function MyPage() {
                   .slice(0, expanded ? historyInfo.length : 3)
                   .map((trade, index) => (
                     <tr key={index}>
-                      <th scope="row">{getFormattedDate(trade.tradeDate)}</th>
+                      <th scope="row" style={{ textAlign: "center" }}>
+                        {getFormattedDate(trade.tradeDate)}
+                      </th>
                       <td>{getTradeType(trade.tradeType)}</td>
                       <td>
-                        {trade.stockName}({trade.stockId})
+                        <a
+                          href={`/Detail/${trade.stockName}(${trade.stockId})`}
+                          style={{
+                            textDecoration: "none",
+                            color: "black",
+                            fontWeight: "600",
+                          }}
+                        >
+                          {trade.stockName}({trade.stockId})
+                        </a>
                       </td>
                       <td>{trade.quantity}</td>
                       <td>{trade.price.toLocaleString()}</td>
@@ -507,10 +543,10 @@ function MyPage() {
           </div>
         )}
       </ul>
-      <table className="havingStockInfoTable">
+      <table className="responsive-table" style={{ fontSize: "20px" }}>
         <thead>
           <tr>
-            <th scope="col" style={{ maxWidth: "100px" }}>
+            <th scope="col" style={{ maxWidth: "100px", textAlign: "center" }}>
               날짜
             </th>
             <th scope="col">종가</th>
@@ -558,10 +594,10 @@ function MyPage() {
           </div>
         )}
       </ul>
-      <table className="havingStockInfoTable">
+      <table className="responsive-table" style={{ fontSize: "20px" }}>
         <thead>
           <tr>
-            <th scope="col" style={{ maxWidth: "100px" }}>
+            <th scope="col" style={{ maxWidth: "100px", textAlign: "center" }}>
               날짜
             </th>
             <th scope="col">종가</th>
