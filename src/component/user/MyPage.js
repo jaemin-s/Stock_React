@@ -4,7 +4,7 @@ import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import AuthContext from "../util/AuthContext";
 import { RequsetHeader } from "../../config/apikey";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Update from "./Update";
 import Delete from "./Delete";
@@ -16,6 +16,7 @@ Chart.register(ArcElement, Tooltip, Legend);
 
 function MyPage() {
   const { value } = useParams();
+  const redirection = useNavigate();
   const title = value ? value.split("(", 2) : [];
   const [currentLivePrice, setCurrentLivePrice] = useState([]);
 
@@ -353,6 +354,11 @@ function MyPage() {
     </>
   );
 
+  const detailHandler = (e) => {
+    console.log(e.target.textContent);
+    redirection("/detail/" + e.target.textContent);
+  };
+
   const viewAsset = (
     <>
       <br />
@@ -437,10 +443,10 @@ function MyPage() {
 
             return (
               <tr key={index}>
-                <th>
+                <th onClick={detailHandler}>
                   {trade.stockName}({trade.stockId})
                 </th>
-                <td>{trade.quantity}</td>
+                <td>{trade.quantity}주</td>
                 <td>{(trade.price / trade.quantity).toFixed(0)}원</td>
                 <td>{trade.price.toLocaleString()}원</td>
                 <td style={{ fontWeight: "600", color: textColor }}>

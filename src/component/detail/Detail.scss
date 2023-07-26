@@ -145,6 +145,15 @@
 
 .myTable {
     border: none;
+
+    tr {
+        display: flex;
+    }
+
+    td {
+        min-width: 50%;
+    }
+
 }
 
 body {
@@ -172,5 +181,19 @@ body {
     div{
         width: 20%;
         margin-top: 2%;
+    }
+}
+
+.stock-notice {
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+
+    p {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        margin: 0;
     }
 }

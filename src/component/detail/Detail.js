@@ -667,57 +667,63 @@ const Detail = () => {
   const viewMyStock = (
     <>
       <div className="card-body">
-        <div className="info">
-          <table className="myTable">
-            <tbody>
-              <tr>
-                <td className="mine">1주 평균금액</td>
-                <td>
-                  {currentHavingStock === 0
-                    ? 0
-                    : Math.floor(pastStock / currentHavingStock)}
-                  원
-                </td>
-                {/* 일단 '호가'에서 선택된 금액으로 설정하겠습니다. 불필요하다고 판단되면 삭제해도 좋습니다.  */}
-              </tr>
-              <tr>
-                <td className="mine">보유 수량</td>
-                <td>{currentHavingStock}주</td>
-              </tr>
-              <tr>
-                <td className="mine">총 금액</td>
-                <td class="total-amount">
-                  {(livePrice * currentHavingStock).toLocaleString()}원
-                  {currentHavingStock === 0 ? (
-                    <div></div>
-                  ) : (
-                    <div
-                      style={{
-                        fontSize: "15px",
-                        color: profit >= 0 ? "red" : "blue",
-                      }}
-                    >
-                      <span>{profit}원 </span>
-                      <span>
-                        ({parseFloat((profit / pastStock) * 100).toFixed(2)}
-                        %)
-                      </span>
-                    </div>
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <td className="mine">투자 원금</td>
-                <td>
-                  {currentHavingStock === 0 ? 0 : pastStock.toLocaleString()}원
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          {currentHavingStock === 0 && (
-            <div>해당 주식의 보유 수량은 0개입니다</div>
-          )}
-        </div>
+        {currentHavingStock === 0 ? (
+          <div className="stock-notice">
+            <p>해당 주식의 보유 수량은 0개입니다.</p>
+          </div>
+        ) : (
+          <div className="info">
+            <table className="myTable">
+              <tbody>
+                <tr>
+                  <td className="mine">1주 평균금액</td>
+                  <td>
+                    {currentHavingStock === 0
+                      ? 0
+                      : Math.floor(
+                          pastStock / currentHavingStock
+                        ).toLocaleString()}
+                    원
+                  </td>
+                  {/* 일단 '호가'에서 선택된 금액으로 설정하겠습니다. 불필요하다고 판단되면 삭제해도 좋습니다.  */}
+                </tr>
+                <tr>
+                  <td className="mine">보유 수량</td>
+                  <td>{currentHavingStock}주</td>
+                </tr>
+                <tr>
+                  <td className="mine">총 금액</td>
+                  <td class="total-amount">
+                    {(livePrice * currentHavingStock).toLocaleString()}원
+                    {currentHavingStock === 0 ? (
+                      <div></div>
+                    ) : (
+                      <div
+                        style={{
+                          fontSize: "15px",
+                          color: profit >= 0 ? "red" : "blue",
+                        }}
+                      >
+                        <span>{profit}원 </span>
+                        <span>
+                          ({parseFloat((profit / pastStock) * 100).toFixed(2)}
+                          %)
+                        </span>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="mine">투자 원금</td>
+                  <td>
+                    {currentHavingStock === 0 ? 0 : pastStock.toLocaleString()}
+                    원
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </>
   );
