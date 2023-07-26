@@ -12,6 +12,10 @@ const Header = () => {
   const [keyItem, SetKeyItem] = useState([]); // api 값 관리
   const [infoIsModal, setInfoIsModal] = useState(false); // 모달 관리
   const inputRef = useRef();
+  const [role, setRole] = useState("BRONZE");
+
+  const { isLoggedIn, onLogout, email, name, image, userRole } =
+    useContext(AuthContext);
 
   const logoutHandler = () => {
     onLogout();
@@ -109,10 +113,9 @@ const Header = () => {
 
   useEffect(() => {}, [keyItem]);
 
-  // useEffect(() => {
-  //   console.log("네임데이터 실행");
-  //   nameData();
-  // }, [loadingFail]);
+  useEffect(() => {
+    setRole(localStorage.getItem("LOGIN_USERROLE"));
+  }, [email]);
 
   const infoModal = () => {
     document.getElementById("searchText").value = "";
@@ -195,13 +198,12 @@ const Header = () => {
     </svg>
   );
 
-  const { isLoggedIn, onLogout, email, name, image, userRole } =
-    useContext(AuthContext);
-
   return (
     <>
       <nav
-        className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
+        className={`navbar navbar-expand navbar-light ${
+          role === "ADMIN" ? "bg-warning" : "bg-white"
+        } topbar mb-4 static-top shadow`}
         style={{ width: "100%", justifyContent: "space-between" }}
       >
         {/* LOGO */}
@@ -307,11 +309,19 @@ const Header = () => {
               <hr className="border-line" />
               {isLogin() ? (
                 <>
-                  <li className="dropdown-item">
-                    <a className="nav-link" href="/mypage">
-                      마이 페이지
-                    </a>
-                  </li>
+                  {role === "ADMIN" ? (
+                    <li className="dropdown-item">
+                      <a className="nav-link" href="#">
+                        관리자 페이지
+                      </a>
+                    </li>
+                  ) : (
+                    <li className="dropdown-item">
+                      <a className="nav-link" href="/mypage">
+                        마이 페이지
+                      </a>
+                    </li>
+                  )}
                   <hr className="border-line" />
                   <li className="dropdown-item">
                     <a

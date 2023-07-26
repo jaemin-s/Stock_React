@@ -91,14 +91,18 @@ const OverallRank = () => {
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpanded = () => {
-    setExpanded(!expanded);
+    if (roll === "common") {
+      alert("프리미엄 회원만 추가조회가 가능합니다.");
+    } else {
+      setExpanded(!expanded);
+    }
   };
 
   //더보기 버튼
   function moreButton() {
-    if (roll === "common") {
-      return null;
-    }
+    // if (roll === "common") {
+    //   return null;
+    // }
     if (userTradeInfo.length > 3) {
       return (
         <div className="btn-more">
