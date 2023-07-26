@@ -13,7 +13,7 @@ const MyPageViewInfo = () => {
     myStocks: [],
     money: 0,
     return: "",
-    grade: "",
+    role: "",
   });
   const [rank, setRank] = useState("0");
 
@@ -49,7 +49,7 @@ const MyPageViewInfo = () => {
       money: myInfo.money,
       myStocks: myInfo.myStocks,
       mbti: myInfo.mbti,
-      grade: myInfo.grade,
+      role: myInfo.role,
     });
   }
   useEffect(() => {
@@ -81,8 +81,8 @@ const MyPageViewInfo = () => {
     }
   };
 
-  function getGrade(grade) {
-    switch (grade) {
+  function getRole(role) {
+    switch (role) {
       case "BRONZE":
         return "#804A00";
       case "SILVER":
@@ -90,10 +90,10 @@ const MyPageViewInfo = () => {
       case "GOLD":
         return "#F9BC28";
       default:
-        return ""; //일단 은색으로
+        return "";
     }
   }
-
+  // console.log("userInfo.role: ", userInfo.role);
   return (
     <>
       {/* <!-- Page Heading --> */}
@@ -152,14 +152,14 @@ const MyPageViewInfo = () => {
           <h5 className="mbti">
             MBTI<span className="border">|</span> {userInfo.mbti}
           </h5>
-          <h5 className="grade">
-            등급<span className="border">|</span> {userInfo.grade}
+          <h5 className="role">
+            등급<span className="border">|</span> {userInfo.role}
           </h5>
         </div>
         <FontAwesomeIcon
           icon={faMedal}
           style={{
-            color: getGrade(userInfo.grade),
+            color: getRole(userInfo.role),
             fontSize: "260px",
             marginTop: "50px",
           }}
