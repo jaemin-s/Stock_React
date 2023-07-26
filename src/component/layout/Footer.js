@@ -14,7 +14,8 @@ const Footer = () => {
         color: "#fff",
       }}
     >
-      @copyright. Beginner Big Winner! All rights reserved.
+      @copyright. Beginner Big Winner! All rights reserved. Made by Sim, Kim,
+      Kwon, Choi, Oh
     </footer>
   );
 };

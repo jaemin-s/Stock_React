@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./MyPage.scss";
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import AuthContext from "../util/AuthContext";
 import { RequsetHeader } from "../../config/apikey";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -21,9 +20,6 @@ function MyPage() {
   const [currentLivePrice, setCurrentLivePrice] = useState([]);
 
   //현재가, 등락률 관리
-  const [livePrice, setLivePrice] = useState();
-  const [fluctuationRate, setFluctuationRate] = useState();
-  const [isRise, setIsRise] = useState(true);
   const [infoData, setInfoData] = useState({
     categoryData: [],
     values: [],
@@ -36,7 +32,6 @@ function MyPage() {
   };
   const [uniqueHistoryInfo, setUniqueHistoryInfo] = useState([]);
 
-  const [returnPercent2, setReturnPercent2] = useState([]);
   const handleLikeStockClick = (like) => {
     setSelectedLikeStock(like);
     transition(like.stockCode);
@@ -117,6 +112,9 @@ function MyPage() {
       totalReturnPercent / returnPercentArray.length
     ).toFixed(2);
     // console.log(returnPercentArray);
+    if (isNaN(averageReturnPercent)) {
+      return "계산중입니다";
+    }
     return averageReturnPercent;
   }
 
@@ -150,9 +148,6 @@ function MyPage() {
     .toISOString()
     .slice(0, 10)
     .replaceAll("-", "");
-
-  const { userName, userNick, email, gender, age, career, mbti } =
-    useContext(AuthContext);
 
   // 수정 showModal
   const [showUpdateModal, setShowUpdateModal] = useState(false);
@@ -378,8 +373,8 @@ function MyPage() {
             보유 주식<span className="border">|</span>
             {/* {Array.isArray(historyInfo)
               ? historyInfo.slice(0, 3).map((trade, index) => ( */}
-            {uniqueHistoryInfo
-              ? uniqueHistoryInfo.slice(0, 3).map((trade, index) => (
+            {userInfo.myStocks
+              ? userInfo.myStocks.slice(0, 3).map((trade, index) => (
                   <span key={index}>
                     {trade.stockName}
                     {index === 2
@@ -409,7 +404,8 @@ function MyPage() {
         </div>
       </div>
       <p style={{ textAlign: "center", marginBottom: "30px" }}>
-        종목명(종목 코드)열을 클릭하면 해당 주식의 상세 페이지로 이동합니다.
+        종목명(종목 코드)열의 종목을 클릭하면 해당 주식의 상세 페이지로
+        이동합니다.
       </p>
       <h4 id="2" className="assetInfo">
         보유 종목 정보
@@ -452,7 +448,14 @@ function MyPage() {
 
             return (
               <tr key={index}>
-                <th onClick={detailHandler}>
+                <th
+                  onClick={detailHandler}
+                  style={{
+                    border: "1px solid lightgray",
+                    textAlign: "center",
+                    cursor: "pointer",
+                  }}
+                >
                   {trade.stockName}({trade.stockId})
                 </th>
                 <td>{trade.quantity}주</td>
@@ -509,7 +512,7 @@ function MyPage() {
                         </a>
                       </td>
                       <td>{trade.quantity}</td>
-                      <td>{trade.price.toLocaleString()}</td>
+                      <td>{trade.price.toLocaleString()} 원</td>
                     </tr>
                   ))
               : null}

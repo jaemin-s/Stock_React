@@ -4,10 +4,9 @@ import "./Header.scss";
 import { Button, ModalBody, ModalFooter, ModalHeader, Modal } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { KI_APP_KEY, KI_SECRET_KEY, DATA_GO_KR_KEY } from "../../config/apikey";
+import { DATA_GO_KR_KEY } from "../../config/apikey";
 import AuthContext from "../util/AuthContext";
 import { isLogin } from "../util/login-utils";
-import { API_BASE_URL, USER } from "../../config/host-config";
 const Header = () => {
   const redirection = useNavigate();
   const [keyItem, SetKeyItem] = useState([]); // api 값 관리
