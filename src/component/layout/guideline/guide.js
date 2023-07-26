@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./guide.scss";
 import "../../bootstrap/css/sb-admin-2.min.css";
-import {
-  faArrowsUpToLine,
-  faCircleExclamation,
-  faTemperatureArrowUp,
-  faUpLong,
-} from "@fortawesome/free-solid-svg-icons";
+import { faUpLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import GuideSideBar from "./GuideSideBar";
 import GuideContent from "./GuideContent";

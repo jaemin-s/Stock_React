@@ -58,21 +58,22 @@ const Header = () => {
   const searchHandler = (e) => {
     console.log("핸들러 발동");
     e.preventDefault();
+    const inputValue = inputRef.current.value.trim().toUpperCase();
     if (inputRef.current.value.trim() === "") {
       alert("검색어를 입력하세요!!");
       return;
     }
     SetKeyItem([]);
     setInfoIsModal(true);
-    nameData();
+    nameData(inputValue);
   };
 
   const [loadingFail, setLoadingFail] = useState(false); // 로딩실패시 재렌더링을 위한 상태관리
-  const nameData = async () => {
+  const nameData = async (inputValue) => {
     console.log("fetch문 안으로 등장");
     const res = await fetch(
       "/getStockPriceInfo?serviceKey=1KP%2F74OKGakEjZuUJc6YTkn5UTLRHtfug6BKkunpBqx3owk%2BrrquqsAG7hl7NqMbb5qqQYWVrkVKn7fnYfvXtQ%3D%3D&numOfRows=30&pageNo=1&resultType=json&likeItmsNm=" +
-        inputRef.current.value
+        inputValue
     );
 
     if (res.status === 500) {
@@ -195,7 +196,8 @@ const Header = () => {
     </svg>
   );
 
-  const { isLoggedIn, onLogout, email, name, image } = useContext(AuthContext);
+  const { isLoggedIn, onLogout, email, name, image, userRole } =
+    useContext(AuthContext);
 
   return (
     <>

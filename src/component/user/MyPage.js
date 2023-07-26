@@ -217,7 +217,6 @@ function MyPage() {
     setHavingInfo(false);
     setLikeInfo(true);
   };
-  const rank = 3;
 
   //도넛 안에 넣기 위한 labels
   const stockNames = Array.isArray(userInfo.myStocks)
@@ -673,6 +672,7 @@ function MyPage() {
                   <div className="sidebar-heading ">내 정보</div>
                   <div className="list-info">
                     <Update toggleModifyModal={toggleModifyModal} />
+
                     <a
                       className="nav-link"
                       href="#0"
