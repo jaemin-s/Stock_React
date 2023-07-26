@@ -206,7 +206,7 @@ const Update = ({ toggleModifyModal }) => {
     };
 
     try {
-      const response = await fetch("/api/user", {
+      const response = await fetch("/api/user/updateInfo", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -237,7 +237,7 @@ const Update = ({ toggleModifyModal }) => {
 
   const fetchUpdatePost = async () => {
     try {
-      const response = await fetch(API_BASE_URL, {
+      const response = await fetch("http://localhost:8181/api/user/updateInfo", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
