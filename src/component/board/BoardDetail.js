@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-
+import "./BoardDetail.scss";
 const BoardDetail = ({ boardType, id }) => {
   const [writer, setWriter] = useState("");
   const [title, setTitle] = useState("");
@@ -29,22 +29,55 @@ const BoardDetail = ({ boardType, id }) => {
 
   return (
     <div>
-      <table className="table" id="inquiryBoard">
+      <table
+        className="table"
+        id="inquiryBoard"
+        style={{ textAlign: "center", margin: "0 auto", lineHeight: "1.3" }}
+      >
         <tbody>
           <tr>
-            <td className="writer">작성자</td>
+            <td
+              className="writer"
+              style={{
+                backgroundColor: "#3385ff",
+                color: "white",
+                fontWeight: "600",
+              }}
+            >
+              작성자
+            </td>
             <td>
               <p>{writer}</p>
             </td>
           </tr>
           <tr>
-            <td className="title">제목</td>
+            <td
+              className="title"
+              style={{
+                backgroundColor: "#3385ff",
+                color: "white",
+                fontWeight: "600",
+              }}
+            >
+              제목
+            </td>
             <td>
               <p>{title}</p>
             </td>
           </tr>
           <tr>
-            <td className="content">내용</td>
+            <td
+              className="content"
+              style={{
+                backgroundColor: "#3385ff",
+                color: "white",
+                fontWeight: "600",
+                height: "400px",
+                lineHeight: "20",
+              }}
+            >
+              내용
+            </td>
             <td>
               <p>{content}</p>
             </td>
