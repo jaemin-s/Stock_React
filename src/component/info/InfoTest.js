@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import { RequsetHeader } from "../../config/apikey";
 const InfoTest = ({}) => {
   // 기업정보 관리
   const [info, setInfo] = useState([]);
@@ -18,6 +18,11 @@ const InfoTest = ({}) => {
 
   const sicList = [];
   let sicNb;
+
+  const [infoData, setInfoData] = useState({
+    categoryData: [],
+    values: [],
+  });
 
   useEffect(() => {
     corpInfo();
@@ -111,23 +116,22 @@ const InfoTest = ({}) => {
       </div>
     );
   }
-
   return (
-    <div style={{ margin: "30px auto", fontWeight: "600", lineHeight: "1.6" }}>
+    <div style={{ margin: "20px auto", fontWeight: "600", lineHeight: "1.6" }}>
       {info.map((item, index) => (
         <div key={index}>
           <p> 법인명: {item.corpNm} </p>
           <p> 법인번호: {item.crno} </p>
         </div>
       ))}
-      {resInfo.map((item, resIndex) => (
+      {/* {resInfo.map((item, resIndex) => (
         <div key={resIndex}>
           <p> 기업매출액 : {item.enpS} </p>
           <p> 기업영업이익: {item.enpB} </p>
           <p> 기업총자본금액 : {item.enpT} </p>
           <p> 재무제표부채비율: {item.fncL} </p>
         </div>
-      ))}
+      ))} */}
       {/* <div onClick={corpInfo}> test </div> */}
       {!noData && (
         <>

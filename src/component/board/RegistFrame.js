@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const RegistFrame = ({ boardType }) => {
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
   });
+  const [inputTitle, setInputTitle] = useState("");
+  const [inputContent, setInputContent] = useState("");
+  const navigate = useNavigate();
+
   const REQUEST_URL = "http://localhost:8181/api/";
   async function getInfo() {
     const res = await fetch(
       REQUEST_URL + "user/myInfo/" + localStorage.getItem("LOGIN_USEREMAIL")
     );
     const myInfo = await res.json();
-    // console.log("myInfo: ", myInfo);
     setUserInfo({
       name: myInfo.name,
       email: myInfo.email,
@@ -22,38 +26,31 @@ const RegistFrame = ({ boardType }) => {
     getInfo();
   }, []);
 
-  async function submitHandler(e) {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
+  function titleHandler(e) {
+    setInputTitle(e.target.value);
+  }
+  function contentHandler(e) {
+    setInputContent(e.target.value);
+  }
 
-    const title = formData.get("title");
-    const content = formData.get("content");
-    const writer = userInfo.name;
-    const email = userInfo.email;
-    const type = formData.get("type");
-
-    const res = await fetch(REQUEST_URL, +"/board", {
+  async function submitHandler() {
+    const res = await fetch(REQUEST_URL + "board", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ title, content, writer, email, type: boardType }),
+      body: JSON.stringify({
+        title: inputTitle,
+        content: inputContent,
+        writer: userInfo.name,
+        email: userInfo.email,
+        type: boardType,
+      }),
     });
-    // const submitInfo = await res.json();
-    // console.log("submitInfo: ", submitInfo);
-    // setSubmit({
-    //   email: submitInfo.email,
-    //   name: submitInfo.name,
-    //   title: submitInfo.title,
-    //   content: submitInfo.content,
-    // });
-    const responseJson = await res.json();
+
+    const responseJson = await res.text();
     console.log("responseJson: ", responseJson);
+    navigate("/" + boardType);
   }
 
-  const [selectedItem, setSelectedItem] = useState("선택");
-  function handleDropdownSelect(eventKey) {
-    setSelectedItem(eventKey);
-  }
   return (
     <div>
       <table className="table" id="inquiryBoard">
@@ -75,6 +72,7 @@ const RegistFrame = ({ boardType }) => {
                 className="form-control input-sm"
                 name="title"
                 id="title"
+                onChange={(e) => titleHandler(e)}
               />
             </td>
           </tr>
@@ -87,6 +85,7 @@ const RegistFrame = ({ boardType }) => {
                 name="content"
                 id="content"
                 type="text"
+                onChange={(e) => contentHandler(e)}
               ></textarea>
             </td>
           </tr>
@@ -98,14 +97,15 @@ const RegistFrame = ({ boardType }) => {
           className="button-58"
           id="regist-btn"
           style={{ float: "right" }}
+          onClick={submitHandler}
         >
           등록
         </button>
-        <a href="/inquiryBoard">
+        <NavLink to={-1}>
           <button className="button-58-1" style={{ float: "right" }}>
             취소
           </button>
-        </a>
+        </NavLink>
       </div>
     </div>
   );

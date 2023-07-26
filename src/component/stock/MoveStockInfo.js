@@ -13,7 +13,10 @@ const MoveStockInfo = ({ getStockRate }) => {
     (async function () {
       const result = await getStockRate(0);
       const refinedResult = result.filter(
-        (x) => !x.name.includes("KODEX") && !x.name.includes("선물")
+        (x) =>
+          !x.name.includes("KODEX") &&
+          !x.name.includes("선물") &&
+          !x.name.includes("옥수수")
       );
       setTopResult(refinedResult);
     })();
@@ -22,7 +25,10 @@ const MoveStockInfo = ({ getStockRate }) => {
   useEffect(() => {
     getStockRate(1).then((res) => {
       const refinedResult = res.filter(
-        (x) => !x.name.includes("KODEX") && !x.name.includes("선물")
+        (x) =>
+          !x.name.includes("KODEX") &&
+          !x.name.includes("선물") &&
+          !x.name.includes("옥수수")
       );
       setLowResult(refinedResult);
     });

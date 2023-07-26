@@ -1,10 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./InquiryBoard.scss";
 import Paging from "./Paging";
 import BoardSideBar from "./BoardSideBar";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import BoardContent from "./BoardContent";
 const InquiryBoard = ({ props }) => {
   const [page, setPage] = useState(1);
+  const [boardData, setboardData] = useState();
+  const navigate = useNavigate();
+
+  async function getBoardList() {
+    const res = await fetch(
+      "http://localhost:8181/api/board/inquiry" +
+        "?size=" +
+        8 +
+        "&page=" +
+        (page - 1)
+    );
+    const data = await res.json();
+    setboardData({
+      content: data.content,
+      totalElements: data.totalElements,
+      totlaPages: data.totalPages,
+      pageIndex: data.pageable.pageNumber,
+      offset: data.pageable.offset,
+    });
+    console.log(data);
+  }
+  useEffect(() => {
+    getBoardList();
+  }, [page]);
+
+  function titleClickHandler(id) {
+    console.log("click");
+    console.log("id:" + id);
+    console.log("type: inquiry");
+    navigate("/regist/?boardType=inquiry&id=" + id + "&type=read");
+  }
   return (
     <>
       <div id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
@@ -34,33 +66,19 @@ const InquiryBoard = ({ props }) => {
                 </div>
               </nav>
             </div>
-            <table className="table" style={{ marginTop: "60px" }}>
-              <thead>
-                <tr>
-                  <th scope="col">번호</th>
-                  <th scope="col">작성일</th>
-                  <th scope="col">제목</th>
-                  <th scope="col">작성자</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>2</td>
-                  <td>2023-07-23</td>
-                  <td>문의사항 1</td>
-                  <td>작성자 1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>2023-07-24</td>
-                  <td>문의사항 2</td>
-                  <td>작성자 2</td>
-                </tr>
-              </tbody>
-            </table>
-            <Paging page={page} count={100} setPage={setPage} />
+            <BoardContent
+              boardData={boardData}
+              titleClickHandler={titleClickHandler}
+            />
+            {boardData && (
+              <Paging
+                page={page}
+                count={boardData.totalElements}
+                setPage={setPage}
+              />
+            )}
             <br />
-            <NavLink to="/regist?boardType=inquiry">
+            <NavLink to="/regist?boardType=inquiry&type=write">
               <button className="button-58" style={{ float: "right" }}>
                 글쓰기
               </button>

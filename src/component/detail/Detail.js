@@ -32,6 +32,11 @@ import RcmMbti from "./RcmMbti";
 import Swal from "sweetalert2";
 
 const Detail = () => {
+  const [infoData, setInfoData] = useState({
+    categoryData: [],
+    values: [],
+  });
+
   const { value } = useParams();
   const title = value.split("(", 2);
   // console.log(title[0]); //종목 이름
@@ -87,6 +92,7 @@ const Detail = () => {
 
   useEffect(() => {
     loadFavorite();
+    getMyInfo();
   }, [value]);
 
   // 관심종목 목록 불러오기
@@ -124,12 +130,16 @@ const Detail = () => {
   const [userStockInfo, setUserStockInfo] = useState([]);
   //검색한 주식의 보유 개수
   const [currentHavingStock, setCurrentHavingStock] = useState();
+  //샀을 당시 주식 가격
+  const [pastStock, setPastStock] = useState(0);
   //내정보 불러오기 로직
   const getMyInfo = async () => {
-    const res = await fetch("http://localhost:8181/api/user/myInfo/" + email);
+    const res = await fetch(
+      "http://localhost:8181/api/user/myInfo/" +
+        localStorage.getItem("LOGIN_USEREMAIL")
+    );
     if (res.status === 200) {
       const result = await res.json();
-      // console.log(result.money); // 로그인 한 유저의 남은 보유 금액
       setCurrentAsset(result.money); // 로그인 한 유저의 남은 보유 금액
       console.log(result.myStocks);
       let flag = false;
@@ -137,8 +147,8 @@ const Detail = () => {
       result.myStocks.forEach((x) => {
         console.log(x.stockName);
         if (x.stockName === title[0]) {
-          console.log(x.quantity);
           setCurrentHavingStock(x.quantity);
+          setPastStock(x.price);
           flag = true;
         }
       });
@@ -150,6 +160,7 @@ const Detail = () => {
 
   // 8자리 날짜를 yyyy-MM-dd로 변환
   const dateFormat = (date) => {
+    if (!date) return ""; // date가 undefined인 경우 빈 문자열 반환
     return date.slice(0, 4) + "-" + date.slice(4, 6) + "-" + date.slice(6, 8);
   };
 
@@ -170,7 +181,7 @@ const Detail = () => {
         },
       }
     );
-    // console.log(res);
+    // console.log("res: ", res);
 
     if (res.status === 200) {
       const data = await res.json();
@@ -407,14 +418,80 @@ const Detail = () => {
     });
   };
 
-  const currentPrice = livePrice;
+  const currentPrice = livePrice; //보고있는 주식의 현재가
 
-  const totalOrder = order * currentPrice;
+  const totalOrder = order * currentPrice; // 주문 수량 * 현재가 = 총 주문금액
 
   const afterAsset = currentAsset - totalOrder; //매매 후 자산
 
-  const totalPrice = currentHavingStock * currentPrice;
+  const totalPrice = currentHavingStock * currentPrice; // 보유 주식 * 현재가
 
+  const profit = livePrice * currentHavingStock - pastStock; //내가 산 주식 - 현재가격 = 손익 금액
+
+  const dateFormatJ = (date) => {
+    const [year, month, day] = date.split("-");
+    return `${year.slice(2)}.${month}.${day}`;
+  };
+
+  // console.log("title[1].slice(0, -1): ", title[1].slice(0, -1));
+  const transition = async (title) => {
+    const stockId = Array.isArray(title) ? title.join("") : title;
+    let today = new Date();
+    let currentDate = today.toISOString().slice(0, 10).replaceAll("-", "");
+    let startDate = new Date(today.setDate(today.getDate() - 150))
+      .toISOString()
+      .slice(0, 10)
+      .replaceAll("-", "");
+    const res = await fetch(
+      "/quotations/inquire-daily-itemchartprice?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+        stockId +
+        "&FID_INPUT_DATE_1=" +
+        startDate +
+        "&FID_INPUT_DATE_2=" +
+        currentDate +
+        "&FID_PERIOD_DIV_CODE=M&FID_ORG_ADJ_PRC=1",
+      {
+        headers: {
+          ...RequsetHeader,
+          tr_id: "FHKST03010100",
+        },
+      }
+    );
+    // console.log("res: ", res);
+
+    if (res.status === 200) {
+      const data = await res.json();
+      // console.log(data);
+      //필요한 값만 추출
+      let values = [];
+      let dates = [];
+      // console.log(data);
+
+      data.output2.forEach((x) => {
+        const {
+          stck_bsop_date: date,
+          prdy_vrss: than,
+          stck_clpr: close,
+          acml_vol: deal,
+        } = x;
+        // console.log(typeof deal);
+        dates.unshift(dateFormat(date));
+
+        values.unshift([parseInt(close), parseInt(than), parseInt(deal)]);
+      });
+
+      setInfoData({ categoryData: dates, values });
+      return { categoryData: dates, values };
+    }
+  };
+
+  useEffect(() => {
+    const title = value.split("(", 2);
+
+    if (title && title.length >= 2) {
+      transition(title[1].slice(0, -1));
+    }
+  }, []);
   const modalBuy = (
     <>
       <Modal
@@ -550,22 +627,49 @@ const Detail = () => {
 
   // 종목 정보
   const viewInfo = (
-    // <Carousel>
-    // <div className="card-body" id='viewInfoId'>1
-    //     <p> 법인번호: 0287364849484 </p>
-    //     <hr />
-    //     <p> 법인명: 오늘내일 </p>
-    //     <hr />
-    //     <p> 기업매출액 : 34,357,098,222 </p>
-    //     <hr />
-    //     <p> 기업영업이익: 53,363,644 </p>
-    //     <hr />
-    //     <p> 기업총자본금액 : 5,525,645,723 </p>
-    //     <hr />
-    //     <p> 재무제표부채비율: 24</p>
-    // </div>
-    // </Carousel>
     <>
+      <table
+        className="responsive-table"
+        style={{
+          width: "100%",
+          fontWeight: "550",
+          margin: "0",
+          height: "350px",
+        }}
+      >
+        <thead>
+          <tr>
+            <th scope="col" style={{ textAlign: "center" }}>
+              날짜
+            </th>
+            <th scope="col">종가</th>
+            <th scope="col">대비</th>
+            <th scope="col">거래량</th>
+          </tr>
+        </thead>
+        <tbody>
+          {infoData.categoryData
+            .map((date, index) => ({
+              date,
+              values: infoData.values[index],
+            }))
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .map((item, index) => (
+              <tr key={index}>
+                <td>{dateFormatJ(item.date)}</td>
+                {item.values.map((value, innerIndex) => (
+                  <td key={innerIndex}>
+                    {innerIndex === 4 ? (
+                      <div>{value}</div>
+                    ) : (
+                      value.toLocaleString()
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+        </tbody>
+      </table>
       <InfoTest />
     </>
   );
@@ -573,35 +677,63 @@ const Detail = () => {
   const viewMyStock = (
     <>
       <div className="card-body">
-        <div className="info">
-          <table className="myTable">
-            <tbody>
-              <tr>
-                <td className="mine">1주 평균금액</td>
-                <td>{livePrice}원</td>
-                {/* 일단 '호가'에서 선택된 금액으로 설정하겠습니다. 불필요하다고 판단되면 삭제해도 좋습니다.  */}
-              </tr>
-              <tr>
-                <td className="mine">보유 수량</td>
-                <td>{currentHavingStock}</td>
-              </tr>
-              <tr>
-                <td className="mine">총 금액</td>
-                <td class="total-amount">
-                  {(livePrice * currentHavingStock).toLocaleString()}원
-                  <div style={{ fontSize: "15px" }}>
-                    <span>+2,640</span>
-                    <span class="positive">(+8.1%)</span>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td className="mine">투자 원금</td>
-                <td>{totalPrice.toLocaleString()}원</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        {currentHavingStock === 0 ? (
+          <div className="stock-notice">
+            <p>해당 주식의 보유 수량은 0개입니다.</p>
+          </div>
+        ) : (
+          <div className="info">
+            <table className="myTable">
+              <tbody>
+                <tr>
+                  <td className="mine">1주 평균금액</td>
+                  <td>
+                    {currentHavingStock === 0
+                      ? 0
+                      : Math.floor(
+                          pastStock / currentHavingStock
+                        ).toLocaleString()}
+                    원
+                  </td>
+                  {/* 일단 '호가'에서 선택된 금액으로 설정하겠습니다. 불필요하다고 판단되면 삭제해도 좋습니다.  */}
+                </tr>
+                <tr>
+                  <td className="mine">보유 수량</td>
+                  <td>{currentHavingStock}주</td>
+                </tr>
+                <tr>
+                  <td className="mine">총 금액</td>
+                  <td class="total-amount">
+                    {(livePrice * currentHavingStock).toLocaleString()}원
+                    {currentHavingStock === 0 ? (
+                      <div></div>
+                    ) : (
+                      <div
+                        style={{
+                          fontSize: "15px",
+                          color: profit >= 0 ? "red" : "blue",
+                        }}
+                      >
+                        <span>{profit}원 </span>
+                        <span>
+                          ({parseFloat((profit / pastStock) * 100).toFixed(2)}
+                          %)
+                        </span>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="mine">투자 원금</td>
+                  <td>
+                    {currentHavingStock === 0 ? 0 : pastStock.toLocaleString()}
+                    원
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </>
   );
@@ -737,11 +869,6 @@ const Detail = () => {
                       </div>
                     </div>
                   }
-                  {/* {filled && (
-                            <div className="card-body">
-                            <div className='like-content'><a href="/detail/{종목명}">{종목명}</a> </div>
-                            </div>
-                        )} */}
                 </div>
                 <div id="second-box" className="popular-trade card shadow mb-4">
                   <div className="card-header">

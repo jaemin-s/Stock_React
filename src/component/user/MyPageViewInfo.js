@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import OverallRank from "../stock/OverallRank";
 const MyPageViewInfo = () => {
   const [userInfo, setUserInfo] = useState({
     email: "",
@@ -13,6 +13,7 @@ const MyPageViewInfo = () => {
     money: 0,
     return: "",
   });
+  const [rank, setRank] = useState("0");
 
   function getAge(age) {
     switch (age) {
@@ -50,6 +51,7 @@ const MyPageViewInfo = () => {
   }
   useEffect(() => {
     getInfo();
+    getMyRank();
   }, []);
 
   function getGender(gender) {
@@ -61,7 +63,20 @@ const MyPageViewInfo = () => {
     }
   }
 
-  const rank = 3;
+  const getMyRank = async () => {
+    const res = await fetch(
+      "http://localhost:8181/api/trade/rank/" +
+        localStorage.getItem("LOGIN_USEREMAIL")
+    );
+    if (res.status === 200) {
+      const result = await res.json();
+      if (result === null) {
+        setRank(0);
+      } else {
+        setRank(result.rank);
+      }
+    }
+  };
 
   return (
     <>
@@ -71,9 +86,25 @@ const MyPageViewInfo = () => {
         <br />
         <br />
         <br />
-        <div id="1">
-          '{userInfo.name}' 님의 현재 등수 : {rank} 등
-        </div>
+        {rank === 0 ? (
+          <div>
+            <div id="1" style={{ marginBottom: "10px" }}>
+              나의 주식실력을 알고 싶다면 모의투자를 경험해보세요!
+            </div>
+            {/* <div className="flex">
+              <button
+                className="btn btn-sm btn-user btn-primary"
+                style={{ margin: "0 auto" }}
+              >
+                모의투자 하러가기
+              </button>
+            </div> */}
+          </div>
+        ) : (
+          <div id="1">
+            '{userInfo.name}' 님의 현재 등수 : {rank} 등
+          </div>
+        )}
       </div>
       <br />
       <br />

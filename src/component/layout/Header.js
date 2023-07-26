@@ -73,7 +73,7 @@ const Header = () => {
     console.log("fetch문 안으로 등장");
     const res = await fetch(
       "/getStockPriceInfo?serviceKey=1KP%2F74OKGakEjZuUJc6YTkn5UTLRHtfug6BKkunpBqx3owk%2BrrquqsAG7hl7NqMbb5qqQYWVrkVKn7fnYfvXtQ%3D%3D&numOfRows=30&pageNo=1&resultType=json&likeItmsNm=" +
-      inputValue
+        inputValue
     );
 
     if (res.status === 500) {
@@ -196,7 +196,8 @@ const Header = () => {
     </svg>
   );
 
-  const { isLoggedIn, onLogout, email, name, image } = useContext(AuthContext);
+  const { isLoggedIn, onLogout, email, name, image, userRole } =
+    useContext(AuthContext);
 
   return (
     <>
@@ -294,7 +295,7 @@ const Header = () => {
               </li>
               <hr className="border-line" />
               <li className="dropdown-item">
-                <a className="nav-link" href="/inquiryBoard">
+                <a className="nav-link" href="/inquiry">
                   문의 게시판
                 </a>
               </li>
