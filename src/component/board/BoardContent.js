@@ -28,16 +28,6 @@ const BoardContent = ({ boardData, titleClickHandler }) => {
               fontWeight: "600",
             }}
           >
-            작성일
-          </th>
-          <th
-            scope="col"
-            style={{
-              backgroundColor: "#3385ff",
-              color: "white",
-              fontWeight: "600",
-            }}
-          >
             제목
           </th>
           <th
@@ -49,6 +39,16 @@ const BoardContent = ({ boardData, titleClickHandler }) => {
             }}
           >
             작성자
+          </th>
+          <th
+            scope="col"
+            style={{
+              backgroundColor: "#3385ff",
+              color: "white",
+              fontWeight: "600",
+            }}
+          >
+            작성일
           </th>
         </tr>
       </thead>
