@@ -86,6 +86,7 @@ const RegistFrame = ({ boardType }) => {
                 id="content"
                 type="text"
                 onChange={(e) => contentHandler(e)}
+                style={{ resize: "none" }}
               ></textarea>
             </td>
           </tr>

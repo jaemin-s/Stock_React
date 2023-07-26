@@ -101,22 +101,13 @@ const BoardDetail = ({ boardType, id }) => {
                 backgroundColor: "#3385ff",
                 color: "white",
                 fontWeight: "600",
+                width: "200px",
               }}
             >
               작성자
             </td>
             <td>
-              {updateMode ? (
-                <input
-                  className="form-control input-sm"
-                  value={writer}
-                  readOnly
-                />
-              ) : (
-                <p style={{ textAlign: "left", marginLeft: "20px" }}>
-                  {writer}
-                </p>
-              )}
+              <p>{writer}</p>
             </td>
           </tr>
           <tr>
@@ -140,7 +131,7 @@ const BoardDetail = ({ boardType, id }) => {
                   value={inputTitle}
                 />
               ) : (
-                <p style={{ textAlign: "left", marginLeft: "20px" }}>{title}</p>
+                <p>{title}</p>
               )}
             </td>
           </tr>
@@ -151,7 +142,7 @@ const BoardDetail = ({ boardType, id }) => {
                 backgroundColor: "#3385ff",
                 color: "white",
                 fontWeight: "600",
-                height: "100px",
+                height: "400px",
                 lineHeight: "20",
               }}
             >
@@ -166,12 +157,11 @@ const BoardDetail = ({ boardType, id }) => {
                 type="text"
                 onChange={(e) => contentHandler(e)}
                 value={inputContent}
+                style={{ resize: "none", minHeight: "400px" }}
               />
             ) : (
               <td>
-                <p style={{ textAlign: "left", marginLeft: "20px" }}>
-                  {content}
-                </p>
+                <p>{content}</p>
               </td>
             )}
           </tr>
