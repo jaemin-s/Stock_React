@@ -30,6 +30,7 @@ import { isLogin } from "../util/login-utils";
 import AuthContext from "../util/AuthContext";
 import RcmMbti from "./RcmMbti";
 import Swal from "sweetalert2";
+import InvestmentStrategy from "./InvestmentStrategy";
 
 const Detail = () => {
   const [infoData, setInfoData] = useState({
@@ -41,6 +42,8 @@ const Detail = () => {
   const title = value.split("(", 2);
   // console.log(title[0]); //종목 이름
   // console.log(title[1].slice(0, -1)); //종목 코드
+  //로그인한 유저의 mbti
+  const [myMbti, setMyMbti] = useState("");
 
   //현재가, 등락률 관리
   const [livePrice, setLivePrice] = useState();
@@ -140,6 +143,8 @@ const Detail = () => {
     );
     if (res.status === 200) {
       const result = await res.json();
+      console.log(result);
+      setMyMbti(result.mbti);
       setCurrentAsset(result.money); // 로그인 한 유저의 남은 보유 금액
       // console.log("result.myStocks: ", result.myStocks);
       let flag = false;
@@ -947,10 +952,11 @@ const Detail = () => {
               <hr />
               <div className="flex bottom-content">
                 <div id="last-box" className="simulated-rank card shadow mb-4">
-                  <div className="card-header">
+                  <div className="card-header flex">
                     <h6 className="m-0 font-weight-bold text-primary">
                       MBTI별 추천
                     </h6>
+                    <InvestmentStrategy personalityType={myMbti} />
                   </div>
                   <div className="card-body" id="sic-body">
                     <RcmMbti value={value} />
