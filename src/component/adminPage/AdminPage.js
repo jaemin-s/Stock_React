@@ -1,14 +1,51 @@
-import React from 'react'
+import React, { useState } from 'react'
+import "./AdminPage.scss"
+import Paging from '../board/Paging';
+import { Modal, ModalBody } from 'reactstrap';
 
 const AdminPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  
+   // 모달 표시 및 닫기를 위한 핸들러 함수
+   const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+    const controlModal = (
+      <Modal>
+        <ModalBody>
+          <div className='roll-box'>
+            <div>
+              dd
+            </div>
+          </div>
+        </ModalBody>
+      </Modal>
+    );
     
+   
 
+
+
+
+
+
+    const Search = ({ size = 25, color = "#fcf9f9" }) => (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke={color}
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      );
     
-
-
-
-
-
     return (
         <>
           <body id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
@@ -36,39 +73,11 @@ const AdminPage = () => {
     
                   
                       <div className="sidebar-heading">추가할거</div>
-                      {/* <div className="list-assets">
-                        <a
-                          className="nav-link"
-                          href="#2"
-                          style={{ padding: "0px 16px" }}
-                        >
-                          <i className="fas fa-fw fa-tachometer-alt"></i>
-                          <span>내 자산 정보</span>
-                        </a>
-                        <a
-                          className="nav-link"
-                          href="#0"
-                          style={{ padding: "0px 16px" }}
-                        >
-                          <i className="fas fa-fw fa-tachometer-alt"></i>
-                          <span>자산 변동</span>
-                        </a>
-                        
-                      </div> */}
+
                       <hr className="sidebar-divider my-0"></hr>
     
                       <div className="sidebar-heading">거래 내역</div>
-                      {/* <a
-                        className="nav-link"
-                        href="#3-1"
-                        style={{ padding: "0px 16px", margin: "0 0 0 20px" }}
-                      >
-                        <i className="fas fa-fw fa-tachometer-alt"></i>
-                        <span>상세 내역</span>
-                      </a> */}
-                    
-    
-                  
+               
                       <div className="sidebar-heading">추가할거</div>
                       <ul style={{ padding: "0 0 0 10px" }}>
                        
@@ -141,7 +150,7 @@ const AdminPage = () => {
                             href="#"
                             style={{ fontWeight: 700, fontSize: 25 }}
                           >
-                            추가할거
+                            유저통계
                           </a>
                         </li>
                         <li
@@ -158,10 +167,10 @@ const AdminPage = () => {
                             href="#"
                             style={{ fontWeight: 700, fontSize: 25 }}
                           >
-                            추가할거
+                           전체 거래내역 조회
                           </a>
                         </li>
-                        <li
+                        {/* <li
                           className="nav-item"
                           id="border"
                           style={{ fontSize: 30 }}
@@ -177,7 +186,7 @@ const AdminPage = () => {
                           >
                             추가할거
                           </a>
-                        </li>
+                        </li> */}
                       </ul>
                       <br />
                       <br />
@@ -187,8 +196,116 @@ const AdminPage = () => {
                     </div>
                   </nav>
                 </div>
+                <div style={{display: 'flex', marginLeft:490, marginTop: 50, maxWidth: 140}}>   
+                    <select>
+                        <option value="all">전체</option>
+                        <option value="name">이름</option>      
+                        <option value="email">이메일</option>
+                      </select>
+                        {/* 검색창 */}
+                      <div
+                      style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: 'center'
+                      }}
+                      >
+                <form className="search-form-container" >
+                    <div className="input-group input-group-append" style={{width: 280}}>
+                    <input
+                        id="searchText"
+                        type="text"
+                        className="form-control " //border-0 small
+                        placeholder="입력해주세요."
+                        aria-label="Search"
+                        aria-describedby="basic-addon1"
+                        // ref={inputRef}
+                    />
+                    <button className="btn btn-primary searchBtn">
+                        <i className="fa-solid fa-magnifying-glass"></i>
+                        <Search />
+                    </button>
+                    </div>
+                </form>
+                </div>
+                </div>
+
+                <div className='user-info-box'>
+                <table className="table">
+                    <thead>
+                      <tr>
+                        <th
+                          style={{
+                            backgroundColor: "#3385ff",
+                            color: "white",
+                            fontWeight: "600",
+                          }}
+                          scope="col"
+                        >
+                          이름
+                        </th>
+                        <th
+                          scope="col"
+                          style={{
+                            backgroundColor: "#3385ff",
+                            color: "white",
+                            fontWeight: "600",
+                          }}
+                        >
+                          닉네임
+                        </th>
+                        <th
+                          scope="col"
+                          style={{
+                            backgroundColor: "#3385ff",
+                            color: "white",
+                            fontWeight: "600",
+                          }}
+                        >
+                          이메일
+                        </th>
+                        <th
+                          scope="col"
+                          style={{
+                            backgroundColor: "#3385ff",
+                            color: "white",
+                            fontWeight: "600",
+                          }}
+                        >
+                          전화번호
+                        </th>
+                        <th
+                          scope="col"
+                          style={{
+                            backgroundColor: "#3385ff",
+                            color: "white",
+                            fontWeight: "600",
+                          }}
+                        >
+                          관리
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>홍길동</td>
+                        <td>춘식이</td>
+                        <td>hong@gmail.com</td>
+                        <td>01024093845</td>
+                        <td>
+                          <button onClick={toggleModal}
+                          style={{border:'none', backgroundColor: 'white'}}>
+                            ↪
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>                   
+                </div>
+                <Paging />
               </div>
             </div>
+            {isModalOpen && controlModal}
           </body>
         </>
       );
