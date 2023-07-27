@@ -10,15 +10,21 @@ const BoardRegist = () => {
   const [id, setId] = useState();
   const location = useLocation();
   const { state } = location;
-  const selectedType = state.type;
-  console.log("savedPage in BoardRegist", state.savedPage);
+  let pageType;
+  if (!state) {
+    pageType = "";
+  } else {
+    pageType = state.type;
+  }
   useEffect(() => {
-    setBoardType(state.boardType);
-    setId(state.id);
+    if (!!state) {
+      setBoardType(state.boardType);
+      setId(state.id);
+    }
   }, []);
 
   function showHandler() {
-    if (selectedType === "read") {
+    if (pageType === "read") {
       return (
         <BoardDetail
           boardType={state.boardType}
@@ -26,7 +32,7 @@ const BoardRegist = () => {
           savedPage={state.savedPage}
         />
       );
-    } else if (selectedType === "write") {
+    } else if (pageType === "write") {
       return <RegistFrame boardType={state.boardType} />;
     } else {
       return;

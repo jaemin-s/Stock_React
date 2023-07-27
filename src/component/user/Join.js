@@ -302,21 +302,21 @@ const Join = () => {
   };
 
   // 이미지 파일 상태변수
-  const [imgFile, setImgFile] = useState(null);
+  // const [imgFile, setImgFile] = useState(null);
 
   // 이미지파일을 선택했을 때 썸네일 뿌리기
-  const showThumbnailHandler = (e) => {
-    //첨부된 파일 정보
-    const file = $fileTag.current.files[0];
-    console.log(file);
+  // const showThumbnailHandler = (e) => {
+  //   //첨부된 파일 정보
+  //   const file = $fileTag.current.files[0];
+  //   console.log(file);
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(file);
 
-    reader.onloadend = () => {
-      setImgFile(reader.result);
-    };
-  };
+  //   reader.onloadend = () => {
+  //     setImgFile(reader.result);
+  //   };
+  // };
 
   // 입력칸이 모두 검증에 통과했는지 여부를 검사
   const isValid = () => {
@@ -333,13 +333,13 @@ const Join = () => {
     const userJsonBlob = new Blob([JSON.stringify(userValue)], {
       type: "application/json",
     });
-    console.log("profileImage: " + $fileTag.current.files[0]);
+    // console.log("profileImage: " + $fileTag.current.files[0]);
 
     // 이미지파일과 회원정보 JSON을 하나로 묶어야 함
     // FormData 객체를 활용해서.
     const userFormData = new FormData();
     userFormData.append("user", userJsonBlob);
-    userFormData.append("profileImage", $fileTag.current.files[0]);
+    // userFormData.append("profileImage", $fileTag.current.files[0]);
 
     fetch(API_BASE_URL, {
       method: "POST",
@@ -394,7 +394,7 @@ const Join = () => {
                     <h1 className="h4 text-gray-900 mb-4">회원가입</h1>
                   </div>
                   <form className="user">
-                    <div
+                    {/* <div
                       className="thumbnail-box"
                       onClick={() => $fileTag.current.click()}
                     >
@@ -413,7 +413,7 @@ const Join = () => {
                       accept="image/*"
                       ref={$fileTag}
                       onChange={showThumbnailHandler}
-                    />
+                    /> */}
 
                     <div className="form-group">
                       <input
