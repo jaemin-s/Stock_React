@@ -14,9 +14,30 @@ const MoveStockInfo = ({ getStockRate }) => {
       const result = await getStockRate(0);
       const refinedResult = result.filter(
         (x) =>
-          !x.name.includes("KODEX") &&
+          !x.name.includes("KODEX") && //삼성자산운용의 ETF
           !x.name.includes("선물") &&
-          !x.name.includes("옥수수")
+          !x.name.includes("옥수수") &&
+          !x.name.includes("스팩") &&
+          !x.name.includes("인버스") &&
+          !x.name.includes("TIGER") && //미래에셋자산운용의 ETF
+          !x.name.includes("HANARO") &&
+          !x.name.includes("KOSEF") &&
+          !x.name.includes("SOL") &&
+          !x.name.includes("KBSTAR") && //국민
+          !x.name.includes("KTOP") &&
+          !x.name.includes("TIMEFOLIO") &&
+          !x.name.includes("ARIRANG") &&
+          !x.name.includes("200") &&
+          !x.name.includes("Fn") &&
+          !x.name.includes("ACE") &&
+          !x.name.includes("KRX") &&
+          !x.name.includes("BNK") &&
+          !x.name.includes("WOORI") && //우리
+          !x.name.includes("KOREA") &&
+          !x.name.includes("TREX") &&
+          !x.name.includes("KOSEF") &&
+          !x.name.includes("옥수수") &&
+          !x.name.includes("레버리지")
       );
       setTopResult(refinedResult);
     })();
@@ -26,9 +47,30 @@ const MoveStockInfo = ({ getStockRate }) => {
     getStockRate(1).then((res) => {
       const refinedResult = res.filter(
         (x) =>
-          !x.name.includes("KODEX") &&
+          !x.name.includes("KODEX") && //삼성자산운용의 ETF
           !x.name.includes("선물") &&
-          !x.name.includes("옥수수")
+          !x.name.includes("옥수수") &&
+          !x.name.includes("스팩") &&
+          !x.name.includes("인버스") &&
+          !x.name.includes("TIGER") && //미래에셋자산운용의 ETF
+          !x.name.includes("HANARO") && //하나
+          !x.name.includes("KOSEF") &&
+          !x.name.includes("SOL") && //신한
+          !x.name.includes("KBSTAR") && //국민
+          !x.name.includes("KTOP") &&
+          !x.name.includes("TIMEFOLIO") &&
+          !x.name.includes("ARIRANG") &&
+          !x.name.includes("200") &&
+          !x.name.includes("Fn") &&
+          !x.name.includes("ACE") &&
+          !x.name.includes("KRX") &&
+          !x.name.includes("BNK") &&
+          !x.name.includes("WOORI") && //우리
+          !x.name.includes("KOREA") &&
+          !x.name.includes("TREX") &&
+          !x.name.includes("KOSEF") &&
+          !x.name.includes("옥수수") &&
+          !x.name.includes("레버리지")
       );
       setLowResult(refinedResult);
     });

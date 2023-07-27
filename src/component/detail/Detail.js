@@ -741,7 +741,7 @@ const Detail = () => {
                           color: profit >= 0 ? "red" : "blue",
                         }}
                       >
-                        <span>{profit}원 </span>
+                        <span>{profit.toLocaleString()}원 </span>
                         <span>
                           ({parseFloat((profit / pastStock) * 100).toFixed(2)}
                           %)

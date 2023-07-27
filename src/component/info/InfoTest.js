@@ -112,6 +112,7 @@ const InfoTest = ({}) => {
         <img
           src={require("../layout/guideline/image/spiner.gif")}
           alt="Loading..."
+          style={{ height: "130px", marginLeft: "45px" }}
         ></img>
       </div>
     );

@@ -41,7 +41,16 @@ const Delete = () => {
 
   return (
     <div>
-      <button onClick={handleDeleteUser}>회원 탈퇴</button>
+      <a
+        className="nav-link"
+        href="#0"
+        style={{ padding: "0px 16px" }}
+        onClick={handleDeleteUser}
+      >
+        <i className="fas fa-fw fa-tachometer-alt"></i>
+        <span>탈퇴</span>
+      </a>
+
       <p>{responseMessage}</p>
     </div>
   );
