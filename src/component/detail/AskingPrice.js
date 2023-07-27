@@ -54,10 +54,8 @@ const AskingPrice = ({ selectedValueHandler }) => {
   }, [value]);
 
   useEffect(() => {
-    // getHoga();
     const timer = setInterval(() => {
       getHoga();
-      // console.log('1초지남');
       setTime(new Date());
     }, 500); // 0.5초마다 렌더링
     return () => {

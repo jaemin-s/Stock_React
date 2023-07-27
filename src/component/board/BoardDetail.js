@@ -164,7 +164,7 @@ const BoardDetail = ({ boardType, id }) => {
               작성자
             </td>
             <td>
-              <p>{writer}</p>
+              <p style={{ textAlign: "left", marginLeft: "10px" }}>{writer}</p>
             </td>
           </tr>
           <tr>
@@ -188,7 +188,7 @@ const BoardDetail = ({ boardType, id }) => {
                   value={inputTitle}
                 />
               ) : (
-                <p>{title}</p>
+                <p style={{ textAlign: "left", marginLeft: "10px" }}>{title}</p>
               )}
             </td>
           </tr>
@@ -218,7 +218,9 @@ const BoardDetail = ({ boardType, id }) => {
               />
             ) : (
               <td>
-                <p>{content}</p>
+                <p style={{ textAlign: "left", marginLeft: "10px" }}>
+                  {content}
+                </p>
               </td>
             )}
           </tr>
