@@ -276,8 +276,8 @@ const Join = () => {
     });
   };
 
-   //전화번호 입력창 체인지 이벤트 핸들러
-   const phoneNumberHandler = (e) => {
+  //전화번호 입력창 체인지 이벤트 핸들러
+  const phoneNumberHandler = (e) => {
     let inputVal = e.target.value;
 
     const phoneNumberRegex = /[^0-9]/;
@@ -379,7 +379,7 @@ const Join = () => {
   };
   const closeModall = () => {
     setModalOpenl(false);
-  };     
+  };
 
   return (
     <div className="bg-gradient-primary">
@@ -525,27 +525,27 @@ const Join = () => {
                       </span>
                     </div>
 
-
                     <div className="form-group">
                       <input
-                        type="text" maxLength='11'
+                        type="text"
+                        maxLength="11"
                         className="form-control form-control-user"
                         id="phoneNumber"
                         placeholder="전화번호"
                         required
                         onChange={phoneNumberHandler}
                       />
-                       <span
+                      <span
                         className="pass-msg"
                         style={
-                          correct.phoneNumber ? { color: "blue" } : { color: "red" }
+                          correct.phoneNumber
+                            ? { color: "blue" }
+                            : { color: "red" }
                         }
                       >
                         {message.phoneNumber}
                       </span>
-                      </div>
-
-
+                    </div>
 
                     <div className="form-group">
                       <input
@@ -636,7 +636,8 @@ const Join = () => {
                         <option value="ENTP">ENTP</option>
                         <option value="ENTJ">ENTJ</option>
                       </select>
-                      <p>*MBTI별 추천을 받고 싶으시면 선택해주세요. <br />
+                      <p>
+                        *MBTI별 추천을 받고 싶으시면 선택해주세요. <br />
                         원하지 않으시면 선택안함으로 해주세요.
                       </p>
                     </div>
@@ -652,10 +653,16 @@ const Join = () => {
 
                   <hr />
                   <div className="text-center">
-                  <React.Fragment>
-                                            <a className="small"  href="#" onClick={openModall}>비밀번호 변경</a> 
-                                            <PasswordModal open={modalOpenl} close={closeModall} header="비밀번호 변경">
-                                                </PasswordModal></React.Fragment>
+                    <React.Fragment>
+                      <a className="small" href="#" onClick={openModall}>
+                        비밀번호 변경
+                      </a>
+                      <PasswordModal
+                        open={modalOpenl}
+                        close={closeModall}
+                        header="비밀번호 변경"
+                      ></PasswordModal>
+                    </React.Fragment>
                   </div>
                   <div className="text-center">
                     <a className="small" href="/login">

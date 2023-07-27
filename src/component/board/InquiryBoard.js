@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./InquiryBoard.scss";
 import Paging from "./Paging";
 import BoardSideBar from "./BoardSideBar";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import BoardContent from "./BoardContent";
 const InquiryBoard = ({ props }) => {
-  const [page, setPage] = useState(1);
+  const location = useLocation();
+  const { state } = location;
+  const [page, setPage] = useState(!!state ? state.savedPage : 1);
   const [boardData, setboardData] = useState();
   const navigate = useNavigate();
 
@@ -25,17 +27,16 @@ const InquiryBoard = ({ props }) => {
       pageIndex: data.pageable.pageNumber,
       offset: data.pageable.offset,
     });
-    console.log(data);
   }
   useEffect(() => {
     getBoardList();
+    console.log(page);
   }, [page]);
 
   function titleClickHandler(id) {
-    console.log("click");
-    console.log("id:" + id);
-    console.log("type: inquiry");
-    navigate("/regist/?boardType=inquiry&id=" + id + "&type=read");
+    navigate("/regist", {
+      state: { boardType: "inquiry", id: id, type: "read", savedPage: page },
+    });
   }
   return (
     <>
@@ -78,7 +79,10 @@ const InquiryBoard = ({ props }) => {
               />
             )}
             <br />
-            <NavLink to="/regist?boardType=inquiry&type=write">
+            <NavLink
+              to="/regist"
+              state={{ boardType: "inquiry", type: "write", savedPage: page }}
+            >
               {localStorage.getItem("isLoggedIn") === "1" && (
                 <button className="button-58" style={{ float: "right" }}>
                   글쓰기

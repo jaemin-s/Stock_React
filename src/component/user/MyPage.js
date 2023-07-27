@@ -703,16 +703,7 @@ function MyPage() {
                   <div className="sidebar-heading ">내 정보</div>
                   <div className="list-info">
                     <Update toggleModifyModal={toggleModifyModal} />
-
-                    <a
-                      className="nav-link"
-                      href="#0"
-                      style={{ padding: "0px 16px" }}
-                    >
-                      <i className="fas fa-fw fa-tachometer-alt"></i>
-                      <span>탈퇴</span>
-                      <Delete />
-                    </a>
+                    <Delete />
                   </div>
                 </>
               ) : null}
