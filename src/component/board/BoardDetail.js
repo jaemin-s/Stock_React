@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const BoardDetail = ({ boardType, id }) => {
   const [writer, setWriter] = useState("");
@@ -7,8 +8,8 @@ const BoardDetail = ({ boardType, id }) => {
   const [content, setContent] = useState("");
   const [email, setEmail] = useState("");
   const [updateMode, setUpdateMode] = useState(false);
-  const [inputTitle, setInputTitle] = useState();
-  const [inputContent, setInputContent] = useState();
+  const [inputTitle, setInputTitle] = useState("");
+  const [inputContent, setInputContent] = useState("");
   const navigate = useNavigate();
 
   async function getDetail() {
@@ -42,8 +43,56 @@ const BoardDetail = ({ boardType, id }) => {
     console.log(data);
   }
 
+  // 삭제 confirm 커스텀
+  const deleteConfirm = () => {
+    Swal.fire({
+      title: "문의사항을 삭제하시겠습니까?",
+      // text: "You won't be able to revert this!",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "지우기",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // 지우기 클릭시
+        fetchDelete();
+        Swal.fire("삭제되었습니다!", "", "success");
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Handle the action when "Cancel" is clicked
+        Swal.fire("취소되었습니다", "", "error");
+      }
+    });
+  };
+
+  // 수정 confirm 커스텀
+  const updateConfirm = () => {
+    Swal.fire({
+      title: "변경사항을 수정하시겠습니까?",
+      // text: "You won't be able to revert this!",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "수정",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // 지우기 클릭시
+        fetchUpdate();
+        Swal.fire("수정되었습니다!", "", "success");
+        setUpdateMode(!updateMode);
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Handle the action when "Cancel" is clicked
+        Swal.fire("취소되었습니다", "", "error");
+      }
+    });
+  };
+
   function deleteHandler() {
-    fetchDelete();
+    deleteConfirm();
+    // fetchDelete();
   }
 
   async function fetchUpdate() {
@@ -67,12 +116,20 @@ const BoardDetail = ({ boardType, id }) => {
 
   function updateHandler() {
     if (updateMode) {
-      fetchUpdate();
+      if (inputTitle.replace(/\s/g, "") === "") {
+        alert("제목은 필수 사항입니다.");
+        return;
+      } else if (inputContent.replace(/\s/g, "") === "") {
+        alert("내용은 필수 사항입니다.");
+        return;
+      }
+      updateConfirm();
+      // fetchUpdate();
     } else {
       setInputTitle(title);
       setInputContent(content);
+      setUpdateMode(!updateMode);
     }
-    setUpdateMode(!updateMode);
   }
 
   function titleHandler(e) {
@@ -184,14 +241,16 @@ const BoardDetail = ({ boardType, id }) => {
             >
               수정하기
             </button>
-            <button
-              type="submit"
-              className="button-58"
-              style={{ float: "right" }}
-              onClick={deleteHandler}
-            >
-              삭제하기
-            </button>
+            {!updateMode && (
+              <button
+                type="submit"
+                className="button-58"
+                style={{ float: "right" }}
+                onClick={deleteHandler}
+              >
+                삭제하기
+              </button>
+            )}
           </>
         )}
         <NavLink to={-1}>

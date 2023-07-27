@@ -311,7 +311,7 @@ const Header = () => {
                 <>
                   {role === "ADMIN" ? (
                     <li className="dropdown-item">
-                      <a className="nav-link" href="#">
+                      <a className="nav-link" href="/AdminPage">
                         관리자 페이지
                       </a>
                     </li>
