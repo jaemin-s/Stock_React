@@ -35,17 +35,18 @@ const Delete = () => {
           // });
 
         if (response.ok) {
-          setResponseMessage("회원 탈퇴가 완료되었습니다.");
+          alert("회원 탈퇴가 완료되었습니다.");
           onLogout();
           redirection("/");
           
           
         } else {
-          setResponseMessage("회원 탈퇴를 실패했습니다. 다시 시도해주세요.");
+          alert("회원 탈퇴를 실패했습니다. 다시 시도해주세요.");
         }
         
       } catch (error) {
-        setResponseMessage(
+        // setResponseMessage(
+          alert(
           "서버와 통신 중 오류가 발생했습니다. 다시 시도해주세요."
         );
       }
