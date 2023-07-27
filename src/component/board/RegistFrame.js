@@ -81,11 +81,12 @@ const RegistFrame = ({ boardType }) => {
             <td>
               <textarea
                 className="form-control"
-                rows="10"
+                rows="16"
                 name="content"
                 id="content"
                 type="text"
                 onChange={(e) => contentHandler(e)}
+                style={{ resize: "none" }}
               ></textarea>
             </td>
           </tr>

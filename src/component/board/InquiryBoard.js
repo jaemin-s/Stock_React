@@ -79,9 +79,11 @@ const InquiryBoard = ({ props }) => {
             )}
             <br />
             <NavLink to="/regist?boardType=inquiry&type=write">
-              <button className="button-58" style={{ float: "right" }}>
-                글쓰기
-              </button>
+              {localStorage.getItem("isLoggedIn") === "1" && (
+                <button className="button-58" style={{ float: "right" }}>
+                  글쓰기
+                </button>
+              )}
             </NavLink>
           </div>
         </div>

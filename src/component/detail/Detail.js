@@ -108,7 +108,7 @@ const Detail = () => {
     );
     if (res.status === 200) {
       const list = await res.json();
-      console.log(list);
+      // console.log(list);
       setFavoriteList(list);
 
       let flag = false;
@@ -141,7 +141,7 @@ const Detail = () => {
     if (res.status === 200) {
       const result = await res.json();
       setCurrentAsset(result.money); // 로그인 한 유저의 남은 보유 금액
-      console.log(result.myStocks);
+      // console.log("result.myStocks: ", result.myStocks);
       let flag = false;
 
       result.myStocks.forEach((x) => {
@@ -165,7 +165,7 @@ const Detail = () => {
   };
 
   //일자별 시세
-  const dailyPrice = async (e) => {
+  const dailyPrice = async () => {
     // ㅇㅇㅇ(000000) 값 자르기
 
     const params = title[1].slice(0, -1); //종목 코드
@@ -231,6 +231,15 @@ const Detail = () => {
       // console.log("res인데 말이야 = ",res);
     }
   };
+
+  const [paramsState, setParamsState] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await dailyPrice(paramsState);
+    };
+    fetchData();
+  }, [paramsState]);
+
   const [selectedValue, setSelectedValue] = useState(null);
 
   // function selectedValueHandler(value) {
@@ -484,6 +493,19 @@ const Detail = () => {
       return { categoryData: dates, values };
     }
   };
+
+  const [stockId, setStockId] = useState("");
+  useEffect(() => {
+    const extractedStockId = title[1].slice(0, -1);
+    setStockId(extractedStockId);
+  }, [title[1]]); //값이 변경될 때마다 useEffect가 실행
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await transition(stockId);
+    };
+    fetchData();
+  }, [stockId]);
 
   useEffect(() => {
     const title = value.split("(", 2);
