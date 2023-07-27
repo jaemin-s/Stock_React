@@ -18,12 +18,19 @@ const Delete = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      try {
         // 서버에 DELETE 요청 보내기
-        const response = await fetch(`${email}`, {
-          method: "DELETE",
-          headers: headers,
-        });
+        // const response = await fetch(`${email}`, {
+        //   method: "DELETE",
+        //   headers: headers,
+        // });
+        try {
+          const response = await fetch("http://localhost:8181/api/user/deleteInfo", {
+            method: "DELETE",
+            headers: {
+              // "Content-Type": "application/json",
+            },
+            body: {email:localStorage.getItem("LOGIN_USEREMAIL")},
+          });
 
         if (response.ok) {
           setResponseMessage("회원 탈퇴가 완료되었습니다.");
@@ -31,20 +38,30 @@ const Delete = () => {
         } else {
           setResponseMessage("회원 탈퇴를 실패했습니다. 다시 시도해주세요.");
         }
+        
       } catch (error) {
         setResponseMessage(
           "서버와 통신 중 오류가 발생했습니다. 다시 시도해주세요."
         );
       }
     }
-  };
+  }
 
   return (
     <div>
-      <button onClick={handleDeleteUser}>회원 탈퇴</button>
+      <a
+        className="nav-link"
+        href="#0"
+        style={{ padding: "0px 16px" }}
+        onClick={handleDeleteUser}
+      >
+        <i className="fas fa-fw fa-tachometer-alt"></i>
+        <span>탈퇴</span>
+      </a>
+
       <p>{responseMessage}</p>
     </div>
   );
-};
+  }
 
 export default Delete;

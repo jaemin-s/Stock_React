@@ -216,8 +216,29 @@ function StockTemplate() {
                   {data
                     .filter(
                       (x) =>
-                        !x.hts_kor_isnm.includes("KODEX") &&
-                        !x.hts_kor_isnm.includes("선물")
+                        !x.hts_kor_isnm.includes("KODEX") && //삼성자산운용의 ETF
+                        !x.hts_kor_isnm.includes("선물") &&
+                        !x.hts_kor_isnm.includes("스팩") &&
+                        !x.hts_kor_isnm.includes("인버스") &&
+                        !x.hts_kor_isnm.includes("TIGER") && //미래에셋자산운용의 ETF
+                        !x.hts_kor_isnm.includes("HANARO") &&
+                        !x.hts_kor_isnm.includes("KOSEF") &&
+                        !x.hts_kor_isnm.includes("SOL") &&
+                        !x.hts_kor_isnm.includes("KBSTAR") && //국민
+                        !x.hts_kor_isnm.includes("KTOP") &&
+                        !x.hts_kor_isnm.includes("TIMEFOLIO") &&
+                        !x.hts_kor_isnm.includes("ARIRANG") &&
+                        !x.hts_kor_isnm.includes("200") &&
+                        !x.hts_kor_isnm.includes("Fn") &&
+                        !x.hts_kor_isnm.includes("ACE") &&
+                        !x.hts_kor_isnm.includes("KRX") &&
+                        !x.hts_kor_isnm.includes("BNK") &&
+                        !x.hts_kor_isnm.includes("WOORI") && //우리
+                        !x.hts_kor_isnm.includes("KOREA") &&
+                        !x.hts_kor_isnm.includes("TREX") &&
+                        !x.hts_kor_isnm.includes("KOSEF") &&
+                        !x.hts_kor_isnm.includes("옥수수") &&
+                        !x.hts_kor_isnm.includes("레버리지")
                     ) // 특정 단어를 포함하지 않는 항목만 필터링
                     .map((x, index) => (
                       <tr key={index}>
@@ -272,7 +293,8 @@ function StockTemplate() {
               src="https://www.youtube.com/embed/nawUv8DcI80"
               title="최고민수의 주식 종목 고르는 10단계 방법 1부"
               frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allow="accelerometer; autoplay; clipboard-write; 
+              encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen
             ></iframe>
           </div>

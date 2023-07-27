@@ -34,6 +34,14 @@ const RegistFrame = ({ boardType }) => {
   }
 
   async function submitHandler() {
+    if (inputTitle.replace(/\s/g, "") === "") {
+      alert("제목은 필수 사항입니다.");
+      return;
+    } else if (inputContent.replace(/\s/g, "") === "") {
+      alert("내용은 필수 사항입니다.");
+      return;
+    }
+
     const res = await fetch(REQUEST_URL + "board", {
       method: "POST",
       headers: { "content-type": "application/json" },
