@@ -220,7 +220,6 @@ const Header = () => {
           ></img>
           <span className="sr-only">(current)</span>
         </a>
-
         {/* 검색창 */}
         <div
           style={{
@@ -315,7 +314,7 @@ const Header = () => {
                 <>
                   {role === "ADMIN" ? (
                     <li className="dropdown-item">
-                      <a className="nav-link" href="/AdminPage">
+                      <a className="nav-link" href="/adminPage">
                         관리자 페이지
                       </a>
                     </li>
