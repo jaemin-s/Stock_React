@@ -118,7 +118,7 @@ const RcmMbti = ({ value }) => {
           !item.name.includes("TREX") &&
           !item.name.includes("KOSEF") &&
           !item.name.includes("옥수수") &&
-          !item.name.includes("레버리지")
+          !item.name.includes("레버리지") &&
           !item.name.includes("QV") &&
           !item.name.includes("2x") &&
           !item.name.includes("스팩")

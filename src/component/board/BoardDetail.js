@@ -212,6 +212,7 @@ const BoardDetail = ({ boardType, id, savedPage }) => {
                 id="content"
                 type="text"
                 onChange={(e) => contentHandler(e)}
+                onPaste={(e) => contentHandler(e)}
                 value={inputContent}
                 style={{ resize: "none", minHeight: "400px" }}
               />
