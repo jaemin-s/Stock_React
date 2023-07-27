@@ -13,7 +13,7 @@ import KakaoAuthHandle from "./component/user/KakaoAuthHandle";
 import Notice from "./component/board/Notice";
 import InquiryBoard from "./component/board/InquiryBoard";
 import BoardRegist from "./component/board/BoardRegist";
-import AdminPage from "./component/user/AdminPage";
+import AdminPage from "./component/adminPage/AdminPage";
 
 function App() {
   return (
