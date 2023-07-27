@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./BoardContent.scss";
 
 const BoardContent = ({ boardData, titleClickHandler }) => {
   function dateFormat(date) {
@@ -55,9 +56,12 @@ const BoardContent = ({ boardData, titleClickHandler }) => {
       <tbody>
         {!!boardData &&
           boardData.content.map((item, index) => (
-            <tr key={index}>
-              <td>{boardData.totalElements - boardData.offset - index}</td>
+            <tr key={index} className="content-tr">
+              <td className="content-no">
+                {boardData.totalElements - boardData.offset - index}
+              </td>
               <td
+                className="content-title clickable-title"
                 onClick={() => {
                   titleClickHandler(item.id);
                 }}
@@ -65,8 +69,8 @@ const BoardContent = ({ boardData, titleClickHandler }) => {
               >
                 {item.title}
               </td>
-              <td>{item.writer}</td>
-              <td>{dateFormat(item.date)}</td>
+              <td className="content-writer">{item.writer}</td>
+              <td className="content-date">{dateFormat(item.date)}</td>
             </tr>
           ))}
       </tbody>

@@ -82,9 +82,11 @@ const Notice = ({ boardType }) => {
             )}
 
             <NavLink to="/regist?boardType=notice&type=write">
-              <button className="button-58" style={{ float: "right" }}>
-                글쓰기
-              </button>
+              {localStorage.getItem("LOGIN_USERROLE") === "ADMIN" && (
+                <button className="button-58" style={{ float: "right" }}>
+                  글쓰기
+                </button>
+              )}
             </NavLink>
           </div>
         </div>

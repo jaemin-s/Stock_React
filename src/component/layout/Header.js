@@ -204,7 +204,11 @@ const Header = () => {
         className={`navbar navbar-expand navbar-light ${
           role === "ADMIN" ? "bg-warning" : "bg-white"
         } topbar mb-4 static-top shadow`}
-        style={{ width: "100%", justifyContent: "space-between" }}
+        style={{
+          width: "100%",
+          justifyContent: "space-between",
+          paddingTop: "10px",
+        }}
       >
         {/* LOGO */}
         <a className="nav-link" href="/">

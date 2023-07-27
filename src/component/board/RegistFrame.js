@@ -34,6 +34,14 @@ const RegistFrame = ({ boardType }) => {
   }
 
   async function submitHandler() {
+    if (inputTitle.replace(/\s/g, "") === "") {
+      alert("제목은 필수 사항입니다.");
+      return;
+    } else if (inputContent.replace(/\s/g, "") === "") {
+      alert("내용은 필수 사항입니다.");
+      return;
+    }
+
     const res = await fetch(REQUEST_URL + "board", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -81,11 +89,12 @@ const RegistFrame = ({ boardType }) => {
             <td>
               <textarea
                 className="form-control"
-                rows="10"
+                rows="16"
                 name="content"
                 id="content"
                 type="text"
                 onChange={(e) => contentHandler(e)}
+                style={{ resize: "none" }}
               ></textarea>
             </td>
           </tr>

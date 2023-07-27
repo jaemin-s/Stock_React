@@ -119,6 +119,7 @@ const Update = ({ toggleModifyModal }) => {
         flag = false;
       } else {
         msg = "사용 가능한 닉네임입니다.";
+        setNick(inputVal);
         flag = true;
       } 
        
@@ -206,13 +207,14 @@ const Update = ({ toggleModifyModal }) => {
     };
 
     try {
-      const response = await fetch("/api/user", {
+      const response = await fetch("/api/user/updateInfo", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updateData),
+        body: JSON.stringify({password,nick,mbti,email:localStorage.getItem("LOGIN_USEREMAIL")}),
       });
+      
 
       // 응답 객체의 상태 코드 확인
       if (!response.ok) {
@@ -231,23 +233,25 @@ const Update = ({ toggleModifyModal }) => {
       console.error("네트워크 오류:", error);
       // 네트워크 오류 처리를 여기서 진행하거나 에러 메시지를 화면에 표시할 수 있습니다.
     }
+    
     setModifyModal(false);
     clearState();
   };
 
   const fetchUpdatePost = async () => {
     try {
-      const response = await fetch(API_BASE_URL, {
+      const response = await fetch("http://localhost:8181/api/user/updateInfo", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(userValue),
+        body: JSON.stringify({password,nick,mbti,email:localStorage.getItem("LOGIN_USEREMAIL")}),
       });
   
       if (response.ok) {
         // 서버 응답이 성공적으로 처리되었을 때
         alert("수정이 완료되었습니다.");
+        setModifyModal(false);
       } else {
         // 서버 응답이 실패하거나 오류가 발생했을 때
         alert("서버와의 통신이 원활하지 않습니다.");
@@ -333,7 +337,7 @@ const Update = ({ toggleModifyModal }) => {
           </div>
 
           <div>
-            <select onChange={(e) => setMbti(e.target.value)}>
+            <select onChange={(e) => {setMbti(e.target.value); console.log(e.target.value);}}>
               <option selected disabled hidden>
                 MBTI
               </option>
