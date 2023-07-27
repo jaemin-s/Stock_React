@@ -44,7 +44,7 @@ const Login = () => {
 
     if (res.status === 400) {
       const text = await res.text();
-      alert(text);
+      alert("아이디와 비밀번호를 모두 입력해주세요");
       return;
     }
 
