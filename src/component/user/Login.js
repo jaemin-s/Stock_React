@@ -130,12 +130,19 @@ const Login = () => {
     if (data !== null) setLoginID(data);
   }, []);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchLogin();
+  };
   return (
     <div className="bg-gradient-primary">
       <div className="container">
         {/* <!-- Outer Row --> */}
-        <div className="row justify-content-center">
-          <div className="col-xl-10 col-lg-12 col-md-9">
+        <div className="row justify-content-center" style={{ margin: "0" }}>
+          <div
+            className="col-xl-10 col-lg-12 col-md-9"
+            style={{ padding: "0" }}
+          >
             <div className="card o-hidden border-0 shadow-lg my-5">
               <div className="card-body p-0" style={{ overflow: "hidden" }}>
                 {/* <!-- Nested Row within Card Body --> */}
@@ -146,7 +153,7 @@ const Login = () => {
                       <div className="text-center">
                         <h1 className="h4 text-gray-900 mb-4">로그인</h1>
                       </div>
-                      <form className="user">
+                      <form className="user" onSubmit={handleSubmit}>
                         <div className="form-group">
                           <input
                             type="email"
@@ -156,7 +163,7 @@ const Login = () => {
                             placeholder="이메일 주소"
                             value={loginID}
                             onChange={(e) => getLoginID(e)}
-                            />
+                          />
                         </div>
                         <div className="form-group">
                           <input
@@ -168,10 +175,13 @@ const Login = () => {
                         </div>
                         <div className="form-group">
                           <div className="custom-control custom-checkbox small">
-                          <input type="checkbox" className="custom-control-input" id="customCheck"
-                                                      checked={saveIDFlag} 
-                                                      onChange={handleSaveIDFlag}
-                                                      />
+                            <input
+                              type="checkbox"
+                              className="custom-control-input"
+                              id="customCheck"
+                              checked={saveIDFlag}
+                              onChange={handleSaveIDFlag}
+                            />
                             <label
                               className="custom-control-label"
                               htmlFor="customCheck"
@@ -180,13 +190,13 @@ const Login = () => {
                             </label>
                           </div>
                         </div>
-                        <a
-                          href="#"
+                        <button
+                          type="submit"
                           className="btn btn-primary btn-user btn-block"
                           onClick={loginHandler}
                         >
                           로그인
-                        </a>
+                        </button>
                         <hr />
                         <div>
                           <a

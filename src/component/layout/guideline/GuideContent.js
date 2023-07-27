@@ -231,6 +231,36 @@ const GuideContent = () => {
           className="center-image"
         ></img>
         <p id="13">
+          종목 상세창 우측에서는 해당 종목의 호가, 관련 뉴스, 종목 정보, 내 주식
+          에서는 각각 매수와 매도 잔량, 실시간으로 제공되는 종목의 관련 뉴스,
+          종목의 6개월 간의 종목 추이와 기본 정보, 종목을 소유하고 있을 때 그
+          수익률과 그 외의 정보들이 제공된다. 호가 창이 기본적으로 제공되며 이
+          곳에서 매수나 매도를 진행할 수 있다.
+        </p>
+        <img
+          src={require("./image/호가.png")}
+          alt="@"
+          style={{
+            margin: "50px 100px 100px 0",
+            width: "400px",
+          }}
+        ></img>
+        <img
+          src={require("./image/뉴스.png")}
+          alt="@"
+          style={{ margin: "50px 0 100px 0", width: "400px" }}
+        ></img>
+        <img
+          src={require("./image/종목정보.png")}
+          alt="@"
+          style={{ margin: "50px 100px 50px 0", width: "400px" }}
+        ></img>
+        <img
+          src={require("./image/내주식.png")}
+          alt="@"
+          style={{ margin: "50px 0", width: "400px" }}
+        ></img>
+        <p>
           호가, 뉴스, 종목정보를 기반으로 차트를 참조하여 호가 파트에서 매수
           혹은 매도를 진행한다.
         </p>
