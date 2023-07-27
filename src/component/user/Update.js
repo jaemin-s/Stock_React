@@ -6,6 +6,8 @@ const Update = ({ toggleModifyModal }) => {
   const [password, setPassword] = useState("");
   const [nick, setNick] = useState("");
   const [mbti, setMbti] = useState("");
+  const [age, setAge] = useState("");
+  const [career, setCareer] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
 
   const API_BASE_URL = "http://localhost:8181/api/user";
@@ -14,6 +16,8 @@ const Update = ({ toggleModifyModal }) => {
     nick: "",
     password: "",
     mbti: "",
+    age: "",
+    career: "",
   });
 
   //검증 메세지에 대한 상태변수 관리
@@ -21,6 +25,9 @@ const Update = ({ toggleModifyModal }) => {
     nick: "",
     password: "",
     passwordCheck: "",
+    mbti: "",
+    age: "",
+    career: "",
   });
 
   //검증 완료 체크에 대한 상태변수 관리
@@ -28,6 +35,7 @@ const Update = ({ toggleModifyModal }) => {
     nick: false,
     password: false,
     passwordCheck: false,
+    age: false,
   });
   
   // 모달 닫을 시 모달에 입력된 값 비우기
@@ -35,6 +43,8 @@ const Update = ({ toggleModifyModal }) => {
     setPassword("");
     setNick("");
     setMbti("");
+    setAge("");
+    setCareer("");
     setPasswordCheck("");
     setMessage("");
 
@@ -43,6 +53,8 @@ const Update = ({ toggleModifyModal }) => {
       password: "",
       passwordCheck: "",
       mbti: "",
+      age: "",
+      career: "",
       message: "",
     });
 
@@ -51,6 +63,8 @@ const Update = ({ toggleModifyModal }) => {
       password: false,
       passwordCheck: false,
       mbti: false,
+      age: false,
+      career: false,
       message: false,
     });
   };
@@ -119,6 +133,7 @@ const Update = ({ toggleModifyModal }) => {
         flag = false;
       } else {
         msg = "사용 가능한 닉네임입니다.";
+        setNick(inputVal);
         flag = true;
       } 
        
@@ -179,6 +194,31 @@ const Update = ({ toggleModifyModal }) => {
     });
   };
 
+   //나이 입력창 체인지 이벤트 핸들러
+   const ageHandler = (e) => {
+    let inputVal = e.target.value;
+
+    const ageRegex = /[^0-9]/;
+
+    let msg,
+      flag = false;
+    if (!inputVal) {
+      msg = "나이를 입력해주세요.";
+    } else if (ageRegex.test(inputVal)) {
+      msg = "숫자 형식이 아닙니다.";
+    } else {
+      msg = "";
+      flag = true;
+    }
+
+    saveInputState({
+      key: "age",
+      inputVal,
+      msg,
+      flag,
+    });
+  };
+
   // 입력칸이 모두 검증에 통과했는지 여부를 검사
   const isValid = () => {
     for (const key in correct) {
@@ -203,6 +243,8 @@ const Update = ({ toggleModifyModal }) => {
       password,
       nick,
       mbti,
+      age,
+      career
     };
 
     try {
@@ -211,8 +253,9 @@ const Update = ({ toggleModifyModal }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updateData),
+        body: JSON.stringify({updateData,email:localStorage.getItem("LOGIN_USEREMAIL")}),
       });
+      
 
       // 응답 객체의 상태 코드 확인
       if (!response.ok) {
@@ -231,23 +274,27 @@ const Update = ({ toggleModifyModal }) => {
       console.error("네트워크 오류:", error);
       // 네트워크 오류 처리를 여기서 진행하거나 에러 메시지를 화면에 표시할 수 있습니다.
     }
+    
     setModifyModal(false);
     clearState();
   };
 
   const fetchUpdatePost = async () => {
+    console.log(age);
+    console.log(career);
     try {
       const response = await fetch("http://localhost:8181/api/user/updateInfo", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(userValue),
+        body: JSON.stringify({password,nick,mbti,age,career,email:localStorage.getItem("LOGIN_USEREMAIL")}),
       });
   
       if (response.ok) {
         // 서버 응답이 성공적으로 처리되었을 때
         alert("수정이 완료되었습니다.");
+        setModifyModal(false);
       } else {
         // 서버 응답이 실패하거나 오류가 발생했을 때
         alert("서버와의 통신이 원활하지 않습니다.");
@@ -332,8 +379,34 @@ const Update = ({ toggleModifyModal }) => {
             </span>
           </div>
 
+          <div className="form-group">
+                      <input
+                        type="text"
+                        id="age"
+                        placeholder="나이"
+                        required
+                        value={age}
+                        
+                        onChange ={(e) => {setAge(e.target.value); console.log(e.target.value);
+                          ageHandler(e);}}
+                                             
+                      
+                        />
+                      
+                    
+
+                      <span
+                        className="pass-msg"
+                        style={
+                          correct.age ? { color: "blue" } : { color: "red" }
+                        }
+                      >
+                        {message.age}
+                      </span>
+                    </div>
+
           <div>
-            <select onChange={(e) => setMbti(e.target.value)}>
+            <select onChange={(e) => {setMbti(e.target.value); console.log(e.target.value);}}>
               <option selected disabled hidden>
                 MBTI
               </option>
@@ -356,6 +429,25 @@ const Update = ({ toggleModifyModal }) => {
                         <option value="ENTJ">ENTJ</option>
             </select>
           </div>
+
+          <div className="form-group">
+                      <select
+                        onChange={(e) =>
+                          setCareer(e.target.value)
+                          // setUserValue({ ...userValue, career: e.target.value })
+                        }
+                      >
+                        <option selected disabled hidden>
+                          주식경력
+                        </option>
+                        <option value="1">입문</option>
+                        <option value="2">1~3년</option>
+                        <option value="3">4~10년</option>
+                        <option value="4">10년 이상</option>
+                      </select>
+                    </div>
+
+         
         </ModalBody>
         <ModalFooter>
           <button 

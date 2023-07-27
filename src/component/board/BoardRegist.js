@@ -9,23 +9,25 @@ const BoardRegist = () => {
   const [boardType, setBoardType] = useState();
   const [id, setId] = useState();
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const selectedType = searchParams.get("type");
+  const { state } = location;
+  const selectedType = state.type;
+  console.log("savedPage in BoardRegist", state.savedPage);
   useEffect(() => {
-    setBoardType(searchParams.get("boardType"));
-    setId(searchParams.get("id"));
+    setBoardType(state.boardType);
+    setId(state.id);
   }, []);
 
   function showHandler() {
     if (selectedType === "read") {
       return (
         <BoardDetail
-          boardType={searchParams.get("boardType")}
-          id={searchParams.get("id")}
+          boardType={state.boardType}
+          id={state.id}
+          savedPage={state.savedPage}
         />
       );
     } else if (selectedType === "write") {
-      return <RegistFrame boardType={searchParams.get("boardType")} />;
+      return <RegistFrame boardType={state.boardType} />;
     } else {
       return;
     }

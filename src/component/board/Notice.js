@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import "./Notice.scss";
 import Paging from "./Paging";
 import BoardSideBar from "./BoardSideBar";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import BoardContent from "./BoardContent";
 const Notice = ({ boardType }) => {
   const redirection = useNavigate();
-  const [page, setPage] = useState(1);
+  const location = useLocation();
+  const { state } = location;
+  const [page, setPage] = useState(!!state ? state.savedPage : 1);
   const [boardData, setboardData] = useState();
-
   async function getBoardList() {
     const res = await fetch(
       "http://localhost:8181/api/board/notice" +
@@ -26,17 +27,15 @@ const Notice = ({ boardType }) => {
       pageIndex: data.pageable.pageNumber,
       offset: data.pageable.offset,
     });
-    console.log(data);
   }
   useEffect(() => {
     getBoardList();
   }, [page]);
 
   function titleClickHandler(id) {
-    console.log("click");
-    console.log("id:" + id);
-    console.log("type: notice");
-    redirection("/regist/?boardType=notice&id=" + id + "&type=read");
+    redirection("/regist", {
+      state: { boardType: "notice", id: id, type: "read", savedPage: page },
+    });
   }
 
   return (
@@ -81,7 +80,10 @@ const Notice = ({ boardType }) => {
               />
             )}
 
-            <NavLink to="/regist?boardType=notice&type=write">
+            <NavLink
+              to="/regist"
+              state={{ boardType: "notice", type: "write", savedPage: page }}
+            >
               {localStorage.getItem("LOGIN_USERROLE") === "ADMIN" && (
                 <button className="button-58" style={{ float: "right" }}>
                   글쓰기
