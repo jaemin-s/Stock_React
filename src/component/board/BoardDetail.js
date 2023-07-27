@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const BoardDetail = ({ boardType, id }) => {
+const BoardDetail = ({ boardType, id, savedPage }) => {
   const [writer, setWriter] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -11,7 +11,7 @@ const BoardDetail = ({ boardType, id }) => {
   const [inputTitle, setInputTitle] = useState("");
   const [inputContent, setInputContent] = useState("");
   const navigate = useNavigate();
-
+  console.log("savedPage in detail", savedPage);
   async function getDetail() {
     const res = await fetch(
       "http://localhost:8181/api/board/" + boardType + "/" + id
@@ -40,7 +40,6 @@ const BoardDetail = ({ boardType, id }) => {
     if (res.status === 200) {
       navigate(-1);
     }
-    console.log(data);
   }
 
   // 삭제 confirm 커스텀
@@ -249,7 +248,10 @@ const BoardDetail = ({ boardType, id }) => {
             )}
           </>
         )}
-        <NavLink to={-1}>
+        <NavLink
+          to={"/" + boardType}
+          state={{ boardType: boardType, savedPage: savedPage }}
+        >
           <button className="button-58-1" style={{ float: "right" }}>
             뒤로가기
           </button>
