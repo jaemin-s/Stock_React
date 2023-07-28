@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 const Dropdown = ({ toggleHandler }) => {
 
   const [isToggle, setIsToggle] = useState(false);
-  
   const handleToggle = () => {
     setIsToggle(!isToggle);
     toggleHandler();

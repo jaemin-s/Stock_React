@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./AdminPage.scss";
-
+import InfoControl from "./InfoCotrol";
 import AdminSidebar from "./AdminSidebar";
 import AdminTopMenu from "./AdminTopMenu";
 import AdminSearchBar from "./AdminSearchBar";
 import UserInfoTable from "./UserInfoTable";
 import UserStats from "./UserStats";
 import TotalTradeHistory from "./TotalTradeHistory";
+
 
 const AdminPage = () => {
   const [categoryData, setCategoryData] = useState([
