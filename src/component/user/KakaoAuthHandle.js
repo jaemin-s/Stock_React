@@ -21,10 +21,10 @@ const KakaoAuthHandle = (props) => {
 
         const kakaoLogin = async() => {
             const res = await fetch(`http://localhost:8181/api/user/callback/kakao?code=${code}`);
-            const { token, email, image } = await res.json();
+            const { token, email, image, userRole } = await res.json();
 
             // Context API를 사용하여 로그인 상태를 업데이트합니다.
-            onLogin(token, email, image);
+            onLogin(token, email, image, userRole);
             window.location.href = '/';
         }
         kakaoLogin();
