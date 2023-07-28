@@ -44,6 +44,9 @@ const Login = () => {
 
     if (res.status === 400) {
       const text = await res.text();
+      if(text.length > 100){
+        alert("이메일과 비밀번호를 정확하게 입력해주세요")
+      } else
       alert(text);
       return;
     }
