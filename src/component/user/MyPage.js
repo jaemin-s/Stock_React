@@ -113,7 +113,7 @@ function MyPage() {
     ).toFixed(2);
     // console.log(returnPercentArray);
     if (isNaN(averageReturnPercent)) {
-      return "계산중입니다";
+      return "0";
     }
     return averageReturnPercent;
   }
