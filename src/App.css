@@ -1,3 +1,10 @@
 .wrapper {
     background: #f8f9fc;
 }
+
+a,p{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-use-select: none;
+    user-select: none;
+}
