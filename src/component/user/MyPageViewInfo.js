@@ -63,6 +63,11 @@ const MyPageViewInfo = () => {
         return "남성";
       case "woman":
         return "여성";
+      // 카카오 로그인 시
+      case "male":
+        return "남성";
+      case "female":
+        return "여성";
     }
   }
 
