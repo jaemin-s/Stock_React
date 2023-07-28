@@ -40,7 +40,12 @@ const OverallRank = () => {
           )}
         </th>
         <td>
-          <p onClick={(e) => getInfoHandler(item.email, e)}>{item.userName}</p>
+          <p
+            onClick={(e) => getInfoHandler(item.email, e)}
+            style={{ cursor: "pointer" }}
+          >
+            {item.userName}
+          </p>
         </td>
         <td>
           <span className={item.profit >= 0 ? "positive" : "negative"}>

@@ -296,13 +296,18 @@ const GuideContent = () => {
         ></img>
         <p id="16">
           수익에 따른 랭킹이 부여된다. 랭킹은 메인 화면의 좌측 하단에서 확인할
-          수 있다.
+          수 있다. 회원명을 클릭하면 사용자의 매수 / 매도 이력을 조회할 수 있고
+          일반 회원은 최신 3건의 이력만 조회가 가능하다.
         </p>
         <img
           src={require("./image/랭킹.png")}
           alt="@"
-          style={{ marginBottom: "50px", width: "350px" }}
-          className="center-image"
+          style={{ marginBottom: "50px", width: "350px", marginRight: "100px" }}
+        ></img>
+        <img
+          src={require("./image/랭킹정보.png")}
+          alt="@"
+          style={{ marginBottom: "50px", width: "400px" }}
         ></img>
         <p id="17">
           마이페이지의 '자산관리' 파트에서 나의 자산 정보, 보유 종목 정보,
