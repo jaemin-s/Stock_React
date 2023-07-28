@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import Paging from "../board/Paging";
+import Dropdown from "./Dropdown";
 
 const UserInfoTable = () => {
+  // toggleHandler 함수를 정의합니다.
+  const [isToggle, setIsToggle] = useState(false);
+  const toggleHandler = () => {
+    setIsToggle(!isToggle);
+    console.log(isToggle);
+  };
+
   return (
     <>
       <div className="user-info-box">
@@ -67,12 +75,7 @@ const UserInfoTable = () => {
               <td>hong@gmail.com</td>
               <td>01024093845</td>
               <td>
-                <button
-                  //   onClick={toggleModal}
-                  style={{ border: "none", backgroundColor: "white" }}
-                >
-                  ↪
-                </button>
+                <Dropdown toggleHandler={toggleHandler} />
               </td>
             </tr>
           </tbody>

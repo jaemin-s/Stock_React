@@ -1,6 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Modal, ModalBody } from 'reactstrap';
 
-const InfoCotrol = () => {
+const InfoCotrol = ( {toggleHandler} ) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+      // 모달 표시 및 닫기를 위한 핸들러 함수
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+    toggleHandler();
+  };
   return (
     <>
     <Modal isOpen={isModalOpen} toggle={toggleModal} style={{width:1000}}>
@@ -100,16 +107,6 @@ const InfoCotrol = () => {
                         >
                           등급
                         </th>
-                        <th
-                          scope="col"
-                          style={{
-                            backgroundColor: "#3385ff",
-                            color: "white",
-                            fontWeight: "600",
-                          }}
-                        >
-                          관리
-                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -123,11 +120,6 @@ const InfoCotrol = () => {
                         <td>입문</td>
                         <td>ENFP</td>
                         <td>브론즈</td>
-                        <td>
-                          <button style={{border:'none', backgroundColor: 'white'}}>
-                            강등
-                          </button>
-                        </td>
                       </tr>
                     </tbody>
                   </table>                   
@@ -135,6 +127,7 @@ const InfoCotrol = () => {
         </ModalBody>
       </Modal>
     </>
+    
   )
 }
 
