@@ -1,6 +1,6 @@
 import React from "react";
 
-const AdminSearchBar = ({ categoryData }) => {
+const AdminSearchBar = () => {
   const Search = ({ size = 25, color = "#fcf9f9" }) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
