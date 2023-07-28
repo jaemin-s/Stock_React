@@ -96,12 +96,31 @@ const RcmMbti = ({ value }) => {
       // 필터링
       const filteredItems = mbtiPro.filter(
         (item) =>
-          !item.name.includes("KODEX") &&
+          !item.name.includes("KODEX") && //삼성자산운용의 ETF
           !item.name.includes("선물") &&
+          !item.name.includes("스팩") &&
+          !item.name.includes("인버스") &&
+          !item.name.includes("TIGER") && //미래에셋자산운용의 ETF
+          !item.name.includes("HANARO") &&
+          !item.name.includes("KOSEF") &&
+          !item.name.includes("SOL") &&
+          !item.name.includes("KBSTAR") && //국민
+          !item.name.includes("KTOP") &&
+          !item.name.includes("TIMEFOLIO") &&
+          !item.name.includes("ARIRANG") &&
+          !item.name.includes("200") &&
+          !item.name.includes("Fn") &&
+          !item.name.includes("ACE") &&
           !item.name.includes("KRX") &&
+          !item.name.includes("BNK") &&
+          !item.name.includes("WOORI") && //우리
+          !item.name.includes("KOREA") &&
+          !item.name.includes("TREX") &&
+          !item.name.includes("KOSEF") &&
+          !item.name.includes("옥수수") &&
+          !item.name.includes("레버리지") &&
           !item.name.includes("QV") &&
           !item.name.includes("2x") &&
-          !item.name.includes("옥수수") &&
           !item.name.includes("스팩")
       );
       const newRandomItems = getRandomItems(filteredItems, 4);

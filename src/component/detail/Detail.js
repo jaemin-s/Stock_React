@@ -1,21 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import InfoTest from "../info/InfoTest";
 import "./Detail.scss";
-import { KI_APP_KEY, KI_SECRET_KEY, DATA_GO_KR_KEY } from "../../config/apikey";
-import {
-  KI_BASE_DOMAIN,
-  KI_DOMESTIC_STOCK_URL,
-  KI_TOKEN_URL,
-} from "../../config/host-config";
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Carousel,
-} from "reactstrap";
-
+import { DATA_GO_KR_KEY } from "../../config/apikey";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as filledStar } from "@fortawesome/free-solid-svg-icons";
@@ -24,8 +11,6 @@ import NewsTest from "../news/NewsTest";
 import { RequsetHeader } from "../../config/apikey";
 import Candle from "./Candle";
 import AskingPrice from "./AskingPrice";
-import { elements } from "chart.js";
-import { red } from "@mui/material/colors";
 import { isLogin } from "../util/login-utils";
 import AuthContext from "../util/AuthContext";
 import RcmMbti from "./RcmMbti";
@@ -722,7 +707,6 @@ const Detail = () => {
                         ).toLocaleString()}
                     원
                   </td>
-                  {/* 일단 '호가'에서 선택된 금액으로 설정하겠습니다. 불필요하다고 판단되면 삭제해도 좋습니다.  */}
                 </tr>
                 <tr>
                   <td className="mine">보유 수량</td>

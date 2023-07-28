@@ -1,10 +1,10 @@
 import React from "react";
+import "./AdminSidebar.scss";
 
-const AdminSidebar = () => {
+const AdminSidebar = ({ categoryData, categoryActivateHandler }) => {
   return (
     <ul
-      className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
-      id="accordionSidebar"
+      className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion admin-side-bar"
       style={{ position: "sticky" }}
     >
       <div className="sidebar-brand d-flex align-items-center justify-content-center">
@@ -16,47 +16,20 @@ const AdminSidebar = () => {
       <hr className="sidebar-divider my-0"></hr>
 
       {/* <!-- Nav Item - Dashboard --> */}
-      <li className="nav-item">
-        <div className="sidebar-heading ">유저 관리</div>
-        <div className="list-info"></div>
-
-        <hr className="sidebar-divider my-0"></hr>
-
-        <div className="sidebar-heading">추가할거</div>
-
-        <hr className="sidebar-divider my-0"></hr>
-
-        <div className="sidebar-heading">거래 내역</div>
-
-        <div className="sidebar-heading">추가할거</div>
-        <ul style={{ padding: "0 0 0 10px" }}>
+      {categoryData.map((item, index) => (
+        <li className="nav-item" key={index} onClick={categoryActivateHandler}>
           <div
-            className="nav-link"
-            style={{
-              color: "white",
-              cursor: "pointer",
-              padding: "4px 2px",
-              fontSize: "15px",
-            }}
-          ></div>
-        </ul>
-        <hr className="sidebar-divider my-0"></hr>
-        <div className="sidebar-heading">추가할거</div>
-        <ul style={{ padding: "0 0 0 10px" }}>
-          <div
-            className="nav-link"
-            style={{
-              color: "white",
-              cursor: "pointer",
-              padding: "4px 2px",
-              fontSize: "15px",
-            }}
+            className={
+              item.isActivate
+                ? "sidebar-heading activate-item"
+                : "sidebar-heading "
+            }
           >
-            {/* ({like.stockCode}) */}
+            {item.name}
           </div>
-        </ul>
-        <hr className="sidebar-divider my-0"></hr>
-      </li>
+          <hr className="sidebar-divider my-0"></hr>
+        </li>
+      ))}
     </ul>
   );
 };

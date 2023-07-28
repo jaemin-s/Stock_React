@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Paging from "../board/Paging";
 import Dropdown from "./Dropdown";
+import AdminSearchBar from "./AdminSearchBar";
 
 const UserInfoTable = () => {
+  const [page, setPage] = useState(1);
   // toggleHandler 함수를 정의합니다.
   const [isToggle, setIsToggle] = useState(false);
   const toggleHandler = () => {
@@ -12,6 +14,7 @@ const UserInfoTable = () => {
 
   return (
     <>
+      <AdminSearchBar />
       <div className="user-info-box">
         <table className="table">
           <thead>
@@ -81,7 +84,7 @@ const UserInfoTable = () => {
           </tbody>
         </table>
       </div>
-      <Paging />
+      <Paging page={page} count={1} setPage={setPage} />
     </>
   );
 };

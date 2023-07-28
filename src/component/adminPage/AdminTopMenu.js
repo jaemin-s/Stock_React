@@ -1,43 +1,32 @@
 import React from "react";
+import "./AdminTopMenu.scss";
 
-const AdminTopMenu = () => {
+const AdminTopMenu = ({ categoryData, categoryActivateHandler }) => {
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div
+      className="admin-top-menu"
+      style={{ display: "flex", justifyContent: "center" }}
+    >
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                id="my-info"
-                href="#"
-                style={{ fontWeight: 700, fontSize: 25 }}
+            {categoryData.map((item, index) => (
+              <li
+                className={
+                  item.isActivate ? "nav-item activate-item" : "nav-item"
+                }
+                key={index}
+                style={{ width: 100 / categoryData.length + "%" }}
+                onClick={categoryActivateHandler}
               >
-                유저관리
-              </a>
-            </li>
-            <li className="nav-item" id="border" style={{ fontSize: 30 }}></li>
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                id="asset"
-                href="#"
-                style={{ fontWeight: 700, fontSize: 25 }}
-              >
-                유저통계
-              </a>
-            </li>
-            <li className="nav-item" id="border" style={{ fontSize: 30 }}></li>
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                id="having-info"
-                href="#"
-                style={{ fontWeight: 700, fontSize: 25 }}
-              >
-                전체 거래내역 조회
-              </a>
-            </li>
+                <a
+                  className="nav-link"
+                  style={{ fontWeight: 700, fontSize: 25 }}
+                >
+                  {item.name}
+                </a>
+              </li>
+            ))}
           </ul>
           <br />
           <br />
