@@ -37,7 +37,8 @@ const MoveStockInfo = ({ getStockRate }) => {
           !x.name.includes("TREX") &&
           !x.name.includes("KOSEF") &&
           !x.name.includes("옥수수") &&
-          !x.name.includes("레버리지")
+          !x.name.includes("레버리지") &&
+          !x.name.includes("2X")
       );
       setTopResult(refinedResult);
     })();
@@ -70,7 +71,8 @@ const MoveStockInfo = ({ getStockRate }) => {
           !x.name.includes("TREX") &&
           !x.name.includes("KOSEF") &&
           !x.name.includes("옥수수") &&
-          !x.name.includes("레버리지")
+          !x.name.includes("레버리지") &&
+          !x.name.includes("2X")
       );
       setLowResult(refinedResult);
     });

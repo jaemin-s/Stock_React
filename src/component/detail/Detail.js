@@ -707,7 +707,6 @@ const Detail = () => {
                         ).toLocaleString()}
                     원
                   </td>
-                  {/* 일단 '호가'에서 선택된 금액으로 설정하겠습니다. 불필요하다고 판단되면 삭제해도 좋습니다.  */}
                 </tr>
                 <tr>
                   <td className="mine">보유 수량</td>

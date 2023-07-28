@@ -163,7 +163,7 @@ const BoardDetail = ({ boardType, id, savedPage }) => {
               작성자
             </td>
             <td>
-              <p>{writer}</p>
+              <p style={{ textAlign: "left", marginLeft: "10px" }}>{writer}</p>
             </td>
           </tr>
           <tr>
@@ -187,7 +187,7 @@ const BoardDetail = ({ boardType, id, savedPage }) => {
                   value={inputTitle}
                 />
               ) : (
-                <p>{title}</p>
+                <p style={{ textAlign: "left", marginLeft: "10px" }}>{title}</p>
               )}
             </td>
           </tr>
@@ -212,12 +212,15 @@ const BoardDetail = ({ boardType, id, savedPage }) => {
                 id="content"
                 type="text"
                 onChange={(e) => contentHandler(e)}
+                onPaste={(e) => contentHandler(e)}
                 value={inputContent}
                 style={{ resize: "none", minHeight: "400px" }}
               />
             ) : (
               <td>
-                <p>{content}</p>
+                <p style={{ textAlign: "left", marginLeft: "10px" }}>
+                  {content}
+                </p>
               </td>
             )}
           </tr>

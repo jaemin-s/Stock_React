@@ -435,7 +435,7 @@ function MyPage() {
             );
             const returnPercentValue = returnPercentInfo
               ? parseFloat(returnPercentInfo.returnPercent)
-              : null; // Parse the value to a floating-point number
+              : null;
             let textColor = "black";
 
             if (returnPercentValue !== null) {
