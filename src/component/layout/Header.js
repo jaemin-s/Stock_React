@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { DATA_GO_KR_KEY } from "../../config/apikey";
 import AuthContext from "../util/AuthContext";
 import { isLogin } from "../util/login-utils";
-import MarketInfo from "./MarketInfo";
+
 const Header = () => {
   const redirection = useNavigate();
   const [keyItem, SetKeyItem] = useState([]); // api 값 관리
@@ -349,7 +349,7 @@ const Header = () => {
           </li>
         </ul>
       </nav>
-      <MarketInfo />
+
       {infoIsModal && allInfoModal}
     </>
   );

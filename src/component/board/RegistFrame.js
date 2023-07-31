@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../config/host-config";
+import Swal from "sweetalert2";
 const RegistFrame = ({ boardType }) => {
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -57,6 +58,14 @@ const RegistFrame = ({ boardType }) => {
     const responseJson = await res.text();
     console.log("responseJson: ", responseJson);
     navigate("/" + boardType);
+
+    Swal.fire({
+      position: "middle",
+      icon: "success",
+      title: "글이 등록되었습니다!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
 
   return (

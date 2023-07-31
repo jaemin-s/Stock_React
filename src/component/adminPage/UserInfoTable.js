@@ -8,7 +8,7 @@ const UserInfoTable = () => {
   const [count, setCount] = useState(1);
   async function getUserAll() {
     const res = await fetch(
-      API_BASE_URL + "/api/user/userAll" + "?size=" + 7 + "&page=" + (page - 1)
+      API_BASE_URL + "/api/user/userAll" + "?size=" + 8 + "&page=" + (page - 1)
     );
 
     if (res.status === 200) {

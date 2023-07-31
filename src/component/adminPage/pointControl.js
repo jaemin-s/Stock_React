@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
-const pointControl = () => {
-  return (
-    <div>pointControl</div>
-  )
-}
+const PointControl = () => {
+  return <div>PointControl</div>;
+};
 
-export default pointControl
+export default PointControl;
