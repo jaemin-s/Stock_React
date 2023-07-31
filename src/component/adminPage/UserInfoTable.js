@@ -15,8 +15,6 @@ const UserInfoTable = () => {
     if (res.status === 200) {
       const infoData = await res.json();
       setTotalInfo(infoData.content);
-      console.log("infoData: ", infoData);
-      console.log("infoData.content: ", infoData.content);
       setCount(infoData.totalElements);
     } else {
       console.error("fail");
@@ -40,9 +38,8 @@ const UserInfoTable = () => {
   const [isToggle, setIsToggle] = useState(false);
   const toggleHandler = () => {
     setIsToggle(!isToggle);
-    console.log(isToggle);
   };
-  // <Dropdown toggleHandler={toggleHandler} /> 관리 쪽 dropdown 
+  // <Dropdown toggleHandler={toggleHandler} /> 관리 쪽 dropdown
 
   return (
     <>
@@ -58,7 +55,7 @@ const UserInfoTable = () => {
               className="table table-bordered"
               id="dataTable"
               width="100%"
-              cellspacing="0"
+              cellSpacing="0"
             >
               <thead>
                 <tr>
