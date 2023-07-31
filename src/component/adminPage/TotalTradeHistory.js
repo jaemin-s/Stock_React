@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Paging from "../board/Paging";
-
+import { API_BASE_URL } from "../../config/host-config";
 const TotalTradeHistory = () => {
   const [page, setPage] = useState(1);
   const [totalHistory, setTotalHistory] = useState([]);
   const [count, setCount] = useState(1);
   async function fetchTradeHistory() {
     const res = await fetch(
-      "http://localhost:8181/api/trade/historyAll" +
+      API_BASE_URL +
+        "/api/trade/historyAll" +
         "?size=" +
         8 +
         "&page=" +
@@ -66,17 +67,22 @@ const TotalTradeHistory = () => {
                 </tr>
               </thead>
               <tbody>
-                {totalHistory.map((item) => (
-                  <tr key={item.tradeDate}>
-                    <td>{item.userName}</td>
-                    <td>{item.email}</td>
-                    <td>{item.stockName}</td>
-                    <td>{item.price.toLocaleString()}</td>
-                    <td>{item.quantity.toLocaleString()}</td>
-                    <td>{getTradeType(item.tradeType)}</td>
-                    <td>{dateFormat(item.tradeDate)}</td>
-                  </tr>
-                ))}
+                {totalHistory
+                  .filter(
+                    (x) => !x.role.includes("ADMIN")
+                    // 역할이 ADMIN인 사람 제외시키기
+                  )
+                  .map((item) => (
+                    <tr key={item.tradeDate}>
+                      <td>{item.userName}</td>
+                      <td>{item.email}</td>
+                      <td>{item.stockName}</td>
+                      <td>{item.price.toLocaleString()}</td>
+                      <td>{item.quantity.toLocaleString()}</td>
+                      <td>{getTradeType(item.tradeType)}</td>
+                      <td>{dateFormat(item.tradeDate)}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

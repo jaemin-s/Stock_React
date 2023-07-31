@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import { API_BASE_URL } from "../../config/host-config";
 const RegistFrame = ({ boardType }) => {
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -10,7 +10,7 @@ const RegistFrame = ({ boardType }) => {
   const [inputContent, setInputContent] = useState("");
   const navigate = useNavigate();
 
-  const REQUEST_URL = "http://localhost:8181/api/";
+  const REQUEST_URL = API_BASE_URL + "/api/";
   async function getInfo() {
     const res = await fetch(
       REQUEST_URL + "user/myInfo/" + localStorage.getItem("LOGIN_USEREMAIL")

@@ -1,6 +1,6 @@
 import { redirect, useNavigate, useParams } from "react-router-dom";
 import { KI_ID, RequsetHeader } from "../../config/apikey";
-
+import { API_BASE_URL } from "../../config/host-config";
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../util/AuthContext";
 import { width } from "@mui/system";
@@ -50,7 +50,8 @@ const RcmMbti = ({ value }) => {
 
   const getUserMbti = async () => {
     const mbtiRes = await fetch(
-      "http://localhost:8181/api/user/myInfo/" +
+      API_BASE_URL +
+        "/api/user/myInfo/" +
         localStorage.getItem("LOGIN_USEREMAIL")
     );
     const mbtiData = await mbtiRes.json();

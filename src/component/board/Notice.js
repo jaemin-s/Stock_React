@@ -5,6 +5,7 @@ import BoardSideBar from "./BoardSideBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import BoardContent from "./BoardContent";
+import { API_BASE_URL } from "../../config/host-config";
 const Notice = ({ boardType }) => {
   const redirection = useNavigate();
   const location = useLocation();
@@ -13,11 +14,7 @@ const Notice = ({ boardType }) => {
   const [boardData, setboardData] = useState();
   async function getBoardList() {
     const res = await fetch(
-      "http://localhost:8181/api/board/notice" +
-        "?size=" +
-        8 +
-        "&page=" +
-        (page - 1)
+      API_BASE_URL + "/api/board/notice" + "?size=" + 8 + "&page=" + (page - 1)
     );
     const data = await res.json();
     setboardData({
