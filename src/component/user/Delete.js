@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import AuthContext from "../util/AuthContext";
 import { redirect, useNavigate } from "react-router-dom";
-
+import { API_BASE_URL } from "../../config/host-config";
 const Delete = () => {
   const { isLoggedIn, email, onLogout } = useContext(AuthContext);
   const [responseMessage, setResponseMessage] = useState("");
@@ -21,37 +21,35 @@ const Delete = () => {
       };
       try {
         // 서버에 DELETE 요청 보내기
-        const response = await fetch(`http://localhost:8181/api/user/deleteInfo/${email}`, {
-          method: "DELETE",
-          headers: headers,
-        });
-       
-          // const response = await fetch("http://localhost:8181/api/user/deleteInfo", {
-          //   method: "DELETE",
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //   },
-          //   body: JSON.stringify({email:localStorage.getItem("LOGIN_USEREMAIL")}),
-          // });
+        const response = await fetch(
+          API_BASE_URL + `/api/user/deleteInfo/${email}`,
+          {
+            method: "DELETE",
+            headers: headers,
+          }
+        );
+
+        // const response = await fetch("http://localhost:8181/api/user/deleteInfo", {
+        //   method: "DELETE",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({email:localStorage.getItem("LOGIN_USEREMAIL")}),
+        // });
 
         if (response.ok) {
           alert("회원 탈퇴가 완료되었습니다.");
           onLogout();
           redirection("/");
-          
-          
         } else {
           alert("회원 탈퇴를 실패했습니다. 다시 시도해주세요.");
         }
-        
       } catch (error) {
         // setResponseMessage(
-          alert(
-          "서버와 통신 중 오류가 발생했습니다. 다시 시도해주세요."
-        );
+        alert("서버와 통신 중 오류가 발생했습니다. 다시 시도해주세요.");
       }
     }
-  }
+  };
 
   return (
     <div>
@@ -68,6 +66,6 @@ const Delete = () => {
       <p>{responseMessage}</p>
     </div>
   );
-  }
+};
 
 export default Delete;

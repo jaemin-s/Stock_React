@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import "./OverallRank.scss";
-
+import { API_BASE_URL } from "../../config/host-config";
 const OverallRank = () => {
   //유저 랭킹 정보 관리
   const [rankingTable, setRankingTable] = useState();
@@ -19,7 +19,7 @@ const OverallRank = () => {
 
   // 전체 랭킹 불러오기
   async function getRankInfo() {
-    const res = await fetch("http://localhost:8181/api/trade/rank");
+    const res = await fetch(API_BASE_URL + "/api/trade/rank");
     const rankData = await res.json();
     console.log(rankData);
     setRankingTable(rankData);
@@ -58,7 +58,7 @@ const OverallRank = () => {
   };
 
   const getInfoHandler = async (email, e) => {
-    const res = await fetch("http://localhost:8181/api/trade/history/" + email);
+    const res = await fetch(API_BASE_URL + "/api/trade/history/" + email);
     const result = await res.json();
     console.log(result);
     setUserTradeInfo(result);

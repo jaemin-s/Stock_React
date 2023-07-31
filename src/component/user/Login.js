@@ -6,6 +6,7 @@ import AuthContext from "../util/AuthContext";
 import { KAKAO_AUTH_URL } from "./OAuth";
 import IdModal from "./IdModal";
 import PasswordModal from "./PasswordModal";
+import { API_BASE_URL } from "../../config/host-config";
 
 const LS_KEY_ID = "LS_KEY_ID";
 const LS_KEY_SAVE_ID_FLAG = "LS_KEY_SAVE_ID_FLAG";
@@ -26,7 +27,7 @@ const Login = () => {
   //   }
   // }, [isLoggedIn, redirection]);
 
-  const REQUEST_URL = "http://localhost:8181/api/user/login";
+  const REQUEST_URL = API_BASE_URL + "/api/user/login";
 
   const fetchLogin = async () => {
     // 사용자가 입력한 이메일, 비밀번호 입력 태그 얻어오기
@@ -44,10 +45,9 @@ const Login = () => {
 
     if (res.status === 400) {
       const text = await res.text();
-      if(text.length > 100){
-        alert("이메일과 비밀번호를 정확하게 입력해주세요")
-      } else
-      alert(text);
+      if (text.length > 100) {
+        alert("이메일과 비밀번호를 정확하게 입력해주세요");
+      } else alert(text);
       return;
     }
 

@@ -209,12 +209,13 @@ const GuideContent = () => {
         <p id="11">
           메인 화면은 종목을 검색하여 매매가 가능한 검색창, 상승주와 하락주,
           KOSPI와 KOSDAQ 지수, 당일 인기 거래량 순위, 오늘의 증시뉴스, 모의 투자
-          랭킹, 관련 영상, 관심종목으로 이루어져 있다.
+          랭킹, 관련 영상, 관심종목으로 이루어져 있다. 장은 평일 오전 9시부터
+          오후 3시 30분까지 운영되고 주말엔 운영하지 않는다.
         </p>
         <img
           src={require("./image/메인1.png")}
           alt="@"
-          style={{ marginTop: "50px", width: "900px" }}
+          style={{ marginTop: "50px", width: "850px" }}
           className="center-image"
         ></img>
         <img

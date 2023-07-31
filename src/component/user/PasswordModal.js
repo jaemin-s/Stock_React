@@ -1,5 +1,5 @@
 import "./PasswordModal.scss";
-
+import { API_BASE_URL } from "../../config/host-config";
 const PasswordModal = (props) => {
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
   const { open, close, header } = props;
@@ -8,7 +8,7 @@ const PasswordModal = (props) => {
     const $email = document.getElementById("cpEmail");
     const $phoneNumber = document.getElementById("cpPhoneNumber");
 
-    const res = await fetch("http://localhost:8181/api/user/sendEmail", {
+    const res = await fetch(API_BASE_URL + "/api/user/sendEmail", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({

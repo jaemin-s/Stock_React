@@ -4,6 +4,7 @@ import Paging from "./Paging";
 import BoardSideBar from "./BoardSideBar";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import BoardContent from "./BoardContent";
+import { API_BASE_URL } from "../../config/host-config";
 const InquiryBoard = ({ props }) => {
   const location = useLocation();
   const { state } = location;
@@ -13,11 +14,7 @@ const InquiryBoard = ({ props }) => {
 
   async function getBoardList() {
     const res = await fetch(
-      "http://localhost:8181/api/board/inquiry" +
-        "?size=" +
-        8 +
-        "&page=" +
-        (page - 1)
+      API_BASE_URL + "/api/board/inquiry" + "?size=" + 8 + "&page=" + (page - 1)
     );
     const data = await res.json();
     setboardData({
