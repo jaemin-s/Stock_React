@@ -3,6 +3,7 @@ import DoughnutMaker from "./DoughnutMaker";
 import { API_BASE_URL } from "../../../config/host-config";
 const UserByMBTI = () => {
   const [mbtiUser, setMbtiUser] = useState();
+  const [mbtiAvgUser, setMbtiAvgUser] = useState();
 
   async function getMbtiUser() {
     const res = await fetch(API_BASE_URL + "/api/user/mbtiuser");
@@ -22,8 +23,28 @@ const UserByMBTI = () => {
     }
   }
 
+  async function getMbtiAvg() {
+    const res = await fetch("http://localhost:8181/api/user/mbtiprofit");
+    if (res.status === 200) {
+      const data = await res.json();
+      console.log(data);
+      const labels = [];
+      const doughnutData = [];
+      data.forEach((item) => {
+        labels.push(item.mbti);
+        doughnutData.push(item.profit);
+      });
+      setMbtiAvgUser({
+        labels: labels,
+        doughnutLabel: "평균 손익",
+        doughnutData: doughnutData,
+      });
+    }
+  }
+
   useEffect(() => {
     getMbtiUser();
+    getMbtiAvg();
   }, []);
 
   return (
@@ -55,7 +76,11 @@ const UserByMBTI = () => {
               </h6>
             </div>
             <div className="card-body">
-              <DoughnutMaker />
+              <DoughnutMaker
+                labels={!!mbtiAvgUser && mbtiAvgUser.labels}
+                doughnutLabel={!!mbtiAvgUser && mbtiAvgUser.doughnutLabel}
+                doughnutData={!!mbtiAvgUser && mbtiAvgUser.doughnutData}
+              />
             </div>
           </div>
         </div>
