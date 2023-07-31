@@ -23,7 +23,6 @@ const RollControl = ({ isOpen, toggleHandler }) => {
                 <option>브론즈</option>
                 <option>실버</option>
                 <option>골드</option>
-                <option>관리자</option>
               </select>
             </div>
           </div>

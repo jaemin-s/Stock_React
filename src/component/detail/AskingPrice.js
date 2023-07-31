@@ -26,7 +26,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
   const [selectedValue, setSelectedValue] = useState(null);
 
   const getHoga = async () => {
-    const code = title[1].slice(0, -1); //일단 삼전
+    const code = title[1].slice(0, -1);
     try {
       const res = await fetch(
         "/quotations/inquire-asking-price-exp-ccn?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +

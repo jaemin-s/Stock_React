@@ -17,7 +17,12 @@ const AdminSidebar = ({ categoryData, categoryActivateHandler }) => {
 
       {/* <!-- Nav Item - Dashboard --> */}
       {categoryData.map((item, index) => (
-        <li className="nav-item" key={index} onClick={categoryActivateHandler}>
+        <li
+          className="nav-item"
+          key={index}
+          onClick={categoryActivateHandler}
+          style={{ cursor: "pointer" }}
+        >
           <div
             className={
               item.isActivate

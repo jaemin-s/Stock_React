@@ -25,7 +25,7 @@ import Kosdaq from "./Kosdaq";
 import { useNavigate } from "react-router-dom";
 import { isLogin } from "../util/login-utils";
 import OverallRank from "./OverallRank";
-
+import { API_BASE_URL } from "../../config/host-config";
 function StockTemplate() {
   // 토큰 발급이 최우선이기 때문에 토큰 발급 시 관리할 변수
   const [haveToken, setHaveToken] = useState(false);
@@ -99,7 +99,7 @@ function StockTemplate() {
     console.log(loginEmail);
     if (loginEmail !== null) {
       const res = await fetch(
-        "http://localhost:8181/api/user/favorite/" + loginEmail,
+        API_BASE_URL + "/api/user/favorite/" + loginEmail,
         {
           method: "GET",
           headers: { "content-type": "application/json" },
@@ -137,9 +137,9 @@ function StockTemplate() {
     }
   };
 
-  useEffect(() => {
-    getRank();
-  }, []);
+  // useEffect(() => {
+  //   getRank();
+  // }, []);
 
   // data 상태가 null인 경우 로딩 상태 표시
   if (data === null) {

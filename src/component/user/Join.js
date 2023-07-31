@@ -4,7 +4,7 @@ import "./Join.scss";
 import AuthContext from "../util/AuthContext";
 import { useNavigate } from "react-router-dom";
 import PasswordModal from "./PasswordModal";
-
+import { API_BASE_URL } from "../../config/host-config";
 const Join = () => {
   const $fileTag = useRef();
 
@@ -12,7 +12,7 @@ const Join = () => {
   const redirection = useNavigate();
   const { isLoggedIn } = useContext(AuthContext);
 
-  const API_BASE_URL = "http://localhost:8181/api/user";
+  const URL = API_BASE_URL + "/api/user";
 
   //상태변수로 회원가입 입력값 관리
   const [userValue, setUserValue] = useState({
@@ -95,7 +95,7 @@ const Join = () => {
   const fetchNickCheck = (nick) => {
     let msg = "",
       flag = false;
-    fetch(`${API_BASE_URL}/checknick?nick=${nick}`)
+    fetch(`${URL}/checknick?nick=${nick}`)
       .then((res) => {
         if (res.status === 200) {
           return res.json();
@@ -145,7 +145,7 @@ const Join = () => {
   const fetchDuplicateCheck = (email) => {
     let msg = "",
       flag = false;
-    fetch(`${API_BASE_URL}/check?email=${email}`)
+    fetch(`${URL}/check?email=${email}`)
       .then((res) => {
         if (res.status === 200) {
           return res.json();
@@ -341,7 +341,7 @@ const Join = () => {
     userFormData.append("user", userJsonBlob);
     // userFormData.append("profileImage", $fileTag.current.files[0]);
 
-    fetch(API_BASE_URL, {
+    fetch(URL, {
       method: "POST",
       body: userFormData,
     }).then((res) => {
@@ -394,27 +394,6 @@ const Join = () => {
                     <h1 className="h4 text-gray-900 mb-4">회원가입</h1>
                   </div>
                   <form className="user">
-                    {/* <div
-                      className="thumbnail-box"
-                      onClick={() => $fileTag.current.click()}
-                    >
-                      <img
-                        src={imgFile || require("./image/image-add.png")}
-                        alt="profile"
-                      />
-                    </div>
-                    <label className="signup-img-label" htmlFor="profile-img">
-                      프로필
-                    </label>
-                    <input
-                      id="profile-img"
-                      type="file"
-                      style={{ display: "none" }}
-                      accept="image/*"
-                      ref={$fileTag}
-                      onChange={showThumbnailHandler}
-                    /> */}
-
                     <div className="form-group">
                       <input
                         type="text"

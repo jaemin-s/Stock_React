@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMedal } from "@fortawesome/free-solid-svg-icons";
+import { API_BASE_URL } from "../../config/host-config";
 const MyPageViewInfo = () => {
   const [userInfo, setUserInfo] = useState({
     email: "",
@@ -34,7 +35,8 @@ const MyPageViewInfo = () => {
 
   async function getInfo() {
     const res = await fetch(
-      "http://localhost:8181/api/user/myInfo/" +
+      API_BASE_URL +
+        "/api/user/myInfo/" +
         localStorage.getItem("LOGIN_USEREMAIL")
     );
     const myInfo = await res.json();
@@ -73,7 +75,8 @@ const MyPageViewInfo = () => {
 
   const getMyRank = async () => {
     const res = await fetch(
-      "http://localhost:8181/api/trade/rank/" +
+      API_BASE_URL +
+        "/api/trade/rank/" +
         localStorage.getItem("LOGIN_USEREMAIL")
     );
     if (res.status === 200) {

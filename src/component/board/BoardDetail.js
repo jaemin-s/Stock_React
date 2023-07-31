@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
+import { API_BASE_URL } from "../../config/host-config";
 const BoardDetail = ({ boardType, id, savedPage }) => {
   const [writer, setWriter] = useState("");
   const [title, setTitle] = useState("");
@@ -14,7 +14,7 @@ const BoardDetail = ({ boardType, id, savedPage }) => {
   console.log("savedPage in detail", savedPage);
   async function getDetail() {
     const res = await fetch(
-      "http://localhost:8181/api/board/" + boardType + "/" + id
+      API_BASE_URL + "/api/board/" + boardType + "/" + id
     );
     if (res.status === 200) {
       const data = await res.json();

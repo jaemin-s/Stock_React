@@ -16,6 +16,7 @@ import AuthContext from "../util/AuthContext";
 import RcmMbti from "./RcmMbti";
 import Swal from "sweetalert2";
 import InvestmentStrategy from "./InvestmentStrategy";
+import { API_BASE_URL } from "../../config/host-config";
 
 const Detail = () => {
   const [infoData, setInfoData] = useState({
@@ -43,7 +44,7 @@ const Detail = () => {
   // 즐겨찾기 별표 채우기
   const [filled, setFilled] = useState(false);
 
-  const REQUEST_URL = "http://localhost:8181/api/user/favorite";
+  const REQUEST_URL = API_BASE_URL + "/api/user/favorite";
   const { email, isLoggedIn } = useContext(AuthContext);
   // 관심종목 목록
   const [favoriteList, setFavoriteList] = useState([]);
@@ -87,13 +88,10 @@ const Detail = () => {
   const loadFavorite = async () => {
     const loginEmail = localStorage.getItem("LOGIN_USEREMAIL");
     // console.log("email: ", loginEmail);
-    const res = await fetch(
-      "http://localhost:8181/api/user/favorite/" + loginEmail,
-      {
-        method: "GET",
-        headers: { "content-type": "application/json" },
-      }
-    );
+    const res = await fetch(API_BASE_URL + "/api/user/favorite/" + loginEmail, {
+      method: "GET",
+      headers: { "content-type": "application/json" },
+    });
     if (res.status === 200) {
       const list = await res.json();
       // console.log(list);
@@ -123,7 +121,8 @@ const Detail = () => {
   //내정보 불러오기 로직
   const getMyInfo = async () => {
     const res = await fetch(
-      "http://localhost:8181/api/user/myInfo/" +
+      API_BASE_URL +
+        "/api/user/myInfo/" +
         localStorage.getItem("LOGIN_USEREMAIL")
     );
     if (res.status === 200) {
@@ -290,7 +289,7 @@ const Detail = () => {
       toastAlertHandler(-2);
       return;
     }
-    const res = await fetch("http://localhost:8181/api/trade/buy", {
+    const res = await fetch(API_BASE_URL + "/api/trade/buy", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -320,7 +319,7 @@ const Detail = () => {
       toastAlertHandler(-11);
       return;
     }
-    const res = await fetch("http://localhost:8181/api/trade/sell", {
+    const res = await fetch(API_BASE_URL + "/api/trade/sell", {
       method: "POST",
       headers: {
         "content-type": "application/json",

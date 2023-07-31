@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, ModalBody } from 'reactstrap';
-import InfoControl from './InfoControl'; // 파일 이름 수정
+import InfoControl from './InfoControl'; 
 import RollControl from './RollControl';
 import ScoreControl from './ScoreControl';
 
@@ -95,24 +95,18 @@ const Dropdown = () => {
           </div>
         </li>
   
-        
-        <Modal isOpen={isRollModalOpen} toggle={handleRollControlClick} style={{ width: 1000 }}>
-          <ModalBody>
+            <div isOpen={isRollModalOpen} toggle={handleRollControlClick}>
             <RollControl isOpen={isRollModalOpen} toggleHandler={() => setIsRollModalOpen(false)} />
-          </ModalBody>
-        </Modal>
-        
-        <Modal isOpen={isInfoModalOpen} toggle={handleInfoControlClick} style={{ width: 1000 }}>
-          <ModalBody>
-            <InfoControl isOpen={isInfoModalOpen} toggleHandler={() => setIsInfoModalOpen(false)} />
-          </ModalBody>
-        </Modal>
-        
-        <Modal isOpen={isPointModalOpen} toggle={handlePointControlClick} style={{ width: 1000 }}>
-          <ModalBody>
-            <ScoreControl isOpen={isPointModalOpen} toggleHandler={() => setIsPointModalOpen(false)} />
-          </ModalBody>
-        </Modal>
+            </div>
+
+            <div isOpen={isInfoModalOpen} toggle={handleInfoControlClick}>
+              <InfoControl isOpen={isInfoModalOpen} toggleHandler={() => setIsInfoModalOpen(false)} />
+            </div>
+          
+            <div isOpen={isPointModalOpen} toggle={handlePointControlClick}>
+              <ScoreControl isOpen={isPointModalOpen} toggleHandler={() => setIsPointModalOpen(false)} />
+            </div>
+
   
       </ul>
     );
