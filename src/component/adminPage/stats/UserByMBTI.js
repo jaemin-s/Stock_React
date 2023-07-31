@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DoughnutMaker from "./DoughnutMaker";
+import BarChart from "./VerticalBarChart";
 
 const UserByMBTI = () => {
   const [mbtiUser, setMbtiUser] = useState();
@@ -28,17 +29,14 @@ const UserByMBTI = () => {
     if (res.status === 200) {
       const data = await res.json();
       console.log(data);
-      const labels = [];
-      const doughnutData = [];
+      const items = [];
       data.forEach((item) => {
-        labels.push(item.mbti);
-        doughnutData.push(item.profit);
+        items.push({
+          label: item.mbti,
+          value: [item.profit],
+        });
       });
-      setMbtiAvgUser({
-        labels: labels,
-        doughnutLabel: "평균 손익",
-        doughnutData: doughnutData,
-      });
+      setMbtiAvgUser(items);
     }
   }
 
@@ -75,12 +73,8 @@ const UserByMBTI = () => {
                 MBTI별 평균 손익
               </h6>
             </div>
-            <div className="card-body">
-              <DoughnutMaker
-                labels={!!mbtiAvgUser && mbtiAvgUser.labels}
-                doughnutLabel={!!mbtiAvgUser && mbtiAvgUser.doughnutLabel}
-                doughnutData={!!mbtiAvgUser && mbtiAvgUser.doughnutData}
-              />
+            <div className="card-body profit-body">
+              <BarChart barLabel={["평균 손익"]} items={mbtiAvgUser} />
             </div>
           </div>
         </div>

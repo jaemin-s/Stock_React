@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DoughnutMaker from "./DoughnutMaker";
+import BarChart from "./VerticalBarChart";
 
 const UserGroupByAges = () => {
   const [agesUser, setAgesUser] = useState();
@@ -27,17 +28,14 @@ const UserGroupByAges = () => {
     const res = await fetch("http://localhost:8181/api/user/agesProfit");
     if (res.status === 200) {
       const data = await res.json();
-      const labels = [];
-      const doughnutData = [];
+      const items = [];
       data.forEach((item) => {
-        labels.push(item.ages);
-        doughnutData.push(item.profit);
+        items.push({
+          label: item.ages,
+          value: [item.profit],
+        });
       });
-      setAgesProfit({
-        labels: labels,
-        doughnutLabel: "평균 손익",
-        doughnutData: doughnutData,
-      });
+      setAgesProfit(items);
     }
   }
 
@@ -73,12 +71,8 @@ const UserGroupByAges = () => {
                 나이대 별 평균 손익
               </h6>
             </div>
-            <div className="card-body">
-              <DoughnutMaker
-                labels={!!agesProfit && agesProfit.labels}
-                doughnutLabel={!!agesProfit && agesProfit.doughnutLabel}
-                doughnutData={!!agesProfit && agesProfit.doughnutData}
-              />
+            <div className="card-body profit-body">
+              <BarChart barLabel={["평균 손익"]} items={agesProfit} />
             </div>
           </div>
         </div>

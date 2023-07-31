@@ -1,9 +1,12 @@
 section.admin-stats {
     .stats-body{
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-around;
     }
+
     .stats-header{
         margin-bottom: 30px;
     }
+
 }
