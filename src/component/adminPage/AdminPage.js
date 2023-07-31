@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./AdminPage.scss";
-import InfoControl from "./InfoCotrol";
+import InfoControl from "./InfoControl";
 import AdminSidebar from "./AdminSidebar";
 import AdminTopMenu from "./AdminTopMenu";
 import AdminSearchBar from "./AdminSearchBar";

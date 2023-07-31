@@ -1,9 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { Modal, ModalBody } from 'reactstrap';
 
-const RollControl = () => {
-  return (
-    <div>RollControl</div>
-  )
-}
+const RollControl = ({ isOpen, toggleHandler }) => {
 
-export default RollControl
+
+
+    return (
+      <Modal isOpen={isOpen} toggle={toggleHandler} style={{ width: 1000 }}>
+        <ModalBody>
+          <div className='roll-box' style={{ display:'flex'}}>
+            <div className='roll-check'
+            style={{width: 160, margin: '0 auto', height: 150, textAlign:'center', borderRight:'1px solid black'}}
+            >
+              <p style={{marginTop: 50}}>홍길동님의 등급은 "브론즈" 입니다.</p>
+            </div>
+            <div>
+              등급 지정하기
+            </div>
+            <div className='roll-option'>
+              <select>
+                <option>블랙</option>
+                <option>브론즈</option>
+                <option>실버</option>
+                <option>골드</option>
+                <option>관리자</option>
+              </select>
+            </div>
+          </div>
+        </ModalBody>
+      </Modal>
+    )
+  }
+  
+  export default RollControl;
+  

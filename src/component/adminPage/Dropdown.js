@@ -1,60 +1,121 @@
 import React, { useState } from 'react';
+import { Modal, ModalBody } from 'reactstrap';
+import InfoControl from './InfoControl'; // 파일 이름 수정
+import RollControl from './RollControl';
+import ScoreControl from './ScoreControl';
 
-const Dropdown = ({ toggleHandler }) => {
 
-  const [isToggle, setIsToggle] = useState(false);
-  const handleToggle = () => {
-    setIsToggle(!isToggle);
-    toggleHandler();
-    console.log(isToggle);
-  };
+const Dropdown = () => {
+    const [isToggle, setIsToggle] = useState(false);
+    const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+    const [isRollModalOpen, setIsRollModalOpen] = useState(false);
+    const [isPointModalOpen, setIsPointModalOpen] = useState(false);
+  
+    const handleToggle = () => {
+      setIsToggle(!isToggle);
+    };
+  
+    // 등급관리
+    const handleRollControlClick = () => {
+      setIsRollModalOpen(true);
+      setIsInfoModalOpen(false);
+      setIsPointModalOpen(false);
+      setIsToggle(false); 
+    };
 
-  return (
-    <ul className="navbar-nav" >
-      <li className={isToggle ? "nav-item dropdown no-arrow show" : "nav-item dropdown no-arrow"} onClick={handleToggle}>
-        <a
-          className={isToggle ? "nav-link dropdown-toggle slide-up" : "nav-link dropdown-toggle slide-down"}
-          href="#"
-          id="userDropdown"
-          role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded={isToggle ? "true" : "false"}
+    // 정보관리
+    const handleInfoControlClick = () => {
+      setIsInfoModalOpen(true);
+      setIsRollModalOpen(false);
+      setIsPointModalOpen(false);
+      setIsToggle(false);
+    };
+  
+    // 포인트 관리
+    const handlePointControlClick = () => {
+      setIsPointModalOpen(true);
+      setIsInfoModalOpen(false);
+      setIsRollModalOpen(false);
+      setIsToggle(false);
+    };
+  
+  
+    return (
+      <ul className="navbar-nav">
+        <li
+          className={isToggle ? "nav-item dropdown no-arrow show" : "nav-item dropdown no-arrow"}
+          onClick={handleToggle}
+          style={{ margin: '0 auto' }}
         >
-          <span style={{ fontWeight: 600, fontSize: 20 }}>
-            &nbsp;
-            <span className={isToggle ? "rotate-up" : "rotate-down"}>
-              {isToggle ? "↩" : "↪"}
+          <button
+            className={isToggle ? "nav-link dropdown-toggle slide-up" : "nav-link dropdown-toggle slide-down"}
+            id="userDropdown"
+            type="button"
+            aria-haspopup="true"
+            aria-expanded={isToggle ? "true" : "false"}
+          >
+            <span style={{ fontWeight: 600, fontSize: 20 }}>
+              &nbsp;
+              <span className={isToggle ? "rotate-up" : "rotate-down"}>
+                {isToggle ? "↩" : "↪"}
+              </span>
             </span>
-          </span>
-        </a>
-
-
-        <div
-          className={isToggle ? "dropdown-menu dropdown-menu-right shadow animated--grow-in show" : "dropdown-menu dropdown-menu-right shadow animated--grow-in"}
-          aria-labelledby="userDropdown" style={{width: 1, margin: 0, position:'absolute'}}
-        >
-          <li className="dropdown-item">
-            <a className="nav-link" href="javascript:void(0);">
-              등급관리
-            </a>
-          </li>
-          <hr className="border-line" />
-          <li className="dropdown-item">
-            <a className="nav-link" href="javascript:void(0);" >
-              정보관리
-            </a>
-          </li>
-          <hr className="border-line" />
-          <li className="dropdown-item">
-            <a className="nav-link" href="javascript:void(0);" >
-              포인트 관리
-            </a>
-          </li>
-        </div>
-      </li>
-    </ul>
-  );
-};
-
-export default Dropdown;
+          </button>
+  
+          <div
+            className={isToggle ? "dropdown-menu dropdown-menu-right shadow animated--grow-in show" : "dropdown-menu dropdown-menu-right shadow animated--grow-in"}
+            aria-labelledby="userDropdown" style={{ width: 1, position: 'absolute', left: -47 }}
+          >
+            <li className="dropdown-item" onClick={handleRollControlClick}>
+              <button
+                className="nav-link"
+                
+              >
+                등급관리
+              </button>
+            </li>
+            <hr className="border-line" />
+            <li className="dropdown-item" onClick={handleInfoControlClick}>
+              <button
+                className="nav-link"
+                
+              >
+                정보관리
+              </button>
+            </li>
+            <hr className="border-line" />
+            <li className="dropdown-item" onClick={handlePointControlClick}>
+              <button
+                className="nav-link"
+                
+              >
+                포인트 관리
+              </button>
+            </li>
+          </div>
+        </li>
+  
+        
+        <Modal isOpen={isRollModalOpen} toggle={handleRollControlClick} style={{ width: 1000 }}>
+          <ModalBody>
+            <RollControl isOpen={isRollModalOpen} toggleHandler={() => setIsRollModalOpen(false)} />
+          </ModalBody>
+        </Modal>
+        
+        <Modal isOpen={isInfoModalOpen} toggle={handleInfoControlClick} style={{ width: 1000 }}>
+          <ModalBody>
+            <InfoControl isOpen={isInfoModalOpen} toggleHandler={() => setIsInfoModalOpen(false)} />
+          </ModalBody>
+        </Modal>
+        
+        <Modal isOpen={isPointModalOpen} toggle={handlePointControlClick} style={{ width: 1000 }}>
+          <ModalBody>
+            <ScoreControl isOpen={isPointModalOpen} toggleHandler={() => setIsPointModalOpen(false)} />
+          </ModalBody>
+        </Modal>
+  
+      </ul>
+    );
+  };
+  
+  export default Dropdown;

@@ -918,19 +918,19 @@ const Detail = () => {
                       >
                         종목정보
                       </span>
-                      <span
+                      {localStorage.getItem("isLoggedIn") &&<span
                         id="myStock"
                         className="border-bottom-primary"
                         onClick={showMyStock}
                       >
                         내주식
-                      </span>
+                      </span>}
                     </h6>
                   </div>
                   {stockPrice && viewPrice}
                   {news && viewNews}
                   {info && viewInfo}
-                  {myStock && viewMyStock}
+                  {myStock&& viewMyStock}
                 </div>
               </div>
               <hr />
