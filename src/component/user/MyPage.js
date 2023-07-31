@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Update from "./Update";
 import Delete from "./Delete";
 import MyPageViewInfo from "./MyPageViewInfo";
+import { number } from "echarts";
 // Doughnut 차트 import(npm install chart.js react-chartjs-2)
 
 // Doughnut 차트 등록
@@ -113,7 +114,7 @@ function MyPage() {
     ).toFixed(2);
     // console.log(returnPercentArray);
     if (isNaN(averageReturnPercent)) {
-      return "계산중입니다";
+      return "0";
     }
     return averageReturnPercent;
   }
@@ -459,7 +460,12 @@ function MyPage() {
                   {trade.stockName}({trade.stockId})
                 </th>
                 <td>{trade.quantity}주</td>
-                <td>{(trade.price / trade.quantity).toFixed(0)}원</td>
+                <td>
+                  {Number(
+                    (trade.price / trade.quantity).toFixed(0)
+                  ).toLocaleString()}
+                  원
+                </td>
                 <td>{trade.price.toLocaleString()}원</td>
                 <td style={{ fontWeight: "600", color: textColor }}>
                   {returnPercentValue !== null ? `${returnPercentValue}%` : "-"}
