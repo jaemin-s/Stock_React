@@ -1,49 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Paging from "../board/Paging";
 
 const TotalTradeHistory = () => {
   const [page, setPage] = useState(1);
-  const [totalHistory, setTotalHistory] = useState([
-    {
-      name: "",
-      email: "",
-      stockName: "",
-      tradeMoney: "",
-      tradeQuantity: "",
-      tradeType: "",
-      tradeDate: "",
-      profit: "",
-    },
-  ]);
+  const [totalHistory, setTotalHistory] = useState([]);
+  const [count, setCount] = useState(1);
   async function fetchTradeHistory() {
-    const res = await fetch("url");
+    const res = await fetch(
+      "http://localhost:8181/api/trade/historyAll" +
+        "?size=" +
+        8 +
+        "&page=" +
+        (page - 1)
+    );
+
     if (res.status === 200) {
       const historyData = await res.json();
-      const tempArr = [];
-      historyData.forEach((item) => {
-        tempArr.push({
-          name: item.name,
-          email: item.email,
-          stockName: item.stockName,
-          tradeMoney: item.tradeMoney,
-          tradeQuantity: item.tradeQuantity,
-          tradeType: item.tradeType,
-          tradeDate: item.tradeDate,
-        });
-      });
-      setTotalHistory(tempArr);
+      setTotalHistory(historyData.content);
+      console.log("historyData: ", historyData);
+      console.log("historyData.content: ", historyData.content);
+      setCount(historyData.totalElements);
+    } else {
+      console.error("fail");
     }
   }
+
+  useEffect(() => {
+    fetchTradeHistory();
+  }, [page]);
+
+  function getTradeType(tradeType) {
+    switch (tradeType) {
+      case "sell":
+        return "매도";
+      case "buy":
+        return "매수";
+    }
+  }
+
+  const dateFormat = (date) => {
+    return date.slice(2, 10);
+  };
+
   return (
     <>
-      <div class="card shadow mb-4">
-        <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">거래내역</h6>
+      <div className="card shadow mb-4">
+        <div className="card-header py-3">
+          <h6 className="m-0 font-weight-bold text-primary">거래내역</h6>
         </div>
-        <div class="card-body">
-          <div class="table-responsive">
+        <div className="card-body">
+          <div className="table-responsive">
             <table
-              class="table table-bordered"
+              className="table table-bordered"
               id="dataTable"
               width="100%"
               cellspacing="0"
@@ -53,31 +61,31 @@ const TotalTradeHistory = () => {
                   <th>이름</th>
                   <th>이메일</th>
                   <th>종목명</th>
-                  <th>거래 금액</th>
+                  <th>거래 금액(원)</th>
                   <th>거래 수량</th>
                   <th>거래 유형</th>
                   <th>거래 일자</th>
                 </tr>
               </thead>
               <tbody>
-                {totalHistory.forEach((item) => {
-                  <>
-                    <td>{item.name}</td>
+                {totalHistory.map((item) => (
+                  <tr key={item.tradeDate}>
+                    <td>{item.userName}</td>
                     <td>{item.email}</td>
                     <td>{item.stockName}</td>
-                    <td>{item.tradeMoney}</td>
-                    <td>{item.tradeQuantity}</td>
-                    <td>{item.tradeType}</td>
-                    <td>{item.tradeDate}</td>
-                  </>;
-                })}
+                    <td>{item.price.toLocaleString()}</td>
+                    <td>{item.quantity.toLocaleString()}</td>
+                    <td>{getTradeType(item.tradeType)}</td>
+                    <td>{dateFormat(item.tradeDate)}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <Paging page={page} count={1} setPage={setPage} />
+      <Paging page={page} count={count} setPage={setPage} />
     </>
   );
 };

@@ -394,27 +394,6 @@ const Join = () => {
                     <h1 className="h4 text-gray-900 mb-4">회원가입</h1>
                   </div>
                   <form className="user">
-                    {/* <div
-                      className="thumbnail-box"
-                      onClick={() => $fileTag.current.click()}
-                    >
-                      <img
-                        src={imgFile || require("./image/image-add.png")}
-                        alt="profile"
-                      />
-                    </div>
-                    <label className="signup-img-label" htmlFor="profile-img">
-                      프로필
-                    </label>
-                    <input
-                      id="profile-img"
-                      type="file"
-                      style={{ display: "none" }}
-                      accept="image/*"
-                      ref={$fileTag}
-                      onChange={showThumbnailHandler}
-                    /> */}
-
                     <div className="form-group">
                       <input
                         type="text"
