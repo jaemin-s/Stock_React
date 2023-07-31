@@ -17,8 +17,6 @@ const TotalTradeHistory = () => {
     if (res.status === 200) {
       const historyData = await res.json();
       setTotalHistory(historyData.content);
-      console.log("historyData: ", historyData);
-      console.log("historyData.content: ", historyData.content);
       setCount(historyData.totalElements);
     } else {
       console.error("fail");
