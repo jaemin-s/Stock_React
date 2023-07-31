@@ -142,6 +142,8 @@ const BoardDetail = ({ boardType, id, savedPage }) => {
     getDetail();
   }, []);
 
+    console.log(content.replaceAll("\n","<br>"));
+
   return (
     <div>
       <table
@@ -219,7 +221,7 @@ const BoardDetail = ({ boardType, id, savedPage }) => {
             ) : (
               <td>
                 <p style={{ textAlign: "left", marginLeft: "10px" }}>
-                  {content}
+                  <pre style={{fontFamily:'system-ui, -apple-system, "Segoe UI"'}}>{content}</pre>
                 </p>
               </td>
             )}

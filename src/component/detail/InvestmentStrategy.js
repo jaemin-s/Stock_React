@@ -8,7 +8,7 @@ const InvestmentStrategy = ({ personalityType }) => {
     case "ISFJ":
     case "ESTJ":
     case "ESFJ":
-      strategyText = "보수적인 투자, 리스크 회피형 -> 2 대형주+저부채비율";
+      strategyText = "안정적이고 보수적인 투자 성향을 가지고 있습니다."
       break;
     case "ISFP":
     case "ESFP":
