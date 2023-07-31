@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DoughnutMaker from "./DoughnutMaker";
+import BarChart from "./VerticalBarChart";
 
 const UserGroupByCareer = () => {
   const [careerUser, setCareerUser] = useState();
@@ -39,27 +40,36 @@ const UserGroupByCareer = () => {
     if (res.status === 200) {
       const data = await res.json();
       console.log(data);
-      const labels = [];
-      const doughnutData = [];
+      const items = [];
       data.forEach((item) => {
         if (item.career == 1) {
-          labels.push("입문");
+          items.push({
+            label: "입문",
+            value: [item.profit],
+          });
         } else if (item.career == 2) {
-          labels.push("1~3년");
+          items.push({
+            label: "1~3년",
+            value: [item.profit],
+          });
         } else if (item.career == 3) {
-          labels.push("4~10년");
+          items.push({
+            label: "4~10년",
+            value: [item.profit],
+          });
         } else if (item.career == 4) {
-          labels.push("10년 이상");
+          items.push({
+            label: "10년 이상",
+            value: [item.profit],
+          });
         } else {
-          labels.push("경력 체크 안함");
+          items.push({
+            label: "경력 미입력",
+            value: [item.profit],
+          });
         }
-        doughnutData.push(item.profit);
       });
-      setCareerAvgUser({
-        labels: labels,
-        doughnutLabel: "유저 수",
-        doughnutData: doughnutData,
-      });
+      setCareerAvgUser(items);
     }
   }
 
@@ -96,12 +106,8 @@ const UserGroupByCareer = () => {
                 경력 별 평균 손익
               </h6>
             </div>
-            <div className="card-body">
-              <DoughnutMaker
-                labels={!!careerAvgUser && careerAvgUser.labels}
-                doughnutLabel={!!careerAvgUser && careerAvgUser.doughnutLabel}
-                doughnutData={!!careerAvgUser && careerAvgUser.doughnutData}
-              />
+            <div className="card-body profit-body">
+              <BarChart barLabel={["평균 손익"]} items={careerAvgUser} />
             </div>
           </div>
         </div>

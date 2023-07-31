@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
 import DoughnutMaker from "./DoughnutMaker";
-import { API_BASE_URL } from "../../../config/host-config";
 import BarChart from "./VerticalBarChart";
 
-const UserByMBTI = () => {
-  const [mbtiUser, setMbtiUser] = useState();
-  const [mbtiAvgUser, setMbtiAvgUser] = useState();
+const UserGroupByAges = () => {
+  const [agesUser, setAgesUser] = useState();
+  const [agesProfit, setAgesProfit] = useState();
 
-  async function getMbtiUser() {
-    const res = await fetch(API_BASE_URL + "/api/user/mbtiuser");
+  async function getAgesUser() {
+    const res = await fetch("http://localhost:8181/api/user/agesUser");
     if (res.status === 200) {
       const data = await res.json();
       const labels = [];
       const doughnutData = [];
       data.forEach((item) => {
-        labels.push(item.mbti);
+        labels.push(item.ages);
         doughnutData.push(item.count);
       });
-      setMbtiUser({
+      setAgesUser({
         labels: labels,
         doughnutLabel: "유저수",
         doughnutData: doughnutData,
@@ -25,43 +24,41 @@ const UserByMBTI = () => {
     }
   }
 
-  async function getMbtiAvg() {
-    const res = await fetch("http://localhost:8181/api/user/mbtiprofit");
+  async function getAgesProfitUser() {
+    const res = await fetch("http://localhost:8181/api/user/agesProfit");
     if (res.status === 200) {
       const data = await res.json();
-      console.log(data);
       const items = [];
       data.forEach((item) => {
         items.push({
-          label: item.mbti,
+          label: item.ages,
           value: [item.profit],
         });
       });
-      setMbtiAvgUser(items);
+      setAgesProfit(items);
     }
   }
 
   useEffect(() => {
-    getMbtiUser();
-    getMbtiAvg();
+    getAgesUser();
+    getAgesProfitUser();
   }, []);
-
   return (
-    <section className="stats-by-MBTI admin-stats">
+    <section className="stats-by-ages admin-stats">
       <h1 className="h3 text-gray-800 stats-header">MBTI</h1>
       <div className="stats-body">
         <div className="col-xl-4 col-lg-5">
           <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
               <h6 className="m-0 font-weight-bold text-primary">
-                MBTI별 유저 수
+                나이대 별 유저 수
               </h6>
             </div>
             <div className="card-body">
               <DoughnutMaker
-                labels={!!mbtiUser && mbtiUser.labels}
-                doughnutLabel={!!mbtiUser && mbtiUser.doughnutLabel}
-                doughnutData={!!mbtiUser && mbtiUser.doughnutData}
+                labels={!!agesUser && agesUser.labels}
+                doughnutLabel={!!agesUser && agesUser.doughnutLabel}
+                doughnutData={!!agesUser && agesUser.doughnutData}
               />
             </div>
           </div>
@@ -71,11 +68,11 @@ const UserByMBTI = () => {
           <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
               <h6 className="m-0 font-weight-bold text-primary">
-                MBTI별 평균 손익
+                나이대 별 평균 손익
               </h6>
             </div>
             <div className="card-body profit-body">
-              <BarChart barLabel={["평균 손익"]} items={mbtiAvgUser} />
+              <BarChart barLabel={["평균 손익"]} items={agesProfit} />
             </div>
           </div>
         </div>
@@ -84,4 +81,4 @@ const UserByMBTI = () => {
   );
 };
 
-export default UserByMBTI;
+export default UserGroupByAges;
