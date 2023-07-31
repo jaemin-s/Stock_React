@@ -1,5 +1,5 @@
 import "./IdModal.scss";
-
+import { API_BASE_URL } from "../../config/host-config";
 const IdModal = (props) => {
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
   const { open, close, header } = props;
@@ -8,7 +8,7 @@ const IdModal = (props) => {
     const $name = document.getElementById("searchName");
     const $phoneNumber = document.getElementById("searchPhoneNumber");
 
-    const res = await fetch("http://localhost:8181/api/user/searchId", {
+    const res = await fetch(API_BASE_URL + "/api/user/searchId", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({

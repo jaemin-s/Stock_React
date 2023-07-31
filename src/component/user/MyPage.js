@@ -9,6 +9,7 @@ import Update from "./Update";
 import Delete from "./Delete";
 import MyPageViewInfo from "./MyPageViewInfo";
 import { number } from "echarts";
+import { API_BASE_URL } from "../../config/host-config";
 // Doughnut 차트 import(npm install chart.js react-chartjs-2)
 
 // Doughnut 차트 등록
@@ -249,7 +250,8 @@ function MyPage() {
   // console.log(stockPrice);
   async function getInfo() {
     const res = await fetch(
-      "http://localhost:8181/api/user/myInfo/" +
+      API_BASE_URL +
+        "/api/user/myInfo/" +
         localStorage.getItem("LOGIN_USEREMAIL")
     );
     const myInfo = await res.json();
@@ -269,7 +271,8 @@ function MyPage() {
   // console.log(userInfo.money);
   async function getHistory() {
     const res = await fetch(
-      "http://localhost:8181/api/trade/history/" +
+      API_BASE_URL +
+        "/api/trade/history/" +
         localStorage.getItem("LOGIN_USEREMAIL")
     );
     const history = await res.json();
@@ -278,7 +281,8 @@ function MyPage() {
 
   async function getFavoriteInfo() {
     const res = await fetch(
-      "http://localhost:8181/api/user/favorite/" +
+      API_BASE_URL +
+        "/api/user/favorite/" +
         localStorage.getItem("LOGIN_USEREMAIL")
     );
 
@@ -454,6 +458,7 @@ function MyPage() {
                     border: "1px solid lightgray",
                     textAlign: "center",
                     cursor: "pointer",
+                    fontWeight: "600",
                   }}
                 >
                   {trade.stockName}({trade.stockId})
