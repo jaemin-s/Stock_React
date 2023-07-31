@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Paging from "../board/Paging";
+import Dropdown from "./Dropdown";
 import AdminSearchBar from "./AdminSearchBar";
 import { API_BASE_URL } from "../../config/host-config";
 const UserInfoTable = () => {
@@ -34,6 +35,14 @@ const UserInfoTable = () => {
     }
     return phoneNumber;
   };
+
+  // toggleHandler 함수
+  const [isToggle, setIsToggle] = useState(false);
+  const toggleHandler = () => {
+    setIsToggle(!isToggle);
+    console.log(isToggle);
+  };
+  // <Dropdown toggleHandler={toggleHandler} /> 관리 쪽 dropdown 
 
   return (
     <>

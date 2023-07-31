@@ -16,6 +16,7 @@
     transition: opacity 0.3s;
     pointer-events: none;
     display: none;
+    width: fit-content;
   }
   
   .tooltip-container:hover .tooltip-text {
