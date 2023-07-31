@@ -21,7 +21,6 @@ const UserInfoTable = () => {
       console.error("fail");
     }
   }
-
   useEffect(() => {
     getUserAll();
   }, [page]);
