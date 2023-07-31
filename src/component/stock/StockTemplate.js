@@ -137,9 +137,9 @@ function StockTemplate() {
     }
   };
 
-  useEffect(() => {
-    getRank();
-  }, []);
+  // useEffect(() => {
+  //   getRank();
+  // }, []);
 
   // data 상태가 null인 경우 로딩 상태 표시
   if (data === null) {

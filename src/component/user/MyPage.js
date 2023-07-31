@@ -273,7 +273,6 @@ function MyPage() {
         localStorage.getItem("LOGIN_USEREMAIL")
     );
     const history = await res.json();
-    // console.log("history: ", history);
     setHistoryInfo(history);
   }
 
