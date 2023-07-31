@@ -6,7 +6,9 @@ import { API_BASE_URL } from "../../config/host-config";
 const UserInfoTable = () => {
   const [page, setPage] = useState(1);
   const [totalInfo, setTotalInfo] = useState([]);
+  const [searchInfo, setSearchInfo] = useState([]);
   const [count, setCount] = useState(1);
+  const [flag, setFlag] = useState(false);
   async function getUserAll() {
     const res = await fetch(
       API_BASE_URL + "/api/user/userAll" + "?size=" + 7 + "&page=" + (page - 1)
@@ -42,11 +44,38 @@ const UserInfoTable = () => {
     setIsToggle(!isToggle);
     console.log(isToggle);
   };
-  // <Dropdown toggleHandler={toggleHandler} /> 관리 쪽 dropdown 
+  // <Dropdown toggleHandler={toggleHandler} /> 관리 쪽 dropdown
+
+  const userInfoSearch = async (searchText, type) => {
+    let searchContent = "";
+    totalInfo.forEach((x) => {
+      if (type === "name") {
+        if (x.name === searchText) {
+          searchContent = x.email;
+          console.log(searchContent);
+        } else return;
+      } else if (type === "email") {
+        if (x.email === searchText) {
+          searchContent = x.email;
+          console.log(searchContent);
+        } else return;
+      }
+    });
+
+    const res = await fetch(API_BASE_URL + "/api/user/myInfo/" + searchContent);
+    if (res.status === 200) {
+      setFlag(true);
+      const data = await res.json();
+      console.log([data]);
+      setSearchInfo([data]);
+    } else {
+      alert("검색 결과가 없습니다.");
+    }
+  };
 
   return (
     <>
-      <AdminSearchBar />
+      <AdminSearchBar userInfoSearch={userInfoSearch} />
 
       <div className="card shadow mb-4">
         <div className="card-header py-3">
@@ -71,28 +100,36 @@ const UserInfoTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {totalInfo
-                  .filter(
-                    (x) => !x.role.includes("ADMIN")
-                    // 역할이 ADMIN인 사람 제외시키기
-                  )
-                  .map((item) => (
-                    <tr key={item.name}>
-                      <td>{item.name}</td>
-                      <td>{item.nick}</td>
-                      <td>{item.email}</td>
-                      <td>{formatPhoneNumber(item.phoneNumber)}</td>
-                      <td>{item.role}</td>
-                      <td>
-                        <button
-                          //   onClick={toggleModal}
-                          style={{ border: "none", backgroundColor: "white" }}
-                        >
-                          ↪
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                {!flag
+                  ? totalInfo
+                      .filter(
+                        (x) => !x.role.includes("ADMIN")
+                        // 역할이 ADMIN인 사람 제외시키기
+                      )
+                      .map((item) => (
+                        <tr key={item.name}>
+                          <td>{item.name}</td>
+                          <td>{item.nick}</td>
+                          <td>{item.email}</td>
+                          <td>{formatPhoneNumber(item.phoneNumber)}</td>
+                          <td>{item.role}</td>
+                          <td>
+                            <Dropdown />
+                          </td>
+                        </tr>
+                      ))
+                  : searchInfo.map((item) => (
+                      <tr key={item.name}>
+                        <td>{item.name}</td>
+                        <td>{item.nick}</td>
+                        <td>{item.email}</td>
+                        <td>{formatPhoneNumber(item.phoneNumber)}</td>
+                        <td>{item.role}</td>
+                        <td>
+                          <Dropdown />
+                        </td>
+                      </tr>
+                    ))}
               </tbody>
             </table>
           </div>
