@@ -1,31 +1,60 @@
-import React from "react";
-import { Doughnut } from "react-chartjs-2";
+import React, { useEffect, useState } from "react";
 import DoughnutMaker from "./DoughnutMaker";
 
 const UserByMBTI = () => {
+  const [mbtiUser, setMbtiUser] = useState();
+
+  async function getMbtiUser() {
+    const res = await fetch("http://localhost:8181/api/user/mbtiuser");
+    if (res.status === 200) {
+      const data = await res.json();
+      const labels = [];
+      const doughnutData = [];
+      data.forEach((item) => {
+        labels.push(item.mbti);
+        doughnutData.push(item.count);
+      });
+      setMbtiUser({
+        labels: labels,
+        doughnutLabel: "유저수",
+        doughnutData: doughnutData,
+      });
+    }
+  }
+
+  useEffect(() => {
+    getMbtiUser();
+  }, []);
+
   return (
     <section className="stats-by-MBTI admin-stats">
-      <h1 class="h3 text-gray-800 stats-header">MBTI</h1>
+      <h1 className="h3 text-gray-800 stats-header">MBTI</h1>
       <div className="stats-body">
-        <div class="col-xl-4 col-lg-5">
-          <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-              <h6 class="m-0 font-weight-bold text-primary">MBTI별 유저 수</h6>
+        <div className="col-xl-4 col-lg-5">
+          <div className="card shadow mb-4">
+            <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 className="m-0 font-weight-bold text-primary">
+                MBTI별 유저 수
+              </h6>
             </div>
-            <div class="card-body">
-              <DoughnutMaker />
+            <div className="card-body">
+              <DoughnutMaker
+                labels={!!mbtiUser && mbtiUser.labels}
+                doughnutLabel={!!mbtiUser && mbtiUser.doughnutLabel}
+                doughnutData={!!mbtiUser && mbtiUser.doughnutData}
+              />
             </div>
           </div>
         </div>
 
-        <div class="col-xl-4 col-lg-5">
-          <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-              <h6 class="m-0 font-weight-bold text-primary">
+        <div className="col-xl-4 col-lg-5">
+          <div className="card shadow mb-4">
+            <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 className="m-0 font-weight-bold text-primary">
                 MBTI별 평균 손익
               </h6>
             </div>
-            <div class="card-body">
+            <div className="card-body">
               <DoughnutMaker />
             </div>
           </div>
