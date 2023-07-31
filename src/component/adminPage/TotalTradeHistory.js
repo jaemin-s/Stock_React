@@ -3,6 +3,37 @@ import Paging from "../board/Paging";
 
 const TotalTradeHistory = () => {
   const [page, setPage] = useState(1);
+  const [totalHistory, setTotalHistory] = useState([
+    {
+      name: "",
+      email: "",
+      stockName: "",
+      tradeMoney: "",
+      tradeQuantity: "",
+      tradeType: "",
+      tradeDate: "",
+      profit: "",
+    },
+  ]);
+  async function fetchTradeHistory() {
+    const res = await fetch("url");
+    if (res.status === 200) {
+      const historyData = await res.json();
+      const tempArr = [];
+      historyData.forEach((item) => {
+        tempArr.push({
+          name: item.name,
+          email: item.email,
+          stockName: item.stockName,
+          tradeMoney: item.tradeMoney,
+          tradeQuantity: item.tradeQuantity,
+          tradeType: item.tradeType,
+          tradeDate: item.tradeDate,
+        });
+      });
+      setTotalHistory(tempArr);
+    }
+  }
   return (
     <>
       <div class="card shadow mb-4">
@@ -26,30 +57,20 @@ const TotalTradeHistory = () => {
                   <th>거래 수량</th>
                   <th>거래 유형</th>
                   <th>거래 일자</th>
-                  <th>손익</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Tiger Nixon</td>
-                  <td>System Architect</td>
-                  <td>Edinburgh</td>
-                  <td>2210000</td>
-                  <td>61</td>
-                  <td>매도</td>
-                  <td>2011/04/25</td>
-                  <td>$320,800</td>
-                </tr>
-                <tr>
-                  <td>Garrett Winters</td>
-                  <td>Accountant</td>
-                  <td>Tokyo</td>
-                  <td>1255200</td>
-                  <td>63</td>
-                  <td>매수</td>
-                  <td>2011/07/25</td>
-                  <td>$170,750</td>
-                </tr>
+                {totalHistory.forEach((item) => {
+                  <>
+                    <td>{item.name}</td>
+                    <td>{item.email}</td>
+                    <td>{item.stockName}</td>
+                    <td>{item.tradeMoney}</td>
+                    <td>{item.tradeQuantity}</td>
+                    <td>{item.tradeType}</td>
+                    <td>{item.tradeDate}</td>
+                  </>;
+                })}
               </tbody>
             </table>
           </div>
