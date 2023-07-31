@@ -3,6 +3,7 @@ import DoughnutMaker from "./DoughnutMaker";
 
 const UserGroupByCareer = () => {
   const [careerUser, setCareerUser] = useState();
+  const [careerAvgUser, setCareerAvgUser] = useState();
 
   async function getCareerUser() {
     const res = await fetch("http://localhost:8181/api/user/careeruser");
@@ -33,8 +34,38 @@ const UserGroupByCareer = () => {
     }
   }
 
+  async function getCareerAvgUser() {
+    const res = await fetch("http://localhost:8181/api/user/careerprofit");
+    if (res.status === 200) {
+      const data = await res.json();
+      console.log(data);
+      const labels = [];
+      const doughnutData = [];
+      data.forEach((item) => {
+        if (item.career == 1) {
+          labels.push("입문");
+        } else if (item.career == 2) {
+          labels.push("1~3년");
+        } else if (item.career == 3) {
+          labels.push("4~10년");
+        } else if (item.career == 4) {
+          labels.push("10년 이상");
+        } else {
+          labels.push("경력 체크 안함");
+        }
+        doughnutData.push(item.profit);
+      });
+      setCareerAvgUser({
+        labels: labels,
+        doughnutLabel: "유저 수",
+        doughnutData: doughnutData,
+      });
+    }
+  }
+
   useEffect(() => {
     getCareerUser();
+    getCareerAvgUser();
   }, []);
 
   return (
@@ -66,7 +97,11 @@ const UserGroupByCareer = () => {
               </h6>
             </div>
             <div className="card-body">
-              <DoughnutMaker />
+              <DoughnutMaker
+                labels={!!careerAvgUser && careerAvgUser.labels}
+                doughnutLabel={!!careerAvgUser && careerAvgUser.doughnutLabel}
+                doughnutData={!!careerAvgUser && careerAvgUser.doughnutData}
+              />
             </div>
           </div>
         </div>
