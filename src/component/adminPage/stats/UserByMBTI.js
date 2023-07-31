@@ -13,7 +13,11 @@ const UserByMBTI = () => {
               <h6 class="m-0 font-weight-bold text-primary">MBTI별 유저 수</h6>
             </div>
             <div class="card-body">
-              <DoughnutMaker />
+              <DoughnutMaker
+                labels={["test1", "test2", "test3"]}
+                doughnutLabel="test label"
+                doughnutData={[10, 20, 30]}
+              />
             </div>
           </div>
         </div>
