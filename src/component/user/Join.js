@@ -5,6 +5,7 @@ import AuthContext from "../util/AuthContext";
 import { useNavigate } from "react-router-dom";
 import PasswordModal from "./PasswordModal";
 import { API_BASE_URL } from "../../config/host-config";
+import Swal from "sweetalert2";
 const Join = () => {
   const $fileTag = useRef();
 
@@ -346,9 +347,16 @@ const Join = () => {
       body: userFormData,
     }).then((res) => {
       if (res.status === 200) {
-        alert("회원가입에 성공했습니다!");
+        // alert("회원가입에 성공했습니다!");
         //로그인 페이지로 리다이렉트
         // window.location.href = '/login';
+        Swal.fire({
+          position: "middle",
+          icon: "success",
+          title: "회원가입에 성공했습니다!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         redirection("/login");
       } else {
         alert("서버와의 통신이 원활하지 않습니다.");

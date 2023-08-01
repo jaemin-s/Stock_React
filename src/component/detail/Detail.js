@@ -17,8 +17,17 @@ import RcmMbti from "./RcmMbti";
 import Swal from "sweetalert2";
 import InvestmentStrategy from "./InvestmentStrategy";
 import { API_BASE_URL } from "../../config/host-config";
-
+import MarketInfo from "../layout/MarketInfo";
 const Detail = () => {
+  function isWithinMarketHours() {
+    const now = new Date();
+    const marketStart = new Date();
+    marketStart.setHours(9, 0, 0, 0);
+    const marketEnd = new Date();
+    marketEnd.setHours(15, 30, 0, 0);
+    return now >= marketStart && now <= marketEnd;
+  }
+
   const [infoData, setInfoData] = useState({
     categoryData: [],
     values: [],
@@ -273,6 +282,17 @@ const Detail = () => {
   };
 
   const toggleModal = (e) => {
+    if (!isWithinMarketHours()) {
+      Swal.fire({
+        title: "<strong>장이 마감되었습니다.</strong>",
+        icon: "info",
+        html: "장 운영 시간은  <b>09:00 ~ 15:30</b> 입니다. ",
+        focusConfirm: false,
+        confirmButtonText: "확인",
+      });
+      return;
+    }
+
     console.log(livePrice);
     console.log(currentAsset);
     if (livePrice > currentAsset) {
@@ -345,6 +365,17 @@ const Detail = () => {
   }
 
   const sellModal = () => {
+    if (!isWithinMarketHours()) {
+      Swal.fire({
+        title: "<strong>장이 마감되었습니다.</strong>",
+        icon: "info",
+        html: "장 운영 시간은  <b>09:00 ~ 15:30</b> 입니다. ",
+        focusConfirm: false,
+        confirmButtonText: "확인",
+      });
+      return;
+    }
+
     if (currentHavingStock === 0) {
       setOrder(0);
     } else {
@@ -421,8 +452,6 @@ const Detail = () => {
   const totalOrder = order * currentPrice; // 주문 수량 * 현재가 = 총 주문금액
 
   const afterAsset = currentAsset - totalOrder; //매매 후 자산
-
-  const totalPrice = currentHavingStock * currentPrice; // 보유 주식 * 현재가
 
   const profit = livePrice * currentHavingStock - pastStock; //내가 산 주식 - 현재가격 = 손익 금액
 
@@ -821,6 +850,7 @@ const Detail = () => {
       <body id="page-top" style={{ width: "80%" }}>
         <div id="wrapper">
           <div id="container">
+            <MarketInfo />
             <h1 className="flex">
               {isLogin() ? (
                 <span className="star-icon" onClick={toggleStar}>
