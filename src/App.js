@@ -14,11 +14,8 @@ import Notice from "./component/board/Notice";
 import InquiryBoard from "./component/board/InquiryBoard";
 import BoardRegist from "./component/board/BoardRegist";
 import AdminPage from "./component/adminPage/AdminPage";
-<<<<<<< HEAD
 import PrivateRoute from "./component/util/PrivateRoute";
-=======
 import NotFound from "./component/util/NotFound";
->>>>>>> cdb8c9ab18f88cbc48f38536527329edbbcdc4b5
 
 function App() {
   return (
