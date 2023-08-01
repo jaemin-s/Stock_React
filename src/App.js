@@ -14,6 +14,7 @@ import Notice from "./component/board/Notice";
 import InquiryBoard from "./component/board/InquiryBoard";
 import BoardRegist from "./component/board/BoardRegist";
 import AdminPage from "./component/adminPage/AdminPage";
+import NotFound from "./component/util/NotFound";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
               path="/api/user/callback/kakao"
               element={<KakaoAuthHandle />}
             />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
         <Footer />
