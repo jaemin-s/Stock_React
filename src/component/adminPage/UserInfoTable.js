@@ -5,6 +5,7 @@ import "./UserInfoTable.scss";
 import AdminSearchBar from "./AdminSearchBar";
 import { API_BASE_URL } from "../../config/host-config";
 import RollControl from "./RollControl";
+import Swal from "sweetalert2";
 const UserInfoTable = () => {
   const [page, setPage] = useState(1);
   const [totalInfo, setTotalInfo] = useState([]);
@@ -130,6 +131,7 @@ const UserInfoTable = () => {
                             <Dropdown
                               onOpenModal={openModal}
                               email={item.email}
+                              userGrade={item.role}
                               getUserHandler={getUserHandler}
                             />
                           </td>
@@ -146,6 +148,7 @@ const UserInfoTable = () => {
                           <Dropdown
                             onOpenModal={openModal}
                             email={item.email}
+                            userGrade={item.role}
                             getUserHandler={getUserHandler}
                           />
                         </td>

@@ -106,8 +106,12 @@ const MarketInfo = () => {
             }}
           />
           {isMarketOpen
-            ? `장이 마감까지 ${formatTime(getTimeUntilClose())} 남았습니다.`
-            : `장이 개장까지 ${formatTime(getTimeUntilOpen())} 남았습니다.`}
+            ? `주식 거래 종료 시간까지 ${formatTime(
+                getTimeUntilClose()
+              )} 남았습니다.`
+            : `주식 거래 가능 시간까지 ${formatTime(
+                getTimeUntilOpen()
+              )} 남았습니다.`}
         </p>
       </div>
     </>

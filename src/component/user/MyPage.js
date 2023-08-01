@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./MyPage.scss";
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
@@ -40,6 +40,7 @@ function MyPage() {
   };
   const dailyPrice = async (e) => {
     // ㅇㅇㅇ(000000) 값 자르기
+
     try {
       //const params = title[1].slice(0, -1); //종목 코드
       const updatedCurrentLivePrice = [];
@@ -78,10 +79,7 @@ function MyPage() {
   useEffect(() => {
     const fetchData = async () => {
       await dailyPrice();
-      const averageReturnPercent = returnPercent();
-      // console.log("Average Return Percent: ", averageReturnPercent);
     };
-
     fetchData();
   }, [currentLivePrice]);
   // console.log("현재주가 currentLivePrice:  ", currentLivePrice);
@@ -297,9 +295,9 @@ function MyPage() {
     getInfo();
     getHistory();
     getFavoriteInfo();
-  }, []);
+  }, [getInfo, getHistory, getFavoriteInfo]);
 
-  useEffect(() => {
+  const updateUniqueHistoryInfo = useCallback(() => {
     const uniqueStocks = Array.isArray(historyInfo)
       ? [...new Set(historyInfo.map((trade) => trade.stockId))]
       : [];
@@ -307,7 +305,11 @@ function MyPage() {
       historyInfo.find((trade) => trade.stockId === stockId)
     );
     setUniqueHistoryInfo(uniqueHistory);
-  }, [historyInfo]);
+  }, [historyInfo, setUniqueHistoryInfo]);
+
+  useEffect(() => {
+    updateUniqueHistoryInfo();
+  }, [updateUniqueHistoryInfo]);
 
   function getAge(age) {
     switch (age) {
@@ -354,7 +356,7 @@ function MyPage() {
   );
 
   const detailHandler = (e) => {
-    console.log(e.target.textContent);
+    // console.log(e.target.textContent);
     redirection("/detail/" + e.target.textContent);
   };
 
@@ -672,7 +674,7 @@ function MyPage() {
 
           acml_vol: deal,
         } = x;
-        console.log(typeof deal);
+        // console.log(typeof deal);
         dates.unshift(dateFormat(date));
 
         values.unshift([parseInt(close), parseInt(than), parseInt(deal)]);

@@ -8,3 +8,7 @@ a,p{
     -ms-use-select: none;
     user-select: none;
 }
+
+.content-wrapper {
+    min-height: calc(100vh - 147px);
+}
