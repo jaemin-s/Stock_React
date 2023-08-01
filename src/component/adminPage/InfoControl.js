@@ -1,27 +1,96 @@
-import React, { useState } from 'react';
-import { Modal, ModalBody } from 'reactstrap';
-import Dropdown from './Dropdown';
+import React, { useState } from "react";
+import { Modal, ModalBody } from "reactstrap";
+import Dropdown from "./Dropdown";
 
 const InfoControl = ({ isOpen, toggleHandler }) => {
-
-
-
   return (
     <Modal isOpen={isOpen} toggle={toggleHandler} style={{ width: 1000 }}>
       <ModalBody>
-        <div className='user-info-box'>
+        <div className="user-info-box">
           <table className="table">
             <thead>
               <tr>
-                <th style={{ backgroundColor: "#3385ff", color: "white", fontWeight: "600" }}>이름</th>
-                <th style={{ backgroundColor: "#3385ff", color: "white", fontWeight: "600" }}>닉네임</th>
-                <th style={{ backgroundColor: "#3385ff", color: "white", fontWeight: "600" }}>이메일</th>
-                <th style={{ backgroundColor: "#3385ff", color: "white", fontWeight: "600" }}>전화번호</th>
-                <th style={{ backgroundColor: "#3385ff", color: "white", fontWeight: "600" }}>성별</th>
-                <th style={{ backgroundColor: "#3385ff", color: "white", fontWeight: "600" }}>나이</th>
-                <th style={{ backgroundColor: "#3385ff", color: "white", fontWeight: "600" }}>경력</th>
-                <th style={{ backgroundColor: "#3385ff", color: "white", fontWeight: "600" }}>MBTI</th>
-                <th style={{ backgroundColor: "#3385ff", color: "white", fontWeight: "600" }}>등급</th>
+                <th
+                  style={{
+                    backgroundColor: "#3385ff",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                >
+                  이름
+                </th>
+                <th
+                  style={{
+                    backgroundColor: "#3385ff",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                >
+                  닉네임
+                </th>
+                <th
+                  style={{
+                    backgroundColor: "#3385ff",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                >
+                  이메일
+                </th>
+                <th
+                  style={{
+                    backgroundColor: "#3385ff",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                >
+                  전화번호
+                </th>
+                <th
+                  style={{
+                    backgroundColor: "#3385ff",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                >
+                  성별
+                </th>
+                <th
+                  style={{
+                    backgroundColor: "#3385ff",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                >
+                  나이
+                </th>
+                <th
+                  style={{
+                    backgroundColor: "#3385ff",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                >
+                  경력
+                </th>
+                <th
+                  style={{
+                    backgroundColor: "#3385ff",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                >
+                  MBTI
+                </th>
+                <th
+                  style={{
+                    backgroundColor: "#3385ff",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                >
+                  등급
+                </th>
               </tr>
             </thead>
             <tbody>

@@ -4,7 +4,7 @@ import InfoControl from "./InfoControl";
 import RollControl from "./RollControl";
 import ScoreControl from "./ScoreControl";
 
-const Dropdown = () => {
+const Dropdown = ({ onOpenModal, email }) => {
   const [isToggle, setIsToggle] = useState(false);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isRollModalOpen, setIsRollModalOpen] = useState(false);
@@ -78,7 +78,9 @@ const Dropdown = () => {
           style={{ width: 1, position: "absolute", left: -47 }}
         >
           <li className="dropdown-item" onClick={handleRollControlClick}>
-            <button className="nav-link">등급관리</button>
+            <button className="nav-link" onClick={() => onOpenModal(email)}>
+              등급관리
+            </button>
           </li>
           <hr className="border-line" />
           <li className="dropdown-item" onClick={handleInfoControlClick}>

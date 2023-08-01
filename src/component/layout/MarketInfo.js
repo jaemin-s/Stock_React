@@ -21,18 +21,18 @@ const MarketInfo = () => {
     return (
       isWeekday &&
       currentTime.hour >= 9 &&
-      currentTime.hour < 15 &&
-      currentTime.minute >= 30
+      (currentTime.hour < 15 ||
+        (currentTime.hour === 15 && currentTime.minute < 30))
     );
   };
 
-  const [currentTime, setCurrentTime] = useState(getCurrentTime());
+  const [currentTime, setCurrentTime] = useState(getCurrentTime);
   const [isMarketOpen, setIsMarketOpen] = useState(isMarketAvailable());
 
   const availableStyle = { color: "green", fontWeight: "600" };
   const unavailableStyle = { color: "red", fontWeight: "600" };
 
-  const icon = isMarketAvailable() ? faXmarkCircle : faCheckCircle;
+  const icon = isMarketOpen ? faCheckCircle : faXmarkCircle;
 
   // 장이 개장되는 시간과 마감되는 시간을 설정합니다.
   const openTime = new Date();
@@ -43,13 +43,31 @@ const MarketInfo = () => {
   // 장이 개장되는 시간까지 남은 시간 계산 함수
   const getTimeUntilOpen = () => {
     const now = new Date();
-    return Math.max(0, openTime - now);
+    if (now > openTime) {
+      const nextDayOpenTime = new Date(now);
+      nextDayOpenTime.setDate(now.getDate() + 1);
+      nextDayOpenTime.setHours(9, 0, 0, 0);
+      return nextDayOpenTime - now;
+    }
+    return openTime - now;
   };
 
   // 장이 마감되는 시간까지 남은 시간 계산 함수
   const getTimeUntilClose = () => {
     const now = new Date();
-    return Math.max(0, closeTime - now);
+    if (!isMarketOpen) {
+      if (now > closeTime) {
+        const nextDayCloseTime = new Date(now);
+        nextDayCloseTime.setDate(now.getDate() + 1);
+        nextDayCloseTime.setHours(15, 30, 0, 0);
+        return nextDayCloseTime - now;
+      }
+      return closeTime - now;
+    }
+
+    const endOfTrading = new Date(now);
+    endOfTrading.setHours(15, 30, 0, 0);
+    return endOfTrading - now;
   };
 
   // 시간을 시:분 형식의 문자열로 변환하는 함수
@@ -63,20 +81,20 @@ const MarketInfo = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const timer = setInterval(() => {
       setCurrentTime(getCurrentTime());
       setIsMarketOpen(isMarketAvailable());
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(timer);
   }, []);
 
   return (
     <>
-      <div style={{ textAlign: "right", marginRight: "80px" }}>
+      <div style={{ textAlign: "center" }}>
         <p
           style={{
-            ...(isMarketAvailable() ? unavailableStyle : availableStyle),
+            ...(isMarketOpen ? availableStyle : unavailableStyle),
             marginBottom: "13px",
           }}
         >
@@ -87,13 +105,9 @@ const MarketInfo = () => {
               marginRight: "5px",
             }}
           />
-          {!isMarketAvailable()
-            ? `장 이용 가능 시간입니다. ( 마감까지 ${formatTime(
-                getTimeUntilClose()
-              )} )`
-            : `장이 마감되었습니다. ( 개장까지 ${formatTime(
-                getTimeUntilOpen()
-              )} )`}
+          {isMarketOpen
+            ? `장이 마감까지 ${formatTime(getTimeUntilClose())} 남았습니다.`
+            : `장이 개장까지 ${formatTime(getTimeUntilOpen())} 남았습니다.`}
         </p>
       </div>
     </>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DoughnutMaker from "./DoughnutMaker";
+import { API_BASE_URL } from "../../../config/host-config";
 import BarChart from "./VerticalBarChart";
 
 const UserByMBTI = () => {
@@ -7,7 +8,7 @@ const UserByMBTI = () => {
   const [mbtiAvgUser, setMbtiAvgUser] = useState();
 
   async function getMbtiUser() {
-    const res = await fetch("http://localhost:8181/api/user/mbtiuser");
+    const res = await fetch(API_BASE_URL + "/api/user/mbtiuser");
     if (res.status === 200) {
       const data = await res.json();
       const labels = [];
