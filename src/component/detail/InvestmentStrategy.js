@@ -15,19 +15,21 @@ const InvestmentStrategy = ({ personalityType }) => {
     case "ISTP":
     case "ESTP":
       strategyText =
-        "모험, 스릴 추구, 리스크 과다 -> 3 자본증감+매출액증가 상위";
+        "모험과 스릴을 추구하고 자본증감과 매출액이 상위에 위치합니다.";
       break;
     case "INFJ":
     case "ENFJ":
     case "INFP":
     case "ENFP":
-      strategyText = "이상주의자 -> 4 저평가";
+      strategyText = 
+      "장기적인 투자 선호와 분할 매수 전략을 채택하는 다양한 투자 성향입니다.";
       break;
     case "INTJ":
     case "ENTJ":
     case "INTP":
     case "ENTP":
-      strategyText = "퀀트투자 -> 5 영업이익률+EPS";
+      strategyText = 
+      "창의적이고 끈질긴 투자, 안전마진을 고려하며 다양한 분산 투자 성향입니다.";
       break;
     default:
       strategyText = "투자 전략이 없습니다.";
