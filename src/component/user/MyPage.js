@@ -295,7 +295,7 @@ function MyPage() {
     getInfo();
     getHistory();
     getFavoriteInfo();
-  }, [getInfo, getHistory, getFavoriteInfo]);
+  }, []);
 
   const updateUniqueHistoryInfo = useCallback(() => {
     const uniqueStocks = Array.isArray(historyInfo)
@@ -693,7 +693,7 @@ function MyPage() {
 
   return (
     <>
-      <body id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
+      <div id="page-top" style={{ width: "80%", maxWidth: "1920px" }}>
         <div id="wrapper">
           <ul
             className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
@@ -910,7 +910,7 @@ function MyPage() {
             {likeInfo && viewLikeInfo}
           </div>
         </div>
-      </body>
+      </div>
     </>
   );
 }
