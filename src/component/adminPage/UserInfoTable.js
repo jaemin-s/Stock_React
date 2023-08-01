@@ -8,7 +8,7 @@ import RollControl from "./RollControl";
 import Swal from "sweetalert2";
 const UserInfoTable = () => {
   const [page, setPage] = useState(1);
-  const [totalInfo, setTotalInfo] = useState([]);
+  const [totalInfo, setTotalInfo] = useState();
   const [searchInfo, setSearchInfo] = useState([]);
   const [count, setCount] = useState(1);
   const [flag, setFlag] = useState(false);
@@ -114,7 +114,7 @@ const UserInfoTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {!flag
+                {!flag && !!totalInfo
                   ? totalInfo
                       .filter(
                         (x) => !x.role.includes("ADMIN")

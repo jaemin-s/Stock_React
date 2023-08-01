@@ -217,16 +217,18 @@ const OverallRank = () => {
         <div className="card-header">
           <h6 className="m-0 font-weight-bold text-primary">
             모의 투자 랭킹
-            <FontAwesomeIcon
-              icon={faRefresh}
-              style={{
-                color: "black",
-                fontSize: "17px",
-                cursor: "pointer",
-                animation: rotation ? "rotate360 3s linear" : "none",
-              }}
-              onClick={refreshCHandler}
-            />
+            {localStorage.getItem("LOGIN_USERROLE") === "ADMIN" && (
+              <FontAwesomeIcon
+                icon={faRefresh}
+                style={{
+                  color: "black",
+                  fontSize: "17px",
+                  cursor: "pointer",
+                  animation: rotation ? "rotate360 3s linear" : "none",
+                }}
+                onClick={refreshCHandler}
+              />
+            )}
           </h6>
         </div>
         <table className="collapsed" id="table">
