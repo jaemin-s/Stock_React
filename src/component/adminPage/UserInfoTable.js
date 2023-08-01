@@ -20,6 +20,7 @@ const UserInfoTable = () => {
     if (res.status === 200) {
       const infoData = await res.json();
       setTotalInfo(infoData.content);
+      console.log(infoData.content);
       setCount(infoData.totalElements);
     } else {
       console.error("fail");
@@ -80,7 +81,7 @@ const UserInfoTable = () => {
     if (res.status === 200) {
       setFlag(true);
       const data = await res.json();
-      console.log([data]);
+      
       setSearchInfo([data]);
     } else {
       alert("검색 결과가 없습니다.");
@@ -101,7 +102,7 @@ const UserInfoTable = () => {
               className="table table-bordered"
               id="dataTable"
               width="100%"
-              cellspacing="0"
+              cellSpacing="0"
             >
               <thead>
                 <tr>
@@ -114,14 +115,18 @@ const UserInfoTable = () => {
                 </tr>
               </thead>
               <tbody>
+<<<<<<< HEAD
                 {!flag && !!totalInfo
+=======
+                {!flag && !!totalInfo && totalInfo.length > 0
+>>>>>>> bb8ec7acb0e9160bc28ae7f1e692c35125903751
                   ? totalInfo
                       .filter(
                         (x) => !x.role.includes("ADMIN")
                         // 역할이 ADMIN인 사람 제외시키기
                       )
                       .map((item) => (
-                        <tr key={item.name}>
+                        <tr key={item.email}>
                           <td>{item.name}</td>
                           <td>{item.nick}</td>
                           <td>{item.email}</td>
@@ -138,7 +143,7 @@ const UserInfoTable = () => {
                         </tr>
                       ))
                   : searchInfo.map((item) => (
-                      <tr key={item.name}>
+                      <tr key={item.email}>
                         <td>{item.name}</td>
                         <td>{item.nick}</td>
                         <td>{item.email}</td>

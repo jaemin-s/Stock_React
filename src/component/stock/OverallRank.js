@@ -5,11 +5,12 @@ import {
   faRemove,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import "./OverallRank.scss";
 import { API_BASE_URL } from "../../config/host-config";
 import Swal from "sweetalert2";
+import AuthContext from "../util/AuthContext";
 const OverallRank = () => {
   //유저 랭킹 정보 관리
   const [rankingTable, setRankingTable] = useState();
@@ -24,6 +25,8 @@ const OverallRank = () => {
   const [roll, setRoll] = useState("common");
   //아이콘 회전
   const [rotation, setRotation] = useState(false);
+  const [role, setRole] = useState("BRONZE");
+  const { email } = useContext(AuthContext);
   // 전체 랭킹 불러오기
   async function getRankInfo() {
     const res = await fetch(API_BASE_URL + "/api/trade/rank");
@@ -173,8 +176,11 @@ const OverallRank = () => {
       </Modal>
     </>
   );
-
   const refreshCHandler = () => {
+    if (role !== "ADMIN") {
+      return;
+    }
+
     setRotation(true);
     setTimeout(() => {
       setRotation(false);
@@ -197,6 +203,10 @@ const OverallRank = () => {
       }
     });
   };
+
+  useEffect(() => {
+    setRole(localStorage.getItem("LOGIN_USERROLE"));
+  }, [email]);
 
   async function resetRank() {
     if (localStorage.getItem("LOGIN_USERROLE") !== "ADMIN") {
@@ -225,6 +235,7 @@ const OverallRank = () => {
                   fontSize: "17px",
                   cursor: "pointer",
                   animation: rotation ? "rotate360 3s linear" : "none",
+                  marginLeft: 10,
                 }}
                 onClick={refreshCHandler}
               />
