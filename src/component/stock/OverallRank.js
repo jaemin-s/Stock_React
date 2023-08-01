@@ -1,9 +1,15 @@
-import { faCrown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCrown,
+  faRecycle,
+  faRefresh,
+  faRemove,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import "./OverallRank.scss";
 import { API_BASE_URL } from "../../config/host-config";
+import Swal from "sweetalert2";
 const OverallRank = () => {
   //유저 랭킹 정보 관리
   const [rankingTable, setRankingTable] = useState();
@@ -16,7 +22,8 @@ const OverallRank = () => {
   const [userTradeInfo, setUserTradeInfo] = useState([]);
   //유저 등급
   const [roll, setRoll] = useState("common");
-
+  //아이콘 회전
+  const [rotation, setRotation] = useState(false);
   // 전체 랭킹 불러오기
   async function getRankInfo() {
     const res = await fetch(API_BASE_URL + "/api/trade/rank");
@@ -167,11 +174,41 @@ const OverallRank = () => {
     </>
   );
 
+  const refreshCHandler = () => {
+    setRotation(true);
+    setTimeout(() => {
+      setRotation(false);
+    }, 2000);
+    Swal.fire({
+      title: "랭킹을 초기화 하시겠습니까??",
+      showDenyButton: true,
+      confirmButtonText: "확인",
+      denyButtonText: `취소`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("초기화 되었습니다!", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("취소 되었습니다.", "", "info");
+      }
+    });
+  };
   return (
     <>
       <div className="simulated-rank card shadow">
         <div className="card-header">
-          <h6 className="m-0 font-weight-bold text-primary">모의 투자 랭킹</h6>
+          <h6 className="m-0 font-weight-bold text-primary">
+            모의 투자 랭킹
+            <FontAwesomeIcon
+              icon={faRefresh}
+              style={{
+                color: "black",
+                fontSize: "17px",
+                cursor: "pointer",
+                animation: rotation ? "rotate360 3s linear" : "none",
+              }}
+              onClick={refreshCHandler}
+            />
+          </h6>
         </div>
         <table className="collapsed" id="table">
           <thead>
