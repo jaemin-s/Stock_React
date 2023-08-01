@@ -207,6 +207,7 @@ const OverallRank = () => {
   useEffect(() => {
     setRole(localStorage.getItem("LOGIN_USERROLE"));
   }, [email]);
+
   async function resetRank() {
     if (localStorage.getItem("LOGIN_USERROLE") !== "ADMIN") {
       return;
