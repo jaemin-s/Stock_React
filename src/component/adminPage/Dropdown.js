@@ -75,7 +75,7 @@ const Dropdown = ({ onOpenModal, email }) => {
               : "dropdown-menu dropdown-menu-right shadow animated--grow-in"
           }
           aria-labelledby="userDropdown"
-          style={{ width: 1, position: "absolute", left: -47 }}
+          style={{ width: 1, position: "absolute", left: -80 }}
         >
           <li className="dropdown-item" onClick={handleRollControlClick}>
             <button className="nav-link" onClick={() => onOpenModal(email)}>

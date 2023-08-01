@@ -38,9 +38,6 @@ const AdminSearchBar = ({ userInfoSearch }) => {
     <div
       style={{
         display: "flex",
-        marginLeft: 490,
-        marginTop: 50,
-        maxWidth: 140,
       }}
     >
       <select value={selectedValue} onChange={handleChange}>
