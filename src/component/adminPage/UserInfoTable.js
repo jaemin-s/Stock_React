@@ -28,6 +28,10 @@ const UserInfoTable = () => {
     getUserAll();
   }, [page]);
 
+  function getUserHandler() {
+    getUserAll();
+  }
+
   const formatPhoneNumber = (phoneNumber) => {
     const cleaned = ("" + phoneNumber).replace(/\D/g, "");
     if (cleaned.length === 10) {
@@ -47,9 +51,11 @@ const UserInfoTable = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState("");
+  const [blackEmail, setBlackEmail] = useState("");
 
   const openModal = (email) => {
     setSelectedEmail(email);
+    setBlackEmail(email);
     setIsModalOpen(true);
   };
 
@@ -82,7 +88,7 @@ const UserInfoTable = () => {
 
   return (
     <>
-      <AdminSearchBar userInfoSearch={userInfoSearch} />
+      <AdminSearchBar userInfoSearch={userInfoSearch} setFlag={setFlag} />
 
       <div className="card shadow mb-4" id="admin-user-info">
         <div className="card-header py-3">
@@ -124,6 +130,7 @@ const UserInfoTable = () => {
                             <Dropdown
                               onOpenModal={openModal}
                               email={item.email}
+                              getUserHandler={getUserHandler}
                             />
                           </td>
                         </tr>
@@ -139,6 +146,7 @@ const UserInfoTable = () => {
                           <Dropdown
                             onOpenModal={openModal}
                             email={item.email}
+                            getUserHandler={getUserHandler}
                           />
                         </td>
                       </tr>
@@ -148,7 +156,7 @@ const UserInfoTable = () => {
             <RollControl
               isOpen={isModalOpen}
               toggleHandler={() => setIsModalOpen(false)}
-              blackEmail={selectedEmail} // Pass the selected email to RollControl
+              blackEmail={blackEmail}
             />
           </div>
         </div>
