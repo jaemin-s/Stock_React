@@ -51,13 +51,18 @@ const Login = () => {
       return;
     }
 
-    const { token, email, image, userRole } = await res.json();
+    if (res.status === 200) {
+      const { token, email, image, userRole } = await res.json();
 
-    // Context API를 사용하여 로그인 상태를 업데이트합니다.
-    onLogin(token, email, image, userRole);
-
-    //홈으로 리다이렉트
-    redirection("/");
+      if (userRole === "BLACK") {
+        alert("차단된 회원입니다.");
+      } else {
+        // Context API를 사용하여 로그인 상태를 업데이트합니다.
+        onLogin(token, email, image, userRole);
+        //홈으로 리다이렉트
+      }
+      redirection("/");
+    }
   };
 
   //로그인 요청 핸들러
