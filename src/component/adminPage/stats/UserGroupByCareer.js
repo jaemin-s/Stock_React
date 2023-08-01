@@ -10,7 +10,6 @@ const UserGroupByCareer = () => {
     const res = await fetch("http://localhost:8181/api/user/careeruser");
     if (res.status === 200) {
       const data = await res.json();
-      console.log(data);
       const labels = [];
       const doughnutData = [];
       data.forEach((item) => {
@@ -39,7 +38,6 @@ const UserGroupByCareer = () => {
     const res = await fetch("http://localhost:8181/api/user/careerprofit");
     if (res.status === 200) {
       const data = await res.json();
-      console.log(data);
       const items = [];
       data.forEach((item) => {
         if (item.career == 1) {

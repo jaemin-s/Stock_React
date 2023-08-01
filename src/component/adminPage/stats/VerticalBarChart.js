@@ -61,10 +61,17 @@ const BarChart = ({ barLabel, items }) => {
       });
     });
 
+  const options = {
+    scales: {
+      y: {},
+    },
+  };
+
   const data = {
     labels: barLabel,
     datasets: dataset,
   };
+
   return <Bar data={data} />;
 };
 
