@@ -1,12 +1,13 @@
 import React, { useRef, useState } from "react";
 
-const AdminSearchBar = ({ userInfoSearch }) => {
-  const [selectedValue, setSelectedValue] = useState("all");
+const AdminSearchBar = ({ userInfoSearch, setFlag }) => {
+  const [selectedValue, setSelectedValue] = useState("name");
   const inputRef = useRef();
 
   const handleChange = (e) => {
     setSelectedValue(e.target.value); // 선택한 옵션의 value 값을 상태로 업데이트
     console.log(e.target.value);
+    inputRef.current.value = "";
   };
 
   const Search = ({ size = 25, color = "#fcf9f9" }) => (
@@ -31,20 +32,27 @@ const AdminSearchBar = ({ userInfoSearch }) => {
     e.preventDefault();
     const inputValue = inputRef.current.value.trim();
     console.log(inputValue);
+    if (inputValue === "") {
+      alert("입력값이 없습니다.");
+      return;
+    }
     userInfoSearch(inputValue, selectedValue);
+  };
+
+  //검색 초기화 버튼 클릭
+  const resetHandler = () => {
+    setFlag(false);
+    inputRef.current.value = "";
   };
 
   return (
     <div
       style={{
         display: "flex",
-        marginLeft: 490,
-        marginTop: 50,
-        maxWidth: 140,
+        justifyContent: "center",
       }}
     >
       <select value={selectedValue} onChange={handleChange}>
-        <option value="all">전체</option>
         <option value="name">이름</option>
         <option value="email">이메일</option>
       </select>
@@ -76,6 +84,12 @@ const AdminSearchBar = ({ userInfoSearch }) => {
           </div>
         </form>
       </div>
+      <button
+        className="btn btn-sm btn-user btn-primary ml-5"
+        onClick={resetHandler}
+      >
+        초기화
+      </button>
     </div>
   );
 };
