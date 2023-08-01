@@ -5,13 +5,7 @@ import {
   faXmarkCircle,
 } from "@fortawesome/free-regular-svg-icons";
 
-const MarketInfo = ({
-  livePrice,
-  currentAsset,
-  setOrder,
-  setIsModalOpen,
-  getMyInfo,
-}) => {
+const MarketInfo = () => {
   const getCurrentTime = () => {
     const now = new Date();
     const currentHour = now.getHours();
@@ -63,14 +57,17 @@ const MarketInfo = ({
     const now = new Date();
     if (!isMarketOpen) {
       if (now > closeTime) {
-        const nextDayOpenTime = new Date(now);
-        nextDayOpenTime.setDate(now.getDate() + 1);
-        nextDayOpenTime.setHours(9, 0, 0, 0);
-        return nextDayOpenTime - now;
+        const nextDayCloseTime = new Date(now);
+        nextDayCloseTime.setDate(now.getDate() + 1);
+        nextDayCloseTime.setHours(15, 30, 0, 0);
+        return nextDayCloseTime - now;
       }
       return closeTime - now;
     }
-    return 0;
+
+    const endOfTrading = new Date(now);
+    endOfTrading.setHours(15, 30, 0, 0);
+    return endOfTrading - now;
   };
 
   // 시간을 시:분 형식의 문자열로 변환하는 함수
@@ -109,12 +106,8 @@ const MarketInfo = ({
             }}
           />
           {isMarketOpen
-            ? `장 이용 가능 시간입니다. ( 마감까지 ${formatTime(
-                getTimeUntilClose()
-              )} )`
-            : `장이 마감되었습니다. ( 개장까지 ${formatTime(
-                getTimeUntilOpen()
-              )} )`}
+            ? `장이 마감까지 ${formatTime(getTimeUntilClose())} 남았습니다.`
+            : `장이 개장까지 ${formatTime(getTimeUntilOpen())} 남았습니다.`}
         </p>
       </div>
     </>

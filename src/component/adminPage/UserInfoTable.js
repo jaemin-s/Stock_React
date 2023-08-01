@@ -3,6 +3,7 @@ import Paging from "../board/Paging";
 import Dropdown from "./Dropdown";
 import AdminSearchBar from "./AdminSearchBar";
 import { API_BASE_URL } from "../../config/host-config";
+import RollControl from "./RollControl";
 const UserInfoTable = () => {
   const [page, setPage] = useState(1);
   const [totalInfo, setTotalInfo] = useState([]);
@@ -42,7 +43,15 @@ const UserInfoTable = () => {
     setIsToggle(!isToggle);
     console.log(isToggle);
   };
-  // <Dropdown toggleHandler={toggleHandler} /> 관리 쪽 dropdown 
+  // <Dropdown toggleHandler={toggleHandler} /> 관리 쪽 dropdown
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEmail, setSelectedEmail] = useState("");
+
+  const openModal = (email) => {
+    setSelectedEmail(email);
+    setIsModalOpen(true);
+  };
 
   return (
     <>
@@ -84,17 +93,17 @@ const UserInfoTable = () => {
                       <td>{formatPhoneNumber(item.phoneNumber)}</td>
                       <td>{item.role}</td>
                       <td>
-                        <button
-                          //   onClick={toggleModal}
-                          style={{ border: "none", backgroundColor: "white" }}
-                        >
-                          ↪
-                        </button>
+                        <Dropdown onOpenModal={openModal} email={item.email} />
                       </td>
                     </tr>
                   ))}
               </tbody>
             </table>
+            <RollControl
+              isOpen={isModalOpen}
+              toggleHandler={() => setIsModalOpen(false)}
+              blackEmail={selectedEmail} // Pass the selected email to RollControl
+            />
           </div>
         </div>
       </div>
