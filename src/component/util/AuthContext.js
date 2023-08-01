@@ -103,6 +103,7 @@ export const AuthContextProvider = (props) => {
         isLoggedIn,
         email,
         image,
+        userRole,
         onLogout: logoutHandler,
         onLogin: loginHandler,
         kLoginHandler,

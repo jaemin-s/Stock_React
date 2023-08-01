@@ -14,8 +14,11 @@ import Notice from "./component/board/Notice";
 import InquiryBoard from "./component/board/InquiryBoard";
 import BoardRegist from "./component/board/BoardRegist";
 import AdminPage from "./component/adminPage/AdminPage";
+
 import PrivateRoute from "./component/util/PrivateRoute";
+
 import NotFound from "./component/util/NotFound";
+
 
 function App() {
   return (
