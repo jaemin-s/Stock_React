@@ -22,7 +22,8 @@ const OverallRank = () => {
   const [userTradeInfo, setUserTradeInfo] = useState([]);
   //유저 등급
   const [roll, setRoll] = useState("common");
-
+  //아이콘 회전
+  const [rotation, setRotation] = useState(false);
   // 전체 랭킹 불러오기
   async function getRankInfo() {
     const res = await fetch(API_BASE_URL + "/api/trade/rank");
@@ -174,6 +175,10 @@ const OverallRank = () => {
   );
 
   const refreshCHandler = () => {
+    setRotation(true);
+    setTimeout(() => {
+      setRotation(false);
+    }, 2000);
     Swal.fire({
       title: "랭킹을 초기화 하시겠습니까??",
       showDenyButton: true,
@@ -195,7 +200,12 @@ const OverallRank = () => {
             모의 투자 랭킹
             <FontAwesomeIcon
               icon={faRefresh}
-              style={{ color: "black", fontSize: "17px", cursor: "pointer" }}
+              style={{
+                color: "black",
+                fontSize: "17px",
+                cursor: "pointer",
+                animation: rotation ? "rotate360 3s linear" : "none",
+              }}
               onClick={refreshCHandler}
             />
           </h6>
