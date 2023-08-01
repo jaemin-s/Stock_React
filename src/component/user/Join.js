@@ -23,8 +23,8 @@ const Join = () => {
     password: "",
     age: "",
     gender: "",
-    career: "",
-    mbti: "",
+    career: "1",
+    mbti: "선택안함",
   });
 
   //검증 메세지에 대한 상태변수 관리
@@ -103,7 +103,6 @@ const Join = () => {
         }
       })
       .then((json) => {
-        console.log(json);
         if (json) {
           msg = "닉네임이 중복되었습니다!";
         } else {
@@ -115,9 +114,7 @@ const Join = () => {
         setMessage({ ...message, nick: msg });
         setCorrect({ ...correct, nick: flag });
       })
-      .catch((err) => {
-        console.log("서버 통신이 원활하지 않습니다.");
-      });
+      .catch((err) => {});
   };
 
   //닉네임 입력창 체인지 이벤트 핸들러
@@ -153,7 +150,6 @@ const Join = () => {
         }
       })
       .then((json) => {
-        console.log(json);
         if (json) {
           msg = "이메일이 중복되었습니다!";
         } else {
@@ -165,9 +161,7 @@ const Join = () => {
         setMessage({ ...message, email: msg });
         setCorrect({ ...correct, email: flag });
       })
-      .catch((err) => {
-        console.log("서버 통신이 원활하지 않습니다.");
-      });
+      .catch((err) => {});
   };
 
   //이메일 입력창 체인지 이벤트 핸들러
@@ -309,7 +303,6 @@ const Join = () => {
   // const showThumbnailHandler = (e) => {
   //   //첨부된 파일 정보
   //   const file = $fileTag.current.files[0];
-  //   console.log(file);
 
   //   const reader = new FileReader();
   //   reader.readAsDataURL(file);
@@ -334,7 +327,6 @@ const Join = () => {
     const userJsonBlob = new Blob([JSON.stringify(userValue)], {
       type: "application/json",
     });
-    // console.log("profileImage: " + $fileTag.current.files[0]);
 
     // 이미지파일과 회원정보 JSON을 하나로 묶어야 함
     // FormData 객체를 활용해서.
@@ -584,10 +576,10 @@ const Join = () => {
                           setUserValue({ ...userValue, career: e.target.value })
                         }
                       >
-                        <option selected disabled hidden>
+                        <option disabled hidden>
                           주식경력
                         </option>
-                        <option value="1">입문</option>
+                        <option defaultValue="1">입문</option>
                         <option value="2">1~3년</option>
                         <option value="3">4~10년</option>
                         <option value="4">10년 이상</option>
@@ -602,10 +594,10 @@ const Join = () => {
                           setUserValue({ ...userValue, mbti: e.target.value })
                         }
                       >
-                        <option selected disabled hidden>
+                        <option disabled hidden>
                           MBTI
                         </option>
-                        <option value="선택안함">선택안함</option>
+                        <option defaultValue="선택안함">선택안함</option>
                         <option value="ISTJ">ISTJ</option>
                         <option value="ISFJ">ISFJ</option>
                         <option value="ESTJ">ESTJ</option>

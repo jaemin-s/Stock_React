@@ -56,7 +56,6 @@ const RegistFrame = ({ boardType }) => {
     });
 
     const responseJson = await res.text();
-    console.log("responseJson: ", responseJson);
     navigate("/" + boardType);
 
     Swal.fire({

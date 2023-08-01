@@ -6,8 +6,6 @@ import { useParams } from "react-router-dom";
 const AskingPrice = ({ selectedValueHandler }) => {
   const { value } = useParams();
   const title = value.split("(", 2);
-  // console.log("title[0]" + title[0]); //검색어의 회사명
-  // console.log("title[1].slice(0, -1))" + title[1].slice(0, -1)); // 검색어의 종목 코드
 
   const [selectedRow, setSelectedRow] = useState(null);
 

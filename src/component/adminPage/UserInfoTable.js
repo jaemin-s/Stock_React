@@ -20,7 +20,6 @@ const UserInfoTable = () => {
     if (res.status === 200) {
       const infoData = await res.json();
       setTotalInfo(infoData.content);
-      console.log(infoData.content);
       setCount(infoData.totalElements);
     } else {
       console.error("fail");
@@ -67,12 +66,10 @@ const UserInfoTable = () => {
       if (type === "name") {
         if (x.name === searchText) {
           searchContent = x.email;
-          console.log(searchContent);
         } else return;
       } else if (type === "email") {
         if (x.email === searchText) {
           searchContent = x.email;
-          console.log(searchContent);
         } else return;
       }
     });
@@ -81,7 +78,7 @@ const UserInfoTable = () => {
     if (res.status === 200) {
       setFlag(true);
       const data = await res.json();
-      
+
       setSearchInfo([data]);
     } else {
       alert("검색 결과가 없습니다.");
@@ -115,11 +112,7 @@ const UserInfoTable = () => {
                 </tr>
               </thead>
               <tbody>
-<<<<<<< HEAD
-                {!flag && !!totalInfo
-=======
                 {!flag && !!totalInfo && totalInfo.length > 0
->>>>>>> bb8ec7acb0e9160bc28ae7f1e692c35125903751
                   ? totalInfo
                       .filter(
                         (x) => !x.role.includes("ADMIN")

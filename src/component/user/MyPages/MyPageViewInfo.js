@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMedal } from "@fortawesome/free-solid-svg-icons";
-import { API_BASE_URL } from "../../config/host-config";
+import { API_BASE_URL } from "../../../config/host-config";
 const MyPageViewInfo = () => {
   const [userInfo, setUserInfo] = useState({
     email: "",
@@ -40,7 +40,6 @@ const MyPageViewInfo = () => {
         localStorage.getItem("LOGIN_USEREMAIL")
     );
     const myInfo = await res.json();
-    // console.log("myInfo: ", myInfo);
     setUserInfo({
       email: myInfo.email,
       name: myInfo.name,
@@ -101,7 +100,6 @@ const MyPageViewInfo = () => {
         return "";
     }
   }
-  // console.log("userInfo.role: ", userInfo.role);
   return (
     <>
       {/* <!-- Page Heading --> */}
@@ -115,14 +113,6 @@ const MyPageViewInfo = () => {
             <div id="1" style={{ marginBottom: "10px" }}>
               나의 주식실력을 알고 싶다면 모의투자를 경험해보세요!
             </div>
-            {/* <div className="flex">
-              <button
-                className="btn btn-sm btn-user btn-primary"
-                style={{ margin: "0 auto" }}
-              >
-                모의투자 하러가기
-              </button>
-            </div> */}
           </div>
         ) : (
           <div id="1">
@@ -172,11 +162,6 @@ const MyPageViewInfo = () => {
             marginTop: "50px",
           }}
         />
-
-        {/* BRONZE : #804A00
-            SILVER :  #C0C0C0
-            GOLD : #F9BC28 
-        */}
       </div>
     </>
   );

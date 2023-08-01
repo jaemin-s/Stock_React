@@ -42,17 +42,7 @@ const Dropdown = ({ onOpenModal, email, getUserHandler, userGrade }) => {
   };
 
   const handleForceGradeDown = async (blackEmail) => {
-    console.log("blackEmail in handleForceGradeDown:", blackEmail);
-
     try {
-      console.log(
-        "RequestBody: ",
-        JSON.stringify({
-          blackEmail: blackEmail,
-          adminEmail: localStorage.getItem("LOGIN_USEREMAIL"),
-        })
-      );
-
       const res = await fetch(API_BASE_URL + "/api/user/forcegradedown", {
         method: "POST",
         headers: {
@@ -63,37 +53,35 @@ const Dropdown = ({ onOpenModal, email, getUserHandler, userGrade }) => {
           adminEmail: localStorage.getItem("LOGIN_USEREMAIL"),
         }),
       });
-      console.log("Response Status:", res.status);
 
       if (res.status === 200) {
         const data = await res.json();
-        console.log("Response data: ", data);
-        console.log("blackEmail: ", blackEmail);
       }
-    } catch (networkError) {
-      console.log("blackEmail: ", blackEmail);
-      
-    }
+    } catch (networkError) {}
   };
 
   return (
     <>
-    <div className="dropdown-item" onClick={handleRollControlClick}>
-      <button className="button-58" onClick={() => onOpenModal(email)} style={{ margin: "0" }}>
-        등급 강등
-      </button>
-    </div>
+      <div className="dropdown-item" onClick={handleRollControlClick}>
+        <button
+          className="button-58"
+          onClick={() => onOpenModal(email)}
+          style={{ margin: "0" }}
+        >
+          등급 강등
+        </button>
+      </div>
 
-    {isRollModalOpen && (
-      <RollControl
-        isOpen={isRollModalOpen}
-        toggleHandler={() => setIsRollModalOpen(false)}
-        blackEmail={email}
-        handleForceGradeDown={handleForceGradeDown}
-        getUserHandler={getUserHandler}
-      />
-    )}
-  </>
+      {isRollModalOpen && (
+        <RollControl
+          isOpen={isRollModalOpen}
+          toggleHandler={() => setIsRollModalOpen(false)}
+          blackEmail={email}
+          handleForceGradeDown={handleForceGradeDown}
+          getUserHandler={getUserHandler}
+        />
+      )}
+    </>
   );
 };
 

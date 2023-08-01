@@ -99,7 +99,6 @@ const Update = ({ toggleModifyModal }) => {
         }
       })
       .then((json) => {
-        console.log(json);
         if (json) {
           msg = "닉네임이 중복되었습니다!";
         } else {
@@ -111,9 +110,7 @@ const Update = ({ toggleModifyModal }) => {
         setMessage({ ...message, nick: msg });
         setCorrect({ ...correct, nick: flag });
       })
-      .catch((err) => {
-        console.log("서버 통신이 원활하지 않습니다.");
-      });
+      .catch((err) => {});
   };
 
   //닉네임 입력창 체인지 이벤트 핸들러
@@ -271,7 +268,6 @@ const Update = ({ toggleModifyModal }) => {
 
       // 성공적인 응답을 받은 경우
       const data = await response.json();
-      console.log("서버 응답 데이터:", data);
 
       // 원하는 동작 수행 (예: 회원 정보 수정 완료 메시지, 상태 업데이트 등)
     } catch (error) {
@@ -284,8 +280,6 @@ const Update = ({ toggleModifyModal }) => {
   };
 
   const fetchUpdatePost = async () => {
-    console.log(age);
-    console.log(career);
     try {
       const response = await fetch(
         "http://localhost:8181/api/user/updateInfo",
@@ -407,7 +401,6 @@ const Update = ({ toggleModifyModal }) => {
               value={age}
               onChange={(e) => {
                 setAge(e.target.value);
-                console.log(e.target.value);
                 ageHandler(e);
               }}
               style={{ margin: "0" }}
@@ -425,7 +418,6 @@ const Update = ({ toggleModifyModal }) => {
             <select
               onChange={(e) => {
                 setMbti(e.target.value);
-                console.log(e.target.value);
               }}
             >
               <option selected disabled hidden>

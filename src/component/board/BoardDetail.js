@@ -11,7 +11,6 @@ const BoardDetail = ({ boardType, id, savedPage }) => {
   const [inputTitle, setInputTitle] = useState("");
   const [inputContent, setInputContent] = useState("");
   const navigate = useNavigate();
-  console.log("savedPage in detail", savedPage);
   async function getDetail() {
     const res = await fetch(
       API_BASE_URL + "/api/board/" + boardType + "/" + id
@@ -142,8 +141,6 @@ const BoardDetail = ({ boardType, id, savedPage }) => {
     getDetail();
   }, []);
 
-    console.log(content.replaceAll("\n","<br>"));
-
   return (
     <div>
       <table
@@ -220,9 +217,15 @@ const BoardDetail = ({ boardType, id, savedPage }) => {
               />
             ) : (
               <td>
-                <p style={{ textAlign: "left", marginLeft: "10px" }}>
-                  <pre style={{fontFamily:'system-ui, -apple-system, "Segoe UI"'}}>{content}</pre>
-                </p>
+                <pre
+                  style={{
+                    fontFamily: 'system-ui, -apple-system, "Segoe UI"',
+                    textAlign: "left",
+                    marginLeft: "10px",
+                  }}
+                >
+                  {content}
+                </pre>
               </td>
             )}
           </tr>

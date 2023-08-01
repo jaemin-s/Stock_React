@@ -81,13 +81,9 @@ const MoveStockInfo = ({ getStockRate }) => {
   useEffect(() => {}, [topResult, lowResult]);
 
   const viewMoveStock = () => {
-    // console.log(topResult);
-
     const detailHandler = (e) => {
-      console.log(e.target.textContent);
       const query = e.target.textContent;
       const code = e.target.dataset.code;
-      // console.log(code);
       redirection(`/Detail/${query}(${code})`);
     };
 

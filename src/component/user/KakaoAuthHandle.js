@@ -16,7 +16,6 @@ const KakaoAuthHandle = (props) => {
 
   useEffect(() => {
     let code = new URL(window.location.href).searchParams.get("code");
-    console.log("code: ", code);
 
     const kakaoLogin = async () => {
       const res = await fetch(

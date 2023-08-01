@@ -20,7 +20,6 @@ const Candle = ({ dailyPrice }) => {
       if (echartsRef.current !== null) {
         //230719 장 마감 전에 줌 해놓은상태로 캔들 움직이는지 확인할 것
         setZoomValue(echartsRef.current.getOption().dataZoom[0].start);
-        // console.log(echartsRef.current.getOption().dataZoom[0].start);
       }
       fetchDailyPrice();
     }, 1000); // 1초마다 렌더링
