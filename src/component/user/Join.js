@@ -584,7 +584,7 @@ const Join = () => {
                           setUserValue({ ...userValue, career: e.target.value })
                         }
                       >
-                        <option selected disabled hidden>
+                        <option disabled hidden>
                           주식경력
                         </option>
                         <option value="1">입문</option>
@@ -602,7 +602,7 @@ const Join = () => {
                           setUserValue({ ...userValue, mbti: e.target.value })
                         }
                       >
-                        <option selected disabled hidden>
+                        <option disabled hidden>
                           MBTI
                         </option>
                         <option value="선택안함">선택안함</option>
