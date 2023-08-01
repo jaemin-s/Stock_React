@@ -131,9 +131,7 @@ const Dropdown = ({ onOpenModal, email, getUserHandler }) => {
           style={{ width: 1, position: "absolute", left: -47 }}
         >
           <li className="dropdown-item" onClick={handleRollControlClick}>
-            <button className="nav-link" onClick={() => onOpenModal(email)}>
-              등급관리
-            </button>
+            <button className="nav-link">등급관리</button>
           </li>
           <hr className="border-line" />
           <li className="dropdown-item" onClick={handleInfoControlClick}>
