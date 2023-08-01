@@ -273,7 +273,7 @@ const Header = () => {
             </a>
 
             {/* <!-- Dropdown - User Information --> */}
-            <div
+            <ul
               className={
                 isToggle
                   ? "dropdown-menu dropdown-menu-right shadow animated--grow-in show"
@@ -341,7 +341,7 @@ const Header = () => {
                   </li>
                 </>
               )}
-            </div>
+            </ul>
           </li>
         </ul>
       </nav>

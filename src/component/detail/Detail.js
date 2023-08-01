@@ -847,7 +847,7 @@ const Detail = () => {
 
   return (
     <>
-      <body id="page-top" style={{ width: "80%" }}>
+      <div id="page-top" style={{ width: "80%" }}>
         <div id="wrapper">
           <div id="container">
             <MarketInfo />
@@ -947,19 +947,21 @@ const Detail = () => {
                       >
                         종목정보
                       </span>
-                      {localStorage.getItem("isLoggedIn") &&<span
-                        id="myStock"
-                        className="border-bottom-primary"
-                        onClick={showMyStock}
-                      >
-                        내주식
-                      </span>}
+                      {localStorage.getItem("isLoggedIn") && (
+                        <span
+                          id="myStock"
+                          className="border-bottom-primary"
+                          onClick={showMyStock}
+                        >
+                          내주식
+                        </span>
+                      )}
                     </h6>
                   </div>
                   {stockPrice && viewPrice}
                   {news && viewNews}
                   {info && viewInfo}
-                  {myStock&& viewMyStock}
+                  {myStock && viewMyStock}
                 </div>
               </div>
               <hr />
@@ -979,7 +981,7 @@ const Detail = () => {
             </div>
           </div>
         </div>
-      </body>
+      </div>
       {isModalOpen && modalBuy}
       {modalType && modalSell}
     </>
