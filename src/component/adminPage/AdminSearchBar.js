@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 
-const AdminSearchBar = () => {
+const AdminSearchBar = ({ userInfoSearch }) => {
+  const [selectedValue, setSelectedValue] = useState("all");
+  const inputRef = useRef();
+
+  const handleChange = (e) => {
+    setSelectedValue(e.target.value); // 선택한 옵션의 value 값을 상태로 업데이트
+    console.log(e.target.value);
+  };
+
   const Search = ({ size = 25, color = "#fcf9f9" }) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,6 +26,14 @@ const AdminSearchBar = () => {
     </svg>
   );
 
+  //검색창 핸들러
+  const searchHandler = (e) => {
+    e.preventDefault();
+    const inputValue = inputRef.current.value.trim();
+    console.log(inputValue);
+    userInfoSearch(inputValue, selectedValue);
+  };
+
   return (
     <div
       style={{
@@ -27,7 +43,7 @@ const AdminSearchBar = () => {
         maxWidth: 140,
       }}
     >
-      <select>
+      <select value={selectedValue} onChange={handleChange}>
         <option value="all">전체</option>
         <option value="name">이름</option>
         <option value="email">이메일</option>
@@ -39,7 +55,7 @@ const AdminSearchBar = () => {
           alignItems: "center",
         }}
       >
-        <form className="search-form-container">
+        <form className="search-form-container" onSubmit={searchHandler}>
           <div
             className="input-group input-group-append"
             style={{ width: 280 }}
@@ -51,7 +67,7 @@ const AdminSearchBar = () => {
               placeholder="입력해주세요."
               aria-label="Search"
               aria-describedby="basic-addon1"
-              // ref={inputRef}
+              ref={inputRef}
             />
             <button className="btn btn-primary searchBtn">
               <i className="fa-solid fa-magnifying-glass"></i>
