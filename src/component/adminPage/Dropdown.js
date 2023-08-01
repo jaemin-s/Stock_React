@@ -5,7 +5,7 @@ import RollControl from "./RollControl";
 import ScoreControl from "./ScoreControl";
 import Swal from "sweetalert2";
 import { API_BASE_URL } from "../../config/host-config";
-const Dropdown = ({ onOpenModal, email, getUserHandler }) => {
+const Dropdown = ({ onOpenModal, email, getUserHandler, userGrade }) => {
   const [isToggle, setIsToggle] = useState(false);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isRollModalOpen, setIsRollModalOpen] = useState(false);
@@ -17,13 +17,22 @@ const Dropdown = ({ onOpenModal, email, getUserHandler }) => {
 
   // 등급관리
   const handleRollControlClick = () => {
+    if (userGrade === "BLACK") {
+      Swal.fire({
+        title:
+          "<div style='font-size:25px'>이 회원은 이미 'BLACK'회원 입니다.</div>",
+      });
+      return;
+    }
+
     setIsRollModalOpen(true);
     setIsInfoModalOpen(false);
     setIsPointModalOpen(false);
     setIsToggle(false);
 
     Swal.fire({
-      title: "'BLACK' 등급으로 강등시키겠습니까?",
+      title:
+        "<div style='font-size:25px'>'BLACK' 등급으로 강등시키겠습니까?</div>",
       showDenyButton: true,
       confirmButtonText: "확인",
       denyButtonText: `취소`,
@@ -38,22 +47,6 @@ const Dropdown = ({ onOpenModal, email, getUserHandler }) => {
         Swal.fire("강등을 취소합니다.", "", "info");
       }
     });
-  };
-
-  // 정보관리
-  const handleInfoControlClick = () => {
-    setIsInfoModalOpen(true);
-    setIsRollModalOpen(false);
-    setIsPointModalOpen(false);
-    setIsToggle(false);
-  };
-
-  // 포인트 관리
-  const handlePointControlClick = () => {
-    setIsPointModalOpen(true);
-    setIsInfoModalOpen(false);
-    setIsRollModalOpen(false);
-    setIsToggle(false);
   };
 
   const handleForceGradeDown = async (blackEmail) => {
@@ -92,59 +85,16 @@ const Dropdown = ({ onOpenModal, email, getUserHandler }) => {
   };
 
   return (
-    <ul className="navbar-nav">
-      <li
-        className={
-          isToggle
-            ? "nav-item dropdown no-arrow show"
-            : "nav-item dropdown no-arrow"
-        }
-        onClick={handleToggle}
-        style={{ margin: "0 auto" }}
-      >
+    <>
+      <div className="dropdown-item" onClick={handleRollControlClick}>
         <button
-          className={
-            isToggle
-              ? "nav-link dropdown-toggle slide-up"
-              : "nav-link dropdown-toggle slide-down"
-          }
-          id="userDropdown"
-          type="button"
-          aria-haspopup="true"
-          aria-expanded={isToggle ? "true" : "false"}
+          className="button-58"
+          onClick={() => onOpenModal(email)}
+          style={{ margin: "0" }}
         >
-          <span style={{ fontWeight: 600, fontSize: 20 }}>
-            &nbsp;
-            <span className={isToggle ? "rotate-up" : "rotate-down"}>
-              {isToggle ? "↩" : "↪"}
-            </span>
-          </span>
+          등급 강등
         </button>
-
-        <div
-          className={
-            isToggle
-              ? "dropdown-menu dropdown-menu-right shadow animated--grow-in show"
-              : "dropdown-menu dropdown-menu-right shadow animated--grow-in"
-          }
-          aria-labelledby="userDropdown"
-          style={{ width: 1, position: "absolute", left: -47 }}
-        >
-          <li className="dropdown-item" onClick={handleRollControlClick}>
-            <button className="nav-link" onClick={() => onOpenModal(email)}>
-              등급관리
-            </button>
-          </li>
-          <hr className="border-line" />
-          <li className="dropdown-item" onClick={handleInfoControlClick}>
-            <button className="nav-link">정보관리</button>
-          </li>
-          <hr className="border-line" />
-          <li className="dropdown-item" onClick={handlePointControlClick}>
-            <button className="nav-link">포인트 관리</button>
-          </li>
-        </div>
-      </li>
+      </div>
 
       <div isOpen={isRollModalOpen} toggle={handleRollControlClick}>
         <RollControl
@@ -152,21 +102,7 @@ const Dropdown = ({ onOpenModal, email, getUserHandler }) => {
           toggleHandler={() => setIsRollModalOpen(false)}
         />
       </div>
-
-      <div isOpen={isInfoModalOpen} toggle={handleInfoControlClick}>
-        <InfoControl
-          isOpen={isInfoModalOpen}
-          toggleHandler={() => setIsInfoModalOpen(false)}
-        />
-      </div>
-
-      <div isOpen={isPointModalOpen} toggle={handlePointControlClick}>
-        <ScoreControl
-          isOpen={isPointModalOpen}
-          toggleHandler={() => setIsPointModalOpen(false)}
-        />
-      </div>
-    </ul>
+    </>
   );
 };
 
