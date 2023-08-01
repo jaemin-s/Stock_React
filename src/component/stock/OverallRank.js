@@ -224,6 +224,7 @@ const OverallRank = () => {
                 fontSize: "17px",
                 cursor: "pointer",
                 animation: rotation ? "rotate360 3s linear" : "none",
+                marginLeft: 10,
               }}
               onClick={refreshCHandler}
             />

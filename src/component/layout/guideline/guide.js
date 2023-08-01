@@ -32,7 +32,7 @@ const Guide = ({}) => {
 
   return (
     <>
-      <body id="page-top" style={{ width: "80%" }}>
+      <div id="page-top" style={{ width: "80%" }}>
         <div id="wrapper">
           <GuideSideBar />
           <GuideContent />
@@ -42,7 +42,7 @@ const Guide = ({}) => {
             </button>
           )}
         </div>
-      </body>
+      </div>
     </>
   );
 };
