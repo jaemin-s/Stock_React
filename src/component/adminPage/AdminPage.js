@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./AdminPage.scss";
 import InfoControl from "./InfoControl";
 import AdminSidebar from "./AdminSidebar";
@@ -7,9 +7,20 @@ import AdminSearchBar from "./AdminSearchBar";
 import UserInfoTable from "./UserInfoTable";
 import UserStats from "./UserStats";
 import TotalTradeHistory from "./TotalTradeHistory";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../util/AuthContext";
 
 
 const AdminPage = () => {
+
+  const { isLoggedIn, userRole } = useContext(AuthContext);
+  const redirection = useNavigate();
+  
+  if (!isLoggedIn || userRole !== "admin") {
+    
+    redirection("/")
+  }
+
   const [categoryData, setCategoryData] = useState([
     { name: "유저 관리", isActivate: true },
     { name: "유저 통계", isActivate: false },
