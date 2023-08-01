@@ -20,6 +20,7 @@ const UserInfoTable = () => {
     if (res.status === 200) {
       const infoData = await res.json();
       setTotalInfo(infoData.content);
+      console.log(infoData.content);
       setCount(infoData.totalElements);
     } else {
       console.error("fail");
@@ -114,7 +115,7 @@ const UserInfoTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {!flag
+                {!flag && !!totalInfo && totalInfo.length > 0
                   ? totalInfo
                       .filter(
                         (x) => !x.role.includes("ADMIN")

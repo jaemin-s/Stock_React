@@ -11,7 +11,7 @@ const GuideContent = () => {
       {/* <!-- Page Heading --> */}
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1
-          class="h4 mb-0 text-gray-800"
+          className="h4 mb-0 text-gray-800"
           style={{ fontWeight: 700, fontSize: 30 }}
         >
           기초 용어 설명
@@ -127,25 +127,26 @@ const GuideContent = () => {
       <br />
 
       <h4 id="7">가격 제한폭</h4>
-      <p>
-        주식시장 및 파생상품 시장에서 개별 주식이나 종목이 일정범위 이상 거래될
-        수 없도록 제한한 것이다. 주로 주식 값이 과도하게 상승했을 때나 아니면
-        폭락했을 때에 시장이 심하게 충격을 받는것을 방지하는 장치로 도입되었다.
-        <br />
+      <div>
+        <p>
+          주식시장 및 파생상품 시장에서 개별 주식이나 종목이 일정 범위 이상
+          거래될 수 없도록 제한한 것이다. 주로 주식 값이 과도하게 상승했을 때나
+          아니면 폭락했을 때에 시장이 심하게 충격을 받는 것을 방지하는 장치로
+          도입되었다.
+          <br />
+        </p>
         <div
-          style={{
-            textAlign: "center",
-            marginTop: "30px",
-            fontWeight: "600",
-          }}
-        >{`<유가증권시장(KOSPI)>`}</div>
+          style={{ textAlign: "center", marginTop: "30px", fontWeight: "600" }}
+        >
+          {`<유가증권시장(KOSPI)>`}
+        </div>
         <img
           className="center-image"
           src={require("./image/가격제한폭.jpg")}
           alt="@"
           style={{ width: 500, height: 600, marginTop: "10px" }}
-        ></img>
-      </p>
+        />
+      </div>
       <br />
       <h4 id="8">예수금</h4>
       <p>
@@ -155,10 +156,12 @@ const GuideContent = () => {
       <br />
 
       <h4 id="9">우선주</h4>
-      <p>
-        의결권이 없으며 보통주보다 먼저 배당을 받을 수 있는 권리가 부여된
-        주식이며, 보통주에 비해 높은 배당금을 받을 수 있다.
-        <br />
+      <div>
+        <p>
+          의결권이 없으며 보통주보다 먼저 배당을 받을 수 있는 권리가 부여된
+          주식이며, 보통주에 비해 높은 배당금을 받을 수 있습니다.
+          <br />
+        </p>
         <img
           src={require("./image/우선주.jpg")}
           alt="@"
@@ -169,10 +172,12 @@ const GuideContent = () => {
             alignContent: "center",
           }}
           className="center-image"
-        ></img>
+        />
         <br />
-        <div style={{ textAlign: "center" }}>{`<보통주와 우선주의 차이>`}</div>
-      </p>
+        <div style={{ textAlign: "center" }}>
+          &lt;보통주와 우선주의 차이&gt;
+        </div>
+      </div>
       <h4 id="10">상장폐지</h4>
       <p>
         주가가 앞서 말한 바와 다르게 30% 이상 하락하는 경우가 있다. 이는
@@ -198,9 +203,9 @@ const GuideContent = () => {
       <br></br>
       <br></br>
       <div className="tutorial">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div className="d-sm-flex align-items-center justify-content-between mb-4">
           <h1
-            class="h4 mb-0 text-gray-800"
+            className="h4 mb-0 text-gray-800"
             style={{ fontWeight: 700, fontSize: 30 }}
           >
             튜토리얼
@@ -345,32 +350,31 @@ const GuideContent = () => {
           style={{ margin: "50px auto 200px auto", width: "900px" }}
           className="center-image"
         ></img>
-        <div style={{ backgroundColor: "lightgray" }}>
-          <p id="19">
-            <FontAwesomeIcon
-              icon={faCircleExclamation}
-              style={{ color: "red" }}
-            />{" "}
-            주의{" "}
-            <FontAwesomeIcon
-              icon={faCircleExclamation}
-              style={{ color: "red" }}
-            />
-            <br />
-            <br />
+        <div>
+          <div
+            style={{
+              backgroundColor: "white",
+              width: "70%",
+              alignContent: "center",
+            }}
+          >
+            <p id="19">
+              <FontAwesomeIcon
+                icon={faCircleExclamation}
+                style={{ color: "red" }}
+              />{" "}
+              주의{" "}
+              <FontAwesomeIcon
+                icon={faCircleExclamation}
+                style={{ color: "red" }}
+              />
+            </p>
             <a
               href="https://www.ytn.co.kr/_ln/0102_202101222019368154"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div
-                className="card-body"
-                style={{
-                  backgroundColor: "white",
-                  width: "70%",
-                  alignContent: "center",
-                }}
-              >
+              <div className="card-body">
                 <h5>'주식 리딩방' 들어가보니...'주린이' 노린 사기 피해 급증</h5>
                 <p>
                   고수익이 나는 주식 투자 종목을 알려준다는 명목으로 운영되는
@@ -378,10 +382,12 @@ const GuideContent = () => {
                 </p>
               </div>
             </a>
-            <br />본 프로그램 제작자들은 건전한 주식투자를 지향하고 있습니다.
-            안전하고 신뢰할 수 있는 투자 방법과 정보를 찾아서 안전하게
-            투자하시기를 권장드립니다.
-          </p>
+            <p>
+              본 프로그램 제작자들은 건전한 주식투자를 지향하고 있습니다.
+              안전하고 신뢰할 수 있는 투자 방법과 정보를 찾아서 안전하게
+              투자하시기를 권장드립니다.
+            </p>
+          </div>
         </div>
       </div>
     </div>

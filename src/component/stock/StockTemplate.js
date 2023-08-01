@@ -240,7 +240,7 @@ function StockTemplate() {
                     ) // 특정 단어를 포함하지 않는 항목만 필터링
                     .map((x, index) => (
                       <tr key={index}>
-                        <th scope="row">{x.mksc_shrn_iscd}</th> {/* 종목코드 */}
+                        <td scope="row">{x.mksc_shrn_iscd}</td>
                         <td>
                           <p className="stock-name" onClick={detailHandler}>
                             {x.hts_kor_isnm}
@@ -248,9 +248,8 @@ function StockTemplate() {
                               ({x.mksc_shrn_iscd})
                             </span>
                           </p>
-                        </td>{" "}
-                        {/* 종목명 */}
-                        <td>{x.stck_prpr}원</td> {/* 주식 현재가 */}
+                        </td>
+                        <td>{x.stck_prpr}원</td>
                         <td>
                           <span
                             className={
@@ -258,12 +257,10 @@ function StockTemplate() {
                             }
                           >
                             {x.prdy_ctrt >= 0 && "+"}
-                            {x.prdy_ctrt}% {/* 전일 대비율 */}
+                            {x.prdy_ctrt}%
                           </span>
                         </td>
-                        <td>{abbreviateNumber(x.acml_vol)}</td>{" "}
-                        {/* 누적 거래량 */}
-                        {/* 약어 표기로 표시 */}
+                        <td>{abbreviateNumber(x.acml_vol)}</td>
                       </tr>
                     ))}
                 </tbody>
@@ -290,10 +287,9 @@ function StockTemplate() {
               height="345"
               src="https://www.youtube.com/embed/nawUv8DcI80"
               title="최고민수의 주식 종목 고르는 10단계 방법 1부"
-              frameborder="0"
+              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; 
               encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
             ></iframe>
           </div>
           <div className="bookmark card shadow">
