@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, ModalBody } from "reactstrap";
 import { API_BASE_URL } from "../../config/host-config";
+import Swal from "sweetalert2";
 
 const RollControl = ({ isOpen, toggleHandler, blackEmail }) => {
   const [info, setInfo] = useState({});
@@ -24,12 +25,24 @@ const RollControl = ({ isOpen, toggleHandler, blackEmail }) => {
       console.error("Network error:", networkError);
     }
   };
-
+  Swal.fire({
+    title: "'BLACK' 등급으로 강등시키겠습니까?",
+    showDenyButton: true,
+    confirmButtonText: "확인",
+    denyButtonText: `취소`,
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      Swal.fire("Saved!", "", "success");
+    } else if (result.isDenied) {
+      Swal.fire("Changes are not saved", "", "info");
+    }
+  });
   handleForceGradeDown();
   return (
     <Modal isOpen={isOpen} toggle={toggleHandler} style={{ width: 1000 }}>
       <ModalBody>
-        <div className="roll-box" style={{ display: "flex" }}>
+        {/* <div className="roll-box" style={{ display: "flex" }}>
           <div
             className="roll-check"
             style={{
@@ -51,7 +64,8 @@ const RollControl = ({ isOpen, toggleHandler, blackEmail }) => {
               <option>골드</option>
             </select>
           </div>
-        </div>
+        </div> */}
+        <Swal />
       </ModalBody>
     </Modal>
   );

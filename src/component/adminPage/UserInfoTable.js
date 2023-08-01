@@ -52,6 +52,7 @@ const UserInfoTable = () => {
     setSelectedEmail(email);
     setIsModalOpen(true);
   };
+
   const userInfoSearch = async (searchText, type) => {
     let searchContent = "";
     totalInfo.forEach((x) => {
