@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Paging from "../board/Paging";
 import Dropdown from "./Dropdown";
+import "./UserInfoTable.scss";
 import AdminSearchBar from "./AdminSearchBar";
 import { API_BASE_URL } from "../../config/host-config";
 import RollControl from "./RollControl";
@@ -18,8 +19,6 @@ const UserInfoTable = () => {
     if (res.status === 200) {
       const infoData = await res.json();
       setTotalInfo(infoData.content);
-      console.log("infoData: ", infoData);
-      console.log("infoData.content: ", infoData.content);
       setCount(infoData.totalElements);
     } else {
       console.error("fail");
@@ -43,7 +42,6 @@ const UserInfoTable = () => {
   const [isToggle, setIsToggle] = useState(false);
   const toggleHandler = () => {
     setIsToggle(!isToggle);
-    console.log(isToggle);
   };
   // <Dropdown toggleHandler={toggleHandler} /> 관리 쪽 dropdown
 
@@ -86,7 +84,7 @@ const UserInfoTable = () => {
     <>
       <AdminSearchBar userInfoSearch={userInfoSearch} />
 
-      <div className="card shadow mb-4">
+      <div className="card shadow mb-4" id="admin-user-info">
         <div className="card-header py-3">
           <h6 className="m-0 font-weight-bold text-primary">사용자 조회</h6>
         </div>
