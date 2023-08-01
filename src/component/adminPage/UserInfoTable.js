@@ -89,7 +89,7 @@ const UserInfoTable = () => {
 
   return (
     <>
-      <AdminSearchBar userInfoSearch={userInfoSearch} />
+      <AdminSearchBar userInfoSearch={userInfoSearch} setFlag={setFlag} />
 
       <div className="card shadow mb-4" id="admin-user-info">
         <div className="card-header py-3">
