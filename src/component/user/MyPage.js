@@ -356,7 +356,7 @@ function MyPage() {
   );
 
   const detailHandler = (e) => {
-    console.log(e.target.textContent);
+    // console.log(e.target.textContent);
     redirection("/detail/" + e.target.textContent);
   };
 
@@ -674,7 +674,7 @@ function MyPage() {
 
           acml_vol: deal,
         } = x;
-        console.log(typeof deal);
+        // console.log(typeof deal);
         dates.unshift(dateFormat(date));
 
         values.unshift([parseInt(close), parseInt(than), parseInt(deal)]);

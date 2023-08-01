@@ -14,6 +14,11 @@ import Notice from "./component/board/Notice";
 import InquiryBoard from "./component/board/InquiryBoard";
 import BoardRegist from "./component/board/BoardRegist";
 import AdminPage from "./component/adminPage/AdminPage";
+<<<<<<< HEAD
+import PrivateRoute from "./component/util/PrivateRoute";
+=======
+import NotFound from "./component/util/NotFound";
+>>>>>>> cdb8c9ab18f88cbc48f38536527329edbbcdc4b5
 
 function App() {
   return (
@@ -27,16 +32,41 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/join" element={<Join />} />
             <Route path="/guide" element={<Guide />} />
-            <Route path="/mypage" element={<MyPage />} />
+            <Route
+              path="/mypage"
+              element={
+                <PrivateRoute
+                  authenticated={
+                    localStorage.getItem("isLoggedIn") === "1" &&
+                    (localStorage.getItem("LOGIN_USERROLE") === "GOLD" ||
+                      localStorage.getItem("LOGIN_USERROLE") === "SILVER" ||
+                      localStorage.getItem("LOGIN_USERROLE") === "BRONZE")
+                  }
+                  Component={<MyPage />}
+                />
+              }
+            />
             <Route path="/detail/:value" element={<Detail />} />
             <Route path="/notice" element={<Notice />} />
             <Route path="/inquiry" element={<InquiryBoard />} />
             <Route path="/regist" element={<BoardRegist />} />
-            <Route path="/adminPage" element={<AdminPage />} />
+            <Route
+              path="/adminPage"
+              element={
+                <PrivateRoute
+                  authenticated={
+                    localStorage.getItem("isLoggedIn") === "1" &&
+                    localStorage.getItem("LOGIN_USERROLE") === "ADMIN"
+                  }
+                  Component={<AdminPage />}
+                />
+              }
+            />
             <Route
               path="/api/user/callback/kakao"
               element={<KakaoAuthHandle />}
             />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
         <Footer />
