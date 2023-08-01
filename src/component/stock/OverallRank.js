@@ -186,12 +186,31 @@ const OverallRank = () => {
       denyButtonText: `취소`,
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("초기화 되었습니다!", "", "success");
+        if (resetRank()) {
+          setRankingTable();
+          Swal.fire("초기화 되었습니다!", "", "success");
+        } else {
+          Swal.fire("초기화에 실패힜습니다!", "", "error");
+        }
       } else if (result.isDenied) {
         Swal.fire("취소 되었습니다.", "", "info");
       }
     });
   };
+
+  async function resetRank() {
+    if (localStorage.getItem("LOGIN_USERROLE") !== "ADMIN") {
+      return;
+    }
+    const res = await fetch(API_BASE_URL + "/api/trade/ranking/reset", {
+      method: "PUT",
+    });
+    if (res.status === 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   return (
     <>
       <div className="simulated-rank card shadow">
