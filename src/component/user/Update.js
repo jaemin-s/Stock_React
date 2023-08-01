@@ -337,16 +337,20 @@ const Update = ({ toggleModifyModal }) => {
     <Modal
       isOpen={modifyModal}
       toggle={toggleModifyModal}
-      style={{ margin: "300px auto", width: 500, height: 650 }}
+      style={{ margin: "110px auto", width: 500, height: 650 }}
       className="update-modal"
     >
       <form onSubmit={handleSubmit}>
         <ModalBody className="update-modal-body">
-          <div>
+          <h3 style={{ textAlign: "center" }} className="modal-title">
+            정보 수정
+          </h3>
+          <div className="form-group">
             <input
               type="text"
               onChange={nickHandler}
               placeholder="새로운 닉네임"
+              style={{ margin: "0" }}
             />
             <span
               className="pass-msg"
@@ -356,7 +360,7 @@ const Update = ({ toggleModifyModal }) => {
             </span>
           </div>
 
-          <div>
+          <div className="form-group">
             <input
               type="password"
               id="passwordCheck"
@@ -366,6 +370,7 @@ const Update = ({ toggleModifyModal }) => {
                 passwordHandler(e); // 추가: passwordHandler 호출하여 검증 로직 트리거
               }}
               placeholder="새로운 비밀번호"
+              style={{ margin: "0" }}
             />
             <span
               className="pass-msg"
@@ -375,11 +380,12 @@ const Update = ({ toggleModifyModal }) => {
             </span>
           </div>
 
-          <div>
+          <div className="form-group">
             <input
               type="password"
               onChange={pwCheckHandler}
               placeholder="비밀번호 확인"
+              style={{ margin: "0" }}
             />
             <span
               id="check-span"
@@ -404,6 +410,7 @@ const Update = ({ toggleModifyModal }) => {
                 console.log(e.target.value);
                 ageHandler(e);
               }}
+              style={{ margin: "0" }}
             />
 
             <span
@@ -464,7 +471,7 @@ const Update = ({ toggleModifyModal }) => {
         <ModalFooter>
           <button
             onClick={cplBtnHandler}
-            className="button-58"
+            className="button-58 modal-footer-btn"
             type="submit"
             style={{ margin: "0 10px" }}
           >
@@ -473,7 +480,7 @@ const Update = ({ toggleModifyModal }) => {
           <button
             type="button"
             onClick={() => setModifyModal(false)}
-            className="button-58-1"
+            className="button-58-1 modal-footer-btn"
             style={{ margin: "0 10px" }}
           >
             취소
