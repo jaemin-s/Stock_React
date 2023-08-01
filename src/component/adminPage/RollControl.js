@@ -25,7 +25,7 @@ const RollControl = ({ isOpen, toggleHandler, blackEmail }) => {
     }
   };
 
-  // handleForceGradeDown();
+  handleForceGradeDown();
   return (
     <Modal isOpen={isOpen} toggle={toggleHandler} style={{ width: 1000 }}>
       <ModalBody>
