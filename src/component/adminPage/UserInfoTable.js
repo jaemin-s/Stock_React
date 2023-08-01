@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Paging from "../board/Paging";
 import Dropdown from "./Dropdown";
+import "./UserInfoTable.scss";
 import AdminSearchBar from "./AdminSearchBar";
 import { API_BASE_URL } from "../../config/host-config";
 const UserInfoTable = () => {
@@ -45,7 +46,7 @@ const UserInfoTable = () => {
     <>
       <AdminSearchBar />
 
-      <div className="card shadow mb-4">
+      <div className="card shadow mb-4 " id="admin-user-info">
         <div className="card-header py-3">
           <h6 className="m-0 font-weight-bold text-primary">사용자 조회</h6>
         </div>
@@ -81,12 +82,7 @@ const UserInfoTable = () => {
                       <td>{formatPhoneNumber(item.phoneNumber)}</td>
                       <td>{item.role}</td>
                       <td>
-                        <button
-                          //   onClick={toggleModal}
-                          style={{ border: "none", backgroundColor: "white" }}
-                        >
-                          ↪
-                        </button>
+                        <Dropdown />
                       </td>
                     </tr>
                   ))}
