@@ -45,7 +45,7 @@ const UserGroupByAges = () => {
   }, []);
   return (
     <section className="stats-by-ages admin-stats">
-      <h1 className="h3 text-gray-800 stats-header">MBTI</h1>
+      <h1 className="h3 text-gray-800 stats-header">유저 수</h1>
       <div className="stats-body">
         <div className="col-xl-4 col-lg-5">
           <div className="card shadow mb-4">

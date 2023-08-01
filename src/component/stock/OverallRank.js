@@ -227,7 +227,7 @@ const OverallRank = () => {
         <div className="card-header">
           <h6 className="m-0 font-weight-bold text-primary">
             모의 투자 랭킹
-            {role === "ADMIN" && (
+            {localStorage.getItem("LOGIN_USERROLE") === "ADMIN" && (
               <FontAwesomeIcon
                 icon={faRefresh}
                 style={{
@@ -235,6 +235,7 @@ const OverallRank = () => {
                   fontSize: "17px",
                   cursor: "pointer",
                   animation: rotation ? "rotate360 3s linear" : "none",
+                  marginLeft: 10,
                 }}
                 onClick={refreshCHandler}
               />

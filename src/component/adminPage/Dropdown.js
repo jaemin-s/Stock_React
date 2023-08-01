@@ -1,19 +1,13 @@
 import React, { useState } from "react";
 import { Modal, ModalBody } from "reactstrap";
-import InfoControl from "./InfoControl";
+
 import RollControl from "./RollControl";
-import ScoreControl from "./ScoreControl";
+
 import Swal from "sweetalert2";
 import { API_BASE_URL } from "../../config/host-config";
 const Dropdown = ({ onOpenModal, email, getUserHandler, userGrade }) => {
   const [isToggle, setIsToggle] = useState(false);
-  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isRollModalOpen, setIsRollModalOpen] = useState(false);
-  const [isPointModalOpen, setIsPointModalOpen] = useState(false);
-
-  const handleToggle = () => {
-    setIsToggle(!isToggle);
-  };
 
   // 등급관리
   const handleRollControlClick = () => {
@@ -26,8 +20,6 @@ const Dropdown = ({ onOpenModal, email, getUserHandler, userGrade }) => {
     }
 
     setIsRollModalOpen(true);
-    setIsInfoModalOpen(false);
-    setIsPointModalOpen(false);
     setIsToggle(false);
 
     Swal.fire({
@@ -80,29 +72,28 @@ const Dropdown = ({ onOpenModal, email, getUserHandler, userGrade }) => {
       }
     } catch (networkError) {
       console.log("blackEmail: ", blackEmail);
-      console.error("Network error:", networkError);
+      
     }
   };
 
   return (
     <>
-      <div className="dropdown-item" onClick={handleRollControlClick}>
-        <button
-          className="button-58"
-          onClick={() => onOpenModal(email)}
-          style={{ margin: "0" }}
-        >
-          등급 강등
-        </button>
-      </div>
+    <div className="dropdown-item" onClick={handleRollControlClick}>
+      <button className="button-58" onClick={() => onOpenModal(email)} style={{ margin: "0" }}>
+        등급 강등
+      </button>
+    </div>
 
-      <div isOpen={isRollModalOpen} toggle={handleRollControlClick}>
-        <RollControl
-          isOpen={isRollModalOpen}
-          toggleHandler={() => setIsRollModalOpen(false)}
-        />
-      </div>
-    </>
+    {isRollModalOpen && (
+      <RollControl
+        isOpen={isRollModalOpen}
+        toggleHandler={() => setIsRollModalOpen(false)}
+        blackEmail={email}
+        handleForceGradeDown={handleForceGradeDown}
+        getUserHandler={getUserHandler}
+      />
+    )}
+  </>
   );
 };
 
