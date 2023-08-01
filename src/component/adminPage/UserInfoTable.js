@@ -81,7 +81,7 @@ const UserInfoTable = () => {
     if (res.status === 200) {
       setFlag(true);
       const data = await res.json();
-      
+
       setSearchInfo([data]);
     } else {
       alert("검색 결과가 없습니다.");
@@ -115,11 +115,7 @@ const UserInfoTable = () => {
                 </tr>
               </thead>
               <tbody>
-<<<<<<< HEAD
-                {!flag && !!totalInfo
-=======
                 {!flag && !!totalInfo && totalInfo.length > 0
->>>>>>> bb8ec7acb0e9160bc28ae7f1e692c35125903751
                   ? totalInfo
                       .filter(
                         (x) => !x.role.includes("ADMIN")
