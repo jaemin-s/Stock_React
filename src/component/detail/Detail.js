@@ -35,8 +35,6 @@ const Detail = () => {
 
   const { value } = useParams();
   const title = value.split("(", 2);
-  // console.log(title[0]); //종목 이름
-  // console.log(title[1].slice(0, -1)); //종목 코드
   //로그인한 유저의 mbti
   const [myMbti, setMyMbti] = useState("");
 
@@ -85,7 +83,6 @@ const Detail = () => {
       setFavoriteList(results);
     }
   };
-  // console.log(favoriteList[0].stockName);
   // 관심종목 백 연결 로직 끝
 
   useEffect(() => {
@@ -96,14 +93,12 @@ const Detail = () => {
   // 관심종목 목록 불러오기
   const loadFavorite = async () => {
     const loginEmail = localStorage.getItem("LOGIN_USEREMAIL");
-    // console.log("email: ", loginEmail);
     const res = await fetch(API_BASE_URL + "/api/user/favorite/" + loginEmail, {
       method: "GET",
       headers: { "content-type": "application/json" },
     });
     if (res.status === 200) {
       const list = await res.json();
-      // console.log(list);
       setFavoriteList(list);
 
       let flag = false;
@@ -136,14 +131,11 @@ const Detail = () => {
     );
     if (res.status === 200) {
       const result = await res.json();
-      console.log(result);
       setMyMbti(result.mbti);
       setCurrentAsset(result.money); // 로그인 한 유저의 남은 보유 금액
-      // console.log("result.myStocks: ", result.myStocks);
       let flag = false;
 
       result.myStocks.forEach((x) => {
-        console.log(x.stockName);
         if (x.stockName === title[0]) {
           setCurrentHavingStock(x.quantity);
           setPastStock(x.price);
@@ -179,11 +171,9 @@ const Detail = () => {
         },
       }
     );
-    // console.log("res: ", res);
 
     if (res.status === 200) {
       const data = await res.json();
-      // console.log(data);
       //필요한 값만 추출
       let values = [];
       let dates = [];
@@ -226,7 +216,6 @@ const Detail = () => {
 
       return { categoryData: dates, values };
     } else {
-      // console.log("res인데 말이야 = ",res);
     }
   };
 
@@ -241,7 +230,6 @@ const Detail = () => {
   const [selectedValue, setSelectedValue] = useState(null);
 
   // function selectedValueHandler(value) {
-  //   // console.log("selectedValueHandler : " + value);
   //   setSelectedValue(value);
   // }
   //모달 관리
@@ -293,8 +281,6 @@ const Detail = () => {
       return;
     }
 
-    console.log(livePrice);
-    console.log(currentAsset);
     if (livePrice > currentAsset) {
       setOrder(0);
     } else {
@@ -324,7 +310,6 @@ const Detail = () => {
     });
     if (res.status === 200) {
       const buyResponse = await res.text();
-      console.log(buyResponse);
       if (buyResponse === "success") {
         toastAlertHandler(1); //매수 시 띄울 알림창
       } else {
@@ -354,7 +339,6 @@ const Detail = () => {
     });
     if (res.status === 200) {
       const sellResponse = await res.text();
-      console.log(sellResponse);
       if (sellResponse === "success") {
         toastAlertHandler(0); //매도 시 띄울 알림창
       } else {
@@ -460,7 +444,6 @@ const Detail = () => {
     return `${year.slice(2)}.${month}.${day}`;
   };
 
-  // console.log("title[1].slice(0, -1): ", title[1].slice(0, -1));
   const transition = async (title) => {
     const stockId = Array.isArray(title) ? title.join("") : title;
     let today = new Date();
@@ -484,15 +467,12 @@ const Detail = () => {
         },
       }
     );
-    // console.log("res: ", res);
 
     if (res.status === 200) {
       const data = await res.json();
-      // console.log(data);
       //필요한 값만 추출
       let values = [];
       let dates = [];
-      // console.log(data);
 
       data.output2.forEach((x) => {
         const {
@@ -501,7 +481,6 @@ const Detail = () => {
           stck_clpr: close,
           acml_vol: deal,
         } = x;
-        // console.log(typeof deal);
         dates.unshift(dateFormat(date));
 
         values.unshift([parseInt(close), parseInt(than), parseInt(deal)]);
@@ -796,7 +775,6 @@ const Detail = () => {
       }
       if (res.status === 500 || 504) {
         setLoadingFail(!loadingFail);
-        console.log(data);
       }
     } catch (error) {
       console.error(error);
@@ -804,7 +782,6 @@ const Detail = () => {
   };
 
   useEffect(() => {
-    console.log(data);
     if (data === null) {
       getCode();
     }

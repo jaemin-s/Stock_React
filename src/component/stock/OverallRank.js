@@ -31,14 +31,13 @@ const OverallRank = () => {
   async function getRankInfo() {
     const res = await fetch(API_BASE_URL + "/api/trade/rank");
     const rankData = await res.json();
-    console.log(rankData);
     setRankingTable(rankData);
   }
   if (!rankingTable) getRankInfo();
 
   const rankingBody = () => {
-    return rankingTable.map((item) => (
-      <tr>
+    return rankingTable.map((item, index) => (
+      <tr key={index}>
         <th scope="row">
           {item.rank === 1 ? (
             <FontAwesomeIcon
@@ -70,11 +69,8 @@ const OverallRank = () => {
   const getInfoHandler = async (email, e) => {
     const res = await fetch(API_BASE_URL + "/api/trade/history/" + email);
     const result = await res.json();
-    console.log(result);
     setUserTradeInfo(result);
 
-    console.log(email);
-    console.log(e.target.textContent);
     setClickName(e.target.textContent);
     setIsModalOpen(!isModalOpen);
   };

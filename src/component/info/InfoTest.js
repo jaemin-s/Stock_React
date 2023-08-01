@@ -13,8 +13,6 @@ const InfoTest = ({}) => {
 
   const { value } = useParams();
   const title = value.split("(", 2);
-  // console.log(title[0]); //검색어의 회사명
-  // console.log(title[1].slice(0, -1)); // 검색어의 종목 코드
 
   const sicList = [];
   let sicNb;
@@ -43,7 +41,6 @@ const InfoTest = ({}) => {
 
     const data = await res.json();
     if (data.response.body.totalCount === 0) {
-      console.log("정보가 없어요");
       setNodata(false);
     }
     // 기업 정보

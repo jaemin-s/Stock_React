@@ -6,7 +6,6 @@ const AdminSearchBar = ({ userInfoSearch, setFlag }) => {
 
   const handleChange = (e) => {
     setSelectedValue(e.target.value); // 선택한 옵션의 value 값을 상태로 업데이트
-    console.log(e.target.value);
     inputRef.current.value = "";
   };
 
@@ -31,7 +30,6 @@ const AdminSearchBar = ({ userInfoSearch, setFlag }) => {
   const searchHandler = (e) => {
     e.preventDefault();
     const inputValue = inputRef.current.value.trim();
-    console.log(inputValue);
     if (inputValue === "") {
       alert("입력값이 없습니다.");
       return;

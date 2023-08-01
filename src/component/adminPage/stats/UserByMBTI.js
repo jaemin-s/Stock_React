@@ -29,7 +29,6 @@ const UserByMBTI = () => {
     const res = await fetch("http://localhost:8181/api/user/mbtiprofit");
     if (res.status === 200) {
       const data = await res.json();
-      console.log(data);
       const items = [];
       data.forEach((item) => {
         items.push({

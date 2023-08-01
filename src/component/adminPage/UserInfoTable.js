@@ -20,7 +20,6 @@ const UserInfoTable = () => {
     if (res.status === 200) {
       const infoData = await res.json();
       setTotalInfo(infoData.content);
-      console.log(infoData.content);
       setCount(infoData.totalElements);
     } else {
       console.error("fail");
@@ -67,12 +66,10 @@ const UserInfoTable = () => {
       if (type === "name") {
         if (x.name === searchText) {
           searchContent = x.email;
-          console.log(searchContent);
         } else return;
       } else if (type === "email") {
         if (x.email === searchText) {
           searchContent = x.email;
-          console.log(searchContent);
         } else return;
       }
     });

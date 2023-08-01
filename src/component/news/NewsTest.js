@@ -5,7 +5,6 @@ import "./NewsTest.scss";
 
 const NewsTest = () => {
   const { value } = useParams();
-  //   console.log(value);
 
   const [news, setNews] = useState([]);
 
@@ -25,7 +24,6 @@ const NewsTest = () => {
     });
     if (res.status === 200) {
       const data = await res.json();
-      // console.log(data);
       let values = [];
 
       data.items.forEach((x) => {
@@ -53,7 +51,6 @@ const NewsTest = () => {
           newArticle,
         });
       });
-      // console.log(values);
       setNews(values);
       // 호출된 콜백 함수에 데이터 전달
       // if (onGetNews) {

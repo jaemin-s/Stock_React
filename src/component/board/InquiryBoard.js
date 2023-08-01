@@ -27,7 +27,6 @@ const InquiryBoard = ({ props }) => {
   }
   useEffect(() => {
     getBoardList();
-    console.log(page);
   }, [page]);
 
   function titleClickHandler(id) {

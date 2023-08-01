@@ -24,7 +24,6 @@ const IdModal = (props) => {
     }
 
     const email = await res.text();
-    console.log(email);
     alert(`회원님의 email은 ${email} 입니다`);
   };
 

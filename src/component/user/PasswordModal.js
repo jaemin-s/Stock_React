@@ -24,7 +24,6 @@ const PasswordModal = (props) => {
     }
 
     const answer = await res.text();
-    console.log(answer);
     alert(`${answer}`);
   };
 

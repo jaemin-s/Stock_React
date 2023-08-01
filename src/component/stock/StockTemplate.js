@@ -34,7 +34,6 @@ function StockTemplate() {
 
   const detailHandler = (e) => {
     e.preventDefault();
-    console.log(e.target.textContent);
     const query = e.target.textContent;
     redirection(`/Detail/${query}`);
   };
@@ -81,12 +80,10 @@ function StockTemplate() {
     let values = [];
     if (res.status === 200) {
       const data = await res.json();
-      // console.log( data.output2 );
       data.output2.forEach((x) => {
         const { code, name, price, chgrate } = x;
         values.push({ code, name, price, chgrate });
       });
-      // console.log(values[0]);
     }
     return values;
   };
@@ -94,7 +91,6 @@ function StockTemplate() {
   //관심종목 목록 불러오기 로직
   const loadFavorite = async () => {
     const loginEmail = localStorage.getItem("LOGIN_USEREMAIL");
-    console.log(loginEmail);
     if (loginEmail !== null) {
       const res = await fetch(
         API_BASE_URL + "/api/user/favorite/" + loginEmail,
@@ -168,8 +164,6 @@ function StockTemplate() {
 
   //관심종목 클릭 이벤트
   function favoriteClickHandler(index) {
-    console.log(index);
-    console.log(favoriteList[index].stockCode);
     redirection(
       `/detail/${favoriteList[index].stockName}(${favoriteList[index].stockCode})`
     );
