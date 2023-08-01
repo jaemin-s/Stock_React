@@ -554,7 +554,7 @@ const Join = () => {
                       </span>
                     </div>
 
-                    <div className="form-group">
+                    <div>
                       성별
                       <span style={{ marginRight: 20 }}></span>
                       <input
