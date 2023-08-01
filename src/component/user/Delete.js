@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import AuthContext from "../util/AuthContext";
 import { redirect, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../config/host-config";
+import Swal from "sweetalert2";
 const Delete = () => {
   const { isLoggedIn, email, onLogout } = useContext(AuthContext);
   const [responseMessage, setResponseMessage] = useState("");
@@ -13,8 +14,7 @@ const Delete = () => {
       return;
     }
 
-    const shouldDelete = window.confirm("정말로 회원 탈퇴하시겠습니까?");
-    if (shouldDelete) {
+    const confirmHandler = async () => {
       const token = localStorage.getItem("LOGIN_ACCESS_TOKEN");
       const headers = {
         Authorization: `Bearer ${token}`,
@@ -28,27 +28,33 @@ const Delete = () => {
             headers: headers,
           }
         );
-
-        // const response = await fetch("http://localhost:8181/api/user/deleteInfo", {
-        //   method: "DELETE",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: JSON.stringify({email:localStorage.getItem("LOGIN_USEREMAIL")}),
-        // });
-
         if (response.ok) {
-          alert("회원 탈퇴가 완료되었습니다.");
+          // alert("회원 탈퇴가 완료되었습니다.");
           onLogout();
           redirection("/");
         } else {
-          alert("회원 탈퇴를 실패했습니다. 다시 시도해주세요.");
+          // alert("회원 탈퇴를 실패했습니다. 다시 시도해주세요.");
         }
       } catch (error) {
         // setResponseMessage(
-        alert("서버와 통신 중 오류가 발생했습니다. 다시 시도해주세요.");
+        // alert("서버와 통신 중 오류가 발생했습니다. 다시 시도해주세요.");
       }
-    }
+    };
+
+    Swal.fire({
+      title: "정말로 회원 탈퇴하시겠습니까?",
+      showDenyButton: true,
+      icon: "question",
+      confirmButtonText: "확인",
+      denyButtonText: `취소`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        confirmHandler();
+        Swal.fire("탈퇴되었습니다!", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("취소되었습니다!", "", "error");
+      }
+    });
   };
 
   return (
