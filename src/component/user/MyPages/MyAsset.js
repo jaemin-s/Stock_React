@@ -11,10 +11,6 @@ const MyAsset = ({
   const [expanded, setExpanded] = useState(false);
   const [currentLivePrice, setCurrentLivePrice] = useState([]);
 
-  useEffect(() => {
-    dailyPrice();
-  }, []);
-
   const toggleExpanded = () => {
     setExpanded(!expanded);
   };
