@@ -11,6 +11,15 @@ const MyAsset = ({
   const [expanded, setExpanded] = useState(false);
   const [currentLivePrice, setCurrentLivePrice] = useState([]);
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      dailyPrice();
+    }, 1000);
+    return () => {
+      clearInterval(intervalId); // 컴포넌트가 언마운트 될 때 인터벌 정리
+    };
+  }, []);
+
   const toggleExpanded = () => {
     setExpanded(!expanded);
   };
