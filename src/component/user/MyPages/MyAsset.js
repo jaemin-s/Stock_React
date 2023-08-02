@@ -12,7 +12,12 @@ const MyAsset = ({
   const [currentLivePrice, setCurrentLivePrice] = useState([]);
 
   useEffect(() => {
-    dailyPrice();
+    const intervalId = setInterval(() => {
+      dailyPrice();
+    }, 1000);
+    return () => {
+      clearInterval(intervalId); // 컴포넌트가 언마운트 될 때 인터벌 정리
+    };
   }, []);
 
   const toggleExpanded = () => {
