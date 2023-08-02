@@ -579,8 +579,10 @@ const Detail = () => {
               </div>
               <div className="box2">
                 <div style={{ textAlign: "right" }}>{currentHavingStock}주</div>
-                <div style={{ textAlign: "right" }}>{currentPrice}원</div>
-                <div className="won">{totalOrder}원</div>
+                <div style={{ textAlign: "right" }}>
+                  {currentPrice.toLocaleString()}원
+                </div>
+                <div className="won">{totalOrder.toLocaleString()}원</div>
               </div>
             </div>
             <div className="box3">
