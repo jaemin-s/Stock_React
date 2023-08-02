@@ -1,0 +1,16 @@
+.card-body {
+    overflow: auto;
+    padding: 15px 15px 0 15px;
+    h5 {
+        font-weight: 700;
+    }
+
+    h5:hover {
+        cursor: pointer;
+    }
+
+    p {
+        font-size: 13px;
+    }
+
+}

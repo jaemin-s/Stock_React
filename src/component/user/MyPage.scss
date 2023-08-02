@@ -1,0 +1,189 @@
+
+thead {
+    background-color: #0d6efd;
+    color: white;
+    font-weight: 700;
+}
+
+table {
+    font-size: 18px;
+    width: 100%;
+}
+#page-top {
+    width: 80%;
+    background-color: #f8f9fc;
+}
+
+.container-fluid {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px 0 0 0;
+}
+
+.assetsDetail {
+    width: 650px;
+    padding: 70px 100px;
+}
+
+.sidebar {
+    position: sticky;left: 0;
+    height: 100%;
+    width: 200px;
+    padding: 40px 20px;
+}
+
+.basic-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+#border {
+    flex: 1;
+    text-align: center;
+    font-size: 700;
+    color: blue;
+}
+
+.userInfo {
+    padding: 70px 150px;
+    display: flex;
+    justify-content: space-between;
+    .info {
+        padding: 60px 30px;
+        width: 1000px;
+        .border {
+            margin: 0px 4rem 0px 3rem;
+            color: blue;
+            font-weight: 700;
+        }
+    }
+    .name, .gender, .age, .career, .role {
+        margin-left: 1.25rem;
+    }
+    .mbti {
+        margin-left: 0.9rem;
+    }
+}
+
+.assetInfo {
+    flex: 1;
+    text-align: center;
+    font-size: 40px;
+}
+
+.assets {
+    width: 600px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 200px;
+    .assetsDetail {
+        .asset {
+            margin-left: 3rem;
+            width: 400px;
+        }
+
+        .having-stock {
+            width: 700px;
+            margin-left: 2.5rem;
+        }
+
+        .having-cash {
+            margin-left: 2.6rem;
+        }
+
+        .return {
+            margin-left: 4.3rem;
+        }
+
+
+        .border {
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0px 2rem 0px 1rem;
+            color: blue;
+            font-weight: 700;
+        }
+    }
+}
+
+.list-assets {
+    padding: 0px 16px;
+}
+
+
+.button {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.profile {
+    .center-image {
+        margin-top: 50px;
+        border-radius: 50%;
+    }
+}
+
+.navbar-nav {
+    .nav-item {
+        p {
+            margin: 0;
+        }
+    }
+}
+
+.havingStockInfoTable {
+    width: 90%;
+    margin-bottom: 100px;
+}
+
+.button-21 {
+  align-items: center;
+  appearance: none;
+  background-color: #3EB2FD;
+  background-image: linear-gradient(1deg, #4F58FD, #149BF3 99%);
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 100px;
+  border-width: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: CircularStd,sans-serif;
+  font-size: 1rem;
+  height: auto;
+  justify-content: center;
+  line-height: 1.5;
+  padding: 6px 20px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .2s,background-position .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.button-21:active,
+.button-21:focus {
+  outline: none;
+}
+
+.button-21:hover {
+  background-position: -20px -20px;
+}
+
+.button-21:focus:not(:active) {
+  box-shadow: rgba(40, 170, 255, 0.25) 0 0 0 .125em;
+}
+
+.button {
+    margin-bottom: 100px;
+}

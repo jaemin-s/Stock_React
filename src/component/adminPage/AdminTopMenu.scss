@@ -1,0 +1,22 @@
+.admin-top-menu{
+    .navbar-nav{
+
+        .nav-item{
+            text-align: center;
+            border-left: 2px solid black;
+            :hover{
+                cursor: pointer;
+            }
+        }
+        .nav-item:first-of-type{
+            border-left: none;
+        }
+        .activate-item{
+            background-color:#4e73df;
+            a{
+                color: #fff;
+            }
+            
+        }
+    }
+}

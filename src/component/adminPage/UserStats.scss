@@ -1,0 +1,17 @@
+section.admin-stats {
+    .stats-body{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        .card-body{
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    .stats-header{
+        margin-bottom: 30px;
+    }
+
+
+}

@@ -1,0 +1,125 @@
+.flex {
+    display: flex;
+}
+
+.side-stock {
+    margin-bottom: 20px;
+}
+
+.margin-wrapper {
+    width: 80%;
+    margin: 0 auto;
+
+    .card {
+        margin-bottom: 40px;
+    }
+
+    .card-body {
+        height: 345px;
+    }
+
+    .middle-content{
+        justify-content: space-between;
+    
+        .popular-trade {
+            width: 60%;
+        }
+
+        .sub-info {
+            width: 35%;
+        }
+    }
+
+    .bottom-content{
+        justify-content: space-between;
+
+        .simulated-rank {
+            width: 30%;
+        }
+
+        .youtube-iframe {
+            width: 560px;
+            overflow: hidden;
+        }
+
+        .bookmark {
+            width: 20%;
+        }
+    }
+}
+
+.center-image {
+    display: block;
+    width: 100%;
+    margin: 0 auto;    
+}
+
+p {
+    color: black;
+}
+
+.sub-info {
+    position: relative;
+}
+
+table {
+    text-align: center;
+}
+
+td span {
+    font-weight: bold;
+}
+
+td span.positive {
+    color: red;
+}
+
+td span.negative {
+    color: blue;
+}
+
+td a {
+    text-decoration: none;
+    color: black;
+}
+
+table th {
+    padding: 4px 0;
+}
+
+.sidebar {
+    position: fixed;
+    height: 400px;
+    top: 0;
+}
+
+.table-container {
+    max-height: 400px; 
+    overflow-y: auto;
+
+    .stock-name:hover {
+        cursor: pointer;
+    }
+
+}
+
+.kospi-kosdaq {
+    div {
+        width: 50%;
+    }
+}
+
+.btn-favorite {
+    display: block;
+    font-weight: bold;
+}
+.favorite-box{
+    overflow: auto;
+}
+
+.no-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

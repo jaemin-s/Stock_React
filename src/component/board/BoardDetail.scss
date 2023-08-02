@@ -1,0 +1,19 @@
+#inquiryBoard {
+    margin-bottom: 100px;
+    tbody {
+        tr {
+            td {
+                p {
+                    margin: 0 0 0 10px;
+                    text-align: left;
+                }
+            }
+            td:first-of-type{
+                width: 20%;
+            }
+            
+        }
+    }
+
+
+}

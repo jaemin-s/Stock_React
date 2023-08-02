@@ -1,0 +1,34 @@
+
+.move-stock {
+    width: 100vw;
+    display: flex;
+    justify-content: space-around;
+
+    p {
+        font-weight: bold;
+
+        .stock-name:hover {
+            cursor: pointer;
+        }
+
+    }
+    
+    #top {
+        color: red;
+    }
+    
+    #low {
+        color: blue;
+    }
+
+}
+
+.positive {
+    color: red;
+    font-weight: 600;
+}
+
+.negative {
+    color: blue;
+    font-weight: 600;
+}
