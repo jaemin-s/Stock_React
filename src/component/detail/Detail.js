@@ -160,14 +160,24 @@ const Detail = () => {
 
     const params = title[1].slice(0, -1); //종목 코드
 
+    // const res = await fetch(
+    //   "/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+    //     params +
+    //     "&FID_PERIOD_DIV_CODE=D&FID_ORG_ADJ_PRC=1",
+    //   {
+    //     headers: {
+    //       ...RequsetHeader,
+    //       tr_id: "FHKST01010400",
+    //     },
+    //   }
+    // );
     const res = await fetch(
-      "/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+      "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/dailyprice/" +
         params +
-        "&FID_PERIOD_DIV_CODE=D&FID_ORG_ADJ_PRC=1",
+        "",
       {
         headers: {
-          ...RequsetHeader,
-          tr_id: "FHKST01010400",
+          authorization: localStorage.getItem("ACCESS_TOKEN"),
         },
       }
     );
@@ -452,18 +462,32 @@ const Detail = () => {
       .toISOString()
       .slice(0, 10)
       .replaceAll("-", "");
+    // const res = await fetch(
+    //   "/quotations/inquire-daily-itemchartprice?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+    //     stockId +
+    //     "&FID_INPUT_DATE_1=" +
+    //     startDate +
+    //     "&FID_INPUT_DATE_2=" +
+    //     currentDate +
+    //     "&FID_PERIOD_DIV_CODE=M&FID_ORG_ADJ_PRC=1",
+    //   {
+    //     headers: {
+    //       ...RequsetHeader,
+    //       tr_id: "FHKST03010100",
+    //     },
+    //   }
+    // );
     const res = await fetch(
-      "/quotations/inquire-daily-itemchartprice?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+      "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/dailyitemchart/" +
         stockId +
-        "&FID_INPUT_DATE_1=" +
+        "/" +
         startDate +
-        "&FID_INPUT_DATE_2=" +
+        "/" +
         currentDate +
-        "&FID_PERIOD_DIV_CODE=M&FID_ORG_ADJ_PRC=1",
+        "",
       {
         headers: {
-          ...RequsetHeader,
-          tr_id: "FHKST03010100",
+          authorization: localStorage.getItem("ACCESS_TOKEN"),
         },
       }
     );

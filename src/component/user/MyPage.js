@@ -138,18 +138,32 @@ function MyPage() {
   };
 
   const transition = async (stockId) => {
+    // const res = await fetch(
+    //   "/quotations/inquire-daily-itemchartprice?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+    //     stockId +
+    //     "&FID_INPUT_DATE_1=" +
+    //     startDate +
+    //     "&FID_INPUT_DATE_2=" +
+    //     currentDate +
+    //     "&FID_PERIOD_DIV_CODE=M&FID_ORG_ADJ_PRC=1",
+    //   {
+    //     headers: {
+    //       ...RequsetHeader,
+    //       tr_id: "FHKST03010100",
+    //     },
+    //   }
+    // );
     const res = await fetch(
-      "/quotations/inquire-daily-itemchartprice?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+      "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/dailyitemchart/" +
         stockId +
-        "&FID_INPUT_DATE_1=" +
+        "/" +
         startDate +
-        "&FID_INPUT_DATE_2=" +
+        "/" +
         currentDate +
-        "&FID_PERIOD_DIV_CODE=M&FID_ORG_ADJ_PRC=1",
+        "",
       {
         headers: {
-          ...RequsetHeader,
-          tr_id: "FHKST03010100",
+          authorization: localStorage.getItem("ACCESS_TOKEN"),
         },
       }
     );

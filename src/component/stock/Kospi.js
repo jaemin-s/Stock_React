@@ -44,12 +44,22 @@ const Kospi = () => {
       .replaceAll("-", "");
 
     //네이버 증권 요청
+    // const res = await fetch(
+    //   "/siseJson.naver?symbol=KOSPI&requestType=1&startTime=" +
+    //     startDate +
+    //     "&endTime=" +
+    //     curruntDate +
+    //     "&timeframe=day",
+    //   {
+    //     method: "POST",
+    //   }
+    // );
     const res = await fetch(
-      "/siseJson.naver?symbol=KOSPI&requestType=1&startTime=" +
+      "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/naverstock/KOSPI/" +
         startDate +
-        "&endTime=" +
+        "/" +
         curruntDate +
-        "&timeframe=day",
+        "",
       {
         method: "POST",
       }

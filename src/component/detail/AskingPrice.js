@@ -26,14 +26,24 @@ const AskingPrice = ({ selectedValueHandler }) => {
   const getHoga = async () => {
     const code = title[1].slice(0, -1);
     try {
+      // const res = await fetch(
+      //   "/quotations/inquire-asking-price-exp-ccn?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+      //     code +
+      //     "",
+      //   {
+      //     headers: {
+      //       tr_id: "FHKST01010200",
+      //       ...requestHeader,
+      //     },
+      //   }
+      // );
       const res = await fetch(
-        "/quotations/inquire-asking-price-exp-ccn?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+        "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/hoga/" +
           code +
           "",
         {
           headers: {
-            tr_id: "FHKST01010200",
-            ...requestHeader,
+            authorization: localStorage.getItem("ACCESS_TOKEN"),
           },
         }
       );

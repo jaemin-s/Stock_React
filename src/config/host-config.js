@@ -8,5 +8,5 @@ export const KI_DOMESTIC_STOCK_URL = "/domestic-stock/v1/quotations";
 
 // 브라우저에서 현재 클라이언트의 호스트 이름 얻어오기
 const clientHostName = window.location.hostname; //localhost
-let backEndHostName = "http://localhost:8181";
+let backEndHostName = "http://3.39.201.123";
 export const API_BASE_URL = backEndHostName;

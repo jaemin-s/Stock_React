@@ -56,23 +56,60 @@ const Header = () => {
   const stockName = corps;
   // const stockCode = findStockCode(stockName);
 
+  async function fetchNaver(input) {
+    const res = await fetch(
+      "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/naverstocksearch/" +
+        input
+    );
+    if (res.status === 200) {
+      const data = await res.text();
+      const tempArr = data
+        .split("items")[1]
+        .replaceAll('"', "")
+        .split("]]],")[0]
+        .split("[[[")[1]
+        .split(",");
+      console.log(tempArr);
+      const resultArr = [];
+      for (let i = 0; i < tempArr.length; i += 5) {
+        resultArr.push({
+          itmsNm: tempArr[i + 1].replaceAll("[", "").replaceAll("]", ""),
+          srtnCd: tempArr[i].replaceAll("[", "").replaceAll("]", ""),
+        });
+      }
+      console.log(resultArr);
+      SetKeyItem(resultArr);
+      if (resultArr.length === 0) {
+        alert("검색 결과가 없습니다.");
+        setInfoIsModal(false);
+      }
+    }
+  }
+
   const searchHandler = (e) => {
     e.preventDefault();
+
     const inputValue = inputRef.current.value.trim().toUpperCase();
+    fetchNaver(inputValue);
     if (inputRef.current.value.trim() === "") {
       alert("검색어를 입력하세요!!");
       return;
     }
     SetKeyItem([]);
     setInfoIsModal(true);
-    nameData(inputValue);
+    // nameData(inputValue);
   };
 
   const [loadingFail, setLoadingFail] = useState(false); // 로딩실패시 재렌더링을 위한 상태관리
   const nameData = async (inputValue) => {
+    // const res = await fetch(
+    //   "/getStockPriceInfo?serviceKey=1KP%2F74OKGakEjZuUJc6YTkn5UTLRHtfug6BKkunpBqx3owk%2BrrquqsAG7hl7NqMbb5qqQYWVrkVKn7fnYfvXtQ%3D%3D&numOfRows=30&pageNo=1&resultType=json&likeItmsNm=" +
+    //     inputValue
+    // );
     const res = await fetch(
-      "/getStockPriceInfo?serviceKey=1KP%2F74OKGakEjZuUJc6YTkn5UTLRHtfug6BKkunpBqx3owk%2BrrquqsAG7hl7NqMbb5qqQYWVrkVKn7fnYfvXtQ%3D%3D&numOfRows=30&pageNo=1&resultType=json&likeItmsNm=" +
-        inputValue
+      "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/querysearch/" +
+        inputValue +
+        ""
     );
 
     if (res.status === 500) {
