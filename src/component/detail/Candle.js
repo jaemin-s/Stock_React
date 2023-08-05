@@ -98,8 +98,19 @@ const Candle = ({ dailyPrice }) => {
       />
     );
   };
+  // data 상태가 null인 경우 로딩 상태 표시
+  function loadingIMG() {
+    return (
+      <div id="spinner-image">
+        <img
+          src={require("../layout/guideline/image/spiner.gif")}
+          alt="Loading..."
+        ></img>
+      </div>
+    );
+  }
 
-  return <>{!!dailyResult && makeEcharts()}</>;
+  return <>{!!dailyResult ? makeEcharts() : loadingIMG()}</>;
 };
 
 export default Candle;

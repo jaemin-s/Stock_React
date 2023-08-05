@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import DoughnutMaker from "./DoughnutMaker";
 import BarChart from "./VerticalBarChart";
+import { API_BASE_URL } from "../../../config/host-config";
 
 const UserGroupByAges = () => {
   const [agesUser, setAgesUser] = useState();
   const [agesProfit, setAgesProfit] = useState();
 
   async function getAgesUser() {
-    const res = await fetch("http://localhost:8181/api/user/agesUser");
+    const res = await fetch(API_BASE_URL + "/api/user/agesUser");
     if (res.status === 200) {
       const data = await res.json();
       const labels = [];
@@ -25,7 +26,7 @@ const UserGroupByAges = () => {
   }
 
   async function getAgesProfitUser() {
-    const res = await fetch("http://localhost:8181/api/user/agesProfit");
+    const res = await fetch(API_BASE_URL + "/api/user/agesProfit");
     if (res.status === 200) {
       const data = await res.json();
       const items = [];

@@ -72,10 +72,46 @@ const Header = () => {
           .split(",");
         const resultArr = [];
         for (let i = 0; i < tempArr.length; i += 5) {
-          resultArr.push({
-            itmsNm: tempArr[i + 1].replaceAll("[", "").replaceAll("]", ""),
-            srtnCd: tempArr[i].replaceAll("[", "").replaceAll("]", ""),
-          });
+          const item = tempArr[i + 1].replaceAll("[", "").replaceAll("]", "");
+          const code = tempArr[i].replaceAll("[", "").replaceAll("]", "");
+          const stockType = tempArr[i + 2]
+            .replaceAll("[", "")
+            .replaceAll("]", "");
+          if (
+            item.includes("KODEX") || //삼성자산운용의 ETF
+            item.includes("선물") ||
+            item.includes("스팩") ||
+            item.includes("인버스") ||
+            item.includes("TIGER") || //미래에셋자산운용의 ETF
+            item.includes("HANARO") ||
+            item.includes("KOSEF") ||
+            item.includes("SOL") ||
+            item.includes("KBSTAR") || //국민
+            item.includes("KTOP") ||
+            item.includes("TIMEFOLIO") ||
+            item.includes("ARIRANG") ||
+            item.includes("200") ||
+            item.includes("Fn") ||
+            item.includes("ACE") ||
+            item.includes("KRX") ||
+            item.includes("BNK") ||
+            item.includes("WOORI") || //우리
+            item.includes("KOREA") ||
+            item.includes("TREX") ||
+            item.includes("KOSEF") ||
+            item.includes("옥수수") ||
+            item.includes("레버리지") ||
+            (stockType !== "코스닥" && stockType !== "코스피")
+          ) {
+          } else {
+            resultArr.push({
+              itmsNm: item,
+              srtnCd: code,
+            });
+          }
+        }
+        if (resultArr.length === 0) {
+          throw new Error("");
         }
         SetKeyItem(resultArr);
       } catch (e) {

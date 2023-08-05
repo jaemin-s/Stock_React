@@ -237,11 +237,6 @@ const Detail = () => {
     fetchData();
   }, [paramsState]);
 
-  const [selectedValue, setSelectedValue] = useState(null);
-
-  // function selectedValueHandler(value) {
-  //   setSelectedValue(value);
-  // }
   //모달 관리
   const [isModalOpen, setIsModalOpen] = useState(false); //매수
   const [modalType, setModalType] = useState(false); //매도
@@ -717,7 +712,6 @@ const Detail = () => {
             ))}
         </tbody>
       </table>
-      {/* <InfoTest /> */}
     </>
   );
 
@@ -783,40 +777,9 @@ const Detail = () => {
       </div>
     </>
   );
-  const [data, setData] = useState(null); // 결과를 저장할 상태
-  const [loadingFail, setLoadingFail] = useState(false); // 로딩실패시 재렌더링을 위한 상태관리
-  let corps = value;
-  const getCode = async (e) => {
-    try {
-      //   corps = e.target.dataSet.stockId;
-      const res = await fetch(
-        "/getCorpOutline_V2?pageNo=1&resultType=json&serviceKey=" +
-          DATA_GO_KR_KEY +
-          "&numOfRows=20&corpNm=" +
-          corps +
-          ""
-      );
-
-      if (res.status === 200) {
-        const data = await res.json();
-        setData(data.response.body.items.item); // 결과를 상태에 저장
-      }
-      if (res.status === 500 || 504) {
-        setLoadingFail(!loadingFail);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    if (data === null) {
-      getCode();
-    }
-  }, [loadingFail]);
 
   // data 상태가 null인 경우 로딩 상태 표시
-  if (data === null || livePrice === null) {
+  if (stockId === null || livePrice === null) {
     return (
       <div id="spinner-image">
         <img
@@ -826,22 +789,6 @@ const Detail = () => {
       </div>
     );
   }
-
-  const findStockCode = (stockName) => {
-    const stock = data.find((item) => item.corpNm === stockName); //이름
-    if (stock && stock.fssCorpUnqNo !== "") {
-      return stock.fssCorpUnqNo; // 코드
-    } else {
-      return null;
-    }
-  };
-
-  //   const stockName = value;
-  const stockCode = findStockCode(value);
-  //관련종목 추천 버튼 클릭 시 이벤트 로직
-  const research = (e) => {
-    redirection(`/Detail/${e.target.textContent}`);
-  };
 
   //관심종목 클릭 이벤트
   function favoriteClickHandler(index) {
@@ -872,7 +819,6 @@ const Detail = () => {
                 <span></span>
               )}
               {value}
-              {stockCode}
               <span className="live-price">
                 {livePrice !== undefined
                   ? livePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +

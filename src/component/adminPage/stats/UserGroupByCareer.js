@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import DoughnutMaker from "./DoughnutMaker";
 import BarChart from "./VerticalBarChart";
+import { API_BASE_URL } from "../../../config/host-config";
 
 const UserGroupByCareer = () => {
   const [careerUser, setCareerUser] = useState();
   const [careerAvgUser, setCareerAvgUser] = useState();
 
   async function getCareerUser() {
-    const res = await fetch("http://localhost:8181/api/user/careeruser");
+    const res = await fetch(API_BASE_URL + "/api/user/careeruser");
     if (res.status === 200) {
       const data = await res.json();
       const labels = [];
@@ -35,7 +36,7 @@ const UserGroupByCareer = () => {
   }
 
   async function getCareerAvgUser() {
-    const res = await fetch("http://localhost:8181/api/user/careerprofit");
+    const res = await fetch(API_BASE_URL + "/api/user/careerprofit");
     if (res.status === 200) {
       const data = await res.json();
       const items = [];
