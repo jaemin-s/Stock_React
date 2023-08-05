@@ -200,7 +200,7 @@ const OverallRank = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         if (resetRank()) {
-          setRankingTable();
+          setRankingTable([]);
           Swal.fire("초기화 되었습니다!", "", "success");
         } else {
           Swal.fire("초기화에 실패힜습니다!", "", "error");
