@@ -27,7 +27,7 @@ const BoardDetail = ({ boardType, id, savedPage }) => {
   }
 
   async function fetchDelete() {
-    const res = await fetch("http://localhost:8181/api/board/" + boardType, {
+    const res = await fetch(API_BASE_URL + "/api/board/" + boardType, {
       method: "DELETE",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
@@ -94,7 +94,7 @@ const BoardDetail = ({ boardType, id, savedPage }) => {
   }
 
   async function fetchUpdate() {
-    const res = await fetch("http://localhost:8181/api/board/" + boardType, {
+    const res = await fetch(API_BASE_URL + "/api/board/" + boardType, {
       method: "PATCH",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
