@@ -281,23 +281,20 @@ const Update = ({ toggleModifyModal }) => {
 
   const fetchUpdatePost = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8181/api/user/updateInfo",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            password,
-            nick,
-            mbti,
-            age,
-            career,
-            email: localStorage.getItem("LOGIN_USEREMAIL"),
-          }),
-        }
-      );
+      const response = await fetch(API_BASE_URL + "/api/user/updateInfo", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password,
+          nick,
+          mbti,
+          age,
+          career,
+          email: localStorage.getItem("LOGIN_USEREMAIL"),
+        }),
+      });
 
       if (response.ok) {
         // 서버 응답이 성공적으로 처리되었을 때
@@ -415,15 +412,13 @@ const Update = ({ toggleModifyModal }) => {
           </div>
 
           <div>
+            <p style={{ marginBottom: 0 }}>MBTI</p>
             <select
               onChange={(e) => {
                 setMbti(e.target.value);
               }}
             >
-              <option selected disabled hidden>
-                MBTI
-              </option>
-              <option value="선택안함">선택안함</option>
+              <option defaultValue="선택안함">선택안함</option>
               <option value="ISTJ">ISTJ</option>
               <option value="ISFJ">ISFJ</option>
               <option value="ESTJ">ESTJ</option>
@@ -444,16 +439,14 @@ const Update = ({ toggleModifyModal }) => {
           </div>
 
           <div className="form-group">
+            <p style={{ marginBottom: 0 }}>주식경력</p>
             <select
               onChange={
                 (e) => setCareer(e.target.value)
                 // setUserValue({ ...userValue, career: e.target.value })
               }
             >
-              <option selected disabled hidden>
-                주식경력
-              </option>
-              <option value="1">입문</option>
+              <option defaultValue="1">입문</option>
               <option value="2">1~3년</option>
               <option value="3">4~10년</option>
               <option value="4">10년 이상</option>

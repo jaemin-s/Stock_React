@@ -63,26 +63,31 @@ const Header = () => {
     );
     if (res.status === 200) {
       const data = await res.text();
-      const tempArr = data
-        .split("items")[1]
-        .replaceAll('"', "")
-        .split("]]],")[0]
-        .split("[[[")[1]
-        .split(",");
-      console.log(tempArr);
-      const resultArr = [];
-      for (let i = 0; i < tempArr.length; i += 5) {
-        resultArr.push({
-          itmsNm: tempArr[i + 1].replaceAll("[", "").replaceAll("]", ""),
-          srtnCd: tempArr[i].replaceAll("[", "").replaceAll("]", ""),
-        });
-      }
-      console.log(resultArr);
-      SetKeyItem(resultArr);
-      if (resultArr.length === 0) {
+      try {
+        const tempArr = data
+          .split("items")[1]
+          .replaceAll('"', "")
+          .split("]]],")[0]
+          .split("[[[")[1]
+          .split(",");
+        const resultArr = [];
+        for (let i = 0; i < tempArr.length; i += 5) {
+          resultArr.push({
+            itmsNm: tempArr[i + 1].replaceAll("[", "").replaceAll("]", ""),
+            srtnCd: tempArr[i].replaceAll("[", "").replaceAll("]", ""),
+          });
+        }
+        SetKeyItem(resultArr);
+      } catch (e) {
         alert("검색 결과가 없습니다.");
         setInfoIsModal(false);
       }
+      // const tempArr = data
+      //   .split("items")[1]
+      //   .replaceAll('"', "")
+      //   .split("]]],")[0]
+      //   .split("[[[")[1]
+      //   .split(",");
     }
   }
 
@@ -90,10 +95,11 @@ const Header = () => {
     e.preventDefault();
 
     const inputValue = inputRef.current.value.trim().toUpperCase();
-    fetchNaver(inputValue);
     if (inputRef.current.value.trim() === "") {
       alert("검색어를 입력하세요!!");
       return;
+    } else {
+      fetchNaver(inputValue);
     }
     SetKeyItem([]);
     setInfoIsModal(true);

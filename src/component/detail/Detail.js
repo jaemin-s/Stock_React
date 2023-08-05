@@ -458,7 +458,7 @@ const Detail = () => {
     const stockId = Array.isArray(title) ? title.join("") : title;
     let today = new Date();
     let currentDate = today.toISOString().slice(0, 10).replaceAll("-", "");
-    let startDate = new Date(today.setDate(today.getDate() - 150))
+    let startDate = new Date(today.setDate(today.getDate() - 360))
       .toISOString()
       .slice(0, 10)
       .replaceAll("-", "");
@@ -717,7 +717,7 @@ const Detail = () => {
             ))}
         </tbody>
       </table>
-      <InfoTest />
+      {/* <InfoTest /> */}
     </>
   );
 
