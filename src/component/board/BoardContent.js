@@ -4,6 +4,7 @@ import "./BoardContent.scss";
 const BoardContent = ({ boardData, titleClickHandler }) => {
   function dateFormat(date) {
     let temp = new Date(date);
+    temp.setHours(temp.getHours() + 9);
     return temp.toISOString().replace("T", " ").slice(0, 16);
   }
 
