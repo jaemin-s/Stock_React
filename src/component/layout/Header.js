@@ -77,6 +77,7 @@ const Header = () => {
           const stockType = tempArr[i + 2]
             .replaceAll("[", "")
             .replaceAll("]", "");
+          console.log(stockType);
           if (
             item.includes("KODEX") || //삼성자산운용의 ETF
             item.includes("선물") ||
@@ -115,7 +116,7 @@ const Header = () => {
         }
         SetKeyItem(resultArr);
       } catch (e) {
-        notResultConfirm();
+        notResultConfirm("결과가 없습니다.");
         setInfoIsModal(false);
       }
       // const tempArr = data
@@ -132,7 +133,7 @@ const Header = () => {
 
     const inputValue = inputRef.current.value.trim().toUpperCase();
     if (inputRef.current.value.trim() === "") {
-      alert("검색어를 입력하세요!!");
+      notResultConfirm("검색어를 입력하세요.");
       return;
     } else {
       fetchNaver(inputValue);
@@ -142,11 +143,11 @@ const Header = () => {
     // nameData(inputValue);
   };
 
-  const notResultConfirm = () => {
+  const notResultConfirm = (text) => {
     Swal.fire({
       position: "middle",
       icon: "info",
-      title: "결과가 없습니다.",
+      title: text,
       showConfirmButton: false,
       timer: 1500,
     });

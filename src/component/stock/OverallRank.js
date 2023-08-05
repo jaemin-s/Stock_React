@@ -103,7 +103,8 @@ const OverallRank = () => {
     Swal.fire({
       position: "middle",
       icon: "Warning",
-      title: "프리미엄 회원만 추가조회가 가능합니다.",
+      title:
+        "<div style='font-size:23px'>프리미엄 회원만 추가조회가 가능합니다.</div>",
       showConfirmButton: false,
       timer: 1500,
     });
