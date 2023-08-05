@@ -26,14 +26,24 @@ const AskingPrice = ({ selectedValueHandler }) => {
   const getHoga = async () => {
     const code = title[1].slice(0, -1);
     try {
+      // const res = await fetch(
+      //   "/quotations/inquire-asking-price-exp-ccn?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+      //     code +
+      //     "",
+      //   {
+      //     headers: {
+      //       tr_id: "FHKST01010200",
+      //       ...requestHeader,
+      //     },
+      //   }
+      // );
       const res = await fetch(
-        "/quotations/inquire-asking-price-exp-ccn?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+        "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/hoga/" +
           code +
           "",
         {
           headers: {
-            tr_id: "FHKST01010200",
-            ...requestHeader,
+            authorization: localStorage.getItem("ACCESS_TOKEN"),
           },
         }
       );
@@ -89,7 +99,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
                 <div
                   className="hoga-bar blue"
                   style={{
-                    width: `${data.output1.askp_rsqn5 / 1300}px`,
+                    width: `${data.output1.askp_rsqn5 / 1500}px`,
                     maxWidth: "180px",
                     marginLeft: "auto",
                     marginRight: "5px",
@@ -127,7 +137,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
                 <div
                   className="hoga-bar blue"
                   style={{
-                    width: `${data.output1.askp_rsqn4 / 1300}px`,
+                    width: `${data.output1.askp_rsqn4 / 1500}px`,
                     maxWidth: "180px",
                     marginLeft: "auto",
                     marginRight: "5px",
@@ -162,7 +172,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
                 <div
                   className="hoga-bar blue"
                   style={{
-                    width: `${data.output1.askp_rsqn3 / 1300}px`,
+                    width: `${data.output1.askp_rsqn3 / 1500}px`,
                     maxWidth: "180px",
                     marginLeft: "auto",
                     marginRight: "5px",
@@ -196,7 +206,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
                 <div
                   className="hoga-bar blue"
                   style={{
-                    width: `${data.output1.askp_rsqn2 / 1300}px`,
+                    width: `${data.output1.askp_rsqn2 / 1500}px`,
                     maxWidth: "180px",
                     marginLeft: "auto",
                     marginRight: "5px",
@@ -230,7 +240,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
                 <div
                   className="hoga-bar blue"
                   style={{
-                    width: `${data.output1.askp_rsqn1 / 1300}px`,
+                    width: `${data.output1.askp_rsqn1 / 1500}px`,
                     maxWidth: "180px",
                     marginLeft: "auto",
                     marginRight: "5px",

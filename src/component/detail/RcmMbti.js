@@ -61,13 +61,22 @@ const RcmMbti = ({ value }) => {
   };
   const rcmMbtiApi = async (seq) => {
     const userId = KI_ID;
+    // const res = await fetch(
+    //   "/quotations/psearch-result?user_id=" + userId + "&seq=" + seq,
+    //   {
+    //     headers: {
+    //       ...RequsetHeader,
+    //       tr_id: "HHKST03900400",
+    //       custtype: "P",
+    //     },
+    //   }
+    // );
     const res = await fetch(
-      "/quotations/psearch-result?user_id=" + userId + "&seq=" + seq,
+      "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/rcmmbti/" +
+        seq,
       {
         headers: {
-          ...RequsetHeader,
-          tr_id: "HHKST03900400",
-          custtype: "P",
+          authorization: localStorage.getItem("ACCESS_TOKEN"),
         },
       }
     );

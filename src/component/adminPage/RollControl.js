@@ -17,7 +17,7 @@ const RollControl = ({ isOpen, toggleHandler, blackEmail }) => {
         }),
       });
       if (res.status === 200) {
-        const data = await res.json();
+        // const data = await res.json();
       }
     } catch (networkError) {
       console.error("Network error:", networkError);
@@ -25,7 +25,7 @@ const RollControl = ({ isOpen, toggleHandler, blackEmail }) => {
   };
 
   handleForceGradeDown();
-  return <></>
+  return <></>;
 };
 
 export default RollControl;

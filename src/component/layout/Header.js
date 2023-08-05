@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { DATA_GO_KR_KEY } from "../../config/apikey";
 import AuthContext from "../util/AuthContext";
 import { isLogin } from "../util/login-utils";
+import Swal from "sweetalert2";
 
 const Header = () => {
   const redirection = useNavigate();
@@ -14,7 +15,6 @@ const Header = () => {
   const [infoIsModal, setInfoIsModal] = useState(false); // 모달 관리
   const inputRef = useRef();
   const [role, setRole] = useState("BRONZE");
-
   const { isLoggedIn, onLogout, email, name, image, userRole } =
     useContext(AuthContext);
 
@@ -56,23 +56,113 @@ const Header = () => {
   const stockName = corps;
   // const stockCode = findStockCode(stockName);
 
+  async function fetchNaver(input) {
+    const res = await fetch(
+      "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/naverstocksearch/" +
+        input
+    );
+    if (res.status === 200) {
+      const data = await res.text();
+      try {
+        const tempArr = data
+          .split("items")[1]
+          .replaceAll('"', "")
+          .split("]]],")[0]
+          .split("[[[")[1]
+          .split(",");
+        const resultArr = [];
+        for (let i = 0; i < tempArr.length; i += 5) {
+          const item = tempArr[i + 1].replaceAll("[", "").replaceAll("]", "");
+          const code = tempArr[i].replaceAll("[", "").replaceAll("]", "");
+          const stockType = tempArr[i + 2]
+            .replaceAll("[", "")
+            .replaceAll("]", "");
+          console.log(stockType);
+          if (
+            item.includes("KODEX") || //삼성자산운용의 ETF
+            item.includes("선물") ||
+            item.includes("스팩") ||
+            item.includes("인버스") ||
+            item.includes("TIGER") || //미래에셋자산운용의 ETF
+            item.includes("HANARO") ||
+            item.includes("KOSEF") ||
+            item.includes("SOL") ||
+            item.includes("KBSTAR") || //국민
+            item.includes("KTOP") ||
+            item.includes("TIMEFOLIO") ||
+            item.includes("ARIRANG") ||
+            item.includes("200") ||
+            item.includes("Fn") ||
+            item.includes("ACE") ||
+            item.includes("KRX") ||
+            item.includes("BNK") ||
+            item.includes("WOORI") || //우리
+            item.includes("KOREA") ||
+            item.includes("TREX") ||
+            item.includes("KOSEF") ||
+            item.includes("옥수수") ||
+            item.includes("레버리지") ||
+            (stockType !== "코스닥" && stockType !== "코스피")
+          ) {
+          } else {
+            resultArr.push({
+              itmsNm: item,
+              srtnCd: code,
+            });
+          }
+        }
+        if (resultArr.length === 0) {
+          throw new Error("");
+        }
+        SetKeyItem(resultArr);
+      } catch (e) {
+        notResultConfirm("결과가 없습니다.");
+        setInfoIsModal(false);
+      }
+      // const tempArr = data
+      //   .split("items")[1]
+      //   .replaceAll('"', "")
+      //   .split("]]],")[0]
+      //   .split("[[[")[1]
+      //   .split(",");
+    }
+  }
+
   const searchHandler = (e) => {
     e.preventDefault();
+
     const inputValue = inputRef.current.value.trim().toUpperCase();
     if (inputRef.current.value.trim() === "") {
-      alert("검색어를 입력하세요!!");
+      notResultConfirm("검색어를 입력하세요.");
       return;
+    } else {
+      fetchNaver(inputValue);
     }
     SetKeyItem([]);
     setInfoIsModal(true);
-    nameData(inputValue);
+    // nameData(inputValue);
+  };
+
+  const notResultConfirm = (text) => {
+    Swal.fire({
+      position: "middle",
+      icon: "info",
+      title: text,
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
 
   const [loadingFail, setLoadingFail] = useState(false); // 로딩실패시 재렌더링을 위한 상태관리
   const nameData = async (inputValue) => {
+    // const res = await fetch(
+    //   "/getStockPriceInfo?serviceKey=1KP%2F74OKGakEjZuUJc6YTkn5UTLRHtfug6BKkunpBqx3owk%2BrrquqsAG7hl7NqMbb5qqQYWVrkVKn7fnYfvXtQ%3D%3D&numOfRows=30&pageNo=1&resultType=json&likeItmsNm=" +
+    //     inputValue
+    // );
     const res = await fetch(
-      "/getStockPriceInfo?serviceKey=1KP%2F74OKGakEjZuUJc6YTkn5UTLRHtfug6BKkunpBqx3owk%2BrrquqsAG7hl7NqMbb5qqQYWVrkVKn7fnYfvXtQ%3D%3D&numOfRows=30&pageNo=1&resultType=json&likeItmsNm=" +
-        inputValue
+      "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/querysearch/" +
+        inputValue +
+        ""
     );
 
     if (res.status === 500) {
@@ -98,7 +188,6 @@ const Header = () => {
         }
       });
       if (infoNameData.length === 0) {
-        alert("검색 결과가 없습니다.");
         setInfoIsModal(false);
       } else {
         // infoModal();
@@ -171,8 +260,21 @@ const Header = () => {
   );
 
   const [isToggle, setIsToggle] = useState(false);
+  const dropdownRef = useRef(false);
+  // 드롭다운 외부클릭시 닫게
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsToggle(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
   const toggleHandler = () => {
-    setIsToggle(!isToggle);
+    setIsToggle((prevIsToggle) => !prevIsToggle);
   };
 
   const Search = ({ size = 25, color = "#fcf9f9" }) => (
@@ -250,6 +352,7 @@ const Header = () => {
                 : "nav-item dropdown no-arrow"
             }
             onClick={toggleHandler}
+            ref={dropdownRef}
           >
             <a
               className={

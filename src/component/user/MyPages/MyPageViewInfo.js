@@ -56,7 +56,7 @@ const MyPageViewInfo = () => {
   useEffect(() => {
     getInfo();
     getMyRank();
-  }, []);
+  }, [userInfo]);
 
   function getGender(gender) {
     switch (gender) {
@@ -116,7 +116,7 @@ const MyPageViewInfo = () => {
           </div>
         ) : (
           <div id="1">
-            '{userInfo.name}' 님의 현재 등수 : {rank} 등
+            '{userInfo.nick}' 님의 현재 등수 : {rank} 등
           </div>
         )}
       </div>

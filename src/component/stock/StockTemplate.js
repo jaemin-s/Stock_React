@@ -66,14 +66,23 @@ function StockTemplate() {
 
   //등락률 상위(0),하위(1) 종목
   const fluctuationRate = async (seq) => {
-    const userId = KI_ID; //아이디 숨겨야함.
+    // const userId = KI_ID; //아이디 숨겨야함.
+    // const res = await fetch(
+    //   "/quotations/psearch-result?user_id=" + userId + "&seq=" + seq,
+    //   {
+    //     headers: {
+    //       ...RequsetHeader,
+    //       tr_id: "HHKST03900400",
+    //       custtype: "P",
+    //     },
+    //   }
+    // );
     const res = await fetch(
-      "/quotations/psearch-result?user_id=" + userId + "&seq=" + seq,
+      "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/rcmmbti/" +
+        seq,
       {
         headers: {
-          ...RequsetHeader,
-          tr_id: "HHKST03900400",
-          custtype: "P",
+          authorization: localStorage.getItem("ACCESS_TOKEN"),
         },
       }
     );
@@ -110,13 +119,21 @@ function StockTemplate() {
 
   const getRank = async () => {
     try {
+      // const res = await fetch(
+      //   "/quotations/volume-rank?FID_COND_MRKT_DIV_CODE=J&FID_COND_SCR_DIV_CODE=20171&FID_INPUT_ISCD=0000&FID_DIV_CLS_CODE=0&FID_BLNG_CLS_CODE=0&FID_TRGT_CLS_CODE=111111111&FID_TRGT_EXLS_CLS_CODE=000000&FID_INPUT_PRICE_1=&FID_INPUT_PRICE_2&FID_VOL_CNT=&FID_INPUT_DATE_1",
+      //   {
+      //     headers: {
+      //       tr_id: "FHPST01710000",
+      //       custtype: "P",
+      //       ...RequsetHeader,
+      //     },
+      //   }
+      // );
       const res = await fetch(
-        "/quotations/volume-rank?FID_COND_MRKT_DIV_CODE=J&FID_COND_SCR_DIV_CODE=20171&FID_INPUT_ISCD=0000&FID_DIV_CLS_CODE=0&FID_BLNG_CLS_CODE=0&FID_TRGT_CLS_CODE=111111111&FID_TRGT_EXLS_CLS_CODE=000000&FID_INPUT_PRICE_1=&FID_INPUT_PRICE_2&FID_VOL_CNT=&FID_INPUT_DATE_1",
+        "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/hotrank",
         {
           headers: {
-            tr_id: "FHPST01710000",
-            custtype: "P",
-            ...RequsetHeader,
+            authorization: localStorage.getItem("ACCESS_TOKEN"),
           },
         }
       );

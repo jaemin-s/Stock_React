@@ -26,7 +26,7 @@ const UserByMBTI = () => {
   }
 
   async function getMbtiAvg() {
-    const res = await fetch("http://localhost:8181/api/user/mbtiprofit");
+    const res = await fetch(API_BASE_URL + "/api/user/mbtiprofit");
     if (res.status === 200) {
       const data = await res.json();
       const items = [];

@@ -19,9 +19,14 @@ const NewsTest = () => {
 
   const getNews = async () => {
     const query = { value }.value || "주식";
-    const res = await fetch("/search/news.json?query=" + query + "&sort=sim", {
-      headers: requestHeader,
-    });
+    // const res = await fetch("/search/news.json?query=" + query + "&sort=sim", {
+    //   headers: requestHeader,
+    // });
+    const res = await fetch(
+      "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/navernews/" +
+        query +
+        ""
+    );
     if (res.status === 200) {
       const data = await res.json();
       let values = [];

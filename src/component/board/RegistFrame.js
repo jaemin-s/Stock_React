@@ -4,7 +4,7 @@ import { API_BASE_URL } from "../../config/host-config";
 import Swal from "sweetalert2";
 const RegistFrame = ({ boardType }) => {
   const [userInfo, setUserInfo] = useState({
-    name: "",
+    nick: "",
     email: "",
   });
   const [inputTitle, setInputTitle] = useState("");
@@ -18,7 +18,7 @@ const RegistFrame = ({ boardType }) => {
     );
     const myInfo = await res.json();
     setUserInfo({
-      name: myInfo.name,
+      nick: myInfo.nick,
       email: myInfo.email,
     });
   }
@@ -49,7 +49,7 @@ const RegistFrame = ({ boardType }) => {
       body: JSON.stringify({
         title: inputTitle,
         content: inputContent,
-        writer: userInfo.name,
+        writer: userInfo.nick,
         email: userInfo.email,
         type: boardType,
       }),
@@ -76,7 +76,7 @@ const RegistFrame = ({ boardType }) => {
             <td>
               <input
                 className="form-control input-sm"
-                value={userInfo.name}
+                value={userInfo.nick}
                 readOnly
               />
             </td>

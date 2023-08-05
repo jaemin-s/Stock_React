@@ -64,14 +64,24 @@ const MyAsset = ({
       //const params = title[1].slice(0, -1); //종목 코드
       const updatedCurrentLivePrice = [];
       for (const element of userInfo.myStocks) {
+        // const res = await fetch(
+        //   "/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+        //     element.stockId +
+        //     "&FID_PERIOD_DIV_CODE=D&FID_ORG_ADJ_PRC=1",
+        //   {
+        //     headers: {
+        //       ...RequsetHeader,
+        //       tr_id: "FHKST01010400",
+        //     },
+        //   }
+        // );
         const res = await fetch(
-          "/quotations/inquire-daily-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" +
+          "https://kq53e0bc8b.execute-api.ap-northeast-2.amazonaws.com/b2w-api1/dailyprice/" +
             element.stockId +
-            "&FID_PERIOD_DIV_CODE=D&FID_ORG_ADJ_PRC=1",
+            "",
           {
             headers: {
-              ...RequsetHeader,
-              tr_id: "FHKST01010400",
+              authorization: localStorage.getItem("ACCESS_TOKEN"),
             },
           }
         );
