@@ -19,7 +19,7 @@ const KakaoAuthHandle = (props) => {
 
     const kakaoLogin = async () => {
       const res = await fetch(
-        API_BASE_URL + `/api/user/callback/kakao?code=${code}`
+        `http://b2w.site/api/user/callback/kakao?code=${code}`
       );
       const { token, email, image, userRole } = await res.json();
 
