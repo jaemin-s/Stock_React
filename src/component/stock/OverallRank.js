@@ -53,7 +53,7 @@ const OverallRank = () => {
             onClick={(e) => getInfoHandler(item.email, e)}
             style={{ cursor: "pointer" }}
           >
-            {item.userName}
+            {item.userNick}
           </p>
         </td>
         <td>
