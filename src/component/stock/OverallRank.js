@@ -99,11 +99,21 @@ const OverallRank = () => {
     }
   }
 
+  const primiumUserConfirm = () => {
+    Swal.fire({
+      position: "middle",
+      icon: "Warning",
+      title: "프리미엄 회원만 추가조회가 가능합니다.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
+
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpanded = () => {
     if (roll === "common") {
-      alert("프리미엄 회원만 추가조회가 가능합니다.");
+      primiumUserConfirm();
     } else {
       setExpanded(!expanded);
     }
