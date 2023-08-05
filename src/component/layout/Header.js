@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { DATA_GO_KR_KEY } from "../../config/apikey";
 import AuthContext from "../util/AuthContext";
 import { isLogin } from "../util/login-utils";
+import Swal from "sweetalert2";
 
 const Header = () => {
   const redirection = useNavigate();
@@ -14,7 +15,6 @@ const Header = () => {
   const [infoIsModal, setInfoIsModal] = useState(false); // 모달 관리
   const inputRef = useRef();
   const [role, setRole] = useState("BRONZE");
-
   const { isLoggedIn, onLogout, email, name, image, userRole } =
     useContext(AuthContext);
 
@@ -79,7 +79,7 @@ const Header = () => {
         }
         SetKeyItem(resultArr);
       } catch (e) {
-        alert("검색 결과가 없습니다.");
+        notResultConfirm();
         setInfoIsModal(false);
       }
       // const tempArr = data
@@ -104,6 +104,16 @@ const Header = () => {
     SetKeyItem([]);
     setInfoIsModal(true);
     // nameData(inputValue);
+  };
+
+  const notResultConfirm = () => {
+    Swal.fire({
+      position: "middle",
+      icon: "info",
+      title: "결과가 없습니다.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
 
   const [loadingFail, setLoadingFail] = useState(false); // 로딩실패시 재렌더링을 위한 상태관리
@@ -141,7 +151,6 @@ const Header = () => {
         }
       });
       if (infoNameData.length === 0) {
-        alert("검색 결과가 없습니다.");
         setInfoIsModal(false);
       } else {
         // infoModal();
@@ -214,8 +223,21 @@ const Header = () => {
   );
 
   const [isToggle, setIsToggle] = useState(false);
+  const dropdownRef = useRef(false);
+  // 드롭다운 외부클릭시 닫게
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsToggle(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
   const toggleHandler = () => {
-    setIsToggle(!isToggle);
+    setIsToggle((prevIsToggle) => !prevIsToggle);
   };
 
   const Search = ({ size = 25, color = "#fcf9f9" }) => (
@@ -293,6 +315,7 @@ const Header = () => {
                 : "nav-item dropdown no-arrow"
             }
             onClick={toggleHandler}
+            ref={dropdownRef}
           >
             <a
               className={
