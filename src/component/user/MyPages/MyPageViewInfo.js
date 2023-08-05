@@ -56,7 +56,7 @@ const MyPageViewInfo = () => {
   useEffect(() => {
     getInfo();
     getMyRank();
-  }, []);
+  }, [userInfo]);
 
   function getGender(gender) {
     switch (gender) {
