@@ -65,7 +65,7 @@ const AskingPrice = ({ selectedValueHandler }) => {
     const timer = setInterval(() => {
       getHoga();
       setTime(new Date());
-    }, 500); // 0.5초마다 렌더링
+    }, 1000); // 0.5초마다 렌더링
     return () => {
       clearInterval(timer);
     };
