@@ -36,7 +36,7 @@ const OverallRank = () => {
   if (!rankingTable) getRankInfo();
 
   const rankingBody = () => {
-    return rankingTable.map((item, index) => (
+    return rankingTable.slice(0, 6).map((item, index) => (
       <tr key={index}>
         <th scope="row">
           {item.rank === 1 ? (
